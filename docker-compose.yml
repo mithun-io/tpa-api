@@ -1,0 +1,166 @@
+services:
+
+  # ─────────────── Infrastructure ───────────────────────────────────────────
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: tpa-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_DB: ${DB_NAME:-tpa}
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-tpa}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - tpa-network
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    container_name: tpa-redis
+    restart: always
+    ports:
+      - "6380:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - tpa-network
+    volumes:
+      - redis_data:/data
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.4.0
+    container_name: tpa-zookeeper
+    restart: always
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - tpa-network
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "2181"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  kafka:
+    image: confluentinc/cp-kafka:7.4.0
+    container_name: tpa-kafka
+    restart: always
+    depends_on:
+      zookeeper:
+        condition: service_healthy
+    ports:
+      - "9093:9092"
+      - "29092:29092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "29092"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - tpa-network
+
+  # ─────────────── Backend ──────────────────────────────────────────────────
+
+  backend-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: tpa-backend-api
+    container_name: tpa-backend
+    restart: always
+    ports:
+      - "8081:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    environment:
+      # Spring
+      - SPRING_PROFILES_ACTIVE=prod
+      # Database
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/${DB_NAME:-tpa}
+      - SPRING_DATASOURCE_USERNAME=${DB_USER:-postgres}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD:-postgres}
+      # Redis
+      - SPRING_DATA_REDIS_HOST=redis
+      - SPRING_DATA_REDIS_PORT=6379
+      # Kafka
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:29092
+      # JWT
+      - JWT_SECRET=${JWT_SECRET:-changeme-super-secret-key-min-32-chars}
+      - JWT_EXPIRATION=${JWT_EXPIRATION:-3600000}
+      # Admin seed credentials
+      - ADMIN_NAME=${ADMIN_NAME:-mithun}
+      - ADMIN_EMAIL=${ADMIN_EMAIL:-mithun-io@outlook.com}
+      - ADMIN_MOBILE=${ADMIN_MOBILE:-8904608330}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-Qw3!@sPe:E1}
+      # Mail (optional — startup won't fail if blank)
+      - MAIL_HOST=${MAIL_HOST:-smtp.gmail.com}
+      - MAIL_PORT=${MAIL_PORT:-587}
+      - MAIL_USERNAME=${MAIL_USERNAME:-}
+      - MAIL_PASSWORD=${MAIL_PASSWORD:-}
+      # AI
+      - SPRING_AI_OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      # Razorpay
+      - RAZORPAY_KEY=${RAZORPAY_KEY:-}
+      - RAZORPAY_SECRET=${RAZORPAY_SECRET:-}
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/actuator/health || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 12
+      start_period: 60s
+    networks:
+      - tpa-network
+    volumes:
+      - tpa_uploads:/app/uploads
+
+  # ─────────────── Frontend ─────────────────────────────────────────────────
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: tpa-frontend
+    container_name: tpa-frontend
+    restart: always
+    ports:
+      - "3000:80"
+    depends_on:
+      backend-api:
+        condition: service_healthy
+    networks:
+      - tpa-network
+
+# ─────────────── Shared ───────────────────────────────────────────────────
+
+networks:
+  tpa-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:
+  tpa_uploads:

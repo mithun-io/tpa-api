@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Claim Form</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Courier+Prime&display=swap" rel="stylesheet">
+<style>
+  body {
+    background: #e0e0e0;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  .page {
+    background: #fdfbf7;
+    width: 210mm;
+    min-height: 297mm;
+    padding: 40mm 20mm;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    /* Scan effect: slight rotation and blur on edges */
+    transform: rotate(-0.5deg);
+    position: relative;
+    overflow: hidden;
+    color: #222;
+  }
+  /* Fake grain/noise */
+  .page::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)" opacity="0.04"/%3E%3C/svg%3E');
+    pointer-events: none;
+    z-index: 10;
+  }
+  h1 {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 24px;
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+    letter-spacing: 2px;
+  }
+  .form-section {
+    margin-top: 30px;
+    border: 1px solid #555;
+    padding: 15px;
+  }
+  .form-title {
+    font-weight: bold;
+    background: #e9e9e9;
+    padding: 5px;
+    margin: -15px -15px 15px -15px;
+    border-bottom: 1px solid #555;
+  }
+  .row {
+    display: flex;
+    margin-bottom: 25px;
+  }
+  .field {
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+  }
+  .label {
+    font-size: 14px;
+    font-weight: bold;
+    margin-right: 10px;
+  }
+  .line {
+    flex: 1;
+    border-bottom: 1px dashed #777;
+    position: relative;
+    height: 20px;
+  }
+  .handwriting {
+    font-family: 'Caveat', cursive;
+    color: #0b1d78; /* Blue ink */
+    font-size: 28px;
+    position: absolute;
+    bottom: -5px;
+    left: 10px;
+    transform: rotate(-1deg);
+    white-space: nowrap;
+  }
+  .declaration {
+    margin-top: 40px;
+    font-size: 12px;
+    line-height: 1.5;
+    text-align: justify;
+  }
+  .signature-box {
+    margin-top: 50px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .signature-line {
+    width: 250px;
+    border-top: 1px solid #000;
+    text-align: center;
+    padding-top: 5px;
+    position: relative;
+  }
+  .signature {
+    font-family: 'Caveat', cursive;
+    color: #0b1d78;
+    font-size: 42px;
+    position: absolute;
+    bottom: 15px;
+    left: 40px;
+    transform: rotate(-4deg);
+  }
+</style>
+</head>
+<body>
+  <div class="page">
+    <h1>Health Insurance Claim Form</h1>
+    
+    <div class="form-section">
+      <div class="form-title">PART A: PATIENT DETAILS</div>
+      <div class="row">
+        <div class="field">
+          <div class="label">Patient Name:</div>
+          <div class="line"><span class="handwriting">pkdip</span></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <div class="label">Policy Number:</div>
+          <div class="line"><span class="handwriting">POL-889977</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <div class="form-title">PART B: HOSPITALIZATION DETAILS</div>
+      <div class="row">
+        <div class="field">
+          <div class="label">Hospital Name:</div>
+          <div class="line"><span class="handwriting">City Care Hospital</span></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <div class="label">Date of Admission:</div>
+          <div class="line"><span class="handwriting">12-04-2026</span></div>
+        </div>
+        <div class="field" style="margin-left: 20px;">
+          <div class="label">Date of Discharge:</div>
+          <div class="line"><span class="handwriting">15-04-2026</span></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <div class="label">Diagnosis (Ailment):</div>
+          <!-- Realistic misspelling / scribble -->
+          <div class="line"><span class="handwriting" style="transform: rotate(2deg); bottom: -2px;">Viral Feever</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <div class="form-title">PART C: CLAIM DETAILS</div>
+      <div class="row">
+        <div class="field">
+          <div class="label">Total Claimed Amount ($):</div>
+          <div class="line"><span class="handwriting" style="font-size: 32px; font-weight: bold;">$1200.00</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="declaration">
+      <strong>DECLARATION BY THE INSURED:</strong><br><br>
+      I hereby declare that the information furnished in this claim form is true & correct to the best of my knowledge and belief. If I have made any false or untrue statement, suppression or concealment of any material fact, my right to claim reimbursement shall be forfeited. I also consent to the company seeking medical information from any hospital or medical practitioner who has attended to the patient.
+    </div>
+
+    <div class="signature-box">
+      <div class="signature-line">
+        <span class="signature">pkdip</span>
+        Signature of the Insured / Patient
+      </div>
+    </div>
+  </div>
+</body>
+</html>
