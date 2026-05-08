@@ -6,22 +6,34 @@ import com.tpa.enums.ClaimStatus;
 import com.tpa.service.impl.RuleEngineServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.kie.api.runtime.KieContainer;
+import org.kie.api.runtime.KieSession;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
+import org.junit.jupiter.api.BeforeEach;
 import java.time.LocalDate;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * Smoke-level tests for RuleEngineServiceImpl from the service package.
- * Detailed edge-case coverage lives in service.impl.RuleEngineServiceImplTest.
- */
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+
 @ExtendWith(MockitoExtension.class)
 public class RuleEngineServiceImplTest {
 
+    @Mock
+    private KieContainer kieContainer;
+
+    @Mock
+    private KieSession kieSession;
+
     @InjectMocks
     private RuleEngineServiceImpl ruleEngineService;
+
+    @BeforeEach
+    void setUp() {
+        when(kieContainer.newKieSession()).thenReturn(kieSession);
+    }
 
     private ClaimDataRequest buildFullyValidRequest() {
         return ClaimDataRequest.builder()

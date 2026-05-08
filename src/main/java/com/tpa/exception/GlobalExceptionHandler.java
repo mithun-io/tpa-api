@@ -102,6 +102,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ApiResponse<String>> handle(HttpMessageNotReadableException e) {
+        log.warn("Malformed request body: {}", e.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>(false, "Malformed request body. Please check your JSON.", null, 400));
     }
 
@@ -136,7 +137,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<String>> handle(Exception e) {
         log.error("Unhandled exception [{}]: {}", e.getClass().getSimpleName(), e.getMessage(), e);
-        String message = (e.getMessage() != null && !e.getMessage().isBlank()) ? e.getMessage() : "An unexpected error occurred. Please try again.";
+        // Do not leak internal exception messages in production
+        String message = "An unexpected error occurred. Please contact support if the issue persists.";
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse<>(false, message, null, 500));
     }
 }

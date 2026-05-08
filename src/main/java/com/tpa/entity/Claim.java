@@ -96,8 +96,32 @@ public class Claim {
     @Column(length = 2000)
     private String aiSummary;
 
+    // ── Multi-Tenant ──────────────────────────────────────────────────────────
+    @Column
+    private String tenantId;
+
+    // ── SLA & Escalation ─────────────────────────────────────────────────────
+    private LocalDateTime slaDeadline;
+
+    @Column(nullable = false)
+    @Builder.Default
+    private Boolean escalated = false;
+
+    private LocalDateTime escalatedAt;
+
+    private String escalationReason;
+
+    // ── Fraud Decision ────────────────────────────────────────────────────────
+    private Double fraudScore;
+
+    @Column(length = 500)
+    private String fraudFlags;
+
     @PrePersist
     protected void onCreate() {
         createdDate = LocalDateTime.now();
+        if (tenantId == null) tenantId = "default";
+        // Default SLA: 48 hours from creation
+        if (slaDeadline == null) slaDeadline = createdDate.plusHours(48);
     }
 }

@@ -1,6 +1,10 @@
 package com.tpa.repository;
 
 import com.tpa.entity.Claim;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -12,8 +16,10 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 @Repository
 public interface ClaimRepository extends JpaRepository<Claim, Long>, JpaSpecificationExecutor<Claim> {
 
+    @EntityGraph(attributePaths = {"user", "carrier"})
     List<Claim> findByUserId(Long userId);
 
+    @EntityGraph(attributePaths = {"user", "carrier"})
     List<Claim> findByCarrier_Id(Long carrierId);
 
     boolean existsByPolicyNumber(String policyNumber);
@@ -28,4 +34,12 @@ public interface ClaimRepository extends JpaRepository<Claim, Long>, JpaSpecific
     Double sumApprovedClaimAmount();
 
     boolean existsByBillNumberAndIdNot(String billNumber, Long id);
+
+    @Override
+    @EntityGraph(attributePaths = {"user", "carrier"})
+    Page<Claim> findAll(Specification<Claim> spec, Pageable pageable);
+
+    @Override
+    @EntityGraph(attributePaths = {"user", "carrier"})
+    List<Claim> findAll();
 }

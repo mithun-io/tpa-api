@@ -23,6 +23,7 @@ public class ClaimAudit {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "claim_id", nullable = false)
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private Claim claim;
 
     @Enumerated(EnumType.STRING)

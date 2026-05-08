@@ -1,25 +1,181 @@
 package com.tpa.controller;
 
+import com.tpa.entity.Claim;
+import com.tpa.enums.ClaimStatus;
+import com.tpa.enums.RiskLevel;
+import com.tpa.repository.ClaimRepository;
+import com.tpa.repository.PaymentLedgerRepository;
 import com.tpa.service.AnalyticsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.stream.Collectors;
 
+/**
+ * Analytics dashboard API providing:
+ * - Fraud trend analysis
+ * - SLA performance metrics
+ * - Claim leakage analysis
+ * - Hospital analytics
+ * - Predictive volume forecasting
+ * - Payment settlement analysis
+ */
 @RestController
 @RequestMapping("/api/v1/analytics")
 @RequiredArgsConstructor
+@PreAuthorize("hasAnyRole('FMG_ADMIN', 'CARRIER_USER')")
 public class AnalyticsController {
 
     private final AnalyticsService analyticsService;
+    private final ClaimRepository claimRepository;
+    private final PaymentLedgerRepository paymentLedgerRepository;
 
     @GetMapping("/dashboard")
-    @PreAuthorize("hasRole('FMG_ADMIN')")
-    public ResponseEntity<Map<String, Object>> getDashboardAnalytics() {
+    public ResponseEntity<Map<String, Object>> getDashboard() {
         return ResponseEntity.ok(analyticsService.getDashboardAnalytics());
+    }
+
+    @GetMapping("/fraud/trends")
+    public ResponseEntity<Map<String, Object>> getFraudTrends() {
+        List<Claim> allClaims = claimRepository.findAll();
+        Map<String, Object> result = new LinkedHashMap<>();
+
+        long highRisk = allClaims.stream().filter(c -> c.getRiskLevel() == RiskLevel.HIGH).count();
+        long medRisk  = allClaims.stream().filter(c -> c.getRiskLevel() == RiskLevel.MEDIUM).count();
+        long lowRisk  = allClaims.stream()
+                .filter(c -> c.getRiskLevel() == RiskLevel.LOW || c.getRiskLevel() == null).count();
+
+        result.put("riskDistribution", Map.of("HIGH", highRisk, "MEDIUM", medRisk, "LOW", lowRisk));
+        result.put("fraudRate", allClaims.isEmpty() ? 0.0 :
+                Math.round((double)(highRisk + medRisk) / allClaims.size() * 100 * 100.0) / 100.0);
+
+        Map<String, Long> hospitalRisk = allClaims.stream()
+                .filter(c -> c.getRiskLevel() == RiskLevel.HIGH && c.getHospitalName() != null)
+                .collect(Collectors.groupingBy(Claim::getHospitalName, Collectors.counting()));
+        result.put("topRiskHospitals", hospitalRisk.entrySet().stream()
+                .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
+                .limit(5)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a,b)->a, LinkedHashMap::new)));
+
+        double avgFraudScore = allClaims.stream()
+                .filter(c -> c.getRiskScore() != null)
+                .mapToDouble(Claim::getRiskScore).average().orElse(0.0);
+        result.put("averageFraudScore", Math.round(avgFraudScore * 100.0) / 100.0);
+        result.put("generatedAt", LocalDateTime.now().toString());
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/sla/performance")
+    public ResponseEntity<Map<String, Object>> getSlaPerformance() {
+        List<Claim> allClaims = claimRepository.findAll();
+        LocalDateTime now = LocalDateTime.now();
+        Map<String, Object> result = new LinkedHashMap<>();
+
+        long total = allClaims.size();
+        long breached = allClaims.stream()
+                .filter(c -> c.getSlaDeadline() != null && c.getSlaDeadline().isBefore(now))
+                .filter(c -> !List.of(ClaimStatus.SETTLED, ClaimStatus.REJECTED).contains(c.getStatus()))
+                .count();
+        long escalated = allClaims.stream().filter(c -> Boolean.TRUE.equals(c.getEscalated())).count();
+
+        result.put("totalClaims", total);
+        result.put("withinSla", total - breached);
+        result.put("slaBreached", breached);
+        result.put("escalated", escalated);
+        result.put("slaComplianceRate", total == 0 ? 100.0 :
+                Math.round((double)(total - breached) / total * 100 * 100.0) / 100.0);
+
+        OptionalDouble avgHours = allClaims.stream()
+                .filter(c -> c.getProcessedDate() != null && c.getCreatedDate() != null)
+                .mapToLong(c -> java.time.Duration.between(c.getCreatedDate(), c.getProcessedDate()).toHours())
+                .average();
+        result.put("avgProcessingHours", Math.round(avgHours.orElse(0.0) * 10.0) / 10.0);
+        result.put("generatedAt", now.toString());
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/leakage")
+    public ResponseEntity<Map<String, Object>> getClaimLeakage() {
+        List<Claim> allClaims = claimRepository.findAll();
+        Map<String, Object> result = new LinkedHashMap<>();
+
+        double totalClaimed   = allClaims.stream().filter(c -> c.getAmount() != null)
+                .mapToDouble(Claim::getAmount).sum();
+        double approvedPayout = Optional.ofNullable(claimRepository.sumApprovedClaimAmount()).orElse(0.0);
+        long mismatchCount    = allClaims.stream()
+                .filter(c -> c.getAmount() != null && c.getTotalBillAmount() != null)
+                .filter(c -> !c.getAmount().equals(c.getTotalBillAmount())).count();
+
+        result.put("totalClaimedAmount", totalClaimed);
+        result.put("totalApprovedPayout", approvedPayout);
+        result.put("leakageAmount", totalClaimed - approvedPayout);
+        result.put("leakageRate", totalClaimed == 0 ? 0.0 :
+                Math.round((totalClaimed - approvedPayout) / totalClaimed * 100 * 100.0) / 100.0);
+        result.put("amountMismatchCount", mismatchCount);
+        result.put("generatedAt", LocalDateTime.now().toString());
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/hospitals")
+    public ResponseEntity<Map<String, Object>> getHospitalAnalytics() {
+        List<Claim> allClaims = claimRepository.findAll();
+        Map<String, Object> result = new LinkedHashMap<>();
+
+        Map<String, Long> claimsPerHospital = allClaims.stream()
+                .filter(c -> c.getHospitalName() != null)
+                .collect(Collectors.groupingBy(Claim::getHospitalName, Collectors.counting()));
+
+        Map<String, Double> avgAmountPerHospital = allClaims.stream()
+                .filter(c -> c.getHospitalName() != null && c.getAmount() != null)
+                .collect(Collectors.groupingBy(Claim::getHospitalName, Collectors.averagingDouble(Claim::getAmount)));
+
+        result.put("topHospitalsByVolume", claimsPerHospital.entrySet().stream()
+                .sorted(Map.Entry.<String, Long>comparingByValue().reversed()).limit(10)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a,b)->a, LinkedHashMap::new)));
+        result.put("topHospitalsByAmount", avgAmountPerHospital.entrySet().stream()
+                .sorted(Map.Entry.<String, Double>comparingByValue().reversed()).limit(10)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a,b)->a, LinkedHashMap::new)));
+        result.put("totalUniqueHospitals", claimsPerHospital.size());
+        result.put("generatedAt", LocalDateTime.now().toString());
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/forecast")
+    public ResponseEntity<Map<String, Object>> getVolumeForecast() {
+        LocalDateTime thirtyDaysAgo = LocalDateTime.now().minusDays(30);
+        List<Object[]> dailyCounts = claimRepository.countClaimsPerDay(thirtyDaysAgo);
+        Map<String, Object> result = new LinkedHashMap<>();
+
+        long totalLast30 = dailyCounts.stream().mapToLong(r -> ((Number) r[1]).longValue()).sum();
+        double dailyAvg  = totalLast30 / 30.0;
+
+        result.put("dailyAverageLast30Days", Math.round(dailyAvg * 10.0) / 10.0);
+        result.put("forecastNext7Days", Math.round(dailyAvg * 7));
+        result.put("forecastNext30Days", Math.round(dailyAvg * 30));
+        result.put("historicalData", dailyCounts.stream().map(r -> Map.of(
+                "date", r[0].toString(), "count", ((Number) r[1]).longValue()
+        )).collect(Collectors.toList()));
+        result.put("generatedAt", LocalDateTime.now().toString());
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/payments/summary")
+    public ResponseEntity<Map<String, Object>> getPaymentSummary() {
+        Double totalSettled  = paymentLedgerRepository.sumVerifiedPayments();
+        long successCount    = paymentLedgerRepository.findByEventTypeOrderByCreatedAtDesc("PAYMENT_VERIFIED").size();
+        long failedCount     = paymentLedgerRepository.findByEventTypeOrderByCreatedAtDesc("PAYMENT_FAILED").size();
+        long total           = successCount + failedCount;
+
+        Map<String, Object> result = new LinkedHashMap<>();
+        result.put("totalSettledAmount", totalSettled != null ? totalSettled : 0.0);
+        result.put("totalSuccessfulSettlements", successCount);
+        result.put("totalFailedPayments", failedCount);
+        result.put("successRate", total == 0 ? 100.0 : Math.round((double)successCount / total * 100 * 100.0) / 100.0);
+        result.put("generatedAt", LocalDateTime.now().toString());
+        return ResponseEntity.ok(result);
     }
 }

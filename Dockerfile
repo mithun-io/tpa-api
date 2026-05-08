@@ -18,6 +18,12 @@ RUN ./mvnw package -DskipTests
 # ─── Run stage ───────────────────────────────────────────────────────────────
 FROM eclipse-temurin:17-jre-jammy
 WORKDIR /app
-COPY --from=builder /app/target/*.jar app.jar
+
+# Create a non-root user and setup uploads directory
+RUN addgroup --system spring && adduser --system spring --ingroup spring
+RUN mkdir -p /app/uploads && chown -R spring:spring /app/uploads
+USER spring:spring
+
+COPY --from=builder --chown=spring:spring /app/target/*.jar app.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]

@@ -67,7 +67,8 @@ const TabLoginForm = ({ tab, onSuccess }) => {
     }
 
     // Role mismatch guard
-    if (result.role !== tab.id) {
+    const normalizedRole = result.role.replace('ROLE_', '');
+    if (normalizedRole !== tab.id) {
       logout();
       setError(`This account is not a ${tab.label} account. Please use the correct login tab.`);
       setSubmitting(false);
@@ -75,7 +76,7 @@ const TabLoginForm = ({ tab, onSuccess }) => {
     }
 
     // Successful: delegate redirect to parent
-    onSuccess(result.role);
+    onSuccess(normalizedRole);
     setSubmitting(false);
   };
 

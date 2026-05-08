@@ -87,14 +87,14 @@ public class ClaimController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ClaimResponse>> getAllClaims() {
+    public ResponseEntity<Page<ClaimResponse>> getAllClaims(Pageable pageable) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         boolean isAdmin = authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_FMG_ADMIN"));
 
         if (isAdmin) {
-            return ResponseEntity.ok(claimService.getAllClaims());
+            return ResponseEntity.ok(claimService.getAllClaims(pageable));
         } else {
-            return ResponseEntity.ok(claimService.searchClaims(null, null, null, null, null, authentication.getName(), Pageable.unpaged()).getContent());
+            return ResponseEntity.ok(claimService.searchClaims(null, null, null, null, null, authentication.getName(), pageable));
         }
     }
 

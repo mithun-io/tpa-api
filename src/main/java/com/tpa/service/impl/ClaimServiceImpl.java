@@ -93,8 +93,8 @@ public class ClaimServiceImpl implements ClaimService {
     }
 
     @Override
-    public List<ClaimResponse> getAllClaims() {
-        return claimMapper.toClaimResponses(claimRepository.findAll());
+    public Page<ClaimResponse> getAllClaims(Pageable pageable) {
+        return claimRepository.findAll(pageable).map(claimMapper::toClaimResponse);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.tpa.service.impl;
 
+import com.tpa.entity.PaymentLedger;
+import com.tpa.repository.PaymentLedgerRepository;
 import com.razorpay.Order;
 import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
@@ -34,6 +36,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     private final PaymentRepository paymentRepository;
     private final ClaimRepository claimRepository;
+    private final PaymentLedgerRepository paymentLedgerRepository;
 
     @Value("${razorpay.api.key}")
     private String razorpayKey;
@@ -86,6 +89,19 @@ public class PaymentServiceImpl implements PaymentService {
             claim.setStatus(ClaimStatus.PAYMENT_PENDING);
             claimRepository.save(claim);
 
+            // Record ledger entry
+            paymentLedgerRepository.save(PaymentLedger.builder()
+                    .claimId(claim.getId())
+                    .paymentId(payment.getId())
+                    .amount(request.amount())
+                    .currency("INR")
+                    .eventType("PAYMENT_CREATED")
+                    .status("CREATED")
+                    .razorpayOrderId(razorpayOrderId)
+                    .initiatedBy("USER-" + userId)
+                    .notes("Razorpay order created")
+                    .build());
+
             log.info("Razorpay order created: {} for claim: {}", razorpayOrderId, claim.getId());
 
             return Map.of(
@@ -129,6 +145,20 @@ public class PaymentServiceImpl implements PaymentService {
         Claim claim = claimRepository.findById(payment.getClaimId()).orElseThrow(() -> new NoResourceFoundException("Claim not found"));
         claim.setStatus(ClaimStatus.SETTLED);
         claimRepository.save(claim);
+
+        // Record verified ledger entry
+        paymentLedgerRepository.save(PaymentLedger.builder()
+                .claimId(payment.getClaimId())
+                .paymentId(payment.getId())
+                .amount(payment.getAmount())
+                .currency(payment.getCurrency())
+                .eventType("PAYMENT_VERIFIED")
+                .status("SUCCESS")
+                .razorpayOrderId(payment.getRazorpayOrderId())
+                .razorpayPaymentId(payment.getRazorpayPaymentId())
+                .notes("Razorpay signature verified — claim SETTLED")
+                .initiatedBy("GATEWAY")
+                .build());
 
         log.info("Payment verified successfully for claim {}. Claim marked as SETTLED.", payment.getClaimId());
 

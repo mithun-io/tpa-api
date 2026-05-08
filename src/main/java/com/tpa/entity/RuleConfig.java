@@ -1,13 +1,22 @@
 package com.tpa.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "rule_configs")
+@Table(name = "rule_configs", indexes = {
+        @Index(name = "idx_rule_key", columnList = "ruleKey"),
+        @Index(name = "idx_rule_active", columnList = "active"),
+        @Index(name = "idx_rule_priority", columnList = "priority")
+})
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class RuleConfig {
 
     @Id
@@ -15,40 +24,74 @@ public class RuleConfig {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String ruleKey; // e.g., MAX_CLAIM_AMOUNT_AUTO_APPROVE
+    private String ruleKey;
 
+    /**
+     * Legacy simple value (e.g., "50000") — used by non-Groovy rules.
+     */
     @Column(nullable = false)
     private String ruleValue;
 
     private String description;
 
-    public RuleConfig() {}
+    /**
+     * Groovy script body — receives binding variables:
+     *   ClaimDataRequest claim, ClaimDecisionResponse decision
+     * The script should set decision.status and append to decision.reasons.
+     */
+    @Column(columnDefinition = "TEXT")
+    private String groovyScript;
 
-    public RuleConfig(String ruleKey, String ruleValue, String description) {
-        this.ruleKey = ruleKey;
-        this.ruleValue = ruleValue;
-        this.description = description;
-    }
+    /**
+     * Rule type: SIMPLE | GROOVY
+     */
+    @Column(nullable = false)
+    @Builder.Default
+    private String ruleType = "SIMPLE";
 
-    public static RuleConfigBuilder builder() { return new RuleConfigBuilder(); }
+    /**
+     * Lower number = higher priority. Rules are evaluated in ascending order.
+     */
+    @Column(nullable = false)
+    @Builder.Default
+    private Integer priority = 100;
 
-    public static class RuleConfigBuilder {
-        private String ruleKey;
-        private String ruleValue;
-        private String description;
+    /**
+     * Version counter — incremented on each update.
+     */
+    @Column(nullable = false)
+    @Builder.Default
+    private Integer version = 1;
 
-        public RuleConfigBuilder ruleKey(String ruleKey) { this.ruleKey = ruleKey; return this; }
-        public RuleConfigBuilder ruleValue(String ruleValue) { this.ruleValue = ruleValue; return this; }
-        public RuleConfigBuilder description(String description) { this.description = description; return this; }
-        public RuleConfig build() { return new RuleConfig(ruleKey, ruleValue, description); }
-    }
+    /**
+     * Whether this rule is active. Inactive rules are skipped during evaluation.
+     */
+    @Column(nullable = false)
+    @Builder.Default
+    private Boolean active = true;
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public String getRuleKey() { return ruleKey; }
-    public void setRuleKey(String ruleKey) { this.ruleKey = ruleKey; }
-    public String getRuleValue() { return ruleValue; }
-    public void setRuleValue(String ruleValue) { this.ruleValue = ruleValue; }
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    /**
+     * Simulation mode — rule is evaluated but does NOT affect claim status.
+     */
+    @Column(nullable = false)
+    @Builder.Default
+    private Boolean simulationMode = false;
+
+    /**
+     * Category: ELIGIBILITY | AMOUNT | FRAUD | MEDICAL | SLA | DEFAULT
+     */
+    @Column
+    @Builder.Default
+    private String category = "DEFAULT";
+
+    @Column
+    private String lastUpdatedBy;
+
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(nullable = false)
+    private LocalDateTime updatedAt;
 }

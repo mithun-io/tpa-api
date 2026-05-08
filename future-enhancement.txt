@@ -103,3 +103,228 @@ Full Claim Lineage (Audit Trail): A timeline showing every action: Uploaded by U
 Kafka Pipeline Monitor: A technical dashboard to ensure background processes (OCR, Notifications, AI Analysis) are running smoothly.
 
 Template Designer for PDF Exports: A drag-and-drop builder to customize the layout of the decision reports for different carriers.
+
+You are a Principal Enterprise Software Architect and Senior Full Stack Engineer.
+
+You are working on an EXISTING Insurance TPA Platform codebase. Your job is NOT to rebuild it, but to enhance, refactor, stabilize, and production-harden it.
+
+Constraints:
+- Reuse existing code wherever possible
+- Do NOT rewrite entire modules unless necessary
+- Maintain backward compatibility
+- No pseudo-code; production-ready implementation required
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎯 OBJECTIVE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Enhance the existing system with the following enterprise-grade capabilities:
+
+1. BRMS (Pluggable Rule Engine)
+- Replace hardcoded rules in RuleEngineServiceImpl
+- Implement Drools or Groovy-based rule engine
+- Store rules in DB (versioned)
+- Enable runtime rule updates without restart
+- Add rule execution audit logs
+- Add rule simulation mode
+- Add rule priority + activation/deactivation
+
+2. AI Fraud Detection Layer
+- Add document forensic pipeline
+- Detect PDF/image tampering (metadata + pixel anomaly detection)
+- Duplicate invoice detection
+- Signature copy/paste detection
+- Fraud scoring engine (0–100)
+- Store fraud decision logs
+
+3. ICD-10 Medical Validation Layer
+- Integrate ICD-based validation service
+- Detect diagnosis vs procedure mismatch
+- Flag upcoding anomalies
+- Add medical risk scoring engine
+
+4. Event-Driven Architecture (Kafka-based)
+- Convert claim lifecycle into event pipeline:
+  CLAIM_UPLOADED → OCR_COMPLETED → AI_ANALYSIS_DONE → RULE_EVALUATED → APPROVED → PAYMENT_INITIATED
+- Add retry mechanism + DLQ
+- Ensure idempotency
+- Add event audit log table
+
+5. Multi-Tenant SaaS Architecture
+- Implement tenant isolation at DB level
+- Add tenant context filter
+- Ensure tenant-based RBAC
+- Support tenant-specific rules + branding
+
+6. Real-Time Claim Tracking
+- Add WebSocket-based live updates
+- Status timeline tracking
+- Customer-facing tracking API
+
+7. Intelligent Work Distribution
+- Auto-assign claims based on:
+  - claim value
+  - medical type
+  - SLA urgency
+- Add escalation engine (24-hour rule breach)
+
+8. Payment Processing Module
+- Implement payment orchestration layer
+- Add transaction ledger
+- Support retry + reconciliation
+- Track payment lifecycle events
+
+9. Audit & Compliance Layer
+- Immutable audit logs (hash-based integrity)
+- Track every state change
+- Support forensic audit queries
+
+10. Analytics Layer
+- Add dashboards for:
+  - fraud trends
+  - claim leakage
+  - SLA performance
+  - hospital analytics
+  - predictive volume forecasting
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🧪 OUTPUT REQUIRED
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Generate:
+
+1. Refactored backend modules
+2. New services + interfaces
+3. DB schema changes (Flyway scripts)
+4. Kafka event definitions
+5. API contracts
+6. Security improvements (RBAC, JWT, validation)
+7. Integration points with existing system
+
+NO conceptual explanation.
+ONLY IMPLEMENTATION.
+
+Quick Tip:
+Whenever you register a customer or carrier for email try to use temp mail from any browser, type temp mail and use that so that you'll get the OTP
+
+
+You are a Senior QA Automation Engineer and SDET.
+
+Your task is to create a FULL END-TO-END TESTING SYSTEM for an existing web application.
+
+The system MUST:
+
+━━━━━━━━━━━━━━━━━━━━━━
+🎯 CORE REQUIREMENT
+━━━━━━━━━━━━━━━━━━━━━━
+
+Generate an automated testing suite that:
+
+1. Launches a real browser (Chrome via Playwright or Selenium)
+2. Opens the application UI
+3. Logs in using test credentials
+4. Navigates EVERY UI module
+5. Executes ALL workflows end-to-end
+6. Calls ALL backend APIs
+7. Uploads files (PDF, images, docs)
+8. Triggers full claim lifecycle
+9. Captures:
+   - UI errors
+   - Console errors
+   - Network failures
+   - API failures
+   - Broken workflows
+
+━━━━━━━━━━━━━━━━━━━━━━
+🧪 TEST COVERAGE REQUIRED
+━━━━━━━━━━━━━━━━━━━━━━
+
+You must test:
+
+- Authentication flow (login/logout)
+- Admin dashboard
+- Carrier dashboard
+- Customer portal
+- Claim upload flow
+- OCR processing flow
+- AI fraud detection flow
+- Rule engine execution
+- Medical validation flow
+- Payment flow
+- Kafka-driven async flows
+- Notifications
+- Reports & analytics pages
+
+━━━━━━━━━━━━━━━━━━━━━━
+🧭 BROWSER REQUIREMENTS
+━━━━━━━━━━━━━━━━━━━━━━
+
+- Use Playwright (preferred) or Selenium
+- Run in headless + headed mode
+- Capture screenshots on every failure
+- Record video of test execution
+- Log every HTTP request/response
+- Validate UI elements exist and are clickable
+
+━━━━━━━━━━━━━━━━━━━━━━
+🔍 API VALIDATION
+━━━━━━━━━━━━━━━━━━━━━━
+
+- Load OpenAPI/Swagger if available
+- Else discover endpoints from backend code
+- Generate Postman collection automatically
+- Execute full API regression suite
+- Validate request/response schemas
+- Test edge cases and invalid payloads
+
+━━━━━━━━━━━━━━━━━━━━━━
+🧠 SELF-HEALING REQUIREMENT
+━━━━━━━━━━━━━━━━━━━━━━
+
+If a test fails:
+
+1. Identify root cause (UI/API/backend)
+2. Suggest fix
+3. Apply fix if possible in code
+4. Re-run failed test automatically
+5. Confirm resolution
+
+━━━━━━━━━━━━━━━━━━━━━━
+📦 OUTPUT FILES
+━━━━━━━━━━━━━━━━━━━━━━
+
+Generate:
+
+- e2e-tests/
+  - playwright tests
+  - api tests
+  - auth tests
+
+- reports/
+  - browser-test-report.html
+  - api-test-report.json
+  - failure-analysis.md
+
+- artifacts/
+  - screenshots/
+  - videos/
+  - logs/
+
+━━━━━━━━━━━━━━━━━━━━━━
+🚨 FINAL GOAL
+━━━━━━━━━━━━━━━━━━━━━━
+
+The system must prove:
+
+✔ Every page works
+✔ Every API works
+✔ Every workflow works
+✔ No console errors exist
+✔ No broken navigation exists
+✔ No failing backend calls exist
+
+The system must behave like a REAL QA ENGINE before production deployment.
+
+Quick Tip:
+Whenever you register a customer or carrier for email try to use temp mail from any browser, type temp mail and use that so that you'll get the OTP
+and whenever the customer creates a claim for uploading documents also creat by yourself a realistic hand written form
