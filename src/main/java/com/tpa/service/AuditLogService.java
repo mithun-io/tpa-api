@@ -5,4 +5,6 @@ import com.tpa.enums.ClaimStatus;
 public interface AuditLogService {
 
     void logAction(Long claimId, String action, ClaimStatus previousStatus, ClaimStatus newStatus);
+    
+    boolean verifyAuditChain(Long claimId);
 }

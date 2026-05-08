@@ -178,4 +178,76 @@ public class AnalyticsController {
         result.put("generatedAt", LocalDateTime.now().toString());
         return ResponseEntity.ok(result);
     }
+
+    /**
+     * Loss Ratio: Total Claims Paid / Total Premiums (simulated).
+     * Loss Ratio > 100% means the carrier is paying out more than it collects.
+     */
+    @GetMapping("/loss-ratio")
+    public ResponseEntity<Map<String, Object>> getLossRatio() {
+        List<Claim> allClaims = claimRepository.findAll();
+        Double totalPaid = paymentLedgerRepository.sumVerifiedPayments();
+        if (totalPaid == null) totalPaid = 0.0;
+
+        // Simulate: assume premium = 30% of claim amount on average
+        double estimatedPremiumPool = allClaims.stream()
+                .filter(c -> c.getAmount() != null)
+                .mapToDouble(Claim::getAmount)
+                .sum() * 0.3;
+
+        double lossRatio = estimatedPremiumPool == 0 ? 0 :
+                Math.round(totalPaid / estimatedPremiumPool * 100 * 100.0) / 100.0;
+
+        long settledClaims = allClaims.stream()
+                .filter(c -> ClaimStatus.SETTLED.equals(c.getStatus())).count();
+        long rejectedClaims = allClaims.stream()
+                .filter(c -> ClaimStatus.REJECTED.equals(c.getStatus())).count();
+
+        Map<String, Object> result = new LinkedHashMap<>();
+        result.put("totalClaimsPaid", totalPaid);
+        result.put("estimatedPremiumPool", Math.round(estimatedPremiumPool * 100.0) / 100.0);
+        result.put("lossRatioPercent", lossRatio);
+        result.put("lossRatioStatus", lossRatio > 100 ? "LOSS" : lossRatio > 75 ? "HIGH" : lossRatio > 50 ? "MODERATE" : "HEALTHY");
+        result.put("settledClaims", settledClaims);
+        result.put("rejectedClaims", rejectedClaims);
+        result.put("totalClaims", allClaims.size());
+        result.put("generatedAt", LocalDateTime.now().toString());
+        return ResponseEntity.ok(result);
+    }
+
+    /**
+     * Carrier-specific analytics: filters data by carrier name.
+     */
+    @GetMapping("/carrier/{carrierName}/summary")
+    public ResponseEntity<Map<String, Object>> getCarrierSummary(@PathVariable String carrierName) {
+        List<Claim> carrierClaims = claimRepository.findAll().stream()
+                .filter(c -> carrierName.equalsIgnoreCase(c.getCarrierName()))
+                .collect(Collectors.toList());
+
+        Map<String, Object> result = new LinkedHashMap<>();
+        result.put("carrier", carrierName);
+        result.put("totalClaims", carrierClaims.size());
+
+        double totalAmount = carrierClaims.stream().filter(c -> c.getAmount() != null)
+                .mapToDouble(Claim::getAmount).sum();
+        result.put("totalClaimedAmount", totalAmount);
+
+        long approved = carrierClaims.stream()
+                .filter(c -> ClaimStatus.CARRIER_APPROVED.equals(c.getStatus()) ||
+                             ClaimStatus.ADMIN_APPROVED.equals(c.getStatus())).count();
+        long rejected = carrierClaims.stream()
+                .filter(c -> ClaimStatus.REJECTED.equals(c.getStatus())).count();
+
+        result.put("approvedClaims", approved);
+        result.put("rejectedClaims", rejected);
+        result.put("approvalRate", carrierClaims.isEmpty() ? 0.0 :
+                Math.round((double) approved / carrierClaims.size() * 100 * 100.0) / 100.0);
+
+        long highRisk = carrierClaims.stream()
+                .filter(c -> com.tpa.enums.RiskLevel.HIGH.equals(c.getRiskLevel())).count();
+        result.put("highRiskClaims", highRisk);
+        result.put("generatedAt", LocalDateTime.now().toString());
+        return ResponseEntity.ok(result);
+    }
 }
+

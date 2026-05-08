@@ -1,0 +1,1940 @@
+{
+  "config": {
+    "configFile": "C:\\Users\\MithunM\\IdeaProjects\\tpa\\frontend\\playwright.config.js",
+    "rootDir": "C:/Users/MithunM/IdeaProjects/tpa/frontend/tests/e2e",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/MithunM/IdeaProjects/tpa/frontend/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "ui-tests",
+        "name": "ui-tests",
+        "testDir": "C:/Users/MithunM/IdeaProjects/tpa/frontend/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/auth.spec.js",
+          "**/customer.spec.js",
+          "**/admin-carrier.spec.js"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "C:/Users/MithunM/IdeaProjects/tpa/frontend/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "live-backend",
+        "name": "live-backend",
+        "testDir": "C:/Users/MithunM/IdeaProjects/tpa/frontend/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/full-lifecycle.spec.js",
+          "**/api-tests.spec.js",
+          "**/fraud-rules.spec.js"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "C:/Users/MithunM/IdeaProjects/tpa/frontend/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "mobile",
+        "name": "mobile",
+        "testDir": "C:/Users/MithunM/IdeaProjects/tpa/frontend/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/auth.spec.js"
+        ],
+        "timeout": 45000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "html",
+        {
+          "outputFolder": "playwright-report",
+          "open": "never"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "playwright-report/results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.59.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "admin-carrier.spec.js",
+      "file": "admin-carrier.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "TC-E2E-31: Admin dashboard /admin loads for FMG_ADMIN role",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6117,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:39:33.115Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "80f44b8c19d09537ea7c-d71855bb1d9c0c8b3e98",
+          "file": "admin-carrier.spec.js",
+          "line": 17,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-32: /admin/fraud-dashboard renders without redirect",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9334,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:39:39.362Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "80f44b8c19d09537ea7c-bc4c6b4130381f0dbf58",
+          "file": "admin-carrier.spec.js",
+          "line": 25,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-33: Admin dashboard renders stat cards or data sections",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8535,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:39:48.704Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "80f44b8c19d09537ea7c-42366cb7037a390f403e",
+          "file": "admin-carrier.spec.js",
+          "line": 34,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-34: /analytics renders charts or empty state for admin",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 20434,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:39:57.246Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "80f44b8c19d09537ea7c-512a771caf226078215a",
+          "file": "admin-carrier.spec.js",
+          "line": 44,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-35: Admin navigating to /claims shows claim list view",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9289,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:40:17.689Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "80f44b8c19d09537ea7c-564dddd8e550aa92fa89",
+          "file": "admin-carrier.spec.js",
+          "line": 53,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-36: Admin fraud dashboard shows meaningful headings",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9233,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:40:26.985Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "80f44b8c19d09537ea7c-642928a4fcc5f964e204",
+          "file": "admin-carrier.spec.js",
+          "line": 62,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-37: Admin session shows sidebar navigation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7073,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:40:36.223Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "80f44b8c19d09537ea7c-69349716f3e13a63bae9",
+          "file": "admin-carrier.spec.js",
+          "line": 73,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-38: Authenticated admin visiting / is redirected to /dashboard",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7014,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:40:43.304Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "80f44b8c19d09537ea7c-01d2f975cf377065d2f9",
+          "file": "admin-carrier.spec.js",
+          "line": 82,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-39: /carrier dashboard loads for CARRIER_USER role",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7184,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:40:50.324Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "80f44b8c19d09537ea7c-f4d4d93e5f5c0e37536b",
+          "file": "admin-carrier.spec.js",
+          "line": 94,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-40: /carrier/fraud-dashboard renders without redirect",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 21346,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:40:57.515Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "80f44b8c19d09537ea7c-2d639873c65cd19d07b9",
+          "file": "admin-carrier.spec.js",
+          "line": 102,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-41: Carrier dashboard renders stats or data sections",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 21921,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:41:18.866Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "80f44b8c19d09537ea7c-28f43f2a5d7d83ffa98d",
+          "file": "admin-carrier.spec.js",
+          "line": 111,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-42: CARRIER_USER can navigate to /claims",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 10199,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:41:40.794Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "80f44b8c19d09537ea7c-26c9362a2ad75b55ea7a",
+          "file": "admin-carrier.spec.js",
+          "line": 121,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-43: Carrier session shows sidebar navigation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7059,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:41:50.999Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "80f44b8c19d09537ea7c-81d3490b602349b5fa2e",
+          "file": "admin-carrier.spec.js",
+          "line": 130,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-44: Profile page is accessible for all roles",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8730,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:41:58.063Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "80f44b8c19d09537ea7c-d1e9fffe948e4fb194a2",
+          "file": "admin-carrier.spec.js",
+          "line": 143,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-45: Change password page accessible for all roles",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9266,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:42:06.798Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "80f44b8c19d09537ea7c-e85916d782c586eca911",
+          "file": "admin-carrier.spec.js",
+          "line": 152,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-46: Switching login tabs clears previously entered form data",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7837,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:42:16.072Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "80f44b8c19d09537ea7c-8299c3579a51fa888819",
+          "file": "admin-carrier.spec.js",
+          "line": 161,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-47: Error banner clears when user starts typing credentials",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6994,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:42:23.914Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "80f44b8c19d09537ea7c-4f80b87210aa4af8e281",
+          "file": "admin-carrier.spec.js",
+          "line": 173,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-48: Each login tab shows a role description text",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7044,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:42:30.914Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "80f44b8c19d09537ea7c-3a4295b846ca8d9eb8a5",
+          "file": "admin-carrier.spec.js",
+          "line": 186,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-49: Register page has a \"Sign in\" back link to /login",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7095,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:42:37.962Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "80f44b8c19d09537ea7c-597deefe6e79f96266ef",
+          "file": "admin-carrier.spec.js",
+          "line": 200,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-50: Login page renders correctly at mobile viewport (390x844)",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6940,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:42:45.064Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "80f44b8c19d09537ea7c-bbfe8473cc0f25d47efc",
+          "file": "admin-carrier.spec.js",
+          "line": 207,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "auth.spec.js",
+      "file": "auth.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "TC-E2E-01: Login page renders with three role tabs",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7082,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:42:52.044Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d5ed79a6b333c2ba7209-d6351bea7b6d2e66b844",
+          "file": "auth.spec.js",
+          "line": 13,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-02: Brand name \"TPA ClaimSys\" is displayed on login page",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6722,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:42:59.131Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d5ed79a6b333c2ba7209-dbdc5c4c311d7991dc88",
+          "file": "auth.spec.js",
+          "line": 23,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-03: Default active tab is Customer",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6716,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:43:05.859Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d5ed79a6b333c2ba7209-0606e33760d8ff96083b",
+          "file": "auth.spec.js",
+          "line": 29,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-04: Clicking Admin tab shows Admin login form",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7009,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:43:12.580Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d5ed79a6b333c2ba7209-5a880e03e474f99072b6",
+          "file": "auth.spec.js",
+          "line": 36,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-05: Clicking Carrier tab shows Carrier login form and register link",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6658,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:43:19.594Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d5ed79a6b333c2ba7209-fdabe4ef573243915cf5",
+          "file": "auth.spec.js",
+          "line": 46,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-06: Submitting empty login form shows error banner",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6769,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:43:26.258Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d5ed79a6b333c2ba7209-d71b4af677160e8f2198",
+          "file": "auth.spec.js",
+          "line": 56,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-07: Password field toggles visibility when eye icon clicked",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7123,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:43:33.032Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d5ed79a6b333c2ba7209-13b4d20a8ed17134c0b1",
+          "file": "auth.spec.js",
+          "line": 65,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-08: \"Create account\" link navigates to /register",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7080,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:43:40.161Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d5ed79a6b333c2ba7209-35314b3094adfb080052",
+          "file": "auth.spec.js",
+          "line": 78,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-09: \"Forgot password?\" link navigates to /forgot-password",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7312,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:43:47.245Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d5ed79a6b333c2ba7209-a6a909f98d8c8ec8e3fc",
+          "file": "auth.spec.js",
+          "line": 85,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-10: Unauthenticated access to /dashboard redirects to /login",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7474,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:43:54.563Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d5ed79a6b333c2ba7209-a0188e0578b1659415bd",
+          "file": "auth.spec.js",
+          "line": 92,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-10b: Unauthenticated access to /admin redirects to /login",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7647,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:44:02.042Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d5ed79a6b333c2ba7209-83ab0d618b7f42d65d4d",
+          "file": "auth.spec.js",
+          "line": 97,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-10c: Unauthenticated access to /claims redirects to /login",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6993,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:44:09.693Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d5ed79a6b333c2ba7209-fdbc929dfcc0316a1155",
+          "file": "auth.spec.js",
+          "line": 102,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-11: Register page renders all Step 1 form fields",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6692,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:44:16.691Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d5ed79a6b333c2ba7209-c77efed055ac41ee71ba",
+          "file": "auth.spec.js",
+          "line": 108,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-12: Step 1 is active by default on register page",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6753,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:44:23.389Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d5ed79a6b333c2ba7209-c2382cba934b6cd11984",
+          "file": "auth.spec.js",
+          "line": 121,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-13: Password strength indicator appears when typing",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6294,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:44:30.147Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d5ed79a6b333c2ba7209-17474ac03053ec002b99",
+          "file": "auth.spec.js",
+          "line": 129,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-13b: Strong password shows higher strength label",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6972,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:44:36.446Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d5ed79a6b333c2ba7209-a21d04e791685cbd9fe5",
+          "file": "auth.spec.js",
+          "line": 139,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-14: Submitting empty register form shows validation errors",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7107,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:44:43.424Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d5ed79a6b333c2ba7209-b5b706321907c3ce0a15",
+          "file": "auth.spec.js",
+          "line": 149,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-15: Carrier register page loads successfully",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7294,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:44:50.539Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d5ed79a6b333c2ba7209-c78d158ae4945102f19b",
+          "file": "auth.spec.js",
+          "line": 158,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "customer.spec.js",
+      "file": "customer.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "TC-E2E-16: Customer dashboard renders after fake-auth injection",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7039,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:44:57.864Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "21198206ffe3f0ca2572-3f2cca4ab21c51bbd2ab",
+          "file": "customer.spec.js",
+          "line": 14,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-17: Sidebar or navigation menu is rendered for authenticated customer",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6796,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:45:04.908Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "21198206ffe3f0ca2572-b25a3d391ada3e8ccb9c",
+          "file": "customer.spec.js",
+          "line": 24,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-18: /claims page loads without redirect to /login",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6834,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:45:11.709Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "21198206ffe3f0ca2572-7397fdc3b083757cde5b",
+          "file": "customer.spec.js",
+          "line": 34,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-19: /claims/upload page renders without redirect",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7141,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:45:18.549Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "21198206ffe3f0ca2572-8e1ebd529801b36bfbac",
+          "file": "customer.spec.js",
+          "line": 42,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-20: /profile page renders for authenticated customer",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6551,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:45:25.696Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "21198206ffe3f0ca2572-7c0a140846646c56a0d2",
+          "file": "customer.spec.js",
+          "line": 50,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-21: /change-password page renders for authenticated user",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7329,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:45:32.252Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "21198206ffe3f0ca2572-1060375398d36a092d7a",
+          "file": "customer.spec.js",
+          "line": 58,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-22: Authenticated user visiting / is redirected to /dashboard",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7127,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:45:39.587Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "21198206ffe3f0ca2572-5413576a59dd6181b640",
+          "file": "customer.spec.js",
+          "line": 66,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-23: /analytics page renders for authenticated customer",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6705,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:45:46.722Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "21198206ffe3f0ca2572-e2c2c5da2772183133d5",
+          "file": "customer.spec.js",
+          "line": 74,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-24: Unknown route /xyz redirects to /login when unauthenticated",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7185,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:45:53.432Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "21198206ffe3f0ca2572-fa3798481f2129a801d3",
+          "file": "customer.spec.js",
+          "line": 82,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-25: Claims list page renders either a claim list or empty state",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 22046,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:46:00.622Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "21198206ffe3f0ca2572-ea9e0ff2ec766991866d",
+          "file": "customer.spec.js",
+          "line": 88,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-26: Dashboard renders stat cards or summary sections",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 22352,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:46:22.672Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "21198206ffe3f0ca2572-90fc4af6190cdaa5fdb2",
+          "file": "customer.spec.js",
+          "line": 102,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-27: Logging out removes token and redirects to /login",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7156,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:46:45.029Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "21198206ffe3f0ca2572-ea29fea7617ccf444eff",
+          "file": "customer.spec.js",
+          "line": 117,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-28: /claims/1 renders without crashing (404 or detail view)",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 10381,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:46:52.191Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "21198206ffe3f0ca2572-50bbf435f500c63b7425",
+          "file": "customer.spec.js",
+          "line": 137,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-29: File input on upload page accepts PDF files",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 10374,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:47:02.577Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "21198206ffe3f0ca2572-280514b971c528c750f3",
+          "file": "customer.spec.js",
+          "line": 147,
+          "column": 1
+        },
+        {
+          "title": "TC-E2E-30: Login page has expected HTML title",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui-tests",
+              "projectName": "ui-tests",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6772,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-08T05:47:12.956Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "21198206ffe3f0ca2572-c469956613eab837095e",
+          "file": "customer.spec.js",
+          "line": 161,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-05-08T05:39:02.547Z",
+    "duration": 497383.328,
+    "expected": 53,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

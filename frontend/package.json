@@ -8,9 +8,15 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test:e2e": "playwright test",
-    "test:e2e:headed": "playwright test --headed",
-    "test:e2e:report": "playwright show-report"
+    "test:e2e": "playwright test --project=ui-tests",
+    "test:e2e:headed": "HEADED=true playwright test --project=ui-tests",
+    "test:e2e:ui": "playwright test --project=ui-tests",
+    "test:e2e:api": "playwright test --project=live-backend",
+    "test:e2e:all": "playwright test",
+    "test:e2e:report": "playwright show-report",
+    "test:e2e:mobile": "playwright test --project=mobile",
+    "test:e2e:generate-docs": "node tests/e2e/generate-test-docs.js",
+    "test:e2e:generate-report": "node tests/e2e/generate-report.js"
   },
   "dependencies": {
     "axios": "^1.6.8",

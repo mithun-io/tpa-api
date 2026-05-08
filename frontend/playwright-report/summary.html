@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TPA ClaimSys — E2E Test Report</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', system-ui, sans-serif; background: #f1f5f9; color: #111827; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
+    .header { background: linear-gradient(135deg, #0f172a, #1e40af); color: white; border-radius: 16px; padding: 32px; margin-bottom: 32px; }
+    .stat-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 32px; }
+    .stat-card { background: #fff; border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .stat-value { font-size: 36px; font-weight: 700; }
+    .stat-label { color: #6b7280; font-size: 13px; margin-top: 4px; }
+    .progress-bar { background: #e5e7eb; border-radius: 8px; height: 12px; margin-bottom: 32px; overflow: hidden; }
+    .progress-fill { height: 100%; border-radius: 8px; background: linear-gradient(90deg, #10b981, #34d399); transition: width 0.3s; }
+    @media (max-width: 768px) { .stat-grid { grid-template-columns: repeat(2, 1fr); } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;">
+        <div>
+          <h1 style="font-size:28px;font-weight:700;margin-bottom:8px;">🏥 TPA ClaimSys</h1>
+          <p style="font-size:18px;opacity:0.85;">E2E Test Report — Full QA Audit</p>
+          <p style="font-size:13px;opacity:0.6;margin-top:8px;">Generated: 8/5/2026, 11:17:37 am</p>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-size:56px;font-weight:800;">100%</div>
+          <div style="opacity:0.7;">Pass Rate</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-value" style="color:#111827;">53</div>
+        <div class="stat-label">Total Tests</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" style="color:#10b981;">53</div>
+        <div class="stat-label">Passed</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" style="color:#ef4444;">0</div>
+        <div class="stat-label">Failed</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" style="color:#f59e0b;">0</div>
+        <div class="stat-label">Skipped</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" style="color:#6b7280;">466.1s</div>
+        <div class="stat-label">Total Duration</div>
+      </div>
+    </div>
+
+    <div class="progress-bar">
+      <div class="progress-fill" style="width:100%;"></div>
+    </div>
+
+    <h2 style="font-size:20px;font-weight:700;margin-bottom:20px;">📋 Test Suites</h2>
+    
+      <div style="margin-bottom:32px;background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,0.1);overflow:hidden;">
+        <div style="background:linear-gradient(135deg,#1e40af,#3b82f6);padding:14px 20px;display:flex;justify-content:space-between;align-items:center;">
+          <span style="color:#fff;font-weight:700;font-size:15px;">admin-carrier.spec.js</span>
+          <span style="color:#bfdbfe;font-size:13px;">20/20 passed &nbsp;|&nbsp; 100% &nbsp;|&nbsp; ✅ All passed</span>
+        </div>
+        <table style="width:100%;border-collapse:collapse;">
+          <thead><tr style="background:#f8fafc;font-size:12px;color:#6b7280;font-weight:600;text-transform:uppercase;">
+            <th style="padding:10px 16px;text-align:left;">Test</th>
+            <th style="padding:10px 16px;text-align:center;">Status</th>
+            <th style="padding:10px 16px;text-align:right;">Duration</th>
+            <th style="padding:10px 16px;text-align:left;">Error</th>
+          </tr></thead>
+          <tbody>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-31: Admin dashboard /admin loads for FMG_ADMIN role</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">6.1s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-32: /admin/fraud-dashboard renders without redirect</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">9.3s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-33: Admin dashboard renders stat cards or data sections</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">8.5s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-34: /analytics renders charts or empty state for admin</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">20.4s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-35: Admin navigating to /claims shows claim list view</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">9.3s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-36: Admin fraud dashboard shows meaningful headings</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">9.2s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-37: Admin session shows sidebar navigation</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">7.1s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-38: Authenticated admin visiting / is redirected to /dashboard</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">7.0s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-39: /carrier dashboard loads for CARRIER_USER role</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">7.2s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-40: /carrier/fraud-dashboard renders without redirect</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">21.3s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-41: Carrier dashboard renders stats or data sections</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">21.9s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-42: CARRIER_USER can navigate to /claims</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">10.2s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-43: Carrier session shows sidebar navigation</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">7.1s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-44: Profile page is accessible for all roles</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">8.7s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-45: Change password page accessible for all roles</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">9.3s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-46: Switching login tabs clears previously entered form data</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">7.8s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-47: Error banner clears when user starts typing credentials</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">7.0s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-48: Each login tab shows a role description text</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">7.0s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-49: Register page has a "Sign in" back link to /login</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">7.1s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-50: Login page renders correctly at mobile viewport (390x844)</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">6.9s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr></tbody>
+        </table>
+      </div>
+      <div style="margin-bottom:32px;background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,0.1);overflow:hidden;">
+        <div style="background:linear-gradient(135deg,#1e40af,#3b82f6);padding:14px 20px;display:flex;justify-content:space-between;align-items:center;">
+          <span style="color:#fff;font-weight:700;font-size:15px;">auth.spec.js</span>
+          <span style="color:#bfdbfe;font-size:13px;">18/18 passed &nbsp;|&nbsp; 100% &nbsp;|&nbsp; ✅ All passed</span>
+        </div>
+        <table style="width:100%;border-collapse:collapse;">
+          <thead><tr style="background:#f8fafc;font-size:12px;color:#6b7280;font-weight:600;text-transform:uppercase;">
+            <th style="padding:10px 16px;text-align:left;">Test</th>
+            <th style="padding:10px 16px;text-align:center;">Status</th>
+            <th style="padding:10px 16px;text-align:right;">Duration</th>
+            <th style="padding:10px 16px;text-align:left;">Error</th>
+          </tr></thead>
+          <tbody>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-01: Login page renders with three role tabs</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">7.1s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-02: Brand name "TPA ClaimSys" is displayed on login page</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">6.7s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-03: Default active tab is Customer</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">6.7s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-04: Clicking Admin tab shows Admin login form</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">7.0s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-05: Clicking Carrier tab shows Carrier login form and register link</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">6.7s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-06: Submitting empty login form shows error banner</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">6.8s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-07: Password field toggles visibility when eye icon clicked</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">7.1s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-08: "Create account" link navigates to /register</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">7.1s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-09: "Forgot password?" link navigates to /forgot-password</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">7.3s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-10: Unauthenticated access to /dashboard redirects to /login</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">7.5s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-10b: Unauthenticated access to /admin redirects to /login</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">7.6s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-10c: Unauthenticated access to /claims redirects to /login</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">7.0s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-11: Register page renders all Step 1 form fields</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">6.7s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-12: Step 1 is active by default on register page</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">6.8s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-13: Password strength indicator appears when typing</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">6.3s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-13b: Strong password shows higher strength label</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">7.0s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-14: Submitting empty register form shows validation errors</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">7.1s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-15: Carrier register page loads successfully</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">7.3s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr></tbody>
+        </table>
+      </div>
+      <div style="margin-bottom:32px;background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,0.1);overflow:hidden;">
+        <div style="background:linear-gradient(135deg,#1e40af,#3b82f6);padding:14px 20px;display:flex;justify-content:space-between;align-items:center;">
+          <span style="color:#fff;font-weight:700;font-size:15px;">customer.spec.js</span>
+          <span style="color:#bfdbfe;font-size:13px;">15/15 passed &nbsp;|&nbsp; 100% &nbsp;|&nbsp; ✅ All passed</span>
+        </div>
+        <table style="width:100%;border-collapse:collapse;">
+          <thead><tr style="background:#f8fafc;font-size:12px;color:#6b7280;font-weight:600;text-transform:uppercase;">
+            <th style="padding:10px 16px;text-align:left;">Test</th>
+            <th style="padding:10px 16px;text-align:center;">Status</th>
+            <th style="padding:10px 16px;text-align:right;">Duration</th>
+            <th style="padding:10px 16px;text-align:left;">Error</th>
+          </tr></thead>
+          <tbody>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-16: Customer dashboard renders after fake-auth injection</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">7.0s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-17: Sidebar or navigation menu is rendered for authenticated customer</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">6.8s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-18: /claims page loads without redirect to /login</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">6.8s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-19: /claims/upload page renders without redirect</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">7.1s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-20: /profile page renders for authenticated customer</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">6.6s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-21: /change-password page renders for authenticated user</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">7.3s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-22: Authenticated user visiting / is redirected to /dashboard</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">7.1s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-23: /analytics page renders for authenticated customer</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">6.7s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-24: Unknown route /xyz redirects to /login when unauthenticated</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">7.2s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-25: Claims list page renders either a claim list or empty state</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">22.0s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-26: Dashboard renders stat cards or summary sections</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">22.4s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-27: Logging out removes token and redirects to /login</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">7.2s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-28: /claims/1 renders without crashing (404 or detail view)</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">10.4s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-29: File input on upload page accepts PDF files</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">10.4s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr>
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;color:#374151;font-size:13px;">TC-E2E-30: Login page has expected HTML title</td>
+        <td style="padding:10px 16px;text-align:center;"><span style="background:#d1fae5;color:#10b981;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;">✅ PASSED</span></td>
+        <td style="padding:10px 16px;text-align:right;color:#6b7280;font-size:13px;">6.8s</td>
+        <td style="padding:10px 16px;color:#ef4444;font-size:12px;max-width:350px;word-break:break-word;"></td>
+      </tr></tbody>
+        </table>
+      </div>
+
+    <h2 style="font-size:20px;font-weight:700;margin:32px 0 16px;">🔍 Failure Analysis</h2>
+    
+    <div style="background:#d1fae5;border:1px solid #6ee7b7;border-radius:12px;padding:20px 24px;text-align:center;">
+      <div style="font-size:48px;">🎉</div>
+      <div style="color:#065f46;font-weight:700;font-size:18px;margin-top:8px;">All tests passed!</div>
+      <div style="color:#047857;margin-top:4px;">Zero failures detected.</div>
+    </div>
+
+    <div style="margin-top:32px;padding:16px 20px;background:#f8fafc;border-radius:10px;font-size:12px;color:#6b7280;text-align:center;">
+      Generated by TPA ClaimSys E2E QA Engine &nbsp;|&nbsp;
+      Playwright 5/8/2026 &nbsp;|&nbsp;
+      1 worker(s)
+    </div>
+  </div>
+</body>
+</html>

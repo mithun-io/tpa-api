@@ -6,7 +6,7 @@ import com.tpa.entity.PaymentLedger;
 import com.tpa.repository.AuditLogRepository;
 import com.tpa.repository.EventAuditLogRepository;
 import com.tpa.repository.PaymentLedgerRepository;
-import com.tpa.service.impl.AuditLogServiceImpl;
+import com.tpa.service.AuditLogService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -34,7 +34,7 @@ import java.util.Map;
 public class AuditController {
 
     private final AuditLogRepository auditLogRepository;
-    private final AuditLogServiceImpl auditLogService;
+    private final AuditLogService auditLogService;
     private final EventAuditLogRepository eventAuditLogRepository;
     private final PaymentLedgerRepository paymentLedgerRepository;
 

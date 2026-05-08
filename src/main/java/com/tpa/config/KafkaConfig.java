@@ -90,22 +90,35 @@ public class KafkaConfig {
         return factory;
     }
 
-    // ── Topic Declarations (auto-create) ─────────────────────────────────────
+    // ── Topic Declarations (auto-create with DLQs for all lifecycle topics) ──
 
-    @Bean public NewTopic claimUploadedTopic()       { return topic("claim-lifecycle.uploaded"); }
-    @Bean public NewTopic claimOcrCompletedTopic()   { return topic("claim-lifecycle.ocr-completed"); }
-    @Bean public NewTopic claimAiDoneTopic()         { return topic("claim-lifecycle.ai-done"); }
-    @Bean public NewTopic claimRuleEvaluatedTopic()  { return topic("claim-lifecycle.rule-evaluated"); }
-    @Bean public NewTopic claimAdminApprovedTopic()  { return topic("claim-lifecycle.admin-approved"); }
-    @Bean public NewTopic claimCarrierApprovedTopic(){ return topic("claim-lifecycle.carrier-approved"); }
+    // Primary lifecycle topics
+    @Bean public NewTopic claimUploadedTopic()        { return topic("claim-lifecycle.uploaded"); }
+    @Bean public NewTopic claimOcrCompletedTopic()    { return topic("claim-lifecycle.ocr-completed"); }
+    @Bean public NewTopic claimAiDoneTopic()          { return topic("claim-lifecycle.ai-done"); }
+    @Bean public NewTopic claimRuleEvaluatedTopic()   { return topic("claim-lifecycle.rule-evaluated"); }
+    @Bean public NewTopic claimAdminApprovedTopic()   { return topic("claim-lifecycle.admin-approved"); }
+    @Bean public NewTopic claimCarrierApprovedTopic() { return topic("claim-lifecycle.carrier-approved"); }
     @Bean public NewTopic claimPaymentInitiatedTopic(){ return topic("claim-lifecycle.payment-initiated"); }
     @Bean public NewTopic claimPaymentCompletedTopic(){ return topic("claim-lifecycle.payment-completed"); }
-    @Bean public NewTopic claimRejectedTopic()       { return topic("claim-lifecycle.rejected"); }
+    @Bean public NewTopic claimRejectedTopic()        { return topic("claim-lifecycle.rejected"); }
 
-    // DLQ topics
-    @Bean public NewTopic claimUploadedDlqTopic()    { return topic("claim-lifecycle.uploaded-dlq"); }
+    // DLQ topics — all lifecycle topics get a DLQ companion
+    @Bean public NewTopic claimUploadedDlqTopic()        { return topic("claim-lifecycle.uploaded-dlq"); }
+    @Bean public NewTopic claimOcrCompletedDlqTopic()    { return topic("claim-lifecycle.ocr-completed-dlq"); }
+    @Bean public NewTopic claimAiDoneDlqTopic()          { return topic("claim-lifecycle.ai-done-dlq"); }
+    @Bean public NewTopic claimRuleEvaluatedDlqTopic()   { return topic("claim-lifecycle.rule-evaluated-dlq"); }
+    @Bean public NewTopic claimAdminApprovedDlqTopic()   { return topic("claim-lifecycle.admin-approved-dlq"); }
+    @Bean public NewTopic claimCarrierApprovedDlqTopic() { return topic("claim-lifecycle.carrier-approved-dlq"); }
+    @Bean public NewTopic claimPaymentInitiatedDlqTopic(){ return topic("claim-lifecycle.payment-initiated-dlq"); }
+    @Bean public NewTopic claimPaymentCompletedDlqTopic(){ return topic("claim-lifecycle.payment-completed-dlq"); }
+    @Bean public NewTopic claimRejectedDlqTopic()        { return topic("claim-lifecycle.rejected-dlq"); }
+
+    // Supporting topics
     @Bean public NewTopic claimNotificationsTopic()  { return topic("claim-notifications"); }
     @Bean public NewTopic claimCreatedTopic()        { return topic("claim-created"); }
+    @Bean public NewTopic slaEscalationTopic()       { return topic("claim-lifecycle.sla-escalated"); }
+    @Bean public NewTopic fraudAlertTopic()          { return topic("claim-lifecycle.fraud-alert"); }
 
     private NewTopic topic(String name) {
         return TopicBuilder.name(name)

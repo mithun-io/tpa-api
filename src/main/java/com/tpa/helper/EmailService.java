@@ -184,6 +184,27 @@ public class EmailService {
         }
     }
 
+    /**
+     * Generic email sender for system alerts (SLA escalations, assignments, etc.)
+     * Wraps plain text in a minimal HTML envelope.
+     */
+    @Async("taskExecutor")
+    public void sendSimpleEmail(String to, String subject, String bodyText) {
+        try {
+            String htmlBody = "<html><body style='font-family: Arial, sans-serif; color: #333;'>"
+                    + "<div style='max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 5px;'>"
+                    + "<h2 style='color: #0056b3;'>TPA Claim System — System Alert</h2>"
+                    + "<div style='background: #f8f9fa; padding: 14px; border-left: 4px solid #0056b3; border-radius: 3px;'>"
+                    + "<p style='margin: 0; white-space: pre-wrap;'>" + bodyText + "</p>"
+                    + "</div>"
+                    + "<br/><p style='font-size: 12px; color: #888;'>This is an automated system alert. Do not reply to this email.</p>"
+                    + "</div></body></html>";
+            sendEmail(to, subject, htmlBody);
+        } catch (Exception e) {
+            log.error("Failed to send simple email to {}: {}", to, e.getMessage());
+        }
+    }
+
     private void sendEmail(String to, String subject, String htmlContent) throws Exception {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);

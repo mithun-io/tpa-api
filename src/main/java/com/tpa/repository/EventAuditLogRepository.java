@@ -14,4 +14,9 @@ public interface EventAuditLogRepository extends JpaRepository<EventAuditLog, Lo
     List<EventAuditLog> findByClaimIdOrderByReceivedAtDesc(Long claimId);
     List<EventAuditLog> findByProcessedFalseOrderByReceivedAtAsc();
     List<EventAuditLog> findByStageOrderByReceivedAtDesc(String stage);
+
+    // Kafka Monitor metrics
+    long countByProcessedTrue();
+    long countByProcessedFalse();
+    long countByStage(String stage);
 }

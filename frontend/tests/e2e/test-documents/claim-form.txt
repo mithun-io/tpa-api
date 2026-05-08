@@ -1,0 +1,75 @@
+╔══════════════════════════════════════════════════════════════════╗
+║        FMG ClaimSys — INSURANCE CLAIM FORM                      ║
+║        Form Ref: CLM/2024/TEST/001   Date: 8/5/2026        ║
+╚══════════════════════════════════════════════════════════════════╝
+
+SECTION A: POLICYHOLDER DETAILS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Policy Number       : STAR/2024/IND/001234
+Policyholder Name   : Rajesh Kumar Sharma
+Date of Birth       : 15-08-1979
+Mobile Number       : 9876543210
+Email Address       : rajesh.sharma@email.com
+Address             : 45, 2nd Cross, Jayanagar
+                      Bangalore - 560041, Karnataka
+
+SECTION B: PATIENT DETAILS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Patient Name        : Rajesh Kumar Sharma
+Relationship        : Self
+Age / Gender        : 45 Years / Male
+
+SECTION C: HOSPITALIZATION DETAILS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Hospital Name       : City General Hospital
+Hospital Address    : 123 Medical Avenue, Bangalore - 560001
+Hospital Reg No     : KAR/HOSP/2015/4521
+Admission Date      : 15-03-2024
+Discharge Date      : 22-03-2024
+Total Days          : 7 Days
+Type of Admission   : Emergency → Planned
+
+SECTION D: DIAGNOSIS & TREATMENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Primary Diagnosis   : Essential (Primary) Hypertension
+ICD-10 Code         : I10
+Secondary Diagnosis : Type 2 Diabetes Mellitus (E11.9)
+Treating Doctor     : Dr. Priya Nair, MD (DM Cardiology)
+Doctor Reg No       : KMC/DOC/2010/CR2345
+
+SECTION E: CLAIM AMOUNT DETAILS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Total Hospital Bill : ₹ 92,500.00
+Deductible Amount   : ₹      0.00
+Claimed Amount      : ₹ 92,500.00
+Bill Number         : CGH/BILL/2024/12456
+Bill Date           : 22-03-2024
+
+SECTION F: BANK DETAILS (Reimbursement)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Account Holder      : Rajesh Kumar Sharma
+Bank Name           : State Bank of India
+Branch              : Jayanagar, Bangalore
+Account Number      : XXXX XXXX 4521
+IFSC Code           : SBIN0010234
+
+SECTION G: DOCUMENTS ATTACHED
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[✓] Original Hospital Bill
+[✓] Discharge Summary
+[✓] Doctor Prescriptions
+[✓] Lab Reports
+[✓] Pre-Authorization Letter
+[ ] Previous Policy Documents (Not Applicable)
+
+DECLARATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+I hereby declare that all information provided is true and correct.
+
+Signature: ___________________     Date: 22-03-2024
+Name: Rajesh Kumar Sharma
+
+FOR OFFICE USE ONLY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Received By: _______________   Date: __________
+Claim ID   : _______________   Status: PENDING

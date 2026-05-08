@@ -327,4 +327,4 @@ The system must behave like a REAL QA ENGINE before production deployment.
 
 Quick Tip:
 Whenever you register a customer or carrier for email try to use temp mail from any browser, type temp mail and use that so that you'll get the OTP
-and whenever the customer creates a claim for uploading documents also creat by yourself a realistic hand written form
+and whenever the customer creates a claim for uploading documents also create by yourself a realistic hand-written form and validate.
