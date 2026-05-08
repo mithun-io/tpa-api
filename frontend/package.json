@@ -19,14 +19,18 @@
     "test:e2e:generate-report": "node tests/e2e/generate-report.js"
   },
   "dependencies": {
+    "@stomp/stompjs": "^7.3.0",
+    "@tanstack/react-query": "^5.100.9",
     "axios": "^1.6.8",
+    "framer-motion": "^12.38.0",
     "lucide-react": "^0.368.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
     "react-pdf": "^10.4.1",
     "react-router-dom": "^6.22.3",
-    "recharts": "^3.8.1"
+    "recharts": "^3.8.1",
+    "sockjs-client": "^1.6.1"
   },
   "devDependencies": {
     "@playwright/test": "^1.59.1",

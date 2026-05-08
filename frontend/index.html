@@ -7,6 +7,7 @@
     <title>TPA Insurance Claim System</title>
     <script src="https://checkout.razorpay.com/v1/checkout.js" async defer></script>
     <script>
+      window.global = window;
       window.onerror = function(message, source, lineno, colno, error) {
         document.body.innerHTML += '<div style="color:red; background:white; padding:20px; z-index:9999; position:absolute; top:0; left:0; width:100%; border-bottom: 5px solid red;"><h1>JS Error</h1><p>' + message + '</p><pre>' + (error ? error.stack : '') + '</pre></div>';
       };

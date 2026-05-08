@@ -57,10 +57,10 @@ export default defineConfig({
    * Auto-start Vite dev server when running live tests.
    * Comment out if running against a pre-built docker container.
    */
-  // webServer: {
-  //   command: 'npm run dev',
-  //   url: 'http://localhost:3000',
-  //   reuseExistingServer: !process.env.CI,
-  //   timeout: 60_000,
-  // },
+  webServer: {
+    command: 'npm run dev',
+    url: 'http://localhost:3000',
+    reuseExistingServer: !process.env.CI,
+    timeout: 60_000,
+  },
 });
