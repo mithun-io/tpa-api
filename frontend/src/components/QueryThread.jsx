@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
+import axiosInstance from '../api/axios';
 import { Send, User, Building2, MessageSquare } from 'lucide-react';
 
 const QueryThread = ({ claimId, currentUser, isCarrier }) => {
@@ -22,8 +22,8 @@ const QueryThread = ({ claimId, currentUser, isCarrier }) => {
 
   const fetchMessages = async () => {
     try {
-      const response = await axios.get(`/api/v1/queries/${claimId}`);
-      setMessages(response.data);
+      const response = await axiosInstance.get(`/queries/${claimId}`);
+      setMessages(response.data?.data || response.data || []);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching queries", error);
@@ -35,7 +35,7 @@ const QueryThread = ({ claimId, currentUser, isCarrier }) => {
     if (!newMessage.trim()) return;
 
     try {
-      await axios.post(`/api/v1/queries/${claimId}?username=${currentUser}&isCarrier=${isCarrier}`, {
+      await axiosInstance.post(`/queries/${claimId}?username=${currentUser}&isCarrier=${isCarrier}`, {
         message: newMessage
       });
       setNewMessage('');

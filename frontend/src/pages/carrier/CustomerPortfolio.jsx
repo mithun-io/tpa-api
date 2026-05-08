@@ -7,16 +7,20 @@ import { PieChart, Pie, Cell, Tooltip as RechartsTooltip, ResponsiveContainer, B
 const CustomerPortfolio = () => {
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    // Fetch all carrier claims to aggregate customer portfolio view
-    axiosInstance.get('/carrier/claims?size=500')
+  const loadPortfolio = () => {
+    setLoading(true);
+    setError(null);
+    // ApiResponse<List<CarrierClaimDetailResponse>> → response.data.data
+    axiosInstance.get('/carrier/claims')
       .then(res => {
-        const claims = res.data?.content || res.data || [];
-        
+        const claims = res.data?.data || [];
+
         // Group claims by patient name to build a CRM profile
-        const customerMap = claims.reduce((acc, c) => {
-          const name = c.patientName || 'Unknown Insured';
+        const customerMap = (Array.isArray(claims) ? claims : []).reduce((acc, c) => {
+          // Correct field: c.patient.name (not c.patientName)
+          const name = c.patient?.name || 'Unknown Insured';
           if (!acc[name]) {
             acc[name] = {
               name,
@@ -30,9 +34,10 @@ const CustomerPortfolio = () => {
           }
           acc[name].totalClaims++;
           acc[name].totalClaimedAmount += (c.amount || 0);
-          acc[name].totalRiskScore += (c.aiFraudScore || 0);
-          acc[name].policies.add(c.policyNumber);
-          if (new Date(c.createdDate) > new Date(acc[name].latestActivity)) {
+          // Correct field: c.fraud.riskScore (not c.aiFraudScore)
+          acc[name].totalRiskScore += (c.fraud?.riskScore ?? 0);
+          if (c.policyNumber) acc[name].policies.add(c.policyNumber);
+          if (c.createdDate && new Date(c.createdDate) > new Date(acc[name].latestActivity)) {
             acc[name].latestActivity = c.createdDate;
           }
           return acc;
@@ -40,20 +45,33 @@ const CustomerPortfolio = () => {
 
         const portfolio = Object.values(customerMap).map(c => ({
           ...c,
-          avgRiskScore: Math.floor(c.totalRiskScore / c.totalClaims),
+          avgRiskScore: c.totalClaims > 0 ? Math.floor(c.totalRiskScore / c.totalClaims) : 0,
           policiesCount: c.policies.size,
-          // Segment logic based on claims frequency and risk
-          segment: c.totalClaims > 3 ? 'High Frequency' : (c.avgRiskScore > 50 ? 'High Risk' : 'Standard'),
-          ltv: c.totalClaimedAmount // Simplified LTV metric for demo
+          // Segment: high frequency = >3 claims, high risk = avg risk score >50, else standard
+          segment: c.totalClaims > 3 ? 'High Frequency' : (Math.floor(c.totalRiskScore / c.totalClaims) > 50 ? 'High Risk' : 'Standard'),
+          ltv: c.totalClaimedAmount
         }));
-        
+
         setCustomers(portfolio.sort((a, b) => b.ltv - a.ltv));
         setLoading(false);
       })
-      .catch(console.error);
-  }, []);
+      .catch(err => {
+        console.error('CustomerPortfolio fetch error:', err);
+        setError('Failed to load customer portfolio data.');
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => { loadPortfolio(); }, []);
 
   if (loading) return <Loader fullScreen />;
+  if (error) return (
+    <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-10 text-center max-w-lg mx-auto mt-10">
+      <h2 className="text-xl font-bold text-slate-100 mb-2">Failed to Load</h2>
+      <p className="text-slate-400 text-sm mb-6">{error}</p>
+      <button onClick={loadPortfolio} className="px-5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-lg text-sm font-medium">Retry</button>
+    </div>
+  );
 
   // Analytics derivations
   const highRiskCustomers = customers.filter(c => c.segment === 'High Risk').length;

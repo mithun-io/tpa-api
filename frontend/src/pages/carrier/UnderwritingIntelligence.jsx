@@ -8,26 +8,42 @@ const UnderwritingIntelligence = () => {
   const [claims, setClaims] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const [error, setError] = useState(null);
+
   useEffect(() => {
     // Fetch carrier specific claims for underwriting analysis
-    axiosInstance.get('/carrier/claims?size=200')
+    // ApiResponse<List<CarrierClaimDetailResponse>> → response.data.data
+    axiosInstance.get('/carrier/claims')
       .then(res => {
-        setClaims(res.data?.content || res.data || []);
+        const data = res.data?.data || [];
+        setClaims(Array.isArray(data) ? data : []);
         setLoading(false);
       })
-      .catch(console.error);
+      .catch(err => {
+        console.error('UnderwritingIntelligence fetch error:', err);
+        setError('Failed to load claims data.');
+        setLoading(false);
+      });
   }, []);
 
   if (loading) return <Loader fullScreen />;
+  if (error) return (
+    <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-10 text-center max-w-lg mx-auto mt-10">
+      <h2 className="text-xl font-bold text-slate-100 mb-2">Failed to Load</h2>
+      <p className="text-slate-400 text-sm">{error}</p>
+    </div>
+  );
 
   // 1. Policy-wise risk scoring
   const policyRiskData = claims.reduce((acc, c) => {
-    const p = c.policyNumber.substring(0, 5) + '***';
+    // Guard: policyNumber may be null
+    const pn = c.policyNumber || 'UNKNOWN';
+    const p = pn.length > 5 ? pn.substring(0, 5) + '***' : pn;
     if (!acc[p]) acc[p] = { policy: p, claimCount: 0, totalAmount: 0, riskScore: 0 };
     acc[p].claimCount++;
     acc[p].totalAmount += (c.amount || 0);
-    // Simple mock risk score formula based on frequency and AI scores
-    acc[p].riskScore += (c.aiFraudScore || 10); 
+    // Use fraud.riskScore if available, fallback to 10
+    acc[p].riskScore += (c.fraud?.riskScore ?? 10);
     return acc;
   }, {});
   
@@ -41,7 +57,8 @@ const UnderwritingIntelligence = () => {
     const h = c.hospitalName || 'Unknown';
     if (!acc[h]) acc[h] = { hospital: h, claims: 0, avgRisk: 0, totalRisk: 0 };
     acc[h].claims++;
-    acc[h].totalRisk += (c.aiFraudScore || 0);
+    // Use fraud.riskScore (0-100) if available
+    acc[h].totalRisk += (c.fraud?.riskScore ?? 0);
     return acc;
   }, {});
 

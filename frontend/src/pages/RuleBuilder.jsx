@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosInstance from '../api/axios';
 import { 
   Settings2, 
   Save, 
@@ -21,7 +21,7 @@ const RuleBuilder = () => {
 
   const fetchConfigs = async () => {
     try {
-      const response = await axios.get('/api/v1/rules/config');
+      const response = await axiosInstance.get('/rules/config');
       setConfigs(response.data);
     } catch (error) {
       // Mock data if endpoint doesn't exist yet

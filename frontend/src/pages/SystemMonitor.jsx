@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosInstance from '../api/axios';
 import { 
   Activity, Server, Database, AlertTriangle, 
   RefreshCcw, CheckCircle, Clock, Zap
@@ -14,8 +14,8 @@ const SystemMonitor = () => {
     setLoading(true);
     try {
       const [healthRes, topicsRes] = await Promise.all([
-        axios.get('/api/v1/admin/kafka/health'),
-        axios.get('/api/v1/admin/kafka/topics')
+        axiosInstance.get('/admin/kafka/health'),
+        axiosInstance.get('/admin/kafka/topics')
       ]);
       setHealth(healthRes.data);
       setTopics(topicsRes.data);
