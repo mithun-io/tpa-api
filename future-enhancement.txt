@@ -328,3 +328,183 @@ The system must behave like a REAL QA ENGINE before production deployment.
 Quick Tip:
 Whenever you register a customer or carrier for email try to use temp mail from any browser, type temp mail and use that so that you'll get the OTP
 and whenever the customer creates a claim for uploading documents also create by yourself a realistic hand-written form and validate.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+You are a Senior Frontend Architect responsible for upgrading an existing Insurance TPA platform UI into a fully enterprise-grade, multi-module dashboard system.
+
+The backend already contains advanced features (AI fraud detection, BRMS, Kafka events, audit logs, analytics, multi-tenancy). However, the current UI is not exposing these capabilities.
+
+Your task is to redesign and expand the frontend portals (Customer, Admin, Carrier) by introducing a complete tab-based modular navigation system without breaking existing functionality.
+
+🎯 CORE OBJECTIVE
+
+Transform each portal into a feature-rich enterprise dashboard with dedicated tabs, panels, and workflows that fully expose backend capabilities.
+
+No backend changes required. Only UI + API integration + routing + state management.
+
+🧑‍💼 1. CUSTOMER PORTAL (NEW UI STRUCTURE)
+
+Create a modern sidebar + tab system with the following modules:
+
+📄 Dashboard
+Claim summary cards (Submitted / In Progress / Approved / Rejected)
+Recent activity timeline
+Real-time status updates (WebSocket)
+
+📤 Upload Claim
+Multi-file upload (PDF, Images)
+Drag & drop UI
+AI pre-validation status panel (live feedback)
+Document checklist validation
+
+📊 Claim Tracker
+Uber-style timeline view:
+Submitted → AI Validated → Under Review → Approved → Paid
+Step-wise status animation
+
+🧠 AI Insights
+Fraud risk score display
+Missing document detection
+Policy eligibility check results
+
+💬 Notifications Center
+Real-time updates for claim status
+Alerts for rejection / approval / extra document requests
+
+👤 Profile & Policy Info
+Active policies
+Coverage details
+Claim history
+🏢 2. ADMIN PORTAL (TPA OPERATIONAL CONSOLE)
+
+Redesign into a multi-tab enterprise control system:
+
+📊 Admin Dashboard
+Total claims processed
+Pending / Approved / Rejected metrics
+SLA breach counters
+System health overview
+
+📥 Claim Workbasket (NEW CORE TAB)
+Intelligent queue (auto-routed claims)
+Filters: high value, fraud risk, aging claims
+Assign / reassign claims
+
+🤖 AI Validation Panel
+View AI fraud results
+Medical inconsistency flags
+OCR confidence scores
+Override AI decisions
+
+📜 Rule Engine (BRMS UI)
+Visual rule builder interface
+Enable / disable rules
+Rule priority management
+Rule execution history
+Test rule sandbox (simulate claim input)
+
+🏥 Medical Vault (ICD-10)
+Searchable ICD-10 database
+Diagnosis vs procedure mapping
+Upcoding detection results
+
+📦 OCR Correction Queue
+Low-confidence document correction UI
+Side-by-side original vs extracted text
+Manual edit + reprocess button
+
+🔔 SLA & Escalation Panel
+Claims nearing breach deadlines
+Auto-escalation tracking
+Red-zone alerts dashboard
+
+📊 Analytics & Reports
+Claim leakage visualization
+Fraud detection stats
+Agent performance leaderboard
+Processing time analytics
+
+📜 Audit Trail Viewer
+Full claim lifecycle timeline
+Who changed what and when
+Immutable audit log viewer
+⚙ System Monitoring
+Kafka queue status
+Background job monitoring
+API health metrics
+
+🏦 3. CARRIER PORTAL (INSURANCE COMPANY VIEW)
+
+Build a business intelligence focused UI:
+
+📊 Carrier Dashboard
+Total payouts
+Savings from fraud detection
+Loss ratio analytics
+Claim volume trends
+
+💰 Financial Insights
+Claim leakage report
+Monthly payout summary
+Cost per hospital analysis
+
+🏥 Hospital Analytics
+Hospital ranking system
+High rejection rate hospitals
+Fraud-prone providers
+
+⚡ SLA Tracker
+Real-time claim processing speed
+SLA breach visualization
+Performance vs contract compliance
+
+📦 Bulk Claim Approval
+Approve multiple claims at once
+AI pre-approved batch processing
+
+🧠 Fraud Intelligence Panel
+Geographic fraud heatmap
+Suspicious claim clusters
+Risk scoring trends
+
+📑 Policy Performance Dashboard
+Which policies generate highest claims
+Loss ratio per policy type
+
+📤 Reinsurance Export Center
+Export structured datasets for partners
+Download financial compliance reports
+
+💬 Carrier Query System
+Raise queries against claims
+Chat with TPA admins
+
+⚙ ARCHITECTURAL REQUIREMENTS
+Use a role-based dynamic sidebar system
+Each module must be lazy-loaded
+Use React Query or equivalent caching
+Use real-time WebSocket updates
+Maintain multi-tenant UI isolation
+Implement route guards (RBAC)
+Ensure all tabs are connected to backend APIs
+Add loading skeletons and error states
+Make UI fully responsive (desktop-first, mobile compatible)
+
+🎨 UI/UX REQUIREMENTS
+Enterprise dashboard style (like banking/insurance systems)
+Sidebar navigation with collapsible sections
+Tab grouping per feature domain
+Consistent design system
+Dark/light mode support
+Data-heavy tables with filters, pagination, export
+Charts for analytics (bar, line, heatmaps)
+
+🔥 FINAL GOAL
+
+After implementation:
+
+✔ Every backend feature MUST have a visible UI entry point
+✔ No “hidden functionality”
+✔ Every role sees a fully different dashboard experience
+✔ System feels like a real enterprise insurance platform (not a basic CRUD app)
