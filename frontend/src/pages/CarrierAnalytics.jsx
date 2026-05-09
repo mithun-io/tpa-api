@@ -19,11 +19,13 @@ import { useLocation } from 'react-router-dom';
 
 // ── Page-title mapping based on route ────────────────────────────────────────
 const ROUTE_TITLES = {
-  '/carrier/hospital-analytics': 'Hospital Analytics',
-  '/carrier/sla-tracker':        'Real-time SLA Tracker',
-  '/carrier/policy-performance': 'Policy Performance',
-  '/carrier/export-center':      'Reinsurance Export Center',
-  '/carrier/leakage':            'Claim Leakage & Savings',
+  '/carrier/hospital-analytics':  'Hospital Analytics',
+  '/carrier/sla-tracker':         'Real-time SLA Tracker',
+  '/carrier/policy-performance':  'Policy Heatmap',
+  '/carrier/export-center':       'Reinsurance Export Center',
+  '/carrier/leakage':             'Claim Leakage & Savings',
+  '/carrier/financial-insights':  'Financial Analytics',
+  '/carrier/loss-ratio':          'Loss Ratio Forecasting',
 };
 
 const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444'];
@@ -47,10 +49,10 @@ const CarrierAnalytics = () => {
     setError(null);
     try {
       const [anaRes, leakRes, hospRes, slaRes] = await Promise.allSettled([
-        axiosInstance.get('/analytics/dashboard'),
-        axiosInstance.get('/analytics/leakage'),
-        axiosInstance.get('/analytics/hospitals'),
-        axiosInstance.get('/analytics/sla/performance'),
+        axiosInstance.get('/analytics/dashboard',     { _suppressToast: true }),
+        axiosInstance.get('/analytics/leakage',        { _suppressToast: true }),
+        axiosInstance.get('/analytics/hospitals',      { _suppressToast: true }),
+        axiosInstance.get('/analytics/sla/performance',{ _suppressToast: true }),
       ]);
 
       if (anaRes.status  === 'fulfilled') setAnalytics(anaRes.value.data);

@@ -34,7 +34,7 @@ export default defineConfig({
   outputDir: '../artifacts/test-results',
 
   use: {
-    baseURL: process.env.APP_URL || 'http://localhost:3000',
+    baseURL: process.env.APP_URL || 'http://localhost:3001',
     headless: process.env.HEADED !== 'true',
     viewport: { width: 1280, height: 800 },
     ignoreHTTPSErrors: true,
@@ -58,8 +58,8 @@ export default defineConfig({
    * Comment out if running against a pre-built docker container.
    */
   webServer: {
-    command: 'npm run dev',
-    url: 'http://localhost:3000',
+    command: 'npm run dev -- --port 3001',
+    url: 'http://localhost:3001',
     reuseExistingServer: !process.env.CI,
     timeout: 60_000,
   },

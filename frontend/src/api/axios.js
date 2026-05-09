@@ -73,7 +73,9 @@ axiosInstance.interceptors.response.use(
     // Global error handler
     const errorMessage = error.response?.data?.message || 'An error occurred. Please try again.';
     // Don't toast if it's just a 401, as we handled it above
-    if (error.response?.status !== 401) {
+    // Don't toast if the caller opted out via _suppressToast config flag
+    const suppressToast = error.config?._suppressToast === true;
+    if (error.response?.status !== 401 && !suppressToast) {
       toast.error(errorMessage);
     }
     

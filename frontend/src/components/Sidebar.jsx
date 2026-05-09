@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import {
-  LayoutDashboard, FileText, UploadCloud,
-  ShieldCheck, LogOut, ChevronRight, ChevronDown, BarChart3, User, Truck, ShieldAlert,
-  Activity, Bell, BookOpen, Settings, Users, Server, Database, Stethoscope, Search, Layers, Briefcase, FileSearch, Zap, TrendingDown
+  LayoutDashboard, FileText, UploadCloud, ShieldCheck, LogOut, ChevronRight, ChevronDown, 
+  BarChart3, User, Truck, ShieldAlert, Activity, Bell, BookOpen, Settings, Users, Server, 
+  Database, Stethoscope, Search, Layers, Briefcase, FileSearch, Zap, TrendingDown, 
+  HeartPulse, FolderDown, Share2, AlertOctagon, Heart, Map, Clock, Network, DollarSign
 } from 'lucide-react';
 
 const SidebarItem = ({ item, isActive, location }) => {
@@ -81,49 +82,80 @@ const Sidebar = () => {
   const isCustomer = user?.userRole === 'CUSTOMER';
 
   const customerItems = [
-    { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
-    { name: 'Coverage & Benefits', path: '/customer/coverage', icon: ShieldCheck },
-    { name: 'Journey Tracker', path: '/claims/tracker', icon: Activity },
+    { name: 'Smart Dashboard', path: '/dashboard', icon: LayoutDashboard },
     { name: 'Upload Claim', path: '/claims/upload', icon: UploadCloud },
+    { name: 'Claim Journey Tracker', path: '/claims/tracker', icon: Activity },
     { name: 'AI Claim Assistant', path: '/claims/ai-insights', icon: ShieldCheck },
-    { name: 'Reimbursement Center', path: '/customer/reimbursement', icon: Database },
-    { name: 'Hospital Explorer', path: '/customer/hospitals', icon: Stethoscope },
-    { name: 'Notifications', path: '/notifications', icon: Bell },
-    { name: 'Profile', path: '/profile', icon: User }
+    { name: 'Insurance Plans & Benefits', path: '/customer/coverage', icon: BookOpen },
+    { name: 'Coverage Utilization', path: '/customer/utilization', icon: BarChart3 },
+    { name: 'Hospital Network Explorer', path: '/customer/hospitals', icon: Stethoscope },
+    { name: 'Reimbursement Wallet', path: '/customer/reimbursement', icon: Database },
+    { name: 'Notifications Center', path: '/notifications', icon: Bell },
+    { name: 'Health Policy Documents', path: '/customer/documents', icon: FileText },
+    { name: 'Claim Timeline', path: '/customer/timeline', icon: Clock },
+    { name: 'Wellness Benefits', path: '/customer/wellness', icon: HeartPulse },
+    { name: 'Family Coverage Manager', path: '/customer/family', icon: Users },
+    { name: 'Download Center', path: '/customer/downloads', icon: FolderDown }
   ];
 
   const adminItems = [
-    { name: 'Operational Cockpit', path: '/admin', icon: LayoutDashboard, admin: true },
     { name: 'Intelligent Workbasket', path: '/admin/workbasket', icon: Briefcase, admin: true },
-    { name: 'SLA Breach Alerts', path: '/admin/sla-alerts', icon: Activity, admin: true },
+    { name: 'SLA Escalation Center', path: '/admin/sla-escalation', icon: AlertOctagon, admin: true },
     { name: 'Visual Rule Builder', path: '/admin/rules', icon: Layers, admin: true },
-    { name: 'Agent Metrics', path: '/admin/agent-metrics', icon: Users, admin: true },
     { name: 'OCR Correction Queue', path: '/admin/ocr-queue', icon: FileSearch, admin: true },
     { name: 'Medical Vault', path: '/admin/medical-vault', icon: Stethoscope, admin: true },
     { name: 'Blacklist Manager', path: '/admin/blacklist', icon: ShieldAlert, admin: true },
-    { name: 'Full Claim Lineage', path: '/admin/audit-trail', icon: Search, admin: true },
-    { name: 'Kafka Monitor', path: '/admin/kafka-monitor', icon: Server, admin: true },
-    { name: 'Template Designer', path: '/admin/template-designer', icon: FileText, admin: true },
-    { name: 'System Intelligence', path: '/admin/intelligence', icon: Zap, admin: true },
-    { name: 'Compliance Center', path: '/admin/compliance', icon: ShieldCheck, admin: true },
-    { name: 'Settings', path: '/admin/settings', icon: Settings, admin: true }
+    { name: 'Audit Trail Viewer', path: '/admin/audit-trail', icon: Search, admin: true },
+    { name: 'Kafka Pipeline Monitor', path: '/admin/kafka-monitor', icon: Server, admin: true },
+    { name: 'Agent Productivity Analytics', path: '/admin/agent-metrics', icon: Users, admin: true },
+    { name: 'AI Validation Center', path: '/admin/ai-validation', icon: Zap, admin: true },
+    { name: 'Claim Lineage Viewer', path: '/admin/claim-lineage', icon: Network, admin: true },
+    { name: 'System Monitoring', path: '/admin/system-monitor', icon: Activity, admin: true },
+    { name: 'PDF Template Designer', path: '/admin/template-designer', icon: FileText, admin: true },
+    { name: 'Fraud Investigation Hub', path: '/admin/fraud-investigation', icon: ShieldAlert, admin: true }
   ];
 
   const carrierItems = [
-    { name: 'Strategic Hub', path: '/carrier', icon: LayoutDashboard },
-    { name: 'Leakage & Savings', path: '/carrier/leakage', icon: BarChart3 },
-    { name: 'Hospital Analytics', path: '/carrier/hospital-analytics', icon: Stethoscope },
-    { name: 'Real-time SLA Tracker', path: '/carrier/sla-tracker', icon: Activity },
-    { name: 'Bulk Settlement Portal', path: '/carrier/bulk-approvals', icon: Briefcase },
-    { name: 'Policy Heatmap', path: '/carrier/policy-performance', icon: BookOpen },
-    { name: 'Direct Query Management', path: '/carrier/query-center', icon: Search },
-    { name: 'Loss Ratio Forecasting', path: '/carrier/loss-ratio', icon: TrendingDown },
-    { name: 'PPN Configuration', path: '/carrier/ppn-config', icon: Truck },
-    { name: 'Fraud Visualization', path: '/carrier/fraud-dashboard', icon: ShieldAlert },
-    { name: 'Reinsurance Export', path: '/carrier/export-center', icon: Database },
-    { name: 'Underwriting Hub', path: '/carrier/underwriting', icon: ShieldCheck },
-    { name: 'Customer Portfolio', path: '/carrier/portfolio', icon: Users },
-    { name: 'Settings', path: '/carrier/settings', icon: Settings }
+    { name: 'Carrier Dashboard', path: '/carrier', icon: LayoutDashboard },
+    {
+      name: 'Operations', icon: Activity,
+      children: [
+        { name: 'Operations Command Center', path: '/carrier/operations' },
+        { name: 'SLA Mission Control', path: '/carrier/sla-tracker' },
+        { name: 'Bulk Settlement', path: '/carrier/bulk-approvals' },
+        { name: 'Query Management', path: '/carrier/query-center' }
+      ]
+    },
+    {
+      name: 'Financial Intelligence', icon: DollarSign,
+      children: [
+        { name: 'Financial Analysis', path: '/carrier/financial-insights' },
+        { name: 'Loss Ratio Forecasting', path: '/carrier/loss-ratio' },
+        { name: 'Fraud Savings Ledger', path: '/carrier/fraud-dashboard' }
+      ]
+    },
+    {
+      name: 'Insurance Products', icon: BookOpen,
+      children: [
+        { name: 'Policy Heatmap', path: '/carrier/policy-performance' },
+        { name: 'Insurance Plans', path: '/carrier/insurance-plans' },
+        { name: 'Product Utilization', path: '/carrier/product-utilization' }
+      ]
+    },
+    {
+      name: 'Provider Network', icon: Map,
+      children: [
+        { name: 'PPN Configuration', path: '/carrier/ppn-config' },
+        { name: 'Fraud Heatmaps', path: '/carrier/fraud-heatmaps' }
+      ]
+    },
+    {
+      name: 'Exports & Compliance', icon: ShieldCheck,
+      children: [
+        { name: 'Reinsurance Export', path: '/carrier/export-center' },
+        { name: 'Compliance Reports', path: '/carrier/compliance' }
+      ]
+    }
   ];
 
   let navItems = [];

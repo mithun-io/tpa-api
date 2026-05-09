@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axiosInstance from '../../api/axios';
 import Loader from '../../components/Loader';
-import { Users, UserMinus, ShieldCheck, Activity, Award } from 'lucide-react';
+import { Users, UserMinus, ShieldCheck, Activity, Award, PieChart as PieChartIcon } from 'lucide-react';
 import { PieChart, Pie, Cell, Tooltip as RechartsTooltip, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
 
 const CustomerPortfolio = () => {
