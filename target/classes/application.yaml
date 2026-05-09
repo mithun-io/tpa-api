@@ -1,0 +1,9 @@
+spring:
+  config:
+    import: optional:file:.env[.properties]
+  profiles:
+    active: "dev"
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB

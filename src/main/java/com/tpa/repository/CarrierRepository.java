@@ -1,6 +1,7 @@
 package com.tpa.repository;
 
 import com.tpa.entity.Carrier;
+import com.tpa.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -18,4 +19,6 @@ public interface CarrierRepository extends JpaRepository<Carrier, Long> {
     Optional<Carrier> findByUser_Id(Long userId);
 
     boolean existsByRegistrationNumber(String registrationNumber);
+
+    boolean existsByUser(User user);
 }

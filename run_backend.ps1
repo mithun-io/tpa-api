@@ -1,0 +1,26 @@
+$env:DATABASE_URL="jdbc:postgresql://localhost:5432/tpa"
+$env:DATABASE_USERNAME="postgres"
+$env:DATABASE_PASSWORD="postgres"
+$env:REDIS_URL="redis://localhost:6379"
+$env:REDIS_HOST="localhost"
+$env:REDIS_PORT="6379"
+$env:KAFKA_BOOTSTRAP_SERVERS="localhost:9092"
+$env:SPRING_KAFKA_BOOTSTRAP_SERVERS="localhost:9092"
+$env:JWT_SECRET="6DWahQs8j5csH6afe3ZDJdmejkkw7Op78d1fNRQFcQiEMxnhV5XdklgEe6sixK5Hr9IFvjgJDAGJCPGneYgqcA=="
+$env:JWT_EXPIRATION="3600000"
+$env:MAIL_HOST="smtp.gmail.com"
+$env:MAIL_PORT="587"
+$env:MAIL_USERNAME="mithunlogs@gmail.com"
+$env:MAIL_PASSWORD="ytavwtkgztzzjmnr"
+$env:OPENAI_API_KEY="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"
+$env:RAZORPAY_KEY="rzp_test_SBtja63fMZx3Fu"
+$env:RAZORPAY_SECRET="wbXx33gyvoV22sJZBJ2VSD7h"
+$env:ADMIN_NAME="mithun"
+$env:ADMIN_EMAIL="mithun-io@outlook.com"
+$env:ADMIN_MOBILE="8904608330"
+$env:ADMIN_PASSWORD="Qw3!@sPe:E1"
+$env:JAVA_HOME="C:\Users\mithun\.jdks\temurin-17.0.18"
+$env:PATH="$env:JAVA_HOME\bin;" + $env:PATH
+
+cd C:\Users\mithun\IdeaProjects\tpa
+& "C:\Users\mithun\Downloads\apache-maven-3.9.14\bin\mvn.cmd" spring-boot:run "-Dspring-boot.run.profiles=dev" > C:\Users\mithun\IdeaProjects\tpa\backend_native.log 2>&1

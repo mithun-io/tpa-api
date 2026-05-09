@@ -1,7 +1,7 @@
 {
   "config": {
-    "configFile": "C:\\Users\\MithunM\\IdeaProjects\\tpa\\frontend\\playwright.config.js",
-    "rootDir": "C:/Users/MithunM/IdeaProjects/tpa/frontend/tests/e2e",
+    "configFile": "C:\\Users\\mithun\\IdeaProjects\\tpa\\frontend\\playwright.config.js",
+    "rootDir": "C:/Users/mithun/IdeaProjects/tpa/frontend/tests/e2e",
     "forbidOnly": false,
     "fullyParallel": false,
     "globalSetup": null,
@@ -16,7 +16,7 @@
     "preserveOutput": "always",
     "projects": [
       {
-        "outputDir": "C:/Users/MithunM/IdeaProjects/tpa/artifacts/test-results",
+        "outputDir": "C:/Users/mithun/IdeaProjects/tpa/artifacts/test-results",
         "repeatEach": 1,
         "retries": 1,
         "metadata": {
@@ -24,7 +24,7 @@
         },
         "id": "live-backend",
         "name": "live-backend",
-        "testDir": "C:/Users/MithunM/IdeaProjects/tpa/frontend/tests/e2e",
+        "testDir": "C:/Users/mithun/IdeaProjects/tpa/frontend/tests/e2e",
         "testIgnore": [],
         "testMatch": [
           "**/*.spec.js"
@@ -62,25 +62,30 @@
     "updateSourceMethod": "patch",
     "version": "1.59.1",
     "workers": 1,
-    "webServer": null
+    "webServer": {
+      "command": "npm run dev -- --port 3001",
+      "url": "http://localhost:3001",
+      "reuseExistingServer": true,
+      "timeout": 60000
+    }
   },
   "suites": [
     {
-      "title": "admin.spec.js",
-      "file": "admin.spec.js",
+      "title": "carrier-live.spec.js",
+      "file": "carrier-live.spec.js",
       "column": 0,
       "line": 0,
       "specs": [],
       "suites": [
         {
-          "title": "Admin Workflows",
-          "file": "admin.spec.js",
-          "line": 20,
+          "title": "Carrier Portal Live Validation",
+          "file": "carrier-live.spec.js",
+          "line": 4,
           "column": 6,
           "specs": [
             {
-              "title": "TC-ADMIN-01: Admin Dashboard & Analytics Navigation",
-              "ok": true,
+              "title": "Full end-to-end carrier validation",
+              "ok": false,
               "tags": [],
               "tests": [
                 {
@@ -93,139 +98,126 @@
                     {
                       "workerIndex": 0,
                       "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 40975,
-                      "errors": [],
+                      "status": "failed",
+                      "duration": 29084,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('text=Strategic Hub').first()\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=Strategic Hub').first()\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('text=Strategic Hub').first()\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=Strategic Hub').first()\u001b[22m\n\n    at C:\\Users\\mithun\\IdeaProjects\\tpa\\frontend\\tests\\e2e\\carrier-live.spec.js:29:62",
+                        "location": {
+                          "file": "C:\\Users\\mithun\\IdeaProjects\\tpa\\frontend\\tests\\e2e\\carrier-live.spec.js",
+                          "column": 62,
+                          "line": 29
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 27 |\u001b[39m\n \u001b[90m 28 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForLoadState(\u001b[32m'networkidle'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 29 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'text=Strategic Hub'\u001b[39m)\u001b[33m.\u001b[39mfirst())\u001b[33m.\u001b[39mtoBeVisible({ timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 30 |\u001b[39m     \n \u001b[90m 31 |\u001b[39m     \u001b[36mconst\u001b[39m screenshotDir \u001b[33m=\u001b[39m \u001b[32m'C:\\\\Users\\\\mithun\\\\.gemini\\\\antigravity\\\\brain\\\\e695002e-bda3-4dd9-9445-6a5be867551b'\u001b[39m\u001b[33m;\u001b[39m\n \u001b[90m 32 |\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\mithun\\IdeaProjects\\tpa\\frontend\\tests\\e2e\\carrier-live.spec.js",
+                            "column": 62,
+                            "line": 29
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('text=Strategic Hub').first()\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=Strategic Hub').first()\u001b[22m\n\n\n  27 |\n  28 |     await page.waitForLoadState('networkidle');\n> 29 |     await expect(page.locator('text=Strategic Hub').first()).toBeVisible({ timeout: 20000 });\n     |                                                              ^\n  30 |     \n  31 |     const screenshotDir = 'C:\\\\Users\\\\mithun\\\\.gemini\\\\antigravity\\\\brain\\\\e695002e-bda3-4dd9-9445-6a5be867551b';\n  32 |\n    at C:\\Users\\mithun\\IdeaProjects\\tpa\\frontend\\tests\\e2e\\carrier-live.spec.js:29:62"
+                        }
+                      ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-05-08T06:22:51.723Z",
+                      "startTime": "2026-05-08T15:27:43.161Z",
                       "annotations": [],
                       "attachments": [
                         {
                           "name": "screenshot",
                           "contentType": "image/png",
-                          "path": "C:\\Users\\MithunM\\IdeaProjects\\tpa\\artifacts\\test-results\\admin-Admin-Workflows-TC-A-8f107-hboard-Analytics-Navigation-live-backend\\test-finished-1.png"
+                          "path": "C:\\Users\\mithun\\IdeaProjects\\tpa\\artifacts\\test-results\\carrier-live-Carrier-Porta-9ca0f-d-to-end-carrier-validation-live-backend\\test-failed-1.png"
                         },
                         {
                           "name": "video",
                           "contentType": "video/webm",
-                          "path": "C:\\Users\\MithunM\\IdeaProjects\\tpa\\artifacts\\test-results\\admin-Admin-Workflows-TC-A-8f107-hboard-Analytics-Navigation-live-backend\\video.webm"
+                          "path": "C:\\Users\\mithun\\IdeaProjects\\tpa\\artifacts\\test-results\\carrier-live-Carrier-Porta-9ca0f-d-to-end-carrier-validation-live-backend\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\mithun\\IdeaProjects\\tpa\\artifacts\\test-results\\carrier-live-Carrier-Porta-9ca0f-d-to-end-carrier-validation-live-backend\\error-context.md"
                         },
                         {
                           "name": "trace",
                           "contentType": "application/zip",
-                          "path": "C:\\Users\\MithunM\\IdeaProjects\\tpa\\artifacts\\test-results\\admin-Admin-Workflows-TC-A-8f107-hboard-Analytics-Navigation-live-backend\\trace.zip"
+                          "path": "C:\\Users\\mithun\\IdeaProjects\\tpa\\artifacts\\test-results\\carrier-live-Carrier-Porta-9ca0f-d-to-end-carrier-validation-live-backend\\trace.zip"
                         }
-                      ]
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "73482573f1568b679d78-6c6dc1e870c424d8ec8f",
-              "file": "admin.spec.js",
-              "line": 26,
-              "column": 3
-            },
-            {
-              "title": "TC-ADMIN-02: Rule Engine UI and Fraud Dashboard",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 45000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "live-backend",
-                  "projectName": "live-backend",
-                  "results": [
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\mithun\\IdeaProjects\\tpa\\frontend\\tests\\e2e\\carrier-live.spec.js",
+                        "column": 62,
+                        "line": 29
+                      }
+                    },
                     {
-                      "workerIndex": 0,
+                      "workerIndex": 1,
                       "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 14153,
-                      "errors": [],
+                      "status": "failed",
+                      "duration": 45430,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('text=Strategic Hub').first()\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=Strategic Hub').first()\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('text=Strategic Hub').first()\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=Strategic Hub').first()\u001b[22m\n\n    at C:\\Users\\mithun\\IdeaProjects\\tpa\\frontend\\tests\\e2e\\carrier-live.spec.js:29:62",
+                        "location": {
+                          "file": "C:\\Users\\mithun\\IdeaProjects\\tpa\\frontend\\tests\\e2e\\carrier-live.spec.js",
+                          "column": 62,
+                          "line": 29
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 27 |\u001b[39m\n \u001b[90m 28 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForLoadState(\u001b[32m'networkidle'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 29 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'text=Strategic Hub'\u001b[39m)\u001b[33m.\u001b[39mfirst())\u001b[33m.\u001b[39mtoBeVisible({ timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 30 |\u001b[39m     \n \u001b[90m 31 |\u001b[39m     \u001b[36mconst\u001b[39m screenshotDir \u001b[33m=\u001b[39m \u001b[32m'C:\\\\Users\\\\mithun\\\\.gemini\\\\antigravity\\\\brain\\\\e695002e-bda3-4dd9-9445-6a5be867551b'\u001b[39m\u001b[33m;\u001b[39m\n \u001b[90m 32 |\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\mithun\\IdeaProjects\\tpa\\frontend\\tests\\e2e\\carrier-live.spec.js",
+                            "column": 62,
+                            "line": 29
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('text=Strategic Hub').first()\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=Strategic Hub').first()\u001b[22m\n\n\n  27 |\n  28 |     await page.waitForLoadState('networkidle');\n> 29 |     await expect(page.locator('text=Strategic Hub').first()).toBeVisible({ timeout: 20000 });\n     |                                                              ^\n  30 |     \n  31 |     const screenshotDir = 'C:\\\\Users\\\\mithun\\\\.gemini\\\\antigravity\\\\brain\\\\e695002e-bda3-4dd9-9445-6a5be867551b';\n  32 |\n    at C:\\Users\\mithun\\IdeaProjects\\tpa\\frontend\\tests\\e2e\\carrier-live.spec.js:29:62"
+                        }
+                      ],
                       "stdout": [],
                       "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T06:23:32.981Z",
+                      "retry": 1,
+                      "startTime": "2026-05-08T15:28:17.046Z",
                       "annotations": [],
                       "attachments": [
                         {
                           "name": "screenshot",
                           "contentType": "image/png",
-                          "path": "C:\\Users\\MithunM\\IdeaProjects\\tpa\\artifacts\\test-results\\admin-Admin-Workflows-TC-A-2aed8-gine-UI-and-Fraud-Dashboard-live-backend\\test-finished-1.png"
+                          "path": "C:\\Users\\mithun\\IdeaProjects\\tpa\\artifacts\\test-results\\carrier-live-Carrier-Porta-9ca0f-d-to-end-carrier-validation-live-backend-retry1\\test-failed-1.png"
                         },
                         {
                           "name": "video",
                           "contentType": "video/webm",
-                          "path": "C:\\Users\\MithunM\\IdeaProjects\\tpa\\artifacts\\test-results\\admin-Admin-Workflows-TC-A-2aed8-gine-UI-and-Fraud-Dashboard-live-backend\\video.webm"
+                          "path": "C:\\Users\\mithun\\IdeaProjects\\tpa\\artifacts\\test-results\\carrier-live-Carrier-Porta-9ca0f-d-to-end-carrier-validation-live-backend-retry1\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\mithun\\IdeaProjects\\tpa\\artifacts\\test-results\\carrier-live-Carrier-Porta-9ca0f-d-to-end-carrier-validation-live-backend-retry1\\error-context.md"
                         },
                         {
                           "name": "trace",
                           "contentType": "application/zip",
-                          "path": "C:\\Users\\MithunM\\IdeaProjects\\tpa\\artifacts\\test-results\\admin-Admin-Workflows-TC-A-2aed8-gine-UI-and-Fraud-Dashboard-live-backend\\trace.zip"
+                          "path": "C:\\Users\\mithun\\IdeaProjects\\tpa\\artifacts\\test-results\\carrier-live-Carrier-Porta-9ca0f-d-to-end-carrier-validation-live-backend-retry1\\trace.zip"
                         }
-                      ]
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\mithun\\IdeaProjects\\tpa\\frontend\\tests\\e2e\\carrier-live.spec.js",
+                        "column": 62,
+                        "line": 29
+                      }
                     }
                   ],
-                  "status": "expected"
+                  "status": "unexpected"
                 }
               ],
-              "id": "73482573f1568b679d78-501129bf3beafddb9301",
-              "file": "admin.spec.js",
-              "line": 42,
-              "column": 3
-            },
-            {
-              "title": "TC-ADMIN-03: Carrier Management and SLA Tracking",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 45000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "live-backend",
-                  "projectName": "live-backend",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 8041,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T06:23:47.264Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "C:\\Users\\MithunM\\IdeaProjects\\tpa\\artifacts\\test-results\\admin-Admin-Workflows-TC-A-9094b-Management-and-SLA-Tracking-live-backend\\test-finished-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Users\\MithunM\\IdeaProjects\\tpa\\artifacts\\test-results\\admin-Admin-Workflows-TC-A-9094b-Management-and-SLA-Tracking-live-backend\\video.webm"
-                        },
-                        {
-                          "name": "trace",
-                          "contentType": "application/zip",
-                          "path": "C:\\Users\\MithunM\\IdeaProjects\\tpa\\artifacts\\test-results\\admin-Admin-Workflows-TC-A-9094b-Management-and-SLA-Tracking-live-backend\\trace.zip"
-                        }
-                      ]
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "73482573f1568b679d78-4ccca82e4de9198fa9d9",
-              "file": "admin.spec.js",
-              "line": 63,
+              "id": "1bf26eb4b47f8999b999-03613fd835821cbd98a6",
+              "file": "carrier-live.spec.js",
+              "line": 8,
               "column": 3
             }
           ]
@@ -235,11 +227,11 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-05-08T06:22:50.861Z",
-    "duration": 64617.318999999996,
-    "expected": 3,
+    "startTime": "2026-05-08T15:27:41.855Z",
+    "duration": 83431.269,
+    "expected": 0,
     "skipped": 0,
-    "unexpected": 0,
+    "unexpected": 1,
     "flaky": 0
   }
 }
