@@ -64,11 +64,12 @@ const BulkSettlement = () => {
     }
   };
 
-  const filteredClaims = claims.filter(c => 
-    c.claimId?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    c.patient?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    c.hospitalName?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredClaims = claims.filter(c => {
+    const s = searchTerm.toLowerCase();
+    return String(c.claimId || '').toLowerCase().includes(s) ||
+           String(c.patient?.name || '').toLowerCase().includes(s) ||
+           String(c.hospitalName || '').toLowerCase().includes(s);
+  });
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-24">

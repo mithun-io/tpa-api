@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axiosInstance from '../../api/axios';
-import { MessageSquare, Search, Send, Paperclip, AlertCircle, Clock, CheckCircle2, User, Loader2, Info } from 'lucide-react';
+import { MessageSquare, Search, Send, Paperclip, AlertCircle, Clock, CheckCircle2, User, Loader2, Info, ShieldAlert } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import toast from 'react-hot-toast';
 
@@ -34,10 +34,11 @@ const DirectQueryManagement = () => {
     c.status === 'UNDER_REVIEW' || c.status === 'ESCALATED' || c.reviewNotes || c.rejectionReason
   );
 
-  const filteredThreads = queryThreads.filter(c => 
-    c.claimId?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    c.patient?.name?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredThreads = queryThreads.filter(c => {
+    const s = searchTerm.toLowerCase();
+    return String(c.claimId || '').toLowerCase().includes(s) ||
+           String(c.patient?.name || '').toLowerCase().includes(s);
+  });
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
