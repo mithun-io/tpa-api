@@ -8,11 +8,14 @@ import com.tpa.enums.ClaimStatus;
 import com.tpa.enums.Gender;
 import com.tpa.enums.UserRole;
 import com.tpa.enums.UserStatus;
+import com.tpa.helper.AdminInitializer;
+import com.tpa.helper.EnterpriseDemoDataSeeder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +23,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -30,7 +34,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SpringBootTest
-
+@ActiveProfiles("test")
 @Transactional
 class ClaimRepositoryTest {
 
@@ -45,6 +49,12 @@ class ClaimRepositoryTest {
 
     @Autowired
     private com.tpa.repository.RefreshTokenRepository refreshTokenRepository;
+
+    @MockBean
+    private AdminInitializer adminInitializer;
+
+    @MockBean
+    private EnterpriseDemoDataSeeder enterpriseDemoDataSeeder;
 
     private User savedUser;
     private Claim claim1;

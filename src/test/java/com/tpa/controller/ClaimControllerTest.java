@@ -148,13 +148,14 @@ class ClaimControllerTest {
         claim.setUserEmail("testuser@tpa.com");
 
         // For non-admins, the controller calls searchClaims instead of getAllClaims
-        Page<ClaimResponse> page = new PageImpl<>(List.of(claim));
+        Page<ClaimResponse> page = new PageImpl<>(List.of(claim), org.springframework.data.domain.PageRequest.of(0, 20), 1);
         when(claimService.searchClaims(any(), any(), any(), any(), any(), any(), any()))
                 .thenReturn(page);
 
         mockMvc.perform(get("/api/v1/claims"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").value(1));
+                .andExpect(jsonPath("$.content[0].id").value(1))
+                .andExpect(jsonPath("$.totalElements").value(1));
     }
 
     @Test

@@ -6,17 +6,25 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tpa.dto.request.ClaimDataRequest;
 import com.tpa.entity.Carrier;
 import com.tpa.entity.Claim;
+import com.tpa.entity.ClaimDocument;
 import com.tpa.entity.User;
 import com.tpa.enums.ClaimStatus;
+import com.tpa.enums.DocumentType;
 import com.tpa.enums.Gender;
 import com.tpa.enums.UserRole;
 import com.tpa.enums.UserStatus;
+import com.tpa.helper.AdminInitializer;
+import com.tpa.helper.EnterpriseDemoDataSeeder;
 import com.tpa.repository.CarrierRepository;
+import com.tpa.repository.AuditLogRepository;
 import com.tpa.repository.ClaimAuditRepository;
 import com.tpa.repository.ClaimDocumentRepository;
+import com.tpa.repository.ClaimQueryRepository;
 import com.tpa.repository.ClaimRepository;
+import com.tpa.repository.ClaimStatusTimelineRepository;
 import com.tpa.repository.RefreshTokenRepository;
 import com.tpa.repository.UserRepository;
+import com.tpa.service.FileUploadService;
 import com.tpa.service.StorageProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -29,6 +37,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -48,7 +57,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 
 @SpringBootTest
-
+@ActiveProfiles("test")
 class ClaimProcessingIntegrationTest {
 
     @Autowired private WebApplicationContext webApplicationContext;
@@ -56,12 +65,18 @@ class ClaimProcessingIntegrationTest {
     @Autowired private ClaimDocumentRepository claimDocumentRepository;
     @Autowired private UserRepository userRepository;
     @Autowired private CarrierRepository carrierRepository;
+    @Autowired private AuditLogRepository auditLogRepository;
     @Autowired private ClaimAuditRepository claimAuditRepository;
+    @Autowired private ClaimQueryRepository claimQueryRepository;
+    @Autowired private ClaimStatusTimelineRepository claimStatusTimelineRepository;
     @Autowired private RefreshTokenRepository refreshTokenRepository;
     @Autowired private ObjectMapper objectMapper;
 
     @MockBean private StorageProvider storageProvider;
+    @MockBean private FileUploadService fileUploadService;
     @MockBean private KafkaTemplate<String, String> kafkaTemplate;
+    @MockBean private AdminInitializer adminInitializer;
+    @MockBean private EnterpriseDemoDataSeeder enterpriseDemoDataSeeder;
 
     private MockMvc mockMvc;
     private User testCustomer;
@@ -75,10 +90,13 @@ class ClaimProcessingIntegrationTest {
                 .apply(SecurityMockMvcConfigurers.springSecurity())
                 .build();
 
+        auditLogRepository.deleteAll();
+        claimStatusTimelineRepository.deleteAll();
+        claimQueryRepository.deleteAll();
         claimDocumentRepository.deleteAll();
         claimAuditRepository.deleteAll();
-        carrierRepository.deleteAll();
         claimRepository.deleteAll();
+        carrierRepository.deleteAll();
         refreshTokenRepository.deleteAll();
         userRepository.deleteAll();
 
@@ -241,7 +259,17 @@ class ClaimProcessingIntegrationTest {
 
         Long claimId = objectMapper.readTree(claimBody).get("id").asLong();
 
-        when(storageProvider.storeFile(any())).thenReturn("/mocked/path/claim_form.pdf");
+        when(fileUploadService.uploadFile(
+                org.mockito.ArgumentMatchers.anyLong(),
+                org.mockito.ArgumentMatchers.anyString(),
+                org.mockito.ArgumentMatchers.any()))
+                .thenReturn(ClaimDocument.builder()
+                        .id(1L)
+                        .fileName("claim_form.pdf")
+                        .filePath("/mocked/path/claim_form.pdf")
+                        .fileType("PDF")
+                        .type(DocumentType.CLAIM_FORM)
+                        .build());
 
         org.springframework.mock.web.MockMultipartFile file = new org.springframework.mock.web.MockMultipartFile(
                 "file", "claim_form.pdf", "application/pdf", "dummy content".getBytes());

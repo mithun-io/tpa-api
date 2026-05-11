@@ -3,6 +3,8 @@ package com.tpa.controller;
 
 import com.tpa.dto.response.ClaimResponse;
 import com.tpa.enums.ClaimStatus;
+import com.tpa.helper.AdminInitializer;
+import com.tpa.helper.EnterpriseDemoDataSeeder;
 import com.tpa.service.ClaimService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -18,6 +20,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 
@@ -27,7 +30,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
-
+@ActiveProfiles("test")
 public class ClaimControllerIntegrationTest {
 
     @Autowired
@@ -35,6 +38,12 @@ public class ClaimControllerIntegrationTest {
 
     @MockBean
     private ClaimService claimService;
+
+    @MockBean
+    private AdminInitializer adminInitializer;
+
+    @MockBean
+    private EnterpriseDemoDataSeeder enterpriseDemoDataSeeder;
 
     private MockMvc mockMvc;
 

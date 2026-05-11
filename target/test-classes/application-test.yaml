@@ -2,13 +2,14 @@ spring:
   application:
     name: tpa-test
   datasource:
-    url: jdbc:h2:mem:tpadb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL
+    url: jdbc:h2:mem:tpadb-${random.uuid};DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;DATABASE_TO_UPPER=false
     username: sa
     password: 
     driver-class-name: org.h2.Driver
   jpa:
     hibernate:
       ddl-auto: create-drop
+    database-platform: org.hibernate.dialect.H2Dialect
     properties:
       hibernate:
         format_sql: true
@@ -19,6 +20,11 @@ spring:
       port: 6379
   kafka:
     bootstrap-servers: localhost:9092
+    admin:
+      auto-create: false
+      fail-fast: false
+    listener:
+      auto-startup: false
     consumer:
       group-id: tpa-group
       auto-offset-reset: earliest

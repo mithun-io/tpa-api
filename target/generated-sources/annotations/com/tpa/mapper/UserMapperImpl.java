@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-05-10T09:00:40+0530",
-    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.46.0.v20260407-0427, environment: Java 21.0.10 (Eclipse Adoptium)"
+    date = "2026-05-11T12:55:18+0530",
+    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.12 (Oracle Corporation)"
 )
 @Component
 public class UserMapperImpl implements UserMapper {
@@ -24,13 +24,13 @@ public class UserMapperImpl implements UserMapper {
 
         User.UserBuilder user = User.builder();
 
-        user.address( userRequest.getAddress() );
-        user.dateOfBirth( userRequest.getDateOfBirth() );
-        user.email( userRequest.getEmail() );
-        user.gender( userRequest.getGender() );
-        user.mobile( userRequest.getMobile() );
-        user.password( userRequest.getPassword() );
         user.username( userRequest.getUsername() );
+        user.email( userRequest.getEmail() );
+        user.mobile( userRequest.getMobile() );
+        user.dateOfBirth( userRequest.getDateOfBirth() );
+        user.address( userRequest.getAddress() );
+        user.password( userRequest.getPassword() );
+        user.gender( userRequest.getGender() );
 
         return user.build();
     }
@@ -43,16 +43,16 @@ public class UserMapperImpl implements UserMapper {
 
         UserResponse userResponse = new UserResponse();
 
-        userResponse.setAddress( user.getAddress() );
-        userResponse.setCreatedAt( user.getCreatedAt() );
-        userResponse.setDateOfBirth( user.getDateOfBirth() );
-        userResponse.setEmail( user.getEmail() );
-        userResponse.setGender( user.getGender() );
         userResponse.setId( user.getId() );
+        userResponse.setUsername( user.getUsername() );
+        userResponse.setEmail( user.getEmail() );
         userResponse.setMobile( user.getMobile() );
+        userResponse.setDateOfBirth( user.getDateOfBirth() );
+        userResponse.setAddress( user.getAddress() );
+        userResponse.setGender( user.getGender() );
         userResponse.setUserRole( user.getUserRole() );
         userResponse.setUserStatus( user.getUserStatus() );
-        userResponse.setUsername( user.getUsername() );
+        userResponse.setCreatedAt( user.getCreatedAt() );
 
         return userResponse;
     }

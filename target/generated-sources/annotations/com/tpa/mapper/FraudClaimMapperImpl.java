@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-05-10T09:00:40+0530",
-    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.46.0.v20260407-0427, environment: Java 21.0.10 (Eclipse Adoptium)"
+    date = "2026-05-11T12:55:18+0530",
+    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.12 (Oracle Corporation)"
 )
 @Component
 public class FraudClaimMapperImpl implements FraudClaimMapper {
@@ -24,8 +24,8 @@ public class FraudClaimMapperImpl implements FraudClaimMapper {
         fraudClaimDto.claimId( claim.getId() );
         fraudClaimDto.reasons( mapReasons( claim ) );
         fraudClaimDto.riskLevel( mapRiskLevel( claim ) );
-        fraudClaimDto.amount( claim.getAmount() );
         fraudClaimDto.policyNumber( claim.getPolicyNumber() );
+        fraudClaimDto.amount( claim.getAmount() );
         fraudClaimDto.riskScore( claim.getRiskScore() );
 
         return fraudClaimDto.build();

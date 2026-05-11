@@ -4,8 +4,11 @@ import com.tpa.dto.response.FraudDashboardResponse;
 import com.tpa.entity.Claim;
 import com.tpa.enums.RiskLevel;
 import com.tpa.repository.CarrierRepository;
+import com.tpa.repository.ClaimDocumentRepository;
 import com.tpa.repository.ClaimRepository;
 import com.tpa.repository.UserRepository;
+import com.tpa.service.MedicalValidationService;
+import com.tpa.service.StorageProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,6 +23,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -33,7 +37,11 @@ class FraudDetectionServiceImplTest {
     @Mock
     private UserRepository userRepository;
     @Mock
-    private com.tpa.service.AiClaimAssistantService aiClaimAssistantService;
+    private ClaimDocumentRepository claimDocumentRepository;
+    @Mock
+    private MedicalValidationService medicalValidationService;
+    @Mock
+    private StorageProvider storageProvider;
     @Spy
     private com.tpa.mapper.FraudClaimMapper fraudClaimMapper =
             new com.tpa.mapper.FraudClaimMapperImpl();
@@ -49,6 +57,7 @@ class FraudDetectionServiceImplTest {
         claim.setId(1L);
         claim.setPolicyNumber("POL-123");
         claim.setPatientName("John Doe");
+        lenient().when(claimDocumentRepository.findByClaim(any())).thenReturn(List.of());
     }
 
     @Test

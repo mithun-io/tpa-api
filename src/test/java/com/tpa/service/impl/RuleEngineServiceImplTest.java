@@ -2,21 +2,110 @@ package com.tpa.service.impl;
 
 import com.tpa.dto.request.ClaimDataRequest;
 import com.tpa.dto.response.ClaimDecisionResponse;
+import com.tpa.entity.RuleConfig;
 import com.tpa.enums.ClaimStatus;
+import com.tpa.repository.RuleConfigRepository;
+import com.tpa.repository.RuleExecutionAuditRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.kie.api.runtime.KieContainer;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class RuleEngineServiceImplTest {
 
+    @Mock
+    private KieContainer kieContainer;
+
+    @Mock
+    private RuleConfigRepository ruleConfigRepository;
+
+    @Mock
+    private RuleExecutionAuditRepository auditRepository;
+
     @InjectMocks
     private RuleEngineServiceImpl ruleEngineService;
+
+    @BeforeEach
+    void setUp() {
+        when(ruleConfigRepository.findByActiveTrueOrderByPriorityAsc()).thenReturn(List.of(legacyValidationRule()));
+    }
+
+    private RuleConfig legacyValidationRule() {
+        String script = """
+                def review = com.tpa.enums.ClaimStatus.UNDER_REVIEW
+                if (claim.claimFormPresent == Boolean.FALSE) {
+                    decision.status = com.tpa.enums.ClaimStatus.SUBMITTED
+                    decision.reasons.add('Claim form is missing')
+                    return true
+                }
+                if (claim.combinedDocumentPresent == Boolean.FALSE) {
+                    decision.status = com.tpa.enums.ClaimStatus.SUBMITTED
+                    decision.reasons.add('Combined document is missing')
+                    return true
+                }
+                if (claim.policyStatus != null && !claim.policyStatus.equalsIgnoreCase('ACTIVE')) {
+                    decision.status = com.tpa.enums.ClaimStatus.REJECTED
+                    decision.reasons.add('Policy is inactive')
+                    return true
+                }
+                if (claim.policyNumber == null || claim.policyNumber.isBlank()) {
+                    decision.status = review
+                    decision.reasons.add('Policy number is missing')
+                }
+                if (claim.isDuplicate == Boolean.TRUE) {
+                    decision.status = review
+                    decision.reasons.add('Possible duplicate claim detected')
+                }
+                if (claim.claimFormPatientName != null && claim.combinedDocPatientName != null && claim.claimFormPatientName != claim.combinedDocPatientName) {
+                    decision.status = review
+                    decision.reasons.add('Patient name mismatch across documents')
+                }
+                if (claim.claimFormHospitalName != null && claim.combinedDocHospitalName != null && claim.claimFormHospitalName != claim.combinedDocHospitalName) {
+                    decision.status = review
+                    decision.reasons.add('Hospital name mismatch across documents')
+                }
+                if (claim.claimFormAdmissionDate != null && claim.combinedDocAdmissionDate != null && claim.claimFormAdmissionDate != claim.combinedDocAdmissionDate) {
+                    decision.status = review
+                    decision.reasons.add('Admission date mismatch across documents')
+                }
+                if (claim.claimFormDischargeDate != null && claim.combinedDocDischargeDate != null && claim.claimFormDischargeDate != claim.combinedDocDischargeDate) {
+                    decision.status = review
+                    decision.reasons.add('Discharge date mismatch across documents')
+                }
+                if (claim.claimedAmount != null && claim.totalBillAmount != null && claim.claimedAmount > claim.totalBillAmount) {
+                    decision.status = review
+                    decision.reasons.add('Claimed amount is greater than total bill amount')
+                }
+                if (claim.claimedAmount != null && claim.claimedAmount > 50000) {
+                    decision.status = review
+                    decision.reasons.add('High claim amount (> INR 50,000)')
+                }
+                if (decision.status == null) {
+                    decision.status = com.tpa.enums.ClaimStatus.AI_VALIDATED
+                    decision.reasons.add('System auto-verified: Pending admin approval')
+                }
+                return true
+                """;
+
+        return RuleConfig.builder()
+                .ruleKey("TEST_LEGACY_VALIDATION")
+                .ruleType("GROOVY")
+                .ruleValue("test")
+                .groovyScript(script)
+                .priority(1)
+                .active(true)
+                .build();
+    }
 
     // ========== Helpers ==========
 
@@ -143,7 +232,7 @@ class RuleEngineServiceImplTest {
         ClaimDecisionResponse response = ruleEngineService.evaluateClaim(request);
 
         assertThat(response.getStatus()).isEqualTo(ClaimStatus.UNDER_REVIEW);
-        assertThat(response.getReasons()).contains("High claim amount (> ₹50,000)");
+        assertThat(response.getReasons()).contains("High claim amount (> INR 50,000)");
     }
 
     // ========== Edge Cases ==========

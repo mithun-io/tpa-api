@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-05-10T09:00:40+0530",
-    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.46.0.v20260407-0427, environment: Java 21.0.10 (Eclipse Adoptium)"
+    date = "2026-05-11T12:55:18+0530",
+    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.12 (Oracle Corporation)"
 )
 @Component
 public class CarrierClaimMapperImpl implements CarrierClaimMapper {
@@ -27,23 +27,23 @@ public class CarrierClaimMapperImpl implements CarrierClaimMapper {
         carrierClaimDetailResponse.patient( mapPatientInfo( claim ) );
         carrierClaimDetailResponse.fraud( mapFraudInfo( claim ) );
         carrierClaimDetailResponse.policy( mapPolicyInfo( claim ) );
-        carrierClaimDetailResponse.admissionDate( claim.getAdmissionDate() );
-        carrierClaimDetailResponse.amount( claim.getAmount() );
-        carrierClaimDetailResponse.claimType( claim.getClaimType() );
-        carrierClaimDetailResponse.createdDate( claim.getCreatedDate() );
-        carrierClaimDetailResponse.diagnosis( claim.getDiagnosis() );
-        carrierClaimDetailResponse.dischargeDate( claim.getDischargeDate() );
-        carrierClaimDetailResponse.hospitalName( claim.getHospitalName() );
         carrierClaimDetailResponse.policyNumber( claim.getPolicyNumber() );
-        carrierClaimDetailResponse.processedDate( claim.getProcessedDate() );
-        carrierClaimDetailResponse.rejectionReason( claim.getRejectionReason() );
-        carrierClaimDetailResponse.reviewNotes( claim.getReviewNotes() );
-        carrierClaimDetailResponse.reviewedAt( claim.getReviewedAt() );
-        carrierClaimDetailResponse.reviewedBy( claim.getReviewedBy() );
         if ( claim.getStatus() != null ) {
             carrierClaimDetailResponse.status( claim.getStatus().name() );
         }
+        carrierClaimDetailResponse.amount( claim.getAmount() );
         carrierClaimDetailResponse.totalBillAmount( claim.getTotalBillAmount() );
+        carrierClaimDetailResponse.claimType( claim.getClaimType() );
+        carrierClaimDetailResponse.diagnosis( claim.getDiagnosis() );
+        carrierClaimDetailResponse.hospitalName( claim.getHospitalName() );
+        carrierClaimDetailResponse.admissionDate( claim.getAdmissionDate() );
+        carrierClaimDetailResponse.dischargeDate( claim.getDischargeDate() );
+        carrierClaimDetailResponse.createdDate( claim.getCreatedDate() );
+        carrierClaimDetailResponse.processedDate( claim.getProcessedDate() );
+        carrierClaimDetailResponse.rejectionReason( claim.getRejectionReason() );
+        carrierClaimDetailResponse.reviewNotes( claim.getReviewNotes() );
+        carrierClaimDetailResponse.reviewedBy( claim.getReviewedBy() );
+        carrierClaimDetailResponse.reviewedAt( claim.getReviewedAt() );
 
         return carrierClaimDetailResponse.build();
     }

@@ -8,6 +8,8 @@ import com.tpa.entity.User;
 import com.tpa.enums.Gender;
 import com.tpa.enums.UserRole;
 import com.tpa.enums.UserStatus;
+import com.tpa.helper.AdminInitializer;
+import com.tpa.helper.EnterpriseDemoDataSeeder;
 import com.tpa.repository.RefreshTokenRepository;
 import com.tpa.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,6 +17,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,6 +26,7 @@ import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfig
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -36,7 +40,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 
 @SpringBootTest
-
+@ActiveProfiles("test")
 class SecurityIntegrationTest {
 
     @Autowired private WebApplicationContext webApplicationContext;
@@ -44,6 +48,9 @@ class SecurityIntegrationTest {
     @Autowired private RefreshTokenRepository refreshTokenRepository;
     @Autowired private PasswordEncoder passwordEncoder;
     @Autowired private ObjectMapper objectMapper;
+
+    @MockBean private AdminInitializer adminInitializer;
+    @MockBean private EnterpriseDemoDataSeeder enterpriseDemoDataSeeder;
 
     private MockMvc mockMvc;
 

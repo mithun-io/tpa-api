@@ -1,5 +1,7 @@
 package com.tpa.controller;
 
+import com.tpa.helper.AdminInitializer;
+import com.tpa.helper.EnterpriseDemoDataSeeder;
 import com.tpa.service.ClaimService;
 import com.tpa.service.FileUploadService;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +15,7 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -24,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.springframework.context.annotation.Import;
 
 @SpringBootTest
-
+@ActiveProfiles("test")
 
 class SecurityAndUploadTest {
 
@@ -38,6 +41,12 @@ class SecurityAndUploadTest {
 
     @MockBean
     private ClaimService claimService;
+
+    @MockBean
+    private AdminInitializer adminInitializer;
+
+    @MockBean
+    private EnterpriseDemoDataSeeder enterpriseDemoDataSeeder;
 
     @BeforeEach
     void setUp() {

@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-05-10T09:00:40+0530",
-    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.46.0.v20260407-0427, environment: Java 21.0.10 (Eclipse Adoptium)"
+    date = "2026-05-11T12:55:18+0530",
+    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.12 (Oracle Corporation)"
 )
 @Component
 public class ClaimMapperImpl implements ClaimMapper {
@@ -27,29 +27,29 @@ public class ClaimMapperImpl implements ClaimMapper {
         claimResponse.username( claimUserUsername( claim ) );
         claimResponse.userEmail( claimUserEmail( claim ) );
         claimResponse.claimStatus( claim.getStatus() );
-        claimResponse.admissionDate( claim.getAdmissionDate() );
-        claimResponse.aiSummary( claim.getAiSummary() );
-        claimResponse.amount( claim.getAmount() );
-        claimResponse.claimType( claim.getClaimType() );
-        claimResponse.createdDate( claim.getCreatedDate() );
-        claimResponse.diagnosis( claim.getDiagnosis() );
-        claimResponse.dischargeDate( claim.getDischargeDate() );
-        claimResponse.healthScore( claim.getHealthScore() );
-        claimResponse.hospitalName( claim.getHospitalName() );
         claimResponse.id( claim.getId() );
-        claimResponse.patientName( claim.getPatientName() );
         claimResponse.policyNumber( claim.getPolicyNumber() );
+        claimResponse.amount( claim.getAmount() );
+        claimResponse.createdDate( claim.getCreatedDate() );
         claimResponse.processedDate( claim.getProcessedDate() );
         claimResponse.rejectionReason( claim.getRejectionReason() );
-        claimResponse.reviewNotes( claim.getReviewNotes() );
-        claimResponse.reviewedAt( claim.getReviewedAt() );
         claimResponse.reviewedBy( claim.getReviewedBy() );
+        claimResponse.reviewedAt( claim.getReviewedAt() );
+        claimResponse.reviewNotes( claim.getReviewNotes() );
+        claimResponse.riskScore( claim.getRiskScore() );
         claimResponse.riskFlags( claim.getRiskFlags() );
+        claimResponse.healthScore( claim.getHealthScore() );
         if ( claim.getRiskLevel() != null ) {
             claimResponse.riskLevel( claim.getRiskLevel().name() );
         }
-        claimResponse.riskScore( claim.getRiskScore() );
+        claimResponse.aiSummary( claim.getAiSummary() );
+        claimResponse.patientName( claim.getPatientName() );
+        claimResponse.hospitalName( claim.getHospitalName() );
+        claimResponse.admissionDate( claim.getAdmissionDate() );
+        claimResponse.dischargeDate( claim.getDischargeDate() );
         claimResponse.totalBillAmount( claim.getTotalBillAmount() );
+        claimResponse.diagnosis( claim.getDiagnosis() );
+        claimResponse.claimType( claim.getClaimType() );
 
         return claimResponse.build();
     }

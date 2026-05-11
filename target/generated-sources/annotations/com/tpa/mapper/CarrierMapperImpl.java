@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-05-10T09:00:40+0530",
-    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.46.0.v20260407-0427, environment: Java 21.0.10 (Eclipse Adoptium)"
+    date = "2026-05-11T12:55:18+0530",
+    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.12 (Oracle Corporation)"
 )
 @Component
 public class CarrierMapperImpl implements CarrierMapper {
@@ -28,22 +28,22 @@ public class CarrierMapperImpl implements CarrierMapper {
         carrierResponse.email( carrierUserEmail( carrier ) );
         carrierResponse.mobile( carrierUserMobile( carrier ) );
         carrierResponse.userStatus( carrierUserUserStatus( carrier ) );
-        if ( carrier.getAiRecommendation() != null ) {
-            carrierResponse.aiRecommendation( carrier.getAiRecommendation().name() );
-        }
+        carrierResponse.id( carrier.getId() );
+        carrierResponse.companyName( carrier.getCompanyName() );
+        carrierResponse.companyType( carrier.getCompanyType() );
+        carrierResponse.licenseNumber( carrier.getLicenseNumber() );
+        carrierResponse.registrationNumber( carrier.getRegistrationNumber() );
+        carrierResponse.taxId( carrier.getTaxId() );
+        carrierResponse.contactPersonName( carrier.getContactPersonName() );
+        carrierResponse.contactPersonPhone( carrier.getContactPersonPhone() );
+        carrierResponse.website( carrier.getWebsite() );
         carrierResponse.aiRiskScore( carrier.getAiRiskScore() );
         if ( carrier.getAiRiskStatus() != null ) {
             carrierResponse.aiRiskStatus( carrier.getAiRiskStatus().name() );
         }
-        carrierResponse.companyName( carrier.getCompanyName() );
-        carrierResponse.companyType( carrier.getCompanyType() );
-        carrierResponse.contactPersonName( carrier.getContactPersonName() );
-        carrierResponse.contactPersonPhone( carrier.getContactPersonPhone() );
-        carrierResponse.id( carrier.getId() );
-        carrierResponse.licenseNumber( carrier.getLicenseNumber() );
-        carrierResponse.registrationNumber( carrier.getRegistrationNumber() );
-        carrierResponse.taxId( carrier.getTaxId() );
-        carrierResponse.website( carrier.getWebsite() );
+        if ( carrier.getAiRecommendation() != null ) {
+            carrierResponse.aiRecommendation( carrier.getAiRecommendation().name() );
+        }
 
         return carrierResponse.build();
     }
