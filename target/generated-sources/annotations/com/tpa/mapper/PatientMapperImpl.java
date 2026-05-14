@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-05-11T12:55:18+0530",
+    date = "2026-05-14T15:11:09+0530",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.12 (Oracle Corporation)"
 )
 @Component
@@ -22,9 +22,9 @@ public class PatientMapperImpl implements PatientMapper {
             return null;
         }
 
-        Patient.PatientBuilder patient = Patient.builder();
+        Patient patient = new Patient();
 
-        return patient.build();
+        return patient;
     }
 
     @Override
@@ -34,8 +34,6 @@ public class PatientMapperImpl implements PatientMapper {
         }
 
         PatientResponse patientResponse = new PatientResponse();
-
-        patientResponse.setId( patient.getId() );
 
         return patientResponse;
     }

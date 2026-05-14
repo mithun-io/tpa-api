@@ -1,6 +1,4 @@
 spring:
-  application:
-    name: tpa
 
   datasource:
     url: ${DATABASE_URL}
@@ -15,8 +13,11 @@ spring:
 
   servlet:
     multipart:
-      max-file-size: 10MB
-      max-request-size: 10MB
+      max-file-size: 20MB
+      max-request-size: 20MB
+
+  config:
+    import: optional:file:.env[.properties]
 
   mail:
     properties:
@@ -32,11 +33,11 @@ spring:
 
   data:
     redis:
-      host: ${REDIS_HOST:localhost}
-      port: ${REDIS_PORT:6379}
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
 
   kafka:
-    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
     consumer:
       group-id: tpa-group
       auto-offset-reset: earliest
@@ -45,12 +46,12 @@ spring:
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
   ai:
-    openai:
-      api-key: ${OPENAI_API_KEY}
-      base-url: https://api.groq.com/openai/v1
-      chat:
-        options:
-          model: llama3-70b-8192
+    google:
+      genai:
+        api-key: ${GEMINI_API_KEY}
+        chat:
+          options:
+            model: gemini-1.5-flash
 
 server:
   port: ${PORT:8080}

@@ -19,9 +19,12 @@ public class DroolsConfig {
     public KieContainer kieContainer() {
         KieFileSystem kieFileSystem = kieServices.newKieFileSystem();
         kieFileSystem.write(ResourceFactory.newClassPathResource(RULES_CUSTOMER_RULES_DRL));
+
         KieBuilder kieBuilder = kieServices.newKieBuilder(kieFileSystem);
         kieBuilder.buildAll();
+
         KieModule kieModule = kieBuilder.getKieModule();
+
         return kieServices.newKieContainer(kieModule.getReleaseId());
     }
 }

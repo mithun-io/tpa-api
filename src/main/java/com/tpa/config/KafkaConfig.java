@@ -24,11 +24,10 @@ import java.util.Map;
 @Configuration
 public class KafkaConfig {
 
-    @Value("${spring.kafka.bootstrap-servers:localhost:9092}")
+    @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
 
-    // ── Consumer Factory ─────────────────────────────────────────────────────
-
+    // Consumer Factory
     @Bean
     public ConsumerFactory<String, String> consumerFactory() {
         Map<String, Object> props = new HashMap<>();
@@ -39,20 +38,21 @@ public class KafkaConfig {
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false); // manual ack for retry
         props.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, 10);
+
         return new DefaultKafkaConsumerFactory<>(props);
     }
 
-    // ── Producer Factory ─────────────────────────────────────────────────────
-
+    // Producer Factory
     @Bean
     public ProducerFactory<String, String> producerFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        props.put(ProducerConfig.ACKS_CONFIG, "all");           // strongest durability
+        props.put(ProducerConfig.ACKS_CONFIG, "all"); // strongest durability
         props.put(ProducerConfig.RETRIES_CONFIG, 3);
         props.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, true);
+
         return new DefaultKafkaProducerFactory<>(props);
     }
 
@@ -61,66 +61,63 @@ public class KafkaConfig {
         return new KafkaTemplate<>(producerFactory());
     }
 
-    // ── Error Handler: Exponential Backoff + DLQ ─────────────────────────────
-
+    // Error Handler: Exponential Backoff + DLQ
     @Bean
     public DefaultErrorHandler defaultErrorHandler(KafkaTemplate<String, String> kafkaTemplate) {
-        DeadLetterPublishingRecoverer dlqRecoverer = new DeadLetterPublishingRecoverer(kafkaTemplate);
-        ExponentialBackOff backOff = new ExponentialBackOff(2000L, 2.0);
-        backOff.setMaxAttempts(3);      // 3 retries before DLQ
-        backOff.setMaxElapsedTime(30000L);
-        DefaultErrorHandler handler = new DefaultErrorHandler(dlqRecoverer, backOff);
-        handler.addNotRetryableExceptions(IllegalArgumentException.class); // don't retry bad data
-        return handler;
+        DeadLetterPublishingRecoverer deadLetterPublishingRecoverer = new DeadLetterPublishingRecoverer(kafkaTemplate);
+
+        ExponentialBackOff exponentialBackOff = new ExponentialBackOff(2000L, 2.0);
+        exponentialBackOff.setMaxAttempts(3); // 3 retries before DLQ
+        exponentialBackOff.setMaxElapsedTime(30000L);
+
+        DefaultErrorHandler defaultErrorHandler = new DefaultErrorHandler(deadLetterPublishingRecoverer, exponentialBackOff);
+        defaultErrorHandler.addNotRetryableExceptions(IllegalArgumentException.class); // don't retry bad data
+
+        return defaultErrorHandler;
     }
 
-    // ── Retry-enabled Listener Container Factory ──────────────────────────────
-
+    // Retry-enabled Listener Container Factory
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, String> retryKafkaListenerContainerFactory(
-            ConsumerFactory<String, String> consumerFactory,
-            DefaultErrorHandler errorHandler) {
+    public ConcurrentKafkaListenerContainerFactory<String, String> retryKafkaListenerContainerFactory(ConsumerFactory<String, String> consumerFactory, DefaultErrorHandler defaultErrorHandler) {
+        ConcurrentKafkaListenerContainerFactory<String, String> concurrentKafkaListenerContainerFactory = new ConcurrentKafkaListenerContainerFactory<>();
+        concurrentKafkaListenerContainerFactory.setConsumerFactory(consumerFactory);
+        concurrentKafkaListenerContainerFactory.setCommonErrorHandler(defaultErrorHandler);
+        concurrentKafkaListenerContainerFactory.getContainerProperties().setAckMode(ContainerProperties.AckMode.RECORD);
+        concurrentKafkaListenerContainerFactory.setConcurrency(3); // parallel consumer threads
 
-        ConcurrentKafkaListenerContainerFactory<String, String> factory =
-                new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(consumerFactory);
-        factory.setCommonErrorHandler(errorHandler);
-        factory.getContainerProperties().setAckMode(ContainerProperties.AckMode.RECORD);
-        factory.setConcurrency(3); // parallel consumer threads
-        return factory;
+        return concurrentKafkaListenerContainerFactory;
     }
 
-    // ── Topic Declarations (auto-create with DLQs for all lifecycle topics) ──
-
+    // Topic Declarations (auto-create with DLQs for all lifecycle topics)
     // Primary lifecycle topics
-    @Bean public NewTopic claimUploadedTopic()        { return topic("claim-lifecycle.uploaded"); }
-    @Bean public NewTopic claimOcrCompletedTopic()    { return topic("claim-lifecycle.ocr-completed"); }
-    @Bean public NewTopic claimAiDoneTopic()          { return topic("claim-lifecycle.ai-done"); }
-    @Bean public NewTopic claimRuleEvaluatedTopic()   { return topic("claim-lifecycle.rule-evaluated"); }
-    @Bean public NewTopic claimAdminApprovedTopic()   { return topic("claim-lifecycle.admin-approved"); }
-    @Bean public NewTopic claimCarrierApprovedTopic() { return topic("claim-lifecycle.carrier-approved"); }
-    @Bean public NewTopic claimPaymentInitiatedTopic(){ return topic("claim-lifecycle.payment-initiated"); }
-    @Bean public NewTopic claimPaymentCompletedTopic(){ return topic("claim-lifecycle.payment-completed"); }
-    @Bean public NewTopic claimRejectedTopic()        { return topic("claim-lifecycle.rejected"); }
+    @Bean public NewTopic claimUploadedTopic()        { return newTopic("claim-lifecycle.uploaded"); }
+    @Bean public NewTopic claimOcrCompletedTopic()    { return newTopic("claim-lifecycle.ocr-completed"); }
+    @Bean public NewTopic claimAiDoneTopic()          { return newTopic("claim-lifecycle.ai-done"); }
+    @Bean public NewTopic claimRuleEvaluatedTopic()   { return newTopic("claim-lifecycle.rule-evaluated"); }
+    @Bean public NewTopic claimAdminApprovedTopic()   { return newTopic("claim-lifecycle.admin-approved"); }
+    @Bean public NewTopic claimCarrierApprovedTopic() { return newTopic("claim-lifecycle.carrier-approved"); }
+    @Bean public NewTopic claimPaymentInitiatedTopic(){ return newTopic("claim-lifecycle.payment-initiated"); }
+    @Bean public NewTopic claimPaymentCompletedTopic(){ return newTopic("claim-lifecycle.payment-completed"); }
+    @Bean public NewTopic claimRejectedTopic()        { return newTopic("claim-lifecycle.rejected"); }
 
     // DLQ topics — all lifecycle topics get a DLQ companion
-    @Bean public NewTopic claimUploadedDlqTopic()        { return topic("claim-lifecycle.uploaded-dlq"); }
-    @Bean public NewTopic claimOcrCompletedDlqTopic()    { return topic("claim-lifecycle.ocr-completed-dlq"); }
-    @Bean public NewTopic claimAiDoneDlqTopic()          { return topic("claim-lifecycle.ai-done-dlq"); }
-    @Bean public NewTopic claimRuleEvaluatedDlqTopic()   { return topic("claim-lifecycle.rule-evaluated-dlq"); }
-    @Bean public NewTopic claimAdminApprovedDlqTopic()   { return topic("claim-lifecycle.admin-approved-dlq"); }
-    @Bean public NewTopic claimCarrierApprovedDlqTopic() { return topic("claim-lifecycle.carrier-approved-dlq"); }
-    @Bean public NewTopic claimPaymentInitiatedDlqTopic(){ return topic("claim-lifecycle.payment-initiated-dlq"); }
-    @Bean public NewTopic claimPaymentCompletedDlqTopic(){ return topic("claim-lifecycle.payment-completed-dlq"); }
-    @Bean public NewTopic claimRejectedDlqTopic()        { return topic("claim-lifecycle.rejected-dlq"); }
+    @Bean public NewTopic claimUploadedDlqTopic()        { return newTopic("claim-lifecycle.uploaded-dlq"); }
+    @Bean public NewTopic claimOcrCompletedDlqTopic()    { return newTopic("claim-lifecycle.ocr-completed-dlq"); }
+    @Bean public NewTopic claimAiDoneDlqTopic()          { return newTopic("claim-lifecycle.ai-done-dlq"); }
+    @Bean public NewTopic claimRuleEvaluatedDlqTopic()   { return newTopic("claim-lifecycle.rule-evaluated-dlq"); }
+    @Bean public NewTopic claimAdminApprovedDlqTopic()   { return newTopic("claim-lifecycle.admin-approved-dlq"); }
+    @Bean public NewTopic claimCarrierApprovedDlqTopic() { return newTopic("claim-lifecycle.carrier-approved-dlq"); }
+    @Bean public NewTopic claimPaymentInitiatedDlqTopic(){ return newTopic("claim-lifecycle.payment-initiated-dlq"); }
+    @Bean public NewTopic claimPaymentCompletedDlqTopic(){ return newTopic("claim-lifecycle.payment-completed-dlq"); }
+    @Bean public NewTopic claimRejectedDlqTopic()        { return newTopic("claim-lifecycle.rejected-dlq"); }
 
     // Supporting topics
-    @Bean public NewTopic claimNotificationsTopic()  { return topic("claim-notifications"); }
-    @Bean public NewTopic claimCreatedTopic()        { return topic("claim-created"); }
-    @Bean public NewTopic slaEscalationTopic()       { return topic("claim-lifecycle.sla-escalated"); }
-    @Bean public NewTopic fraudAlertTopic()          { return topic("claim-lifecycle.fraud-alert"); }
+    @Bean public NewTopic claimNotificationsTopic()  { return newTopic("claim-notifications"); }
+    @Bean public NewTopic claimCreatedTopic()        { return newTopic("claim-created"); }
+    @Bean public NewTopic slaEscalationTopic()       { return newTopic("claim-lifecycle.sla-escalated"); }
+    @Bean public NewTopic fraudAlertTopic()          { return newTopic("claim-lifecycle.fraud-alert"); }
 
-    private NewTopic topic(String name) {
+    private NewTopic newTopic(String name) {
         return TopicBuilder.name(name)
                 .partitions(3)
                 .replicas(1)

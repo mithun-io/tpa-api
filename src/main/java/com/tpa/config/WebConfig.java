@@ -2,10 +2,14 @@ package com.tpa.config;
 
 import com.tpa.security.RateLimitingInterceptor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.nio.file.Paths;
 
 @Configuration
 @RequiredArgsConstructor
@@ -13,7 +17,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     private final RateLimitingInterceptor rateLimitingInterceptor;
 
-    @org.springframework.beans.factory.annotation.Value("${file.upload-dir}")
+    @Value("${file.upload-dir}")
     private String uploadDir;
 
     @Override
@@ -22,10 +26,12 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     @Override
-    public void addResourceHandlers(org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry registry) {
-        String path = java.nio.file.Paths.get(uploadDir).toAbsolutePath().toUri().toString();
-        registry.addResourceHandler("/uploads/**")
-                .addResourceLocations(path);
+    public void addResourceHandlers(ResourceHandlerRegistry resourceHandlerRegistry) {
+        String path = Paths.get(uploadDir)
+                .toAbsolutePath()
+                .toUri()
+                .toString();
+        resourceHandlerRegistry.addResourceHandler("/uploads/**").addResourceLocations(path);
     }
 
     @Override
