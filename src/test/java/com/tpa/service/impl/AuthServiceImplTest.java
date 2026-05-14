@@ -1,6 +1,5 @@
 package com.tpa.service.impl;
 
-import com.tpa.dto.request.CustomerRequest;
 import com.tpa.dto.request.LoginRequest;
 import com.tpa.dto.request.PasswordResetRequest;
 import com.tpa.dto.request.OtpRequest;

@@ -10,8 +10,8 @@ import java.time.LocalDate;
 @Data
 public class UserRequest {
 
-    @NotBlank(message = "username is required")
-    private String username;
+    @NotBlank(message = "name is required")
+    private String name;
 
     @Email(message = "invalid email format")
     @NotBlank(message = "email is required")

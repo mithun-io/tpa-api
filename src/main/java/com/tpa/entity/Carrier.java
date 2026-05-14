@@ -39,12 +39,6 @@ public class Carrier {
     @Column(nullable = false)
     private String taxId;
 
-    @Column(nullable = false)
-    private String contactPersonName;
-
-    @Column(nullable = false)
-    private String contactPersonPhone;
-
     @Column(nullable = true)
     private String website;
 }

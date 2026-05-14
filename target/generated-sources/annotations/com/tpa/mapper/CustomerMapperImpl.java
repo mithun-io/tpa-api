@@ -1,6 +1,5 @@
 package com.tpa.mapper;
 
-import com.tpa.dto.request.CustomerRequest;
 import com.tpa.dto.response.CustomerResponse;
 
 import java.util.ArrayList;

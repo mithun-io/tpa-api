@@ -1,7 +1,6 @@
 package com.tpa.helper;
 
 import com.tpa.dto.request.CarrierRegistrationRequest;
-import com.tpa.dto.request.CustomerRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tpa.dto.request.PatientRequest;
