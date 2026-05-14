@@ -92,7 +92,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public UserResponse blockUser(Long id) {
         User user = getUser(id);
-        if (user.getUserRole() == UserRole.FMG_ADMIN) {
+        if (user.getUserRole() == UserRole.ADMIN) {
             throw new IllegalArgumentException("admin cannot be blocked!");
         }
         validateUserTransition(user.getUserStatus(), UserStatus.BLOCKED);

@@ -40,7 +40,7 @@ class NotificationServiceTest {
 
     @BeforeEach
     void setUp() {
-        testUser = User.builder().id(1L).email("admin@tpa.com").userRole(UserRole.FMG_ADMIN).build();
+        testUser = User.builder().id(1L).email("admin@tpa.com").userRole(UserRole.ADMIN).build();
         testNotification = Notification.builder()
                 .id(100L)
                 .user(testUser)

@@ -1,4 +1,4 @@
-package com.tpa.service;
+package com.tpa.helper;
 
 import com.tpa.entity.AuditLog;
 import com.tpa.repository.AuditLogRepository;

@@ -5,7 +5,7 @@ import com.tpa.enums.ClaimStatus;
 import com.tpa.enums.RiskLevel;
 import com.tpa.repository.ClaimRepository;
 import com.tpa.repository.PaymentLedgerRepository;
-import com.tpa.service.AnalyticsService;
+import com.tpa.helper.AnalyticsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

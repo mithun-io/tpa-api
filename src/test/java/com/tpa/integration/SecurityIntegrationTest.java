@@ -187,7 +187,7 @@ class SecurityIntegrationTest {
 
     @Test
     @WithMockUser(username = "admin@tpa.com", roles = {"FMG_ADMIN"})
-    @DisplayName("TC-SEC-10: FMG_ADMIN can access admin claims → 200")
+    @DisplayName("TC-SEC-10: ADMIN can access admin claims → 200")
     void adminClaims_shouldAllow_whenAdminRole() throws Exception {
         mockMvc.perform(get("/api/v1/admin/claims"))
                 .andExpect(status().isOk());
@@ -195,7 +195,7 @@ class SecurityIntegrationTest {
 
     @Test
     @WithMockUser(username = "admin@tpa.com", roles = {"FMG_ADMIN"})
-    @DisplayName("TC-SEC-11: FMG_ADMIN can list carriers → 200")
+    @DisplayName("TC-SEC-11: ADMIN can list carriers → 200")
     void adminCarriers_shouldAllow_whenAdminRole() throws Exception {
         mockMvc.perform(get("/api/v1/admin/carriers"))
                 .andExpect(status().isOk());

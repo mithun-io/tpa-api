@@ -68,7 +68,7 @@ public class ClaimAssignmentService {
 
         if (claim.getAmount() != null && claim.getAmount() >= HIGH_VALUE_THRESHOLD) {
             // Route to least-loaded SENIOR or ADMIN
-            User seniorAgent = findLeastLoadedAgent(UserRole.FMG_ADMIN);
+            User seniorAgent = findLeastLoadedAgent(UserRole.ADMIN);
             assignedTo = seniorAgent != null ? seniorAgent.getEmail() : "senior_medical_officer";
             assignmentReason = "High-value claim (₹" + String.format("%.0f", claim.getAmount()) + ") → Senior Officer";
 
@@ -168,7 +168,7 @@ public class ClaimAssignmentService {
             claim.setEscalationReason(reason);
 
             // Re-assign to senior admin
-            User seniorAdmin = findLeastLoadedAgent(UserRole.FMG_ADMIN);
+            User seniorAdmin = findLeastLoadedAgent(UserRole.ADMIN);
             if (seniorAdmin != null) {
                 claim.setAssignedTo(seniorAdmin.getEmail());
             }

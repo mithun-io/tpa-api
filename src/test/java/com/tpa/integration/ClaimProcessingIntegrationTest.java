@@ -31,7 +31,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -121,7 +120,7 @@ class ClaimProcessingIntegrationTest {
                 .address("1 Admin Plaza")
                 .password("$2a$10$DummyHashedPasswordForTestUse222")
                 .gender(Gender.FEMALE)
-                .userRole(UserRole.FMG_ADMIN)
+                .userRole(UserRole.ADMIN)
                 .userStatus(UserStatus.ACTIVE)
                 .createdAt(LocalDateTime.now())
                 .build());

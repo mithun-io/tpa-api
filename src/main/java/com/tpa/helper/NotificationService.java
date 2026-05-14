@@ -35,7 +35,7 @@ public class NotificationService {
     @Transactional
     public void notifyAllAdmins(String title, String message, String targetUrl) {
         List<User> admins = userRepository.findAll().stream()
-                .filter(u -> UserRole.FMG_ADMIN.equals(u.getUserRole()))
+                .filter(u -> UserRole.ADMIN.equals(u.getUserRole()))
                 .collect(Collectors.toList());
         admins.forEach(admin -> createNotification(admin, title, message, targetUrl));
         log.info("Admin notification queued for {} admins: {}", admins.size(), title);

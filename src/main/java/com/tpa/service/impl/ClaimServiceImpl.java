@@ -170,7 +170,7 @@ public class ClaimServiceImpl implements ClaimService {
 
         // Check ownership if user is a CUSTOMER
         User user = userRepository.findByEmail(username).orElseThrow(() -> new RuntimeException("User not found"));
-        boolean isAdmin = user.getUserRole() == com.tpa.enums.UserRole.FMG_ADMIN;
+        boolean isAdmin = user.getUserRole() == com.tpa.enums.UserRole.ADMIN;
         
         if (!isAdmin && !claim.getUser().getEmail().equals(username)) {
             throw new org.springframework.security.access.AccessDeniedException("You do not have permission to delete this claim");

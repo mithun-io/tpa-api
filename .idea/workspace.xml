@@ -4,21 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b816a75b-6920-4401-836e-1b55556aa93c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/request/ClaimReviewRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/request/ClaimReviewRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/AiAnalysisResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/AiAnalysisResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/CarrierClaimDetailResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/CarrierClaimDetailResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/CarrierResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/CarrierResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/ClaimDecisionResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/ClaimDecisionResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/ClaimResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/ClaimResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/CustomerResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/CustomerResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/FraudClaimDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/FraudClaimResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/FraudDashboardResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/FraudDashboardResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/entity/Claim.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/entity/Claim.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/mapper/FraudClaimMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/mapper/FraudClaimMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/FraudDetectionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/FraudDetectionServiceImpl.java" afterDir="false" />
-    </list>
+    <list default="true" id="b816a75b-6920-4401-836e-1b55556aa93c" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -132,7 +118,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1778746990736</updated>
-      <workItem from="1778746991991" duration="10623000" />
+      <workItem from="1778746991991" duration="11111000" />
     </task>
     <servers />
   </component>

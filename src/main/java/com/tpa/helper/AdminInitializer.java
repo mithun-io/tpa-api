@@ -38,23 +38,23 @@ public class AdminInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         if (!userRepository.existsByEmail(adminEmail)) {
-            log.info("admin account initialization started...");
+            log.info("Admin account initialization started...");
             User user = User.builder()
                     .username(adminName)
                     .mobile(adminMobile)
                     .password(passwordEncoder.encode(adminPassword))
                     .email(adminEmail)
                     .gender(Gender.MALE)
-                    .address("bangalore")
+                    .address("Minnesota")
                     .dateOfBirth(LocalDate.parse("2005-06-14"))
-                    .userRole(UserRole.FMG_ADMIN)
+                    .userRole(UserRole.ADMIN)
                     .userStatus(UserStatus.ACTIVE)
                     .createdAt(LocalDateTime.now())
                     .build();
             userRepository.save(user);
-            log.info("admin account initialized successfully!!");
+            log.info("Admin account initialized successfully!!");
         } else {
-            log.info("admin account exists, initialization aborted.");
+            log.info("Admin account exists, initialization aborted.");
         }
     }
 }
