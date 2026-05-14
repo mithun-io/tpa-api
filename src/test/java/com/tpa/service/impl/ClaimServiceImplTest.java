@@ -6,7 +6,7 @@ import com.tpa.dto.response.ClaimResponse;
 import com.tpa.entity.Claim;
 import com.tpa.entity.User;
 import com.tpa.enums.ClaimStatus;
-import com.tpa.kafka.ClaimEventProducer;
+import com.tpa.kafka.producer.ClaimEventProducer;
 import com.tpa.mapper.ClaimMapper;
 import com.tpa.repository.CarrierRepository;
 import com.tpa.repository.ClaimRepository;

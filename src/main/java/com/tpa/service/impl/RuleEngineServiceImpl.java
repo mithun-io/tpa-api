@@ -1,6 +1,6 @@
 package com.tpa.service.impl;
 
-import com.tpa.dto.request.ClaimDataRequest;
+import com.tpa.dto.request.ClaimRequest;
 import com.tpa.dto.response.ClaimDecisionResponse;
 import com.tpa.entity.RuleConfig;
 import com.tpa.entity.RuleExecutionAudit;
@@ -14,8 +14,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,13 +40,13 @@ public class RuleEngineServiceImpl implements RuleEngineService {
 
     @Override
     @Transactional
-    public ClaimDecisionResponse evaluateClaim(ClaimDataRequest claimData) {
+    public ClaimDecisionResponse evaluateClaim(ClaimRequest claimData) {
         return evaluateClaim(claimData, null, false);
     }
 
     @Override
     @Transactional
-    public ClaimDecisionResponse evaluateClaim(ClaimDataRequest claimData, Long claimId, boolean simulationMode) {
+    public ClaimDecisionResponse evaluateClaim(ClaimRequest claimData, Long claimId, boolean simulationMode) {
         ClaimDecisionResponse decision = new ClaimDecisionResponse(null, new ArrayList<>());
 
         List<RuleConfig> activeRules = ruleConfigRepository.findByActiveTrueOrderByPriorityAsc();
@@ -77,7 +75,7 @@ public class RuleEngineServiceImpl implements RuleEngineService {
                     default -> log.warn("[BRMS] Unknown rule type '{}' for rule '{}' — skipping", rule.getRuleType(), rule.getRuleKey());
                 }
 
-                outputStatus = decision.getStatus() != null ? decision.getStatus().name() : null;
+                outputStatus = decision.getClaimStatus() != null ? decision.getClaimStatus().name() : null;
                 reasonsCapture = String.join("; ", decision.getReasons());
 
             } catch (Exception ex) {
@@ -94,7 +92,7 @@ public class RuleEngineServiceImpl implements RuleEngineService {
                         .ruleKey(rule.getRuleKey())
                         .ruleType(rule.getRuleType())
                         .ruleVersion(rule.getVersion())
-                        .outputStatus(outputStatus)
+                        .outputStatus(ClaimStatus.valueOf(outputStatus))
                         .reasons(reasonsCapture)
                         .simulation(simulationMode || Boolean.TRUE.equals(rule.getSimulationMode()))
                         .fired(fired)
@@ -105,12 +103,12 @@ public class RuleEngineServiceImpl implements RuleEngineService {
         }
 
         // Default to UNDER_REVIEW if no rule set a status
-        if (decision.getStatus() == null) {
-            decision.setStatus(ClaimStatus.UNDER_REVIEW);
+        if (decision.getClaimStatus() == null) {
+            decision.setClaimStatus(ClaimStatus.UNDER_REVIEW);
             log.info("[BRMS] No rule set a status — defaulting to UNDER_REVIEW for claim {}", claimId);
         }
 
-        log.info("[BRMS] Final decision for claim {}: status={}, reasons={}", claimId, decision.getStatus(), decision.getReasons());
+        log.info("[BRMS] Final decision for claim {}: status={}, reasons={}", claimId, decision.getClaimStatus(), decision.getReasons());
         return decision;
     }
 
@@ -118,7 +116,7 @@ public class RuleEngineServiceImpl implements RuleEngineService {
     // Groovy rule evaluator
     // ────────────────────────────────────────────────────────────────────────────
 
-    private boolean evaluateGroovyRule(RuleConfig rule, ClaimDataRequest claim,
+    private boolean evaluateGroovyRule(RuleConfig rule, ClaimRequest claim,
                                         ClaimDecisionResponse decision, boolean simulation) {
         if (rule.getGroovyScript() == null || rule.getGroovyScript().isBlank()) {
             log.warn("[BRMS] Groovy rule '{}' has no script body — skipping", rule.getRuleKey());
@@ -144,7 +142,7 @@ public class RuleEngineServiceImpl implements RuleEngineService {
     // Simple key/value rule evaluator
     // ────────────────────────────────────────────────────────────────────────────
 
-    private boolean evaluateSimpleRule(RuleConfig rule, ClaimDataRequest claim,
+    private boolean evaluateSimpleRule(RuleConfig rule, ClaimRequest claim,
                                         ClaimDecisionResponse decision, boolean simulation) {
         boolean fired = false;
         String key = rule.getRuleKey();
@@ -154,7 +152,7 @@ public class RuleEngineServiceImpl implements RuleEngineService {
             case "MAX_CLAIM_AMOUNT_AUTO_APPROVE" -> {
                 double threshold = Double.parseDouble(value);
                 if (claim.getClaimedAmount() != null && claim.getClaimedAmount() <= threshold) {
-                    if (!simulation) decision.setStatus(ClaimStatus.AI_VALIDATED);
+                    if (!simulation) decision.setClaimStatus(ClaimStatus.AI_VALIDATED);
                     decision.getReasons().add("Auto-validated: amount " + claim.getClaimedAmount() + " ≤ threshold " + threshold);
                     fired = true;
                 }
@@ -162,7 +160,7 @@ public class RuleEngineServiceImpl implements RuleEngineService {
             case "MIN_CLAIM_AMOUNT_AUTO_REJECT" -> {
                 double min = Double.parseDouble(value);
                 if (claim.getClaimedAmount() != null && claim.getClaimedAmount() < min) {
-                    if (!simulation) decision.setStatus(ClaimStatus.REJECTED);
+                    if (!simulation) decision.setClaimStatus(ClaimStatus.REJECTED);
                     decision.getReasons().add("Auto-rejected: amount " + claim.getClaimedAmount() + " below minimum " + min);
                     fired = true;
                 }
@@ -170,7 +168,7 @@ public class RuleEngineServiceImpl implements RuleEngineService {
             case "HIGH_AMOUNT_UNDER_REVIEW" -> {
                 double high = Double.parseDouble(value);
                 if (claim.getClaimedAmount() != null && claim.getClaimedAmount() > high) {
-                    if (!simulation) decision.setStatus(ClaimStatus.UNDER_REVIEW);
+                    if (!simulation) decision.setClaimStatus(ClaimStatus.UNDER_REVIEW);
                     decision.getReasons().add("Sent for review: high claim amount " + claim.getClaimedAmount() + " > " + high);
                     fired = true;
                 }
@@ -178,7 +176,7 @@ public class RuleEngineServiceImpl implements RuleEngineService {
             case "MISSING_DISCHARGE_DATE_FLAG" -> {
                 if (claim.getClaimFormDischargeDate() == null) {
                     if (!simulation) {
-                        if (decision.getStatus() == null) decision.setStatus(ClaimStatus.UNDER_REVIEW);
+                        if (decision.getClaimStatus() == null) decision.setClaimStatus(ClaimStatus.UNDER_REVIEW);
                     }
                     decision.getReasons().add("Missing discharge date — flagged for review");
                     fired = true;
@@ -197,7 +195,7 @@ public class RuleEngineServiceImpl implements RuleEngineService {
     // Drools fallback
     // ────────────────────────────────────────────────────────────────────────────
 
-    private ClaimDecisionResponse evaluateWithDrools(ClaimDataRequest claimData, Long claimId, boolean simulation) {
+    private ClaimDecisionResponse evaluateWithDrools(ClaimRequest claimData, Long claimId, boolean simulation) {
         ClaimDecisionResponse decision = new ClaimDecisionResponse(null, new ArrayList<>());
         KieSession kieSession = kieContainer.newKieSession();
         try {
@@ -208,14 +206,14 @@ public class RuleEngineServiceImpl implements RuleEngineService {
         } finally {
             kieSession.dispose();
         }
-        if (decision.getStatus() == null) {
-            decision.setStatus(ClaimStatus.UNDER_REVIEW);
+        if (decision.getClaimStatus() == null) {
+            decision.setClaimStatus(ClaimStatus.UNDER_REVIEW);
         }
         return decision;
     }
 
     private ClaimDecisionResponse copyDecision(ClaimDecisionResponse original) {
-        return new ClaimDecisionResponse(original.getStatus(), new ArrayList<>(original.getReasons()));
+        return new ClaimDecisionResponse(original.getClaimStatus(), new ArrayList<>(original.getReasons()));
     }
 
     // ────────────────────────────────────────────────────────────────────────────
@@ -224,7 +222,7 @@ public class RuleEngineServiceImpl implements RuleEngineService {
 
     @Override
     @Transactional
-    public ClaimDecisionResponse simulateClaim(ClaimDataRequest claimData) {
+    public ClaimDecisionResponse simulateClaim(ClaimRequest claimData) {
         return evaluateClaim(claimData, null, true);
     }
 }

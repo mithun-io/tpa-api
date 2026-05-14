@@ -26,7 +26,7 @@ import com.tpa.entity.RefreshToken;
 import com.tpa.repository.RefreshTokenRepository;
 import com.tpa.entity.Carrier;
 import com.tpa.repository.CarrierRepository;
-import com.tpa.kafka.ClaimEventProducer;
+import com.tpa.kafka.producer.ClaimEventProducer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;

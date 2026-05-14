@@ -1,11 +1,13 @@
-package com.tpa.kafka;
+package com.tpa.kafka.consumer;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tpa.dto.request.ClaimDataRequest;
+import com.tpa.dto.request.ClaimRequest;
 import com.tpa.dto.response.ClaimDecisionResponse;
 import com.tpa.dto.response.ClaimResponse;
+import com.tpa.enums.ClaimStatus;
 import com.tpa.helper.EmailService;
+import com.tpa.kafka.producer.ClaimEventPipelineProducer;
 import com.tpa.kafka.event.ClaimLifecycleEvent;
 import com.tpa.service.ClaimService;
 import com.tpa.service.RuleEngineService;
@@ -30,40 +32,39 @@ public class ClaimEventConsumer {
     @KafkaListener(topics = "claim-created", groupId = "tpa-group")
     public void consumeClaimCreatedEvent(String message) {
         log.info("[KAFKA] Received claim-created event: {}", message);
+
         try {
             Map<String, Object> event = objectMapper.readValue(message, new TypeReference<>() {});
             Long claimId = Long.valueOf(event.get("claimId").toString());
 
             ClaimResponse claimResponse = claimService.getClaim(claimId);
-            if (claimResponse.getClaimStatus() == com.tpa.enums.ClaimStatus.CARRIER_APPROVED ||
-                claimResponse.getClaimStatus() == com.tpa.enums.ClaimStatus.SETTLED ||
-                claimResponse.getClaimStatus() == com.tpa.enums.ClaimStatus.REJECTED) {
+            if (claimResponse.getClaimStatus() == ClaimStatus.CARRIER_APPROVED || claimResponse.getClaimStatus() == ClaimStatus.SETTLED || claimResponse.getClaimStatus() == ClaimStatus.REJECTED) {
                 log.info("[KAFKA] Claim {} already finalized with {}. Skipping.", claimId, claimResponse.getClaimStatus());
                 return;
             }
 
             String dataJson = objectMapper.writeValueAsString(event.get("data"));
-            ClaimDataRequest request = objectMapper.readValue(dataJson, ClaimDataRequest.class);
+            ClaimRequest claimRequest = objectMapper.readValue(dataJson, ClaimRequest.class);
 
             log.info("[KAFKA] Running rule engine for claim {}", claimId);
 
             // Pass claimId for audit logging
-            ClaimDecisionResponse decision = ruleEngineService.evaluateClaim(request, claimId, false);
-            log.info("[KAFKA] Rule engine decision for claim {}: status={}, reasons={}", claimId, decision.getStatus(), decision.getReasons());
+            ClaimDecisionResponse claimDecisionResponse = ruleEngineService.evaluateClaim(claimRequest, claimId, false);
+            log.info("[KAFKA] Rule engine decision for claim {}: status={}, reasons={}", claimId, claimDecisionResponse.getClaimStatus(), claimDecisionResponse.getReasons());
 
-            claimService.processClaimDecision(claimId, decision);
-            log.info("[KAFKA] Claim {} status updated to {}", claimId, decision.getStatus());
+            claimService.processClaimDecision(claimId, claimDecisionResponse);
+            log.info("[KAFKA] Claim {} status updated to {}", claimId, claimDecisionResponse.getClaimStatus());
 
             // Publish to lifecycle pipeline
-            ClaimLifecycleEvent lifecycleEvent = ClaimLifecycleEvent.builder()
+            ClaimLifecycleEvent claimLifecycleEvent = ClaimLifecycleEvent.builder()
                     .claimId(claimId)
                     .policyNumber(claimResponse.getPolicyNumber())
                     .customerEmail(claimResponse.getUserEmail())
                     .stage(ClaimLifecycleEvent.Stage.RULE_EVALUATED)
-                    .claimStatus(decision.getStatus())
-                    .message("Rule engine decision: " + String.join(", ", decision.getReasons()))
+                    .claimStatus(claimDecisionResponse.getClaimStatus())
+                    .message("Rule engine decision: " + String.join(", ", claimDecisionResponse.getReasons()))
                     .build();
-            pipelineProducer.publishRuleEvaluated(lifecycleEvent);
+            pipelineProducer.publishRuleEvaluated(claimLifecycleEvent);
 
         } catch (Exception e) {
             log.error("[KAFKA] Error processing claim event. Message: {}. Error: {}", message, e.getMessage(), e);
@@ -77,11 +78,11 @@ public class ClaimEventConsumer {
             Map<String, Object> event = objectMapper.readValue(message, new TypeReference<>() {});
 
             Long claimId = Long.valueOf(event.get("claimId").toString());
+
             String status = event.get("status").toString();
             String reviewNotes = event.get("message").toString();
 
-            String customerEmail = event.get("customerEmail") != null
-                    ? event.get("customerEmail").toString() : "customer-" + claimId + "@tpa.com";
+            String customerEmail = event.get("customerEmail") != null ? event.get("customerEmail").toString() : "customer-" + claimId + "@tpa.com";
 
             emailService.sendClaimStatusNotification(customerEmail, claimId, status, reviewNotes);
             log.info("Sent email notification for claim {} to {}", claimId, customerEmail);

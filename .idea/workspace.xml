@@ -6,40 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="b816a75b-6920-4401-836e-1b55556aa93c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/controller/AnalyticsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/controller/AnalyticsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/request/CarrierRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/request/CarrierRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/request/PatientRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/request/PatientRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/enums/UserRole.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/enums/UserRole.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/helper/AdminInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/helper/AdminInitializer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/helper/AnalyticsService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/helper/AuditForensicService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/helper/AuditForensicService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/helper/EmailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/helper/EmailService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/helper/EnterpriseDemoDataSeeder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/helper/EnterpriseDataSeeder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/helper/NotificationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/NotificationServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/helper/PdfExportService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/helper/PdfExportService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/helper/RedisService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/helper/RedisService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/repository/ClaimSpecification.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/helper/ClaimSpecification.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/ClaimServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/ClaimServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/.env" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/tpa/TpaApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/tpa/TpaApplicationTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/tpa/controller/ClaimControllerIntegrationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/tpa/controller/ClaimControllerIntegrationTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/tpa/controller/SecurityAndUploadTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/tpa/controller/SecurityAndUploadTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/tpa/integration/ClaimProcessingIntegrationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/tpa/integration/ClaimProcessingIntegrationTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/tpa/integration/SecurityIntegrationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/tpa/integration/SecurityIntegrationTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/tpa/repository/CarrierRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/tpa/repository/CarrierRepositoryTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/tpa/repository/ClaimRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/tpa/repository/ClaimRepositoryTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/tpa/repository/UserRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/tpa/repository/UserRepositoryTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/.env" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application-dev.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/banner.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/rules/claim-rules.drl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/generated-sources/annotations/com/tpa/mapper/CustomerMapperImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/generated-sources/annotations/com/tpa/mapper/PatientMapperImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/generated-sources/annotations/com/tpa/mapper/UserMapperImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/enums/ClaimStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/enums/ClaimStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/kafka/ClaimEventConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/kafka/consumer/ClaimEventConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/kafka/ClaimEventPipelineConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/kafka/consumer/ClaimEventPipelineConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/kafka/consumer/ConsumerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/kafka/consumer/ConsumerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/RuleEngineService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/RuleEngineService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/RuleEngineServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/RuleEngineServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -158,7 +130,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1778746990736</updated>
-      <workItem from="1778746991991" duration="16554000" />
+      <workItem from="1778746991991" duration="17820000" />
     </task>
     <servers />
   </component>

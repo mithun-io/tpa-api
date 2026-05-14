@@ -28,19 +28,25 @@ public class ClaimLifecycleEvent {
         REJECTED
     }
 
-    /** Unique idempotency key — prevents duplicate processing. */
+    // Unique idempotency key — prevents duplicate processing.
     @Builder.Default
     private String eventId = UUID.randomUUID().toString();
 
     private Long claimId;
+
     private String policyNumber;
+
     private String customerEmail;
+
     private Stage stage;
+
     private ClaimStatus claimStatus;
+
     private String message;
+
     private String metadata;
 
-    /** Number of times this event has been retried. */
+    // Number of times this event has been retried.
     @Builder.Default
     private int retryCount = 0;
 

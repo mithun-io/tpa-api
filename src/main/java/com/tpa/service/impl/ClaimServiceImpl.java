@@ -7,7 +7,7 @@ import com.tpa.entity.Claim;
 import com.tpa.entity.ClaimAudit;
 import com.tpa.entity.User;
 import com.tpa.enums.ClaimStatus;
-import com.tpa.kafka.ClaimEventProducer;
+import com.tpa.kafka.producer.ClaimEventProducer;
 import com.tpa.mapper.ClaimMapper;
 import com.tpa.kafka.producer.ProducerService;
 import com.tpa.kafka.event.ClaimNotificationEvent;

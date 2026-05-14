@@ -4,7 +4,7 @@ import com.tpa.entity.Claim;
 import com.tpa.entity.User;
 import com.tpa.enums.UserRole;
 import com.tpa.helper.EmailService;
-import com.tpa.kafka.ClaimEventPipelineProducer;
+import com.tpa.kafka.producer.ClaimEventPipelineProducer;
 import com.tpa.kafka.event.ClaimLifecycleEvent;
 import com.tpa.repository.ClaimRepository;
 import com.tpa.repository.UserRepository;

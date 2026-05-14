@@ -1,8 +1,8 @@
-package com.tpa.kafka;
+package com.tpa.kafka.producer;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tpa.dto.request.ClaimDataRequest;
+import com.tpa.dto.request.ClaimRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -17,14 +17,15 @@ public class ClaimEventProducer {
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final ObjectMapper objectMapper;
 
-    public void publishClaimCreatedEvent(Long claimId, ClaimDataRequest request) {
+    public void publishClaimCreatedEvent(Long claimId, ClaimRequest ClaimRequest) {
         try {
             Map<String, Object> event = new HashMap<>();
             event.put("claimId", claimId);
-            event.put("data", request);
+            event.put("data", ClaimRequest);
             
             String message = objectMapper.writeValueAsString(event);
             kafkaTemplate.send("claim-created", String.valueOf(claimId), message);
+
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Failed to serialize claim event", e);
         }
@@ -39,6 +40,7 @@ public class ClaimEventProducer {
 
             String message = objectMapper.writeValueAsString(event);
             kafkaTemplate.send("carrier-created", String.valueOf(carrierId), message);
+
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Failed to serialize carrier event", e);
         }
@@ -54,6 +56,7 @@ public class ClaimEventProducer {
 
             String message = objectMapper.writeValueAsString(event);
             kafkaTemplate.send("carrier-approved", String.valueOf(carrierId), message);
+
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Failed to serialize carrier-approved event", e);
         }

@@ -20,10 +20,12 @@ public class ConsumerService {
     public void consume(String message) {
         try {
             PaymentEvent paymentEvent = objectMapper.readValue(message, PaymentEvent.class);
-            log.info("kafka received: {}", paymentEvent);
+
+            log.info("Kafka received: {}", paymentEvent);
             emailService.sendPaymentConfirmation(paymentEvent.getEmail(), paymentEvent.getOrderId(), paymentEvent.getAmount());
+
         } catch (Exception e) {
-            log.error("failed to process kafka message: {}", message, e);
+            log.error("Failed to process Kafka message: {}", message, e);
         }
     }
 }

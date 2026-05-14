@@ -26,7 +26,7 @@ import com.tpa.dto.response.CarrierResponse;
 import com.tpa.mapper.ClaimMapper;
 import com.tpa.repository.CarrierRepository;
 import com.tpa.repository.ClaimRepository;
-import com.tpa.kafka.ClaimEventProducer;
+import com.tpa.kafka.producer.ClaimEventProducer;
 import com.tpa.service.AiClaimAssistantService;
 import com.tpa.service.AuditLogService;
 import com.tpa.helper.ClaimStateMachine;

@@ -5,7 +5,7 @@ import com.tpa.entity.Claim;
 import com.tpa.entity.ClaimDocument;
 import com.tpa.enums.DocumentType;
 import com.tpa.exception.NoResourceFoundException;
-import com.tpa.kafka.ClaimEventProducer;
+import com.tpa.kafka.producer.ClaimEventProducer;
 import com.tpa.repository.ClaimDocumentRepository;
 import com.tpa.repository.ClaimRepository;
 import com.tpa.service.ClaimService;
