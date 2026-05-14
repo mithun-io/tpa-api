@@ -6,7 +6,6 @@ import com.tpa.dto.request.PasswordResetRequest;
 import com.tpa.dto.request.OtpRequest;
 import com.tpa.dto.response.LoginResponse;
 import com.tpa.dto.response.UserResponse;
-import com.tpa.entity.Customer;
 import com.tpa.entity.RefreshToken;
 import com.tpa.entity.User;
 import com.tpa.enums.UserRole;

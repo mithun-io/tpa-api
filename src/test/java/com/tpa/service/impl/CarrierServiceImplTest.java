@@ -8,11 +8,11 @@ import com.tpa.entity.Claim;
 import com.tpa.entity.User;
 import com.tpa.enums.ClaimStatus;
 import com.tpa.exception.BadRequestException;
-import com.tpa.exception.NoResourceFoundException;
+import com.tpa.helper.ClaimStateMachine;
 import com.tpa.kafka.producer.ProducerService;
 import com.tpa.repository.CarrierRepository;
 import com.tpa.repository.ClaimRepository;
-import com.tpa.service.NotificationService;
+import com.tpa.helper.NotificationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,7 +37,7 @@ class CarrierServiceImplTest {
     @Mock private ClaimRepository claimRepository;
     @Mock private ProducerService producerService;
     @Mock private NotificationService notificationService;
-    @Mock private com.tpa.service.ClaimStateMachine claimStateMachine;
+    @Mock private ClaimStateMachine claimStateMachine;
     @Mock private com.tpa.service.AuditLogService auditLogService;
     @Spy  private com.tpa.mapper.CarrierClaimMapper carrierClaimMapper =
             new com.tpa.mapper.CarrierClaimMapperImpl();

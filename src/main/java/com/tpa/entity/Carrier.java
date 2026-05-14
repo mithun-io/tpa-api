@@ -20,18 +20,18 @@ public class Carrier {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "user_id", nullable = false, unique = true)
     private User user;
 
     @Column(nullable = false)
     private String companyName;
 
-    @Column(nullable = false, unique = true)
-    private String registrationNumber;
-
     @Column(nullable = false)
     private String companyType;
+
+    @Column(nullable = false, unique = true)
+    private String registrationNumber;
 
     @Column(nullable = false)
     private String licenseNumber;
@@ -45,11 +45,6 @@ public class Carrier {
     @Column(nullable = false)
     private String contactPersonPhone;
 
+    @Column(nullable = true)
     private String website;
-
-    private Double aiRiskScore;
-
-    private AiRiskStatus aiRiskStatus;
-
-    private AiRecommendation aiRecommendation;
 }

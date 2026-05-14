@@ -24,17 +24,17 @@ public class Tenant {
     @Column(nullable = false, unique = true)
     private String name;
 
-    /** URL-safe slug used as tenant identifier in requests (header/subdomain). */
+    // URL-safe slug used as tenant identifier in requests (header/subdomain).
     @Column(nullable = false, unique = true)
     private String slug;
 
-    /** Contact email for the tenant organization. */
+    // Contact email for the tenant organization.
     private String contactEmail;
 
-    /** Optional custom logo URL for white-labeling. */
+    // Optional custom logo URL for white-labeling.
     private String logoUrl;
 
-    /** JSON blob for tenant-specific feature flags and branding config. */
+    // JSON blob for tenant-specific feature flags and branding config.
     @Column(columnDefinition = "TEXT")
     private String configJson;
 
@@ -42,7 +42,7 @@ public class Tenant {
     @Builder.Default
     private Boolean active = true;
 
-    /** Max claims allowed per month (0 = unlimited). */
+    // Max claims allowed per month (0 = unlimited).
     @Column(nullable = false)
     @Builder.Default
     private Integer claimsQuotaMonthly = 0;

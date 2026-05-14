@@ -1,11 +1,13 @@
 package com.tpa.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tpa.enums.ClaimStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -21,9 +23,9 @@ public class ClaimAudit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "claim_id", nullable = false)
-    @com.fasterxml.jackson.annotation.JsonIgnore
     private Claim claim;
 
     @Enumerated(EnumType.STRING)
@@ -39,11 +41,7 @@ public class ClaimAudit {
     @Column(length = 1000)
     private String notes;
 
+    @CreationTimestamp
     @Column(nullable = false)
     private LocalDateTime changedAt;
-
-    @PrePersist
-    protected void onCreate() {
-        changedAt = LocalDateTime.now();
-    }
 }

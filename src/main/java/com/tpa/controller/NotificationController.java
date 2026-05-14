@@ -3,7 +3,7 @@ package com.tpa.controller;
 import com.tpa.dto.response.NotificationResponse;
 import com.tpa.entity.User;
 import com.tpa.repository.UserRepository;
-import com.tpa.service.NotificationService;
+import com.tpa.helper.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

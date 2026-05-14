@@ -1,5 +1,6 @@
 package com.tpa.entity;
 
+import com.tpa.enums.ClaimStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -32,36 +33,26 @@ public class RuleExecutionAudit {
 
     private Integer ruleVersion;
 
-    /**
-     * Status before this rule ran.
-     */
-    private String inputStatus;
+    // Status before this rule ran.
+    private ClaimStatus inputStatus;
 
-    /**
-     * Status set by this rule (null if rule fired but didn't change status, or was simulation).
-     */
-    private String outputStatus;
+    // Status set by this rule (null if rule fired but didn't change status, or was simulation).
+    private ClaimStatus outputStatus;
 
     @Column(columnDefinition = "TEXT")
     private String reasons;
 
-    /**
-     * Whether this rule run was a simulation (did not persist changes).
-     */
+    // Whether this rule run was a simulation (did not persist changes).
     @Column(nullable = false)
     @Builder.Default
     private Boolean simulation = false;
 
-    /**
-     * Whether the rule matched/fired.
-     */
+    // Whether the rule matched/fired.
     @Column(nullable = false)
     @Builder.Default
     private Boolean fired = false;
 
-    /**
-     * Execution time in milliseconds.
-     */
+    // Execution time in milliseconds.
     private Long executionTimeMs;
 
     @Column

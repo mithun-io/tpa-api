@@ -3,7 +3,6 @@ package com.tpa.service.impl;
 import com.tpa.dto.request.*;
 import com.tpa.dto.response.LoginResponse;
 import com.tpa.dto.response.UserResponse;
-import com.tpa.entity.Customer;
 import com.tpa.entity.Patient;
 import com.tpa.entity.User;
 import com.tpa.enums.UserRole;

@@ -18,7 +18,7 @@ import com.tpa.repository.CarrierRepository;
 import com.tpa.entity.Carrier;
 import com.tpa.service.AuditLogService;
 import com.tpa.service.ClaimService;
-import com.tpa.service.ClaimStateMachine;
+import com.tpa.helper.ClaimStateMachine;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;

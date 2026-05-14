@@ -1,5 +1,6 @@
 package com.tpa.entity;
 
+import com.tpa.enums.DocumentStatus;
 import com.tpa.enums.DocumentType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -34,7 +35,7 @@ public class ClaimDocument {
     private Claim claim;
 
     @Column(name = "validation_status")
-    private String validationStatus; // VALID or INVALID
+    private DocumentStatus validationStatus;
 
     @Column(name = "validation_issues", columnDefinition = "TEXT")
     private String validationIssues;

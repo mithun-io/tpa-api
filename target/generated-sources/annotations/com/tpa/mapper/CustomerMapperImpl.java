@@ -2,7 +2,7 @@ package com.tpa.mapper;
 
 import com.tpa.dto.request.CustomerRequest;
 import com.tpa.dto.response.CustomerResponse;
-import com.tpa.entity.Customer;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;

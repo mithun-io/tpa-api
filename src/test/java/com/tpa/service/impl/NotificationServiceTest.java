@@ -6,7 +6,7 @@ import com.tpa.entity.User;
 import com.tpa.enums.UserRole;
 import com.tpa.repository.NotificationRepository;
 import com.tpa.repository.UserRepository;
-import com.tpa.service.NotificationService;
+import com.tpa.helper.NotificationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

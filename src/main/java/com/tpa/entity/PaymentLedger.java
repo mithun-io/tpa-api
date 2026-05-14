@@ -1,5 +1,7 @@
 package com.tpa.entity;
 
+import com.tpa.enums.PaymentEventType;
+import com.tpa.enums.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -29,7 +31,7 @@ public class PaymentLedger {
     @Column(nullable = false)
     private Long claimId;
 
-    /** FK to payments.id — null for failed/retried entries. */
+    // FK to payments.id — null for failed/retried entries.
     private Long paymentId;
 
     @Column(nullable = false)
@@ -39,26 +41,24 @@ public class PaymentLedger {
     @Builder.Default
     private String currency = "INR";
 
-    /**
-     * Event type: PAYMENT_CREATED | PAYMENT_VERIFIED | PAYMENT_FAILED |
-     *             PAYMENT_REFUNDED | PAYMENT_RECONCILED | INSTANT_PAYOUT
-     */
     @Column(nullable = false)
-    private String eventType;
+    @Enumerated(EnumType.STRING)
+    private PaymentEventType paymentEventType;
 
     @Column(nullable = false)
-    private String status;
+    private PaymentStatus paymentStatus;
 
     private String razorpayOrderId;
+
     private String razorpayPaymentId;
 
     @Column(columnDefinition = "TEXT")
     private String notes;
 
-    /** Actor who initiated this ledger event. */
+    // Actor who initiated this ledger event.
     private String initiatedBy;
 
-    /** SHA-256 of this record's payload for tamper detection. */
+    // SHA-256 of this record's payload for tamper detection.
     @Column(length = 64)
     private String integrityHash;
 

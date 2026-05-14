@@ -1,5 +1,5 @@
 package com.tpa.enums;
 
 public enum PaymentStatus {
-    CREATED, SUCCESS, FAILED, PAID
+    PENDING, CREATED, SUCCESS, FAILED, REFUNDED, CANCELLED
 }

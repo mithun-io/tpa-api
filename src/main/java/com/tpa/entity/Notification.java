@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -33,14 +34,14 @@ public class Notification {
     @Column(nullable = false)
     private boolean isRead;
 
+    @CreationTimestamp
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
-    private String targetUrl; // optional link to view the associated entity
+    private String targetUrl;
 
     @PrePersist
     protected void onCreate() {
-        createdAt = LocalDateTime.now();
         isRead = false;
     }
 }

@@ -1,18 +1,15 @@
 package com.tpa.service.impl;
 
 import com.tpa.dto.response.CarrierClaimDetailResponse;
-import com.tpa.dto.response.CarrierClaimDetailResponse.FraudInfo;
-import com.tpa.dto.response.CarrierClaimDetailResponse.PatientInfo;
-import com.tpa.dto.response.CarrierClaimDetailResponse.PolicyInfo;
 import com.tpa.dto.response.PolicyStatusResponse;
 import com.tpa.entity.Carrier;
 import com.tpa.entity.Claim;
-import com.tpa.entity.User;
 import com.tpa.enums.ClaimStatus;
 import com.tpa.enums.PolicyStatus;
-import com.tpa.enums.RiskLevel;
 import com.tpa.exception.BadRequestException;
 import com.tpa.exception.NoResourceFoundException;
+import com.tpa.helper.ClaimStateMachine;
+import com.tpa.helper.NotificationService;
 import com.tpa.kafka.event.ClaimNotificationEvent;
 import com.tpa.kafka.producer.ProducerService;
 import com.tpa.repository.CarrierRepository;
@@ -25,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -35,8 +31,8 @@ public class CarrierServiceImpl implements CarrierService {
     private final CarrierRepository carrierRepository;
     private final ClaimRepository claimRepository;
     private final ProducerService producerService;
-    private final com.tpa.service.NotificationService notificationService;
-    private final com.tpa.service.ClaimStateMachine claimStateMachine;
+    private final NotificationService notificationService;
+    private final ClaimStateMachine claimStateMachine;
     private final com.tpa.service.AuditLogService auditLogService;
     private final com.tpa.mapper.CarrierClaimMapper carrierClaimMapper;
 

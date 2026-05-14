@@ -1,7 +1,9 @@
 package com.tpa.entity;
 
+import com.tpa.enums.ClaimStatus;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -36,10 +38,11 @@ public class AuditLog {
     @Column(nullable = false)
     private String action;
 
-    private String previousStatus;
+    private ClaimStatus previousStatus;
 
-    private String newStatus;
+    private ClaimStatus newStatus;
 
+    @CreationTimestamp
     @Column(nullable = false)
     private LocalDateTime timestamp;
 
@@ -49,27 +52,15 @@ public class AuditLog {
     @Column(columnDefinition = "TEXT")
     private String details;
 
-    /**
-     * SHA-256 hash of: claimId + action + previousStatus + newStatus + timestamp + performedBy
-     */
+    // SHA-256 hash of: claimId + action + previousStatus + newStatus + timestamp + performedBy
     @Column(length = 64)
     private String integrityHash;
 
-    /**
-     * SHA-256 hash of the previous audit record for this claimId (blockchain chain link).
-     * "GENESIS" for the first record.
-     */
+    // SHA-256 hash of the previous audit record for this claimId (blockchain chain link). "GENESIS" for the first record.
     @Column(length = 64)
     private String previousHash;
 
-    /**
-     * @deprecated Kept for backward compatibility. Use integrityHash instead.
-     */
+    // @Deprecated Kept for backward compatibility. Use integrityHash instead.
     @Deprecated
     private String blockchainHash;
-
-    @PrePersist
-    protected void onCreate() {
-        timestamp = LocalDateTime.now();
-    }
 }

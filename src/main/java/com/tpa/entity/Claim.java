@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -23,26 +24,13 @@ public class Claim {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String policyNumber;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private ClaimStatus status;
-
-    private Double amount;
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(nullable = false)
-    private LocalDateTime createdDate;
-
-    private LocalDateTime processedDate;
-
-    @Column(length = 1000)
-    private String rejectionReason;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "carrier_id")
+    private Carrier carrier;
 
     private String patientName;
 
@@ -56,6 +44,13 @@ public class Claim {
 
     private String policyId;
 
+    @Column(nullable = false)
+    private String policyNumber;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private ClaimStatus claimStatus;
+
     private String carrierName;
 
     private String policyName;
@@ -68,11 +63,9 @@ public class Claim {
 
     private String icdCode;
 
-    private LocalDate billDate;
+    private Double amount;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "carrier_id")
-    private Carrier carrier;
+    private LocalDate billDate;
 
     private String reviewedBy;
 
@@ -83,12 +76,21 @@ public class Claim {
     @Column(length = 1000)
     private String reviewNotes;
 
+    @CreationTimestamp
+    @Column(nullable = false)
+    private LocalDateTime createdDate;
+
+    private LocalDateTime processedDate;
+
+    @Column(length = 1000)
+    private String rejectionReason;
+
     private Double riskScore;
 
     @Column(length = 1000)
     private String riskFlags;
     
-    private Integer healthScore;
+    private Double healthScore;
 
     @Enumerated(EnumType.STRING)
     private RiskLevel riskLevel;
@@ -96,11 +98,11 @@ public class Claim {
     @Column(length = 2000)
     private String aiSummary;
 
-    // ── Multi-Tenant ──────────────────────────────────────────────────────────
+    // Tenant
     @Column
     private String tenantId;
 
-    // ── SLA & Escalation ─────────────────────────────────────────────────────
+    // SLA Tracker
     private LocalDateTime slaDeadline;
 
     @Column(nullable = false)
@@ -111,7 +113,7 @@ public class Claim {
 
     private String escalationReason;
 
-    // ── Fraud Decision ────────────────────────────────────────────────────────
+    // Fraud Decision
     private Double fraudScore;
 
     @Column(length = 500)
@@ -119,7 +121,6 @@ public class Claim {
 
     @PrePersist
     protected void onCreate() {
-        createdDate = LocalDateTime.now();
         if (tenantId == null) tenantId = "default";
         // Default SLA: 48 hours from creation
         if (slaDeadline == null) slaDeadline = createdDate.plusHours(48);

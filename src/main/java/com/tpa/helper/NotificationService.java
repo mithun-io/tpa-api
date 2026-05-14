@@ -1,4 +1,4 @@
-package com.tpa.service;
+package com.tpa.helper;
 
 import com.tpa.dto.response.NotificationResponse;
 import com.tpa.entity.Notification;

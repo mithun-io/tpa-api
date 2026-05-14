@@ -1,5 +1,6 @@
 package com.tpa.entity;
 
+import com.tpa.enums.ClaimStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -23,7 +24,7 @@ public class EventAuditLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /** UUID from ClaimLifecycleEvent — used for idempotency checks. */
+    // UUID from ClaimLifecycleEvent — used for idempotency checks.
     @Column(nullable = false, unique = true)
     private String eventId;
 
@@ -34,7 +35,7 @@ public class EventAuditLog {
     private String stage;
 
     @Column(nullable = false)
-    private String claimStatus;
+    private ClaimStatus claimStatus;
 
     @Column(columnDefinition = "TEXT")
     private String message;
@@ -44,23 +45,21 @@ public class EventAuditLog {
 
     private String topic;
 
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime receivedAt;
+
+    private LocalDateTime processedAt;
+
     @Column(nullable = false)
     @Builder.Default
     private Boolean processed = false;
 
-    /**
-     * Number of retry attempts before successful processing.
-     */
+    // Number of retry attempts before successful processing.
     @Column(nullable = false)
     @Builder.Default
     private Integer retryCount = 0;
 
     @Column(columnDefinition = "TEXT")
     private String errorDetails;
-
-    @CreationTimestamp
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime receivedAt;
-
-    private LocalDateTime processedAt;
 }

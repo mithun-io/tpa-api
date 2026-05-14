@@ -37,10 +37,10 @@ public class ClaimStatusTimeline {
     @Column(length = 1000)
     private String notes;
 
-    /** The actor who triggered this transition (user email or "SYSTEM"). */
+    // The actor who triggered this transition (user email or "SYSTEM").
     private String changedBy;
 
-    /** Estimated/actual remaining processing days for customer display. */
+    // Estimated or actual remaining processing days for customer display.
     private Integer estimatedDaysRemaining;
 
     @CreationTimestamp

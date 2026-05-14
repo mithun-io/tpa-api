@@ -26,60 +26,41 @@ public class RuleConfig {
     @Column(nullable = false, unique = true)
     private String ruleKey;
 
-    /**
-     * Legacy simple value (e.g., "50000") — used by non-Groovy rules.
-     */
+    // Legacy simple value (e.g., "50000") — used by non-Groovy rules.
     @Column(nullable = false)
     private String ruleValue;
 
     private String description;
 
-    /**
-     * Groovy script body — receives binding variables:
-     *   ClaimDataRequest claim, ClaimDecisionResponse decision
-     * The script should set decision.status and append to decision.reasons.
-     */
     @Column(columnDefinition = "TEXT")
     private String groovyScript;
 
-    /**
-     * Rule type: SIMPLE | GROOVY
-     */
+    // Rule type: SIMPLE | GROOVY
     @Column(nullable = false)
     @Builder.Default
     private String ruleType = "SIMPLE";
 
-    /**
-     * Lower number = higher priority. Rules are evaluated in ascending order.
-     */
+    // Lower number = higher priority. Rules are evaluated in ascending order.
     @Column(nullable = false)
     @Builder.Default
     private Integer priority = 100;
 
-    /**
-     * Version counter — incremented on each update.
-     */
+    // Version counter — incremented on each update.
     @Column(nullable = false)
     @Builder.Default
     private Integer version = 1;
 
-    /**
-     * Whether this rule is active. Inactive rules are skipped during evaluation.
-     */
+    // Whether this rule is active. Inactive rules are skipped during evaluation.
     @Column(nullable = false)
     @Builder.Default
     private Boolean active = true;
 
-    /**
-     * Simulation mode — rule is evaluated but does NOT affect claim status.
-     */
+    // Simulation mode — rule is evaluated but does NOT affect claim status.
     @Column(nullable = false)
     @Builder.Default
     private Boolean simulationMode = false;
 
-    /**
-     * Category: ELIGIBILITY | AMOUNT | FRAUD | MEDICAL | SLA | DEFAULT
-     */
+    // Category: ELIGIBILITY | AMOUNT | FRAUD | MEDICAL | SLA | DEFAULT
     @Column
     @Builder.Default
     private String category = "DEFAULT";
