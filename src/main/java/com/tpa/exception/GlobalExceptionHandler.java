@@ -31,114 +31,112 @@ public class GlobalExceptionHandler {
         Map<String, Object> errors = new HashMap<>();
         e.getBindingResult().getFieldErrors().forEach(x -> errors.put(x.getField(), x.getDefaultMessage()));
         log.warn("Validation failed: {}", errors);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>(false, "validation failed", errors, 400));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>(false, "Validation failed", errors, 400));
     }
 
     @ExceptionHandler(ConflictException.class)
     public ResponseEntity<ApiResponse<String>> handle(ConflictException e) {
         log.warn("Conflict: {}", e.getMessage());
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(new ApiResponse<>(false, e.getMessage(), null, 409));
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(new ApiResponse<>(false, "Conflict", e.getMessage(), 409));
     }
 
     @ExceptionHandler(NoResourceFoundException.class)
     public ResponseEntity<ApiResponse<String>> handle(NoResourceFoundException e) {
         log.warn("Not found: {}", e.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse<>(false, e.getMessage(), null, 404));
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse<>(false, "No resource found", e.getMessage(), 404));
     }
 
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<ApiResponse<String>> handle(BadRequestException e) {
         log.warn("Bad request: {}", e.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>(false, e.getMessage(), null, 400));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>(false, "Bad request", e.getMessage(), 400));
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ApiResponse<String>> handle(IllegalArgumentException e) {
         log.warn("Illegal argument: {}", e.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>(false, e.getMessage(), null, 400));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>(false, "Illegal argument", e.getMessage(), 400));
     }
 
     @ExceptionHandler(IllegalStateException.class)
     public ResponseEntity<ApiResponse<String>> handle(IllegalStateException e) {
         log.warn("Illegal state: {}", e.getMessage());
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(new ApiResponse<>(false, e.getMessage(), null, 409));
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(new ApiResponse<>(false, "Illegal state", e.getMessage(), 409));
     }
 
     @ExceptionHandler(UsernameNotFoundException.class)
     public ResponseEntity<ApiResponse<String>> handle(UsernameNotFoundException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse<>(false, e.getMessage(), null, 404));
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse<>(false, "Username not found", e.getMessage(), 404));
     }
 
     @ExceptionHandler(DisabledException.class)
     public ResponseEntity<ApiResponse<String>> handle(DisabledException e) {
         log.warn("Account disabled: {}", e.getMessage());
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ApiResponse<>(false, "Your account is inactive or not yet verified. Please log in again or contact support.", null, 403));
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ApiResponse<>(false, "Your account is inactive or not yet verified. Please log in again or contact support.", e.getMessage(), 403));
     }
 
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ApiResponse<String>> handle(BadCredentialsException e) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ApiResponse<>(false, "Invalid email or password.", null, 401));
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ApiResponse<>(false, "Invalid email or password.", e.getMessage(), 401));
     }
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ApiResponse<String>> handle(AccessDeniedException e) {
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ApiResponse<>(false, "Access denied: insufficient permissions.", null, 403));
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ApiResponse<>(false, "Access denied: insufficient permissions.", e.getMessage(), 403));
     }
 
     @ExceptionHandler(ExpiredJwtException.class)
     public ResponseEntity<ApiResponse<String>> handle(ExpiredJwtException e) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ApiResponse<>(false, "JWT token has expired. Please log in again.", null, 401));
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ApiResponse<>(false, "JWT token has expired. Please log in again.", e.getMessage(), 401));
     }
 
     @ExceptionHandler(MalformedJwtException.class)
     public ResponseEntity<ApiResponse<String>> handle(MalformedJwtException e) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ApiResponse<>(false, "Invalid JWT token.", null, 401));
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ApiResponse<>(false, "Invalid JWT token.", e.getMessage(), 401));
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<ApiResponse<String>> handle(HttpRequestMethodNotSupportedException e) {
-        return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(new ApiResponse<>(false, "Method not allowed: " + e.getMessage(), null, 405));
+        return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(new ApiResponse<>(false, "Method not allowed: " + e.getMessage(), e.getMessage(), 405));
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ApiResponse<String>> handle(HttpMessageNotReadableException e) {
         log.warn("Malformed request body: {}", e.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>(false, "Malformed request body. Please check your JSON.", null, 400));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>(false, "Malformed request body. Please check your JSON.", e.getMessage(), 400));
     }
 
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public ResponseEntity<ApiResponse<String>> handle(MissingServletRequestParameterException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>(false, "Missing required parameter: " + e.getParameterName(), null, 400));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>(false, "Missing required parameter: " + e.getParameterName(), e.getMessage(), 400));
     }
 
     @ExceptionHandler(MissingServletRequestPartException.class)
     public ResponseEntity<ApiResponse<String>> handle(MissingServletRequestPartException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>(false, "Missing required part: " + e.getRequestPartName(), null, 400));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>(false, "Missing required part: " + e.getRequestPartName(), e.getMessage(), 400));
     }
 
     @ExceptionHandler(org.springframework.web.multipart.MaxUploadSizeExceededException.class)
     public ResponseEntity<ApiResponse<String>> handle(org.springframework.web.multipart.MaxUploadSizeExceededException e) {
         log.warn("File size limit exceeded: {}", e.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>(false, "File size exceeds the 10MB limit. Please upload a smaller file.", null, 400));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>(false, "File size exceeds the 10MB limit. Please upload a smaller file.", e.getMessage(), 400));
     }
 
     @ExceptionHandler(ClassCastException.class)
     public ResponseEntity<ApiResponse<String>> handle(ClassCastException e) {
         log.error("ClassCastException: {}", e.getMessage(), e);
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse<>(false, "Internal data conversion error.", null, 500));
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse<>(false, "Internal data conversion error.", e.getMessage(), 500));
     }
 
     @ExceptionHandler(UnexpectedTypeException.class)
     public ResponseEntity<ApiResponse<String>> handle(UnexpectedTypeException e) {
         log.error("UnexpectedTypeException: {}", e.getMessage(), e);
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse<>(false, "Validation configuration error.", null, 500));
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse<>(false, "Validation configuration error.", e.getMessage(), 500));
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<String>> handle(Exception e) {
         log.error("Unhandled exception [{}]: {}", e.getClass().getSimpleName(), e.getMessage(), e);
-        // Do not leak internal exception messages in production
-        String message = "An unexpected error occurred. Please contact support if the issue persists.";
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse<>(false, message, null, 500));
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse<>(false, "An unexpected error occurred. Please contact support if the issue persists.", e.getMessage(), 500));
     }
 }
