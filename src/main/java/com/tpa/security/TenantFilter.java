@@ -14,7 +14,7 @@ import java.io.IOException;
 /**
  * Extracts the tenant ID from the X-Tenant-ID HTTP header and stores it
  * in TenantContext (ThreadLocal). Falls back to "default" if header is absent.
- *
+ * <p>
  * Must run BEFORE JwtAuthFilter so that tenant-aware services can use it.
  */
 @Slf4j
@@ -25,17 +25,18 @@ public class TenantFilter extends OncePerRequestFilter {
     private static final String TENANT_HEADER = "X-Tenant-ID";
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         try {
-            String tenantId = request.getHeader(TENANT_HEADER);
+            String tenantId = httpServletRequest.getHeader(TENANT_HEADER);
             if (tenantId == null || tenantId.isBlank()) {
                 tenantId = TenantContext.DEFAULT_TENANT;
             }
+
             TenantContext.setTenantId(tenantId);
-            log.debug("[TENANT] Request from tenant='{}' path='{}'", tenantId, request.getRequestURI());
-            filterChain.doFilter(request, response);
+
+            log.debug("[TENANT] Request from tenant='{}' path='{}'", tenantId, httpServletRequest.getRequestURI());
+            filterChain.doFilter(httpServletRequest, httpServletResponse);
+
         } finally {
             TenantContext.clear(); // Always clear to prevent thread pool contamination
         }

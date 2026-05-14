@@ -2,6 +2,9 @@ package com.tpa.security;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.kie.api.definition.rule.All;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -16,8 +19,8 @@ public class RateLimitingInterceptor implements HandlerInterceptor {
     private final ConcurrentHashMap<String, RequestInfo> requestCounts = new ConcurrentHashMap<>();
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String clientIp = request.getRemoteAddr();
+    public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object object) throws Exception {
+        String clientIp = httpServletRequest.getRemoteAddr();
         long currentTime = Instant.now().getEpochSecond();
 
         requestCounts.compute(clientIp, (key, requestInfo) -> {
@@ -28,23 +31,21 @@ public class RateLimitingInterceptor implements HandlerInterceptor {
             return requestInfo;
         });
 
-        RequestInfo currentRequestInfo = requestCounts.get(clientIp);
-        if (currentRequestInfo.count > MAX_REQUESTS_PER_MINUTE) {
-            response.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());
-            response.getWriter().write("Too many requests. Please try again later.");
+        RequestInfo requestInfo = requestCounts.get(clientIp);
+
+        if (requestInfo.count > MAX_REQUESTS_PER_MINUTE) {
+            httpServletResponse.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());
+            httpServletResponse.getWriter().write("Too many requests. Please try again later.");
             return false;
         }
 
         return true;
     }
 
+    @NoArgsConstructor
+    @AllArgsConstructor
     private static class RequestInfo {
         int count;
         long timestamp;
-
-        RequestInfo(int count, long timestamp) {
-            this.count = count;
-            this.timestamp = timestamp;
-        }
     }
 }
