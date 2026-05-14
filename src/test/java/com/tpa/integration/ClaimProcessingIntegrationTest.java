@@ -14,7 +14,7 @@ import com.tpa.enums.Gender;
 import com.tpa.enums.UserRole;
 import com.tpa.enums.UserStatus;
 import com.tpa.helper.AdminInitializer;
-import com.tpa.helper.EnterpriseDemoDataSeeder;
+import com.tpa.helper.EnterpriseDataSeeder;
 import com.tpa.repository.CarrierRepository;
 import com.tpa.repository.AuditLogRepository;
 import com.tpa.repository.ClaimAuditRepository;
@@ -75,7 +75,7 @@ class ClaimProcessingIntegrationTest {
     @MockBean private FileUploadService fileUploadService;
     @MockBean private KafkaTemplate<String, String> kafkaTemplate;
     @MockBean private AdminInitializer adminInitializer;
-    @MockBean private EnterpriseDemoDataSeeder enterpriseDemoDataSeeder;
+    @MockBean private EnterpriseDataSeeder enterpriseDemoDataSeeder;
 
     private MockMvc mockMvc;
     private User testCustomer;

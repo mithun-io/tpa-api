@@ -5,14 +5,13 @@ import com.tpa.enums.Gender;
 import com.tpa.enums.UserRole;
 import com.tpa.enums.UserStatus;
 import com.tpa.helper.AdminInitializer;
-import com.tpa.helper.EnterpriseDemoDataSeeder;
+import com.tpa.helper.EnterpriseDataSeeder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,7 +39,7 @@ class UserRepositoryTest {
     private AdminInitializer adminInitializer;
 
     @MockBean
-    private EnterpriseDemoDataSeeder enterpriseDemoDataSeeder;
+    private EnterpriseDataSeeder enterpriseDemoDataSeeder;
 
     private User savedUser;
 

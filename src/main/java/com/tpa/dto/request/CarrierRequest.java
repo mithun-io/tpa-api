@@ -2,6 +2,7 @@ package com.tpa.dto.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 @Data
@@ -15,6 +16,7 @@ public class CarrierRequest {
     private String email;
 
     @NotBlank(message = "Mobile number is required")
+    @Pattern(regexp = "^(\\+1[- ]?)?\\(?[2-9][0-9]{2}\\)?[- ]?[0-9]{3}[- ]?[0-9]{4}$", message = "Invalid US mobile number")
     private String mobile;
 
     @NotBlank(message = "Address is required")

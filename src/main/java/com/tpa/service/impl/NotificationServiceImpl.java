@@ -1,4 +1,4 @@
-package com.tpa.helper;
+package com.tpa.service.impl;
 
 import com.tpa.dto.response.NotificationResponse;
 import com.tpa.entity.Notification;
@@ -6,6 +6,7 @@ import com.tpa.entity.User;
 import com.tpa.enums.UserRole;
 import com.tpa.repository.NotificationRepository;
 import com.tpa.repository.UserRepository;
+import com.tpa.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
@@ -18,37 +19,59 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class NotificationService {
+public class NotificationServiceImpl implements NotificationService {
 
     private final NotificationRepository notificationRepository;
-    private final UserRepository         userRepository;
+    private final UserRepository userRepository;
+
+    private NotificationResponse notificationResponse(Notification n) {
+        return NotificationResponse.builder()
+                .id(n.getId())
+                .title(n.getTitle())
+                .message(n.getMessage())
+                .read(n.isRead())
+                .createdAt(n.getCreatedAt())
+                .targetUrl(n.getTargetUrl())
+                .build();
+    }
 
     @Transactional
     public void createNotification(User user, String title, String message, String targetUrl) {
-        Notification n = Notification.builder()
-                .user(user).title(title).message(message).targetUrl(targetUrl).build();
-        notificationRepository.save(n);
+        Notification notification = Notification.builder()
+                .user(user)
+                .title(title)
+                .message(message)
+                .targetUrl(targetUrl)
+                .build();
+
+        notificationRepository.save(notification);
         log.info("Notification saved for user {}: {}", user.getEmail(), title);
     }
 
-    @Async("taskExecutor")
+    @Async("executor")
     @Transactional
     public void notifyAllAdmins(String title, String message, String targetUrl) {
-        List<User> admins = userRepository.findAll().stream()
+        List<User> admins = userRepository.findAll()
+                .stream()
                 .filter(u -> UserRole.ADMIN.equals(u.getUserRole()))
                 .collect(Collectors.toList());
+
         admins.forEach(admin -> createNotification(admin, title, message, targetUrl));
         log.info("Admin notification queued for {} admins: {}", admins.size(), title);
     }
 
     public List<NotificationResponse> getUserNotifications(Long userId) {
         return notificationRepository.findByUserIdOrderByCreatedAtDesc(userId)
-                .stream().map(this::toDto).collect(Collectors.toList());
+                .stream()
+                .map(this::notificationResponse)
+                .collect(Collectors.toList());
     }
 
     public long countUnread(Long userId) {
         return notificationRepository.findByUserIdOrderByCreatedAtDesc(userId)
-                .stream().filter(n -> !n.isRead()).count();
+                .stream()
+                .filter(n -> !n.isRead())
+                .count();
     }
 
     @Transactional
@@ -64,16 +87,5 @@ public class NotificationService {
                 notificationRepository.save(n);
             }
         });
-    }
-
-    private NotificationResponse toDto(Notification n) {
-        return NotificationResponse.builder()
-                .id(n.getId())
-                .title(n.getTitle())
-                .message(n.getMessage())
-                .read(n.isRead())
-                .createdAt(n.getCreatedAt())
-                .targetUrl(n.getTargetUrl())
-                .build();
     }
 }

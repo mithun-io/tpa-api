@@ -9,7 +9,7 @@ import com.tpa.enums.Gender;
 import com.tpa.enums.UserRole;
 import com.tpa.enums.UserStatus;
 import com.tpa.helper.AdminInitializer;
-import com.tpa.helper.EnterpriseDemoDataSeeder;
+import com.tpa.helper.EnterpriseDataSeeder;
 import com.tpa.repository.RefreshTokenRepository;
 import com.tpa.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,7 +18,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -50,7 +49,7 @@ class SecurityIntegrationTest {
     @Autowired private ObjectMapper objectMapper;
 
     @MockBean private AdminInitializer adminInitializer;
-    @MockBean private EnterpriseDemoDataSeeder enterpriseDemoDataSeeder;
+    @MockBean private EnterpriseDataSeeder enterpriseDemoDataSeeder;
 
     private MockMvc mockMvc;
 

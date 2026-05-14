@@ -19,50 +19,61 @@ public class EmailService {
     @Value("${admin.email}")
     private String adminEmail;
 
+    private void sendEmail(String to, String subject, String htmlContent) throws Exception {
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
+
+        mimeMessageHelper.setFrom(adminEmail, "TPA - Insurance Claim Processing System");
+        mimeMessageHelper.setTo(to);
+        mimeMessageHelper.setSubject(subject);
+        mimeMessageHelper.setText(htmlContent, true);
+
+        javaMailSender.send(mimeMessage);
+    }
+
     @Async
     public void sendOtp(String name, String email, Integer otp) {
         try {
             String subject = "TPA Account Creation - OTP Verification";
 
-            String text = "<html><body style='font-family: Arial, sans-serif; color: #333;'>"
-                    + "<div style='max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 5px;'>"
-                    + "<h2 style='color: #0056b3;'>TPA Claim System</h2>"
+            String text = "<html><body>"
+                    + "<h2>TPA - Insurance Claim Processing System</h2>"
                     + "<p>Dear <b>" + name + "</b>,</p>"
-                    + "<p>Your One Time Password (OTP) for account registration is: <h3 style='color: #d9534f;'>" + otp + "</h3></p>"
-                    + "<p>This OTP is valid for exactly <b>5 minutes</b>. Please do not share this code with anyone.</p>"
-                    + "<br/><p>Best regards,<br/>TPA Claim System Team</p>"
-                    + "</div>"
+                    + "<p>Your One Time Password (OTP) for account registration is:</p>"
+                    + "<h3>" + otp + "</h3>"
+                    + "<p>This OTP is valid for exactly <b>5 minutes</b>. "
+                    + "<br/>"
+                    + "<p>Best regards,<br/>TPA - Insurance Claim Processing System Team</p>"
                     + "</body></html>";
 
             sendEmail(email, subject, text);
 
         } catch (Exception e) {
-            log.error("failed to send OTP email to {}", email, e);
+            log.error("Failed to send OTP email to {}", email, e);
         }
     }
 
     @Async
-    public void sendConfirmation(String name, String email, String password) {
+    public void sendConfirmation(String name, String email) {
         try {
             String subject = "TPA Registration Successful";
 
-            String text = "<html><body style='font-family: Arial, sans-serif; color: #333;'>"
-                    + "<div style='max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 5px;'>"
-                    + "<h2 style='color: #0056b3;'>Welcome to TPA Claim System</h2>"
+            String text = "<html><body>"
+                    + "<h2>Welcome to TPA - Insurance Claim Processing System</h2>"
                     + "<p>Dear <b>" + name + "</b>,</p>"
-                    + "<p>Your account has been successfully registered. You can now log in to the portal using your registered email address:</p>"
+                    + "<p>Your account has been successfully registered.</p>"
+                    + "<p>You can now log in to the portal using your registered email address:</p>"
                     + "<ul>"
                     + "<li><b>Email:</b> " + email + "</li>"
                     + "</ul>"
-                    + "<p style='color: #555;'>For security, never share your password with anyone. If you did not create this account, please contact support immediately.</p>"
-                    + "<br/><p>Best regards,<br/>TPA Claim System Team</p>"
-                    + "</div>"
+                    + "<br/>"
+                    + "<p>Best regards,<br/>TPA - Insurance Claim Processing System Team</p>"
                     + "</body></html>";
 
             sendEmail(email, subject, text);
 
         } catch (Exception e) {
-            log.error("failed to send confirmation email to {}", email, e);
+            log.error("Failed to send confirmation email to {}", email, e);
         }
     }
 
@@ -71,22 +82,21 @@ public class EmailService {
         try {
             String subject = "TPA Payment Successful";
 
-            String text = "<html><body style='font-family: Arial, sans-serif; color: #333;'>"
-                    + "<div style='max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 5px;'>"
-                    + "<h2 style='color: #28a745;'>Payment Received</h2>"
+            String text = "<html><body>"
+                    + "<h2>Payment Received</h2>"
                     + "<p>Your payment has been successfully processed.</p>"
                     + "<ul>"
                     + "<li><b>Reference ID:</b> " + orderId + "</li>"
                     + "<li><b>Amount Paid:</b> $" + amount + "</li>"
                     + "</ul>"
-                    + "<br/><p>Thank you,<br/>TPA Claim System Team</p>"
-                    + "</div>"
+                    + "<br/>"
+                    + "<p>Thank you,<br/>TPA - Insurance Claim Processing System Team</p>"
                     + "</body></html>";
 
             sendEmail(email, subject, text);
 
         } catch (Exception e) {
-            log.error("failed to send payment email to {}", email, e);
+            log.error("Failed to send payment email to {}", email, e);
         }
     }
 
@@ -95,23 +105,21 @@ public class EmailService {
         try {
             String subject = "TPA Claim #" + claimId + " Status Update: " + status;
 
-            String text = "<html><body style='font-family: Arial, sans-serif; color: #333;'>"
-                    + "<div style='max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 5px;'>"
-                    + "<h2 style='color: #0056b3;'>Claim Status Update</h2>"
+            String text = "<html><body>"
+                    + "<h2>Claim Status Update</h2>"
                     + "<p>Hello,</p>"
-                    + "<p>Your claim <b>#" + claimId + "</b> has been updated to: <span style='font-weight: bold; color: " 
-                    + (status.contains("APPROVED") || status.equalsIgnoreCase("SETTLED") ? "#28a745" : (status.equalsIgnoreCase("REJECTED") ? "#dc3545" : "#ffc107")) 
-                    + ";'>" + status + "</span></p>"
+                    + "<p>Your claim <b>#" + claimId + "</b> has been updated to: "
+                    + "<b>" + status + "</b></p>"
                     + "<p><b>Details:</b></p>"
-                    + "<div style='background: #f8f9fa; padding: 10px; border-left: 3px solid #0056b3;'>" + messageStr + "</div>"
-                    + "<br/><p>Best regards,<br/>TPA Claim System Team</p>"
-                    + "</div>"
+                    + "<p>" + messageStr + "</p>"
+                    + "<br/>"
+                    + "<p>Best regards,<br/>TPA - Insurance Claim Processing System Team</p>"
                     + "</body></html>";
 
             sendEmail(email, subject, text);
 
         } catch (Exception e) {
-            log.error("failed to send claim notification email to {}", email, e);
+            log.error("Failed to send claim notification email to {}", email, e);
         }
     }
 
@@ -120,25 +128,15 @@ public class EmailService {
         try {
             String subject = "Your Carrier Application Has Been Approved — TPA Claim System";
 
-            String text = "<html><body style='font-family: Arial, sans-serif; color: #333; margin: 0; padding: 0;'>"
-                    + "<div style='max-width: 600px; margin: 0 auto; border: 1px solid #ddd; border-radius: 8px; overflow: hidden;'>"
-                    + "<div style='background: linear-gradient(135deg, #1a6b2e, #28a745); padding: 30px 24px; text-align: center;'>"
-                    + "<h1 style='color: #fff; margin: 0; font-size: 24px;'>Application Approved!</h1>"
-                    + "</div>"
-                    + "<div style='padding: 28px 24px;'>"
+            String text = "<html><body>"
+                    + "<h1>Application Approved!</h1>"
                     + "<p>Dear <b>" + companyName + "</b>,</p>"
-                    + "<p>We are pleased to inform you that your carrier registration application on the <b>TPA Claim System</b> has been <span style='color: #28a745; font-weight: bold;'>APPROVED</span> by our admin team.</p>"
-                    + "<div style='background: #f0fff4; border-left: 4px solid #28a745; border-radius: 4px; padding: 14px 18px; margin: 20px 0;'>"
-                    + "<p style='margin: 0; color: #155724; font-weight: bold;'>Your account is now active.</p>"
-                    + "<p style='margin: 8px 0 0 0; color: #155724; font-size: 14px;'>You can now log in to the carrier portal using your registered email and password.</p>"
-                    + "</div>"
-                    + "<p style='font-size: 14px; color: #555;'>If you have any questions, please contact our support team.</p>"
-                    + "<br/><p>Best regards,<br/><b>TPA Claim System Team</b></p>"
-                    + "</div>"
-                    + "<div style='background: #f8f9fa; padding: 14px 24px; text-align: center; border-top: 1px solid #ddd;'>"
-                    + "<p style='margin: 0; font-size: 12px; color: #888;'>This is an automated message. Please do not reply directly to this email.</p>"
-                    + "</div>"
-                    + "</div>"
+                    + "<p>We are pleased to inform you that your carrier registration application on the "
+                    + "<b>TPA - Insurance Claim Processing System</b> has been <b>APPROVED</b> by our admin team.</p>"
+                    + "<p><b>Your account is now active.</b></p>"
+                    + "<p>You can now log in to the carrier portal using your registered email and password.</p>"
+                    + "<br/>"
+                    + "<p>Best regards,<br/><b>TPA - Insurance Claim Processing System Team</b></p>"
                     + "</body></html>";
 
             sendEmail(email, subject, text);
@@ -154,26 +152,15 @@ public class EmailService {
         try {
             String subject = "Your Carrier Application Status — TPA Claim System";
 
-            String text = "<html><body style='font-family: Arial, sans-serif; color: #333; margin: 0; padding: 0;'>"
-                    + "<div style='max-width: 600px; margin: 0 auto; border: 1px solid #ddd; border-radius: 8px; overflow: hidden;'>"
-                    + "<div style='background: linear-gradient(135deg, #7b1c1c, #dc3545); padding: 30px 24px; text-align: center;'>"
-                    + "<h1 style='color: #fff; margin: 0; font-size: 24px;'>Application Not Approved</h1>"
-                    + "</div>"
-                    + "<div style='padding: 28px 24px;'>"
+            String text = "<html><body>"
+                    + "<h1>Application Not Approved</h1>"
                     + "<p>Dear <b>" + companyName + "</b>,</p>"
-                    + "<p>Thank you for applying to join the <b>TPA Claim System</b> carrier network.</p>"
-                    + "<p>After reviewing your application, our compliance team has determined that we are unable to approve your carrier registration at this time.</p>"
-                    + "<div style='background: #fff5f5; border-left: 4px solid #dc3545; border-radius: 4px; padding: 14px 18px; margin: 20px 0;'>"
-                    + "<p style='margin: 0; color: #721c24; font-weight: bold;'>Application Status: Not Approved</p>"
-                    + "<p style='margin: 8px 0 0 0; color: #721c24; font-size: 14px;'>If you believe this is in error or would like to provide additional documentation, please contact our support team.</p>"
-                    + "</div>"
-                    + "<p style='font-size: 14px; color: #555;'>We appreciate your interest and encourage you to reach out if you have any questions.</p>"
-                    + "<br/><p>Best regards,<br/><b>TPA Claim System Team</b></p>"
-                    + "</div>"
-                    + "<div style='background: #f8f9fa; padding: 14px 24px; text-align: center; border-top: 1px solid #ddd;'>"
-                    + "<p style='margin: 0; font-size: 12px; color: #888;'>This is an automated message. Please do not reply directly to this email.</p>"
-                    + "</div>"
-                    + "</div>"
+                    + "<p>Thank you for applying to join the <b>TPA - Insurance Claim Processing System</b> carrier network.</p>"
+                    + "<p>After reviewing your application, our compliance team has determined that "
+                    + "we are unable to approve your carrier registration at this time.</p>"
+                    + "<p><b>Application Status:</b> Not Approved</p>"
+                    + "<br/>"
+                    + "<p>Best regards,<br/><b>TPA - Insurance Claim Processing System Team</b></p>"
                     + "</body></html>";
 
             sendEmail(email, subject, text);
@@ -184,36 +171,20 @@ public class EmailService {
         }
     }
 
-    /**
-     * Generic email sender for system alerts (SLA escalations, assignments, etc.)
-     * Wraps plain text in a minimal HTML envelope.
-     */
     @Async("taskExecutor")
     public void sendSimpleEmail(String to, String subject, String bodyText) {
         try {
-            String htmlBody = "<html><body style='font-family: Arial, sans-serif; color: #333;'>"
-                    + "<div style='max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 5px;'>"
-                    + "<h2 style='color: #0056b3;'>TPA Claim System — System Alert</h2>"
-                    + "<div style='background: #f8f9fa; padding: 14px; border-left: 4px solid #0056b3; border-radius: 3px;'>"
-                    + "<p style='margin: 0; white-space: pre-wrap;'>" + bodyText + "</p>"
-                    + "</div>"
-                    + "<br/><p style='font-size: 12px; color: #888;'>This is an automated system alert. Do not reply to this email.</p>"
-                    + "</div></body></html>";
-            sendEmail(to, subject, htmlBody);
+            String text = "<html><body>"
+                    + "<h2>TPA - Insurance Claim Processing System — System Alert</h2>"
+                    + "<p>" + bodyText + "</p>"
+                    + "<br/>"
+                    + "<p>This is an automated system alert. Do not reply to this email.</p>"
+                    + "</body></html>";
+
+            sendEmail(to, subject, text);
+
         } catch (Exception e) {
             log.error("Failed to send simple email to {}: {}", to, e.getMessage());
         }
-    }
-
-    private void sendEmail(String to, String subject, String htmlContent) throws Exception {
-        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
-
-        mimeMessageHelper.setFrom(adminEmail, "TPA Claim System");
-        mimeMessageHelper.setTo(to);
-        mimeMessageHelper.setSubject(subject);
-        mimeMessageHelper.setText(htmlContent, true);
-
-        javaMailSender.send(mimeMessage);
     }
 }

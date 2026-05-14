@@ -32,7 +32,7 @@ public class User {
     private String email;
 
     @Column(nullable = false, unique = true)
-    private String mobile;
+    private String phoneNumber;
 
     @Column(nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")

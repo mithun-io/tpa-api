@@ -31,6 +31,43 @@ public class PdfExportService {
 
     private static final DateTimeFormatter DATE_FMT = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 
+    private void addSectionTitle(Document doc, String title) throws DocumentException {
+        Font sectionFont = new Font(Font.HELVETICA, 11, Font.BOLD, PRIMARY_COLOR);
+        Paragraph paragraph = new Paragraph(title, sectionFont);
+        paragraph.setSpacingBefore(10);
+        paragraph.setSpacingAfter(6);
+
+        doc.add(paragraph);
+
+        PdfPTable line = new PdfPTable(1);
+        line.setWidthPercentage(100);
+        line.setSpacingAfter(8);
+
+        PdfPCell lineCell = new PdfPCell(new Phrase(""));
+        lineCell.setFixedHeight(1f);
+        lineCell.setBackgroundColor(PRIMARY_COLOR);
+        lineCell.setBorder(Rectangle.NO_BORDER);
+        line.addCell(lineCell);
+        doc.add(line);
+    }
+
+    private void addRow(PdfPTable table, String label, String value) {
+        Font labelFont = new Font(Font.HELVETICA, 9, Font.BOLD, new Color(80, 80, 80));
+        Font valueFont = new Font(Font.HELVETICA, 10, Font.NORMAL, Color.BLACK);
+
+        PdfPCell labelCell = new PdfPCell(new Phrase(label, labelFont));
+        labelCell.setBackgroundColor(LIGHT_GRAY);
+        labelCell.setBorderColor(BORDER_COLOR);
+        labelCell.setPadding(7);
+
+        PdfPCell valueCell = new PdfPCell(new Phrase(value != null ? value : "—", valueFont));
+        valueCell.setBorderColor(BORDER_COLOR);
+        valueCell.setPadding(7);
+
+        table.addCell(labelCell);
+        table.addCell(valueCell);
+    }
+
     public byte[] exportClaimReport(Long claimId) {
         Claim claim = claimRepository.findById(claimId).orElseThrow(() -> new NoResourceFoundException("Claim not found: " + claimId));
 
@@ -49,12 +86,17 @@ public class PdfExportService {
 
                     Font footerFont = new Font(Font.HELVETICA, 8, Font.NORMAL, Color.GRAY);
 
-                    ColumnText.showTextAligned(pdfContentByte, Element.ALIGN_CENTER,
+                    ColumnText.showTextAligned(pdfContentByte,
+                            Element.ALIGN_CENTER,
                             new Phrase("TPA Insurance Claim Processing System — Confidential | Claim Report #" + claimId, footerFont),
-                            d.getPageSize().getWidth() / 2, d.bottomMargin() - 20, 0);
-                    ColumnText.showTextAligned(pdfContentByte, Element.ALIGN_RIGHT,
+                            d.getPageSize().getWidth() / 2,
+                            d.bottomMargin() - 20, 0);
+
+                    ColumnText.showTextAligned(pdfContentByte,
+                            Element.ALIGN_RIGHT,
                             new Phrase("Page " + w.getPageNumber(), footerFont),
-                            d.right(), d.bottomMargin() - 20, 0);
+                            d.right(),
+                            d.bottomMargin() - 20, 0);
                 }
             });
 
@@ -74,8 +116,8 @@ public class PdfExportService {
             leftCell.addElement(new Phrase("TPA CLAIM DECISION REPORT", titleFont));
             leftCell.addElement(new Phrase("Insurance Claim Processing System", subtitleFont));
 
-            String statusLabel = claim.getStatus().name();
-            Color statusColor = switch (claim.getStatus()) {
+            String statusLabel = claim.getClaimStatus().name();
+            Color statusColor = switch (claim.getClaimStatus()) {
                 case ADMIN_APPROVED, CARRIER_APPROVED, SETTLED -> SUCCESS_COLOR;
                 case REJECTED -> DANGER_COLOR;
                 case UNDER_REVIEW -> WARNING_COLOR;
@@ -117,7 +159,7 @@ public class PdfExportService {
 
             addRow(summaryTable, "Claimed Amount", claimedAmt);
             addRow(summaryTable, "Total Bill Amount", totalBillAmt);
-            addRow(summaryTable, "Current Status", claim.getStatus().name());
+            addRow(summaryTable, "Current Status", claim.getClaimStatus().name());
             addRow(summaryTable, "Created Date", claim.getCreatedDate() != null ? claim.getCreatedDate().format(DATE_FMT) : "—");
             addRow(summaryTable, "Processed Date", claim.getProcessedDate() != null ? claim.getProcessedDate().format(DATE_FMT) : "Pending");
             document.add(summaryTable);
@@ -163,7 +205,7 @@ public class PdfExportService {
 
                 addRow(userTable, "Name", claim.getUser().getUsername());
                 addRow(userTable, "Email", claim.getUser().getEmail());
-                addRow(userTable, "Mobile", claim.getUser().getMobile() != null ? claim.getUser().getMobile() : "—");
+                addRow(userTable, "Mobile", claim.getUser().getPhoneNumber() != null ? claim.getUser().getPhoneNumber() : "—");
                 document.add(userTable);
             }
 
@@ -172,6 +214,7 @@ public class PdfExportService {
             String reasons = claim.getRejectionReason();
             if (reasons != null && !reasons.isBlank()) {
                 Font reasonFont = new Font(Font.HELVETICA, 10, Font.NORMAL, new Color(80, 80, 80));
+
                 String[] items = reasons.split(",\\s*");
                 for (int i = 0; i < items.length; i++) {
                     PdfPTable rowTable = new PdfPTable(2);
@@ -203,59 +246,32 @@ public class PdfExportService {
             declaration.setWidthPercentage(100);
             declaration.setSpacingBefore(10);
             Font declFont = new Font(Font.HELVETICA, 9, Font.ITALIC, Color.DARK_GRAY);
-            PdfPCell declCell = new PdfPCell(new Phrase(
-                    "This report is a system-generated document from the TPA Insurance Claim Processing System. " +
-                            "It reflects the automated rule engine evaluation and/or manual review decision. " +
-                            "This document is confidential and intended solely for authorized personnel.", declFont));
+
+            PdfPCell declCell = new PdfPCell(
+                    new Phrase("""
+                            This report is a system-generated document from the
+                            TPA Insurance Claim Processing System.
+                            
+                            It reflects the automated rule engine evaluation
+                            and/or manual review decision.
+                            
+                            This document is confidential and intended solely
+                            for authorized personnel.
+                            """, declFont));
             declCell.setBackgroundColor(LIGHT_GRAY);
             declCell.setBorderColor(BORDER_COLOR);
             declCell.setPadding(10);
             declaration.addCell(declCell);
-            document.add(declaration);
 
+            document.add(declaration);
             document.close();
             log.info("PDF report generated for claim {}", claimId);
+
             return byteArrayOutputStream.toByteArray();
 
         } catch (Exception e) {
             log.error("Failed to generate PDF for claim {}: {}", claimId, e.getMessage(), e);
             throw new RuntimeException("PDF generation failed: " + e.getMessage(), e);
         }
-    }
-
-    private void addSectionTitle(Document doc, String title) throws DocumentException {
-        Font sectionFont = new Font(Font.HELVETICA, 11, Font.BOLD, PRIMARY_COLOR);
-        Paragraph paragraph = new Paragraph(title, sectionFont);
-        paragraph.setSpacingBefore(10);
-        paragraph.setSpacingAfter(6);
-        doc.add(paragraph);
-
-        PdfPTable line = new PdfPTable(1);
-        line.setWidthPercentage(100);
-        line.setSpacingAfter(8);
-
-        PdfPCell lineCell = new PdfPCell(new Phrase(""));
-        lineCell.setFixedHeight(1f);
-        lineCell.setBackgroundColor(PRIMARY_COLOR);
-        lineCell.setBorder(Rectangle.NO_BORDER);
-        line.addCell(lineCell);
-        doc.add(line);
-    }
-
-    private void addRow(PdfPTable table, String label, String value) {
-        Font labelFont = new Font(Font.HELVETICA, 9, Font.BOLD, new Color(80, 80, 80));
-        Font valueFont = new Font(Font.HELVETICA, 10, Font.NORMAL, Color.BLACK);
-
-        PdfPCell labelCell = new PdfPCell(new Phrase(label, labelFont));
-        labelCell.setBackgroundColor(LIGHT_GRAY);
-        labelCell.setBorderColor(BORDER_COLOR);
-        labelCell.setPadding(7);
-
-        PdfPCell valueCell = new PdfPCell(new Phrase(value != null ? value : "—", valueFont));
-        valueCell.setBorderColor(BORDER_COLOR);
-        valueCell.setPadding(7);
-
-        table.addCell(labelCell);
-        table.addCell(valueCell);
     }
 }

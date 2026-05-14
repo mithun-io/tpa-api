@@ -4,13 +4,11 @@ package com.tpa.controller;
 import com.tpa.dto.response.ClaimResponse;
 import com.tpa.enums.ClaimStatus;
 import com.tpa.helper.AdminInitializer;
-import com.tpa.helper.EnterpriseDemoDataSeeder;
+import com.tpa.helper.EnterpriseDataSeeder;
 import com.tpa.service.ClaimService;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
@@ -43,7 +41,7 @@ public class ClaimControllerIntegrationTest {
     private AdminInitializer adminInitializer;
 
     @MockBean
-    private EnterpriseDemoDataSeeder enterpriseDemoDataSeeder;
+    private EnterpriseDataSeeder enterpriseDemoDataSeeder;
 
     private MockMvc mockMvc;
 

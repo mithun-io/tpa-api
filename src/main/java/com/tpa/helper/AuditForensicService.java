@@ -17,11 +17,21 @@ public class AuditForensicService {
 
     private final AuditLogRepository auditLogRepository;
 
+    private String generateHash(String data) {
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+            byte[] bytes = messageDigest.digest(data.getBytes(StandardCharsets.UTF_8));
+            return Base64.getEncoder().encodeToString(bytes);
+        } catch (Exception e) {
+            return "HASH_ERROR";
+        }
+    }
+
     public void logAction(Long claimId, String action, String details, String actor) {
         String dataToHash = claimId + action + details + System.currentTimeMillis();
         String hash = generateHash(dataToHash);
 
-        AuditLog logEntry = AuditLog.builder()
+        AuditLog auditLog = AuditLog.builder()
                 .claimId(claimId)
                 .action(action)
                 .details(details)
@@ -29,17 +39,7 @@ public class AuditForensicService {
                 .blockchainHash(hash)
                 .build();
 
-        auditLogRepository.save(logEntry);
+        auditLogRepository.save(auditLog);
         log.info("[BLOCKCHAIN-AUDIT] Immutable log entry created for Claim #{}. Hash: {}", claimId, hash);
-    }
-
-    private String generateHash(String data) {
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] encodedhash = digest.digest(data.getBytes(StandardCharsets.UTF_8));
-            return Base64.getEncoder().encodeToString(encodedhash);
-        } catch (Exception e) {
-            return "HASH_ERROR";
-        }
     }
 }

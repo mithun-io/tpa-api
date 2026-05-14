@@ -6,7 +6,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import com.tpa.helper.AdminInitializer;
-import com.tpa.helper.EnterpriseDemoDataSeeder;
+import com.tpa.helper.EnterpriseDataSeeder;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -16,7 +16,7 @@ class TpaApplicationTests {
     private AdminInitializer adminInitializer;
 
     @MockBean
-    private EnterpriseDemoDataSeeder enterpriseDemoDataSeeder;
+    private EnterpriseDataSeeder enterpriseDemoDataSeeder;
 
     @Test
     void contextLoads() {

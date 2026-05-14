@@ -12,7 +12,7 @@ import com.tpa.mapper.ClaimMapper;
 import com.tpa.kafka.producer.ProducerService;
 import com.tpa.kafka.event.ClaimNotificationEvent;
 import com.tpa.repository.ClaimRepository;
-import com.tpa.repository.ClaimSpecification;
+import com.tpa.helper.ClaimSpecification;
 import com.tpa.repository.UserRepository;
 import com.tpa.repository.CarrierRepository;
 import com.tpa.entity.Carrier;

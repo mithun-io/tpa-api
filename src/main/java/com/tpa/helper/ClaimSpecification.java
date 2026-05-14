@@ -1,4 +1,4 @@
-package com.tpa.repository;
+package com.tpa.helper;
 
 import com.tpa.entity.Claim;
 import com.tpa.enums.ClaimStatus;
@@ -8,8 +8,8 @@ import java.time.LocalDateTime;
 
 public class ClaimSpecification {
 
-    public static Specification<Claim> hasStatus(ClaimStatus status) {
-        return (root, query, cb) -> status == null ? null : cb.equal(root.get("status"), status);
+    public static Specification<Claim> hasStatus(ClaimStatus claimStatus) {
+        return (root, query, cb) -> claimStatus == null ? null : cb.equal(root.get("status"), claimStatus);
     }
 
     public static Specification<Claim> createdBetween(LocalDateTime from, LocalDateTime to) {
@@ -34,8 +34,8 @@ public class ClaimSpecification {
         return (root, query, cb) -> {
             if (username == null || username.isEmpty()) return null;
             return cb.or(
-                cb.equal(root.join("user").get("username"), username),
-                cb.equal(root.join("user").get("email"), username)
+                    cb.equal(root.join("user").get("username"), username),
+                    cb.equal(root.join("user").get("email"), username)
             );
         };
     }

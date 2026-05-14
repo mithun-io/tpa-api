@@ -41,7 +41,7 @@ public class AdminInitializer implements CommandLineRunner {
             log.info("Admin account initialization started...");
             User user = User.builder()
                     .username(adminName)
-                    .mobile(adminMobile)
+                    .phoneNumber(adminMobile)
                     .password(passwordEncoder.encode(adminPassword))
                     .email(adminEmail)
                     .gender(Gender.MALE)
