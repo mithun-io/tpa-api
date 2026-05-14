@@ -1,6 +1,6 @@
 package com.tpa.service.impl;
 
-import com.tpa.dto.response.FraudClaimDto;
+import com.tpa.dto.response.FraudClaimResponse;
 import com.tpa.dto.response.FraudDashboardResponse;
 import com.tpa.entity.Carrier;
 import com.tpa.entity.Claim;
@@ -24,7 +24,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -218,7 +217,7 @@ public class FraudDetectionServiceImpl implements FraudDetectionService {
         int mediumRisk = 0;
         int lowRisk = 0;
         
-        List<FraudClaimDto> fraudClaims = new ArrayList<>();
+        List<FraudClaimResponse> fraudClaims = new ArrayList<>();
 
         for (Claim c : claims) {
             if (c.getHealthScore() == null) {

@@ -3,7 +3,6 @@ package com.tpa.controller;
 import com.tpa.dto.request.ClaimReviewRequest;
 import com.tpa.dto.response.CarrierResponse;
 import com.tpa.dto.response.ClaimResponse;
-import com.tpa.dto.response.CustomerResponse;
 import com.tpa.dto.response.UserResponse;
 import com.tpa.dto.response.AiAnalysisResponse;
 import com.tpa.enums.ClaimStatus;

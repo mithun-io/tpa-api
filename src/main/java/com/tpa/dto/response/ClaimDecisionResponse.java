@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ClaimDecisionResponse {
 
-    private ClaimStatus status;
+    private ClaimStatus claimStatus;
 
     private List<String> reasons;
 }

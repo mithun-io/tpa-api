@@ -1,7 +1,5 @@
 package com.tpa.mapper;
 
-import com.tpa.dto.response.CustomerResponse;
-
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;

@@ -1,5 +1,6 @@
 package com.tpa.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.tpa.enums.Verdict;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,14 +23,15 @@ public class AiAnalysisResponse {
 
     private double riskScore;
 
-    private ValidationChecks validations;
+    private ValidationChecks validationChecks;
 
-    private FinancialSummary financial;
+    private FinancialSummary financialSummary;
 
     private List<String> flags;
 
     private String recommendation;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm a")
     private LocalDateTime generatedAt;
 
     @Data

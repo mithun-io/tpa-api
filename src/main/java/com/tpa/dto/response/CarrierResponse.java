@@ -18,7 +18,7 @@ public class CarrierResponse {
 
     private String email;
 
-    private String mobile;
+    private String phoneNumber;
 
     private String companyType;
 
@@ -35,10 +35,4 @@ public class CarrierResponse {
     private String website;
 
     private UserStatus userStatus;
-
-    private Double aiRiskScore;
-
-    private String aiRiskStatus;
-
-    private String aiRecommendation;
 }

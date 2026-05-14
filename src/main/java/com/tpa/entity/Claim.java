@@ -47,13 +47,13 @@ public class Claim {
     @Column(nullable = false)
     private String policyNumber;
 
+    private String policyName;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ClaimStatus claimStatus;
 
     private String carrierName;
-
-    private String policyName;
 
     private String claimType;
 

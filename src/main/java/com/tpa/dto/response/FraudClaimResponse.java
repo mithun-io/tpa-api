@@ -12,7 +12,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class FraudClaimDto {
+public class FraudClaimResponse {
 
     private Long claimId;
 

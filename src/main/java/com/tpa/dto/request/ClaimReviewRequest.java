@@ -13,12 +13,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ClaimReviewRequest {
-    
+
     @NotNull(message = "Claim ID cannot be null")
     private Long claimId;
 
     @NotNull(message = "Status cannot be null")
-    private ClaimStatus status;
+    private ClaimStatus claimStatus;
 
     @NotBlank(message = "Review notes are required")
     private String reviewNotes;

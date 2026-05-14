@@ -1,6 +1,5 @@
 package com.tpa.service.impl;
 
-import com.tpa.dto.response.CustomerResponse;
 import com.tpa.dto.response.UserResponse;
 import com.tpa.entity.Carrier;
 import com.tpa.helper.NotificationService;

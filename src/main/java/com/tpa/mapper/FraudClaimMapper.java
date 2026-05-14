@@ -1,6 +1,6 @@
 package com.tpa.mapper;
 
-import com.tpa.dto.response.FraudClaimDto;
+import com.tpa.dto.response.FraudClaimResponse;
 import com.tpa.entity.Claim;
 import com.tpa.enums.RiskLevel;
 import org.mapstruct.Mapper;
@@ -15,7 +15,7 @@ public interface FraudClaimMapper {
     @Mapping(source = "id", target = "claimId")
     @Mapping(source = "claim", target = "reasons", qualifiedByName = "mapReasons")
     @Mapping(source = "claim", target = "riskLevel", qualifiedByName = "mapRiskLevel")
-    FraudClaimDto toFraudClaimDto(Claim claim);
+    FraudClaimResponse toFraudClaimDto(Claim claim);
 
     @Named("mapReasons")
     default List<String> mapReasons(Claim c) {

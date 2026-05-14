@@ -1,5 +1,7 @@
 package com.tpa.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.tpa.enums.ClaimStatus;
 import com.tpa.enums.PolicyStatus;
 import com.tpa.enums.RiskLevel;
 import lombok.AllArgsConstructor;
@@ -16,43 +18,36 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class CarrierClaimDetailResponse {
 
-    private Long claimId;
-
     private String policyNumber;
 
-    private String status;
+    private Long claimId;
+    private String claimType;
+    private ClaimStatus claimStatus;
 
     private Double amount;
-
     private Double totalBillAmount;
-
-    private String claimType;
 
     private String diagnosis;
 
     private String hospitalName;
 
     private LocalDate admissionDate;
-
     private LocalDate dischargeDate;
 
     private LocalDateTime createdDate;
-
     private LocalDateTime processedDate;
 
     private String rejectionReason;
 
     private String reviewNotes;
-
     private String reviewedBy;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm a")
     private LocalDateTime reviewedAt;
 
-    private PatientInfo patient;
-
-    private FraudInfo fraud;
-
-    private PolicyInfo policy;
+    private PatientInfo patientInfo;
+    private FraudInfo fraudInfo;
+    private PolicyInfo policyInfo;
 
     @Data
     @Builder

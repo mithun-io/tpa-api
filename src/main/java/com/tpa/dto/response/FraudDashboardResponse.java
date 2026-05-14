@@ -13,9 +13,9 @@ import java.util.List;
 @AllArgsConstructor
 public class FraudDashboardResponse {
 
-    private DashboardStats stats;
+    private DashboardStats dashboardStats;
 
-    private List<FraudClaimDto> claims;
+    private List<FraudClaimResponse> claims;
 
     @Data
     @Builder

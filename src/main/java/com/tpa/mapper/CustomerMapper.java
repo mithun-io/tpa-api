@@ -1,6 +1,5 @@
 package com.tpa.mapper;
 
-import com.tpa.dto.response.CustomerResponse;
 import org.mapstruct.Mapper;
 
 import java.util.List;

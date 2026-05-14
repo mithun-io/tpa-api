@@ -17,33 +17,9 @@ public class ClaimResponse {
 
     private Long id;
 
-    private String policyNumber;
+    private String userName;
 
-    private ClaimStatus claimStatus;
-
-    private Double amount;
-
-    private LocalDateTime createdDate;
-
-    private LocalDateTime processedDate;
-
-    private String rejectionReason;
-
-    private String reviewedBy;
-
-    private LocalDateTime reviewedAt;
-
-    private String reviewNotes;
-
-    private Double riskScore;
-
-    private String riskFlags;
-
-    private Integer healthScore;
-
-    private String riskLevel;
-
-    private String aiSummary;
+    private String userEmail;
 
     private String patientName;
 
@@ -55,11 +31,37 @@ public class ClaimResponse {
 
     private Double totalBillAmount;
 
-    private String diagnosis;
+    private String policyId;
+
+    private String policyNumber;
+
+    private ClaimStatus claimStatus;
 
     private String claimType;
 
-    private String username;
+    private String diagnosis;
 
-    private String userEmail;
+    private Double amount;
+
+    private String rejectionReason;
+
+    private String reviewedBy;
+
+    private LocalDateTime reviewedAt;
+
+    private String reviewNotes;
+
+    private LocalDateTime createdDate;
+
+    private LocalDateTime processedDate;
+
+    private Double riskScore;
+
+    private String riskFlags;
+
+    private Integer healthScore;
+
+    private String riskLevel;
+
+    private String aiSummary;
 }
