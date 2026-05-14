@@ -2,7 +2,7 @@ package com.tpa.service.impl;
 
 import com.tpa.dto.response.UserResponse;
 import com.tpa.entity.Carrier;
-import com.tpa.helper.NotificationService;
+import com.tpa.service.NotificationService;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Caching;
 import com.tpa.entity.User;
@@ -11,7 +11,6 @@ import com.tpa.enums.UserStatus;
 import com.tpa.exception.ConflictException;
 import com.tpa.exception.NoResourceFoundException;
 import com.tpa.kafka.producer.ProducerService;
-import com.tpa.mapper.CustomerMapper;
 import com.tpa.mapper.UserMapper;
 import com.tpa.repository.UserRepository;
 import com.tpa.service.AdminService;
@@ -50,10 +49,8 @@ import java.util.List;
 public class AdminServiceImpl implements AdminService {
 
     private final UserRepository userRepository;
-    private final CustomerRepository customerRepository;
 
     private final UserMapper userMapper;
-    private final CustomerMapper customerMapper;
     private final ClaimMapper claimMapper;
     private final com.tpa.mapper.CarrierMapper carrierMapper;
 
@@ -123,16 +120,6 @@ public class AdminServiceImpl implements AdminService {
 
     @Transactional
     @Override
-    public List<CustomerResponse> getAllCustomers() {
-        List<Customer> customers = customerRepository.findAll();
-        if (customers.isEmpty()) {
-            throw new NoResourceFoundException("no customers found");
-        }
-        return customerMapper.toCustomerResponses(customers);
-    }
-
-    @Transactional
-    @Override
     @Caching(evict = {
         @CacheEvict(value = "claims", key = "#request.claimId"),
         @CacheEvict(value = "aiSummaries", key = "#request.claimId")
@@ -140,10 +127,10 @@ public class AdminServiceImpl implements AdminService {
     public ClaimResponse reviewClaim(ClaimReviewRequest request, Principal principal) {
         Claim claim = claimRepository.findById(request.getClaimId()).orElseThrow(() -> new NoResourceFoundException("claim not found"));
 
-        claimStateMachine.validateTransition(claim.getStatus(), request.getStatus());
+        claimStateMachine.validateTransition(claim.getClaimStatus(), request.getClaimStatus());
 
-        ClaimStatus previousStatus = claim.getStatus();
-        claim.setStatus(request.getStatus());
+        ClaimStatus previousStatus = claim.getClaimStatus();
+        claim.setClaimStatus(request.getClaimStatus());
         claim.setRejectionReason(request.getReviewNotes());
         claim.setProcessedDate(LocalDateTime.now());
         claim.setReviewedBy(principal.getName());
@@ -151,20 +138,20 @@ public class AdminServiceImpl implements AdminService {
         claim.setReviewNotes(request.getReviewNotes());
         
         claimRepository.save(claim);
-        log.info("Admin {} reviewed claim {} with status {}", principal.getName(), claim.getId(), claim.getStatus());
+        log.info("Admin {} reviewed claim {} with status {}", principal.getName(), claim.getId(), claim.getClaimStatus());
 
-        auditLogService.logAction(claim.getId(), "ADMIN_REVIEW", previousStatus, claim.getStatus());
+        auditLogService.logAction(claim.getId(), "ADMIN_REVIEW", previousStatus, claim.getClaimStatus());
 
         ClaimNotificationEvent notificationEvent = ClaimNotificationEvent.builder()
                 .claimId(claim.getId())
                 .policyNumber(claim.getPolicyNumber())
                 .customerEmail(claim.getUser().getEmail())
-                .status(claim.getStatus())
-                .message("Your claim has been " + claim.getStatus() + ". Notes: " + request.getReviewNotes())
+                .status(claim.getClaimStatus())
+                .message("Your claim has been " + claim.getClaimStatus() + ". Notes: " + request.getReviewNotes())
                 .build();
                 
         producerService.sendClaimNotificationEvent(notificationEvent);
-        notificationService.createNotification(claim.getUser(), "Claim " + claim.getStatus(), notificationEvent.getMessage(), "/claims/" + claim.getId());
+        notificationService.createNotification(claim.getUser(), "Claim " + claim.getClaimStatus(), notificationEvent.getMessage(), "/claims/" + claim.getId());
 
         return claimMapper.toClaimResponse(claim);
     }
@@ -178,10 +165,10 @@ public class AdminServiceImpl implements AdminService {
     public ClaimResponse approveClaim(Long claimId, String reason, Principal principal) {
         Claim claim = claimRepository.findById(claimId).orElseThrow(() -> new NoResourceFoundException("claim not found"));
 
-        claimStateMachine.validateTransition(claim.getStatus(), ClaimStatus.ADMIN_APPROVED);
+        claimStateMachine.validateTransition(claim.getClaimStatus(), ClaimStatus.ADMIN_APPROVED);
 
-        ClaimStatus previousStatus = claim.getStatus();
-        claim.setStatus(ClaimStatus.ADMIN_APPROVED);
+        ClaimStatus previousStatus = claim.getClaimStatus();
+        claim.setClaimStatus(ClaimStatus.ADMIN_APPROVED);
         claim.setProcessedDate(LocalDateTime.now());
         claim.setReviewedBy(principal.getName());
         claim.setReviewedAt(LocalDateTime.now());
@@ -214,10 +201,10 @@ public class AdminServiceImpl implements AdminService {
     public ClaimResponse rejectClaim(Long claimId, String reason, Principal principal) {
         Claim claim = claimRepository.findById(claimId).orElseThrow(() -> new NoResourceFoundException("claim not found"));
 
-        claimStateMachine.validateTransition(claim.getStatus(), ClaimStatus.REJECTED);
+        claimStateMachine.validateTransition(claim.getClaimStatus(), ClaimStatus.REJECTED);
 
-        ClaimStatus previousStatus = claim.getStatus();
-        claim.setStatus(ClaimStatus.REJECTED);
+        ClaimStatus previousStatus = claim.getClaimStatus();
+        claim.setClaimStatus(ClaimStatus.REJECTED);
         claim.setRejectionReason(reason);
         claim.setProcessedDate(LocalDateTime.now());
         claim.setReviewedBy(principal.getName());

@@ -18,8 +18,6 @@ public interface AdminService {
 
     Page<UserResponse> getAllUsers(int page, int size, String search);
 
-    List<CustomerResponse> getAllCustomers();
-
     ClaimResponse reviewClaim(ClaimReviewRequest request, Principal principal);
 
     ClaimResponse approveClaim(Long claimId, String reason, Principal principal);

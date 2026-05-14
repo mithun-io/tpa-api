@@ -14,7 +14,6 @@ import com.tpa.security.CustomUserDetails;
 import com.tpa.security.CustomUserDetailsService;
 import com.tpa.helper.EmailService;
 import com.tpa.helper.RedisService;
-import com.tpa.mapper.CustomerMapper;
 import com.tpa.mapper.UserMapper;
 import com.tpa.repository.PatientRepository;
 import com.tpa.repository.UserRepository;
