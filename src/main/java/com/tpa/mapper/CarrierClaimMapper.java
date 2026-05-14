@@ -12,16 +12,17 @@ import com.tpa.enums.RiskLevel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
+import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface CarrierClaimMapper {
 
     @Mapping(source = "id", target = "claimId")
-    @Mapping(source = "claim", target = "patient", qualifiedByName = "mapPatientInfo")
-    @Mapping(source = "claim", target = "fraud", qualifiedByName = "mapFraudInfo")
-    @Mapping(source = "claim", target = "policy", qualifiedByName = "mapPolicyInfo")
+    @Mapping(target = "patient", expression = "java(mapPatientInfo(claim))")
+    @Mapping(target = "fraud", expression = "java(mapFraudInfo(claim))")
+    @Mapping(target = "policy", expression = "java(mapPolicyInfo(claim))")
     CarrierClaimDetailResponse toCarrierClaimDetailResponse(Claim claim);
 
     List<CarrierClaimDetailResponse> toCarrierClaimDetailResponses(List<Claim> claims);
@@ -33,7 +34,7 @@ public interface CarrierClaimMapper {
         return PatientInfo.builder()
                 .name(u.getUsername())
                 .email(u.getEmail())
-                .mobile(u.getMobile())
+                .mobile(u.getPhoneNumber())
                 .dateOfBirth(u.getDateOfBirth())
                 .gender(u.getGender() != null ? u.getGender().name() : null)
                 .address(u.getAddress())
@@ -44,16 +45,13 @@ public interface CarrierClaimMapper {
     default FraudInfo mapFraudInfo(Claim c) {
         RiskLevel mappedRiskLevel = RiskLevel.LOW;
         if (c.getRiskLevel() != null) {
-            try {
-                mappedRiskLevel = RiskLevel.valueOf(c.getRiskLevel().name());
-            } catch (IllegalArgumentException e) {
-                mappedRiskLevel = RiskLevel.LOW;
-            }
+            mappedRiskLevel = c.getRiskLevel();
         }
+        Double hScore = c.getHealthScore();
         return FraudInfo.builder()
                 .riskScore(c.getRiskScore())
                 .riskLevel(mappedRiskLevel)
-                .healthScore(c.getHealthScore())
+                .healthScore(hScore != null ? hScore.intValue() : null)
                 .riskFlags(c.getRiskFlags())
                 .aiSummary(c.getAiSummary())
                 .build();
@@ -63,14 +61,16 @@ public interface CarrierClaimMapper {
     default PolicyInfo mapPolicyInfo(Claim c) {
         boolean hasPolicy = c.getPolicyNumber() != null && !c.getPolicyNumber().isBlank() && !c.getPolicyNumber().startsWith("TEMP-");
         boolean hasAmount = c.getAmount() != null && c.getAmount() > 0;
-        boolean notRejected = c.getStatus() != ClaimStatus.REJECTED;
+        boolean notRejected = c.getClaimStatus() != ClaimStatus.REJECTED;
 
         String polStatus = (hasPolicy && hasAmount && notRejected) ? "VALID" : "INVALID";
         String polReason = "VALID".equals(polStatus)
                 ? "Policy is active and claim details are complete."
-                : !hasPolicy ? "Missing or temporary policy number."
-                  : !hasAmount ? "Claim amount is zero or missing."
-                    : "Claim has been rejected — policy coverage cannot be applied.";
+                : !hasPolicy
+                  ? "Missing or temporary policy number."
+                  : !hasAmount
+                    ? "Claim amount is zero or missing."
+                    : "Claim has been rejected \u2014 policy coverage cannot be applied.";
 
         return PolicyInfo.builder()
                 .policyNumber(c.getPolicyNumber())

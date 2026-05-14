@@ -6,16 +6,19 @@ import com.tpa.enums.RiskLevel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
+import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface FraudClaimMapper {
 
     @Mapping(source = "id", target = "claimId")
-    @Mapping(source = "claim", target = "reasons", qualifiedByName = "mapReasons")
-    @Mapping(source = "claim", target = "riskLevel", qualifiedByName = "mapRiskLevel")
+    @Mapping(source = ".", target = "reasons", qualifiedByName = "mapReasons")
+    @Mapping(source = ".", target = "riskLevel", qualifiedByName = "mapRiskLevel")
     FraudClaimResponse toFraudClaimDto(Claim claim);
+
+    List<FraudClaimResponse> toFraudClaimDtos(List<Claim> claims);
 
     @Named("mapReasons")
     default List<String> mapReasons(Claim c) {
@@ -27,11 +30,9 @@ public interface FraudClaimMapper {
 
     @Named("mapRiskLevel")
     default RiskLevel mapRiskLevel(Claim c) {
-        String level = c.getRiskLevel() != null ? c.getRiskLevel().name() : "LOW";
-        try {
-            return RiskLevel.valueOf(level);
-        } catch (IllegalArgumentException e) {
-            return RiskLevel.LOW;
+        if (c.getRiskLevel() != null) {
+            return c.getRiskLevel();
         }
+        return RiskLevel.LOW;
     }
 }

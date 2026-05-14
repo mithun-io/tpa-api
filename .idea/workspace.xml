@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b816a75b-6920-4401-836e-1b55556aa93c" name="Changes" comment="" />
+    <list default="true" id="b816a75b-6920-4401-836e-1b55556aa93c" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/mapper/CarrierClaimMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/mapper/CarrierClaimMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/mapper/CarrierMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/mapper/CarrierMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/mapper/ClaimMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/mapper/ClaimMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/mapper/FraudClaimMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/mapper/FraudClaimMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/mapper/PatientMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/mapper/PatientMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/mapper/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/mapper/UserMapper.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -22,22 +30,22 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "mithun-io"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;mithun-io&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/mithun-io/tpa-api",
-    "accountId": "6714f6ac-159e-464b-93a0-7f957681d314"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/mithun-io/tpa-api&quot;,
+    &quot;accountId&quot;: &quot;6714f6ac-159e-464b-93a0-7f957681d314&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 5,
-  "fromUser": false
-}]]></component>
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5,
+  &quot;fromUser&quot;: false
+}</component>
   <component name="ProjectId" id="3DhvCoW0O4UT0Zw9Wg8OskwxmcM" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="1" id="Add" />
@@ -51,6 +59,7 @@
     "Application.JwtKeyGenerator.executor": "Run",
     "Maven.tpa [clean,install,-U].executor": "Run",
     "Maven.tpa [clean].executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
@@ -122,7 +131,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1778746990736</updated>
-      <workItem from="1778746991991" duration="18615000" />
+      <workItem from="1778746991991" duration="18981000" />
+      <workItem from="1778767708238" duration="503000" />
     </task>
     <servers />
   </component>
