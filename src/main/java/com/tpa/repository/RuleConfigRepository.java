@@ -9,8 +9,12 @@ import java.util.Optional;
 
 @Repository
 public interface RuleConfigRepository extends JpaRepository<RuleConfig, Long> {
+
     Optional<RuleConfig> findByRuleKey(String ruleKey);
+
     List<RuleConfig> findByActiveTrueOrderByPriorityAsc();
+
     List<RuleConfig> findByCategoryAndActiveTrueOrderByPriorityAsc(String category);
+
     boolean existsByRuleKey(String ruleKey);
 }

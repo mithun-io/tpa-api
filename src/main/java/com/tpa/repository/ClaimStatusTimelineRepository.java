@@ -8,5 +8,6 @@ import java.util.List;
 
 @Repository
 public interface ClaimStatusTimelineRepository extends JpaRepository<ClaimStatusTimeline, Long> {
+
     List<ClaimStatusTimeline> findByClaimIdOrderByOccurredAtAsc(Long claimId);
 }

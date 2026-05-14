@@ -8,5 +8,6 @@ import java.util.List;
 
 @Repository
 public interface ClaimQueryRepository extends JpaRepository<ClaimQuery, Long> {
+
     List<ClaimQuery> findByClaimIdOrderByTimestampAsc(Long claimId);
 }

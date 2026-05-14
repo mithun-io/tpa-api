@@ -13,7 +13,6 @@ import com.tpa.exception.NoResourceFoundException;
 import com.tpa.kafka.producer.ProducerService;
 import com.tpa.mapper.CustomerMapper;
 import com.tpa.mapper.UserMapper;
-import com.tpa.repository.CustomerRepository;
 import com.tpa.repository.UserRepository;
 import com.tpa.service.AdminService;
 import com.tpa.dto.request.ClaimReviewRequest;

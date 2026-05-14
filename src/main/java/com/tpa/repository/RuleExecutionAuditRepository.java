@@ -10,7 +10,10 @@ import java.util.List;
 
 @Repository
 public interface RuleExecutionAuditRepository extends JpaRepository<RuleExecutionAudit, Long> {
+
     List<RuleExecutionAudit> findByClaimIdOrderByExecutedAtDesc(Long claimId);
+
     Page<RuleExecutionAudit> findByRuleKeyOrderByExecutedAtDesc(String ruleKey, Pageable pageable);
+
     List<RuleExecutionAudit> findBySimulationTrueOrderByExecutedAtDesc();
 }
