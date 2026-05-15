@@ -20,18 +20,6 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @PostMapping("/customer/register")
-    public ResponseEntity<ApiResponse<Void>> customerRegistration(@Valid @RequestBody CustomerRequest customerRequest) {
-        authService.customerRegistration(customerRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse<>(true, "otp sent successfully", null, 201));
-    }
-
-    @PatchMapping("/customer/verify")
-    public ResponseEntity<ApiResponse<Void>> verifyCustomerOtp(@Valid @RequestBody OtpRequest otpRequest) {
-        authService.verifyCustomerOtp(otpRequest);
-        return ResponseEntity.ok(new ApiResponse<>(true, "registration successful", null, 200));
-    }
-
     @PostMapping("/patient/register")
     public ResponseEntity<ApiResponse<Void>> patientRegistration(@Valid @RequestBody PatientRequest patientRequest) {
         authService.patientRegistration(patientRequest);
@@ -45,8 +33,8 @@ public class AuthController {
     }
 
     @PostMapping("/carrier/register")
-    public ResponseEntity<ApiResponse<Void>> carrierRegistration(@Valid @RequestBody CarrierRegistrationRequest carrierRegistrationRequest) {
-        authService.carrierRegistration(carrierRegistrationRequest);
+    public ResponseEntity<ApiResponse<Void>> carrierRegistration(@Valid @RequestBody CarrierRequest carrierRequest) {
+        authService.carrierRegistration(carrierRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse<>(true, "OTP sent to carrier email. Please verify.", null, 201));
     }
 

@@ -8,15 +8,11 @@ import java.security.Principal;
 
 public interface AuthService {
 
-    void customerRegistration(CustomerRequest customerRequest);
-
     void patientRegistration(PatientRequest patientRequest);
 
-    void carrierRegistration(CarrierRegistrationRequest request);
+    void carrierRegistration(CarrierRequest carrierRequest);
 
-    void verifyCarrierOtp(OtpRequest request);
-
-    void verifyCustomerOtp(OtpRequest otpRequest);
+    void verifyCarrierOtp(OtpRequest otpRequest);
 
     void verifyPatientOtp(OtpRequest otpRequest);
 
@@ -30,5 +26,5 @@ public interface AuthService {
 
     void passwordReset(PasswordResetRequest passwordResetRequest);
 
-    LoginResponse refreshToken(RefreshTokenRequest request);
+    LoginResponse refreshToken(RefreshTokenRequest refreshTokenRequest);
 }

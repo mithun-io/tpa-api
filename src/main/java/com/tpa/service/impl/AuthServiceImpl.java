@@ -45,12 +45,10 @@ import java.time.LocalDateTime;
 public class AuthServiceImpl implements AuthService {
 
     private final UserRepository userRepository;
-    private final CustomerRepository customerRepository;
     private final PatientRepository patientRepository;
     private final CarrierRepository carrierRepository;
 
     private final UserMapper userMapper;
-    private final CustomerMapper customerMapper;
 
     private final CustomUserDetailsService customUserDetailsService;
     private final RedisService redisService;
@@ -72,24 +70,8 @@ public class AuthServiceImpl implements AuthService {
 
     @Transactional
     @Override
-    public void customerRegistration(CustomerRequest customerRequest) {
-        if (userRepository.existsByEmailAndMobile(customerRequest.getEmail(), customerRequest.getMobile())) {
-            throw new ConflictException("user already exists");
-        }
-        if (redisService.isPendingCustomerExists(customerRequest.getEmail())) {
-            throw new ConflictException("pending registration already exists");
-        }
-
-        int otp = generateOtp();
-        emailService.sendOtp(customerRequest.getName(), customerRequest.getEmail(), otp);
-        redisService.storeOtp(customerRequest.getEmail(), otp);
-        redisService.storePendingCustomer(customerRequest.getEmail(), customerRequest);
-    }
-
-    @Transactional
-    @Override
     public void patientRegistration(PatientRequest patientRequest) {
-        if (userRepository.existsByEmailAndMobile(patientRequest.getEmail(), patientRequest.getPhoneNumber())) {
+        if (userRepository.existsByEmailAndPhoneNumber(patientRequest.getEmail(), patientRequest.getPhoneNumber())) {
             throw new ConflictException("user already exists");
         }
         if (redisService.isPendingPatientExists(patientRequest.getEmail())) {
@@ -97,14 +79,57 @@ public class AuthServiceImpl implements AuthService {
         }
 
         int otp = generateOtp();
-        emailService.sendOtp(patientRequest.getPatientName(), patientRequest.getEmail(), otp);
+        emailService.sendOtp(patientRequest.getName(), patientRequest.getEmail(), otp);
         redisService.storeOtp(patientRequest.getEmail(), otp);
         redisService.storePendingPatient(patientRequest.getEmail(), patientRequest);
     }
 
     @Transactional
     @Override
-    public void carrierRegistration(CarrierRegistrationRequest request) {
+    public void verifyPatientOtp(OtpRequest otpRequest) {
+        Integer storedOtp = redisService.getOtp(otpRequest.getEmail());
+        PatientRequest storedPatient = redisService.getPendingPatient(otpRequest.getEmail());
+
+        if (storedOtp == null) {
+            throw new BadRequestException("otp expired or invalid");
+        }
+        if (storedPatient == null) {
+            throw new BadRequestException("no pending registration found");
+        }
+        if (!String.valueOf(storedOtp).equals(otpRequest.getOtp())) {
+            throw new BadRequestException("invalid otp");
+        }
+        if (userRepository.existsByEmail(storedPatient.getEmail())) {
+            throw new ConflictException("user already exists!");
+        }
+
+        User user = User.builder()
+                .username(storedPatient.getName())
+                .email(storedPatient.getEmail())
+                .phoneNumber(storedPatient.getPhoneNumber())
+                .dateOfBirth(storedPatient.getDateOfBirth())
+                .address(storedPatient.getAddress())
+                .password(passwordEncoder.encode(storedPatient.getPassword()))
+                .gender(storedPatient.getGender())
+                .userRole(UserRole.PATIENT) // Assign CUSTOMER role to Patients
+                .userStatus(UserStatus.ACTIVE)
+                .createdAt(LocalDateTime.now())
+                .build();
+        user = userRepository.save(user);
+
+        Patient patient = Patient.builder()
+                .user(user)
+                .build();
+        patientRepository.save(patient);
+
+        emailService.sendConfirmation(user.getUsername(), user.getEmail());
+        redisService.deleteOtp(otpRequest.getEmail());
+        redisService.deletePendingPatient(otpRequest.getEmail());
+    }
+
+    @Transactional
+    @Override
+    public void carrierRegistration(CarrierRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new ConflictException("user already exists");
         }
@@ -125,7 +150,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void verifyCarrierOtp(OtpRequest otpRequest) {
         Integer storedOtp = redisService.getOtp(otpRequest.getEmail());
-        CarrierRegistrationRequest stored = redisService.getPendingCarrier(otpRequest.getEmail());
+        CarrierRequest stored = redisService.getPendingCarrier(otpRequest.getEmail());
 
         if (storedOtp == null) {
             throw new BadRequestException("otp expired or invalid");
@@ -146,12 +171,12 @@ public class AuthServiceImpl implements AuthService {
         User user = User.builder()
                 .username(stored.getCompanyName())
                 .email(stored.getEmail())
-                .mobile(stored.getMobile())
+                .phoneNumber(stored.getPhoneNumber())
                 .dateOfBirth(java.time.LocalDate.now())
                 .address(stored.getAddress())
                 .password(passwordEncoder.encode(stored.getPassword()))
                 .gender(null)
-                .userRole(UserRole.CARRIER_USER)
+                .userRole(UserRole.CARRIER)
                 .userStatus(UserStatus.PENDING)
                 .createdAt(LocalDateTime.now())
                 .build();
@@ -164,13 +189,11 @@ public class AuthServiceImpl implements AuthService {
                 .companyType(stored.getCompanyType())
                 .licenseNumber(stored.getLicenseNumber())
                 .taxId(stored.getTaxId())
-                .contactPersonName(stored.getContactPersonName())
-                .contactPersonPhone(stored.getContactPersonPhone())
                 .website(stored.getWebsite())
                 .build();
         carrier = carrierRepository.save(carrier);
 
-        emailService.sendConfirmation(user.getUsername(), user.getEmail(), stored.getPassword());
+        emailService.sendConfirmation(user.getUsername(), user.getEmail());
         redisService.deleteOtp(otpRequest.getEmail());
         redisService.deletePendingCarrier(otpRequest.getEmail());
 
@@ -199,100 +222,13 @@ public class AuthServiceImpl implements AuthService {
         log.info("verifyCarrierOtp completed synchronously. AI+Kafka deferred to post-commit.");
     }
 
-    @Transactional
-    @Override
-    public void verifyCustomerOtp(OtpRequest otpRequest) {
-        Integer storedOtp = redisService.getOtp(otpRequest.getEmail());
-        CustomerRequest storedCustomer = redisService.getPendingCustomer(otpRequest.getEmail());
-
-        if (storedOtp == null) {
-            throw new BadRequestException("otp expired or invalid");
-        }
-        if (storedCustomer == null) {
-            throw new BadRequestException("no pending registration found");
-        }
-        if (!String.valueOf(storedOtp).equals(otpRequest.getOtp())) {
-            throw new BadRequestException("invalid otp");
-        }
-        if (userRepository.existsByEmail(storedCustomer.getEmail())) {
-            throw new ConflictException("user already exists!");
-        }
-
-        User user = User.builder()
-                .username(storedCustomer.getName())
-                .email(storedCustomer.getEmail())
-                .mobile(storedCustomer.getMobile())
-                .dateOfBirth(storedCustomer.getDateOfBirth())
-                .address(storedCustomer.getAddress())
-                .password(passwordEncoder.encode(storedCustomer.getPassword()))
-                .gender(storedCustomer.getGender())
-                .userRole(UserRole.CUSTOMER)
-                .userStatus(UserStatus.ACTIVE)
-                .createdAt(LocalDateTime.now())
-                .build();
-        user = userRepository.save(user);
-
-        Customer customer = Customer.builder()
-                .user(user)
-                .build();
-        customerRepository.save(customer);
-
-        emailService.sendConfirmation(user.getUsername(), user.getEmail(), user.getPassword());
-        redisService.deleteOtp(otpRequest.getEmail());
-        redisService.deletePendingCustomer(otpRequest.getEmail());
-    }
-
-    @Transactional
-    @Override
-    public void verifyPatientOtp(OtpRequest otpRequest) {
-        Integer storedOtp = redisService.getOtp(otpRequest.getEmail());
-        PatientRequest storedPatient = redisService.getPendingPatient(otpRequest.getEmail());
-
-        if (storedOtp == null) {
-            throw new BadRequestException("otp expired or invalid");
-        }
-        if (storedPatient == null) {
-            throw new BadRequestException("no pending registration found");
-        }
-        if (!String.valueOf(storedOtp).equals(otpRequest.getOtp())) {
-            throw new BadRequestException("invalid otp");
-        }
-        if (userRepository.existsByEmail(storedPatient.getEmail())) {
-            throw new ConflictException("user already exists!");
-        }
-
-        User user = User.builder()
-                .username(storedPatient.getPatientName())
-                .email(storedPatient.getEmail())
-                .mobile(storedPatient.getPhoneNumber())
-                .dateOfBirth(storedPatient.getDateOfBirth())
-                .address(storedPatient.getAddress())
-                .password(passwordEncoder.encode(storedPatient.getPassword()))
-                .gender(storedPatient.getGender())
-                .userRole(UserRole.CUSTOMER) // Assign CUSTOMER role to Patients
-                .userStatus(UserStatus.ACTIVE)
-                .createdAt(LocalDateTime.now())
-                .build();
-        user = userRepository.save(user);
-
-        Patient patient = Patient.builder()
-                .user(user)
-                .build();
-        patientRepository.save(patient);
-
-        emailService.sendConfirmation(user.getUsername(), user.getEmail(), user.getPassword());
-        redisService.deleteOtp(otpRequest.getEmail());
-        redisService.deletePendingPatient(otpRequest.getEmail());
-    }
 
     @Transactional
     @Override
     public void resendOtp(String email) {
-
-        CustomerRequest customer = redisService.getPendingCustomer(email);
         PatientRequest patient = redisService.getPendingPatient(email);
 
-        if (customer == null && patient == null) {
+        if (patient == null) {
             throw new BadRequestException("no pending registration found");
         }
 
@@ -300,11 +236,8 @@ public class AuthServiceImpl implements AuthService {
 
         int otp = generateOtp();
 
-        if (customer != null) {
-            emailService.sendOtp(customer.getName(), customer.getEmail(), otp);
-            redisService.storeOtp(customer.getEmail(), otp);
-        } else {
-            emailService.sendOtp(patient.getPatientName(), patient.getEmail(), otp);
+        if (patient != null) {
+            emailService.sendOtp(patient.getName(), patient.getEmail(), otp);
             redisService.storeOtp(patient.getEmail(), otp);
         }
     }
@@ -315,10 +248,10 @@ public class AuthServiceImpl implements AuthService {
         User user = userRepository.findByEmail(loginRequest.getEmail()).orElseThrow(() -> new NoResourceFoundException("user not found"));
 
         if (user.getUserStatus() != UserStatus.ACTIVE) {
-            if (user.getUserRole() == UserRole.CARRIER_USER && user.getUserStatus() == UserStatus.INACTIVE) {
+            if (user.getUserRole() == UserRole.CARRIER && user.getUserStatus() == UserStatus.INACTIVE) {
                 throw new BadRequestException("Your carrier account is pending admin approval. You will be notified once approved.");
             }
-            if (user.getUserRole() == UserRole.CARRIER_USER && user.getUserStatus() == UserStatus.BLOCKED) {
+            if (user.getUserRole() == UserRole.CARRIER && user.getUserStatus() == UserStatus.BLOCKED) {
                 throw new BadRequestException("Your carrier account has been rejected. Please contact support.");
             }
             throw new BadRequestException("account is not active. current status: " + user.getUserStatus().name().toLowerCase());
@@ -326,6 +259,7 @@ public class AuthServiceImpl implements AuthService {
 
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
         CustomUserDetails customUserDetails = (CustomUserDetails) customUserDetailsService.loadUserByUsername(loginRequest.getEmail());
+
         String token = jwtUtil.generateToken(customUserDetails);
         log.info("{} logged in successfully", user.getUsername());
 
@@ -384,7 +318,7 @@ public class AuthServiceImpl implements AuthService {
         user.setPassword(passwordEncoder.encode(passwordResetRequest.getNewPassword()));
         userRepository.save(user);
 
-        emailService.sendConfirmation(user.getUsername(), user.getEmail(), user.getPassword());
+        emailService.sendConfirmation(user.getUsername(), user.getEmail());
         redisService.deleteOtp(passwordResetRequest.getEmail());
     }
 
