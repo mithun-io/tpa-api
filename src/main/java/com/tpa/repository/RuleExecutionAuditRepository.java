@@ -16,4 +16,6 @@ public interface RuleExecutionAuditRepository extends JpaRepository<RuleExecutio
     Page<RuleExecutionAudit> findByRuleKeyOrderByExecutedAtDesc(String ruleKey, Pageable pageable);
 
     List<RuleExecutionAudit> findBySimulationTrueOrderByExecutedAtDesc();
+
+    List<RuleExecutionAudit> findBySimulationModeTrueOrderByExecutedAtDesc();
 }

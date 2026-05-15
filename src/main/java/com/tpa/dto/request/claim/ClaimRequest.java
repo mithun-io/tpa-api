@@ -23,7 +23,7 @@ public class ClaimRequest {
     @NotNull(message = "Policy number is required")
     private PolicyStatus policyStatus;
 
-    @NotBlank(message = "claim form is present or not present?")
+    @NotNull(message = "Claim form presence is required")
     private Boolean claimFormPresent;
 
     @NotBlank(message = "Patient name is required on claim form")
@@ -38,7 +38,7 @@ public class ClaimRequest {
     @NotNull(message = "Discharge date is required")
     private LocalDate claimFormDischargeDate;
 
-    @NotBlank(message = "combined document is present or not present?")
+    @NotNull(message = "Combined document presence is required")
     private Boolean combinedDocumentPresent;
 
     @NotBlank(message = "Patient name is required on combined document")
