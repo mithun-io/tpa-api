@@ -1,31 +1,44 @@
 package com.tpa.service.impl;
 
-import com.tpa.dto.request.ClaimDataRequest;
+import com.tpa.dto.request.ClaimRequest;
 import com.tpa.dto.response.ClaimDecisionResponse;
 import com.tpa.dto.response.ClaimResponse;
+import com.tpa.entity.Carrier;
 import com.tpa.entity.Claim;
 import com.tpa.entity.ClaimAudit;
 import com.tpa.entity.User;
 import com.tpa.enums.ClaimStatus;
-import com.tpa.kafka.producer.ClaimEventProducer;
-import com.tpa.mapper.ClaimMapper;
-import com.tpa.kafka.producer.ProducerService;
-import com.tpa.kafka.event.ClaimNotificationEvent;
-import com.tpa.repository.ClaimRepository;
+import com.tpa.enums.UserRole;
+import com.tpa.exception.BadRequestException;
+import com.tpa.exception.NoResourceFoundException;
 import com.tpa.helper.ClaimSpecification;
-import com.tpa.repository.UserRepository;
-import com.tpa.repository.CarrierRepository;
-import com.tpa.entity.Carrier;
-import com.tpa.service.AuditLogService;
-import com.tpa.service.ClaimService;
 import com.tpa.helper.ClaimStateMachine;
+import com.tpa.helper.PdfExportService;
+import com.tpa.kafka.event.ClaimNotificationEvent;
+import com.tpa.kafka.producer.ClaimEventProducer;
+import com.tpa.kafka.producer.ProducerService;
+import com.tpa.mapper.ClaimMapper;
+import com.tpa.repository.CarrierRepository;
+import com.tpa.repository.ClaimAuditRepository;
+import com.tpa.repository.ClaimDocumentRepository;
+import com.tpa.repository.ClaimRepository;
+import com.tpa.repository.UserRepository;
+import com.tpa.service.AuditLogService;
+import com.tpa.service.CarrierService;
+import com.tpa.service.ClaimService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -38,158 +51,215 @@ public class ClaimServiceImpl implements ClaimService {
 
     private final ClaimRepository claimRepository;
     private final UserRepository userRepository;
-    private final ClaimMapper claimMapper;
-    private final ClaimEventProducer claimEventProducer;
-    private final AuditLogService auditLogService;
-    private final ClaimStateMachine claimStateMachine;
+    private final ClaimDocumentRepository claimDocumentRepository;
     private final CarrierRepository carrierRepository;
+    private final ClaimAuditRepository claimAuditRepository;
+
+    private final ClaimMapper claimMapper;
+
+    private final ClaimStateMachine claimStateMachine;
+
     private final ProducerService producerService;
-    private final com.tpa.repository.ClaimAuditRepository claimAuditRepository;
-    private final com.tpa.repository.ClaimDocumentRepository claimDocumentRepository;
+    private final AuditLogService auditLogService;
+
+    private final PdfExportService pdfExportService;
+    private final CarrierService carrierService;
+
+    private User getUser(String username) {
+        return userRepository.findByEmail(username).orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    private boolean isPatient(Authentication authentication) {
+
+        return authentication.getAuthorities()
+                .stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_PATIENT"));
+    }
+
+    private boolean isAdmin(Authentication authentication) {
+        return authentication.getAuthorities()
+                .stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+    }
+
+    private void validateClaimAccess(ClaimResponse claimResponse, String username) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (isPatient(authentication)) {
+            if (claimResponse.getUserEmail() == null || !claimResponse.getUserEmail().equals(username)) {
+                throw new AccessDeniedException("Access denied");
+            }
+        }
+    }
+
+    private Pageable applyDefaultSorting(Pageable pageable) {
+        if (!pageable.getSort().isSorted()) {
+            return PageRequest.of(
+                    pageable.getPageNumber(),
+                    pageable.getPageSize(),
+                    Sort.by(Sort.Direction.DESC, "createdDate"));
+        }
+        return pageable;
+    }
 
     @Override
-    public ClaimResponse createClaim(ClaimDataRequest request, String username) {
-        log.info("[ClaimService] Received claim request payload: {}", request);
-
-        User user = userRepository.findByEmail(username).orElseThrow(() -> new RuntimeException("User not found"));
-
+    @Transactional
+    public ClaimResponse createClaim(ClaimRequest claimRequest, String username) {
+        User user = getUser(username);
         Carrier carrier = null;
-        if (request.getCarrierName() != null && !request.getCarrierName().isEmpty()) {
-            carrier = carrierRepository.findByCompanyNameIgnoreCase(request.getCarrierName()).orElse(null);
+
+        if (claimRequest.getCarrierName() != null && !claimRequest.getCarrierName().isBlank()) {
+            carrier = carrierRepository.findByCompanyNameIgnoreCase(claimRequest.getCarrierName()).orElseThrow(() -> new NoResourceFoundException("Company not found"));
         }
 
-        Claim claim = Claim.builder()
-                .policyNumber(request.getPolicyNumber() != null ? request.getPolicyNumber() : "TEMP-" + System.currentTimeMillis())
-                .user(user)
-                .status(ClaimStatus.SUBMITTED)
-                .amount(request.getClaimedAmount())
-                .carrierName(request.getCarrierName())
-                .carrier(carrier)
-                .patientName(request.getClaimFormPatientName())
-                .hospitalName(request.getClaimFormHospitalName())
-                .admissionDate(request.getClaimFormAdmissionDate())
-                .dischargeDate(request.getClaimFormDischargeDate())
-                .totalBillAmount(request.getTotalBillAmount())
-                .policyId(request.getPolicyId())
-                .policyName(request.getPolicyName())
-                .claimType(request.getClaimType())
-                .diagnosis(request.getDiagnosis())
-                .billNumber(request.getBillNumber())
-                .billDate(request.getBillDate())
+        Claim claim = claimMapper.toClaim(claimRequest);
+
+        claim.setUser(user);
+        claim.setCarrier(carrier);
+        claim.setCarrierName(claimRequest.getCarrierName());
+        claim.setClaimStatus(ClaimStatus.SUBMITTED);
+
+        if (claimRequest.getPolicyNumber() == null || claimRequest.getPolicyNumber().isBlank()) {
+            claim.setPolicyNumber("TEMP-" + System.currentTimeMillis());
+        }
+
+        claim = claimRepository.save(claim);
+        auditLogService.logAction(claim.getId(), "CLAIM_CREATED", null, ClaimStatus.SUBMITTED);
+
+        return claimMapper.toClaimResponse(claim);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public ClaimResponse getClaim(Long claimId, String username) {
+        Claim claim = claimRepository.findById(claimId).orElseThrow(() -> new RuntimeException("Claim not found"));
+
+        ClaimResponse claimResponse = claimMapper.toClaimResponse(claim);
+        validateClaimAccess(claimResponse, username);
+
+        return claimResponse;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<ClaimResponse> getAllClaims(Pageable pageable, String username) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        pageable = applyDefaultSorting(pageable);
+
+        if (isAdmin(authentication)) {
+            return claimRepository.findAll(pageable).map(claimMapper::toClaimResponse);
+        }
+        return searchClaims(null, null, null, null, null, username, pageable);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @CacheEvict(value = "claims", key = "#claimId")
+    public void processClaimDecision(Long claimId, ClaimDecisionResponse claimDecisionResponse) {
+        Claim claim = claimRepository.findById(claimId).orElseThrow(() -> new RuntimeException("Claim not found"));
+        ClaimStatus previousStatus = claim.getClaimStatus();
+
+        if (previousStatus == ClaimStatus.CARRIER_APPROVED || previousStatus == ClaimStatus.REJECTED || previousStatus == ClaimStatus.SETTLED) {
+            return;
+        }
+
+        claimStateMachine.validateTransition(previousStatus, ClaimStatus.AI_VALIDATED);
+        claim.setClaimStatus(ClaimStatus.AI_VALIDATED);
+
+        claimRepository.save(claim);
+
+        auditLogService.logAction(
+                claimId,
+                "AI_VALIDATION_PASSED",
+                previousStatus,
+                ClaimStatus.AI_VALIDATED
+        );
+
+        claimStateMachine.validateTransition(
+                ClaimStatus.AI_VALIDATED,
+                claimDecisionResponse.getClaimStatus()
+        );
+
+        claim.setClaimStatus(claimDecisionResponse.getClaimStatus());
+        claim.setProcessedDate(LocalDateTime.now());
+
+        if (claimDecisionResponse.getReasons() != null && !claimDecisionResponse.getReasons().isEmpty()) {
+            claim.setRejectionReason(String.join(", ", claimDecisionResponse.getReasons()));
+        }
+
+        claimRepository.save(claim);
+
+        auditLogService.logAction(
+                claimId,
+                "RULE_ENGINE_DECISION",
+                ClaimStatus.AI_VALIDATED,
+                claim.getClaimStatus()
+        );
+
+        ClaimNotificationEvent claimNotificationEvent = ClaimNotificationEvent.builder()
+                .claimId(claim.getId())
+                .policyNumber(claim.getPolicyNumber())
+                .customerEmail(claim.getUser().getEmail())
+                .status(claim.getClaimStatus())
+                .message("Status: " + claim.getClaimStatus())
                 .build();
 
-        log.info("[ClaimService] Saving new claim entity to database: {}", claim);
-        claim = claimRepository.save(claim);
-        log.info("Claim {} created with status SUBMITTED. Upload both documents to trigger processing.", claim.getId());
-        auditLogService.logAction(claim.getId(), "CLAIM_CREATED", null, claim.getStatus());
-
-        return claimMapper.toClaimResponse(claim);
+        producerService.sendClaimNotificationEvent(claimNotificationEvent);
     }
 
     @Override
-    public ClaimResponse getClaim(Long claimId) {
-        Claim claim = claimRepository.findById(claimId).orElseThrow(() -> new RuntimeException("Claim not found"));
-        return claimMapper.toClaimResponse(claim);
-    }
-
-    @Override
-    public Page<ClaimResponse> getAllClaims(Pageable pageable) {
-        return claimRepository.findAll(pageable).map(claimMapper::toClaimResponse);
-    }
-
-    @Override
-    @Transactional(propagation = org.springframework.transaction.annotation.Propagation.REQUIRES_NEW)
-    @CacheEvict(value = "claims", key = "#claimId")
-    public void processClaimDecision(Long claimId, ClaimDecisionResponse decision) {
-        Claim claim = claimRepository.findById(claimId).orElseThrow(() -> new RuntimeException("Claim not found"));
-
-        ClaimStatus previousStatus = claim.getStatus();
-        log.info("[CLAIM-SYNC] Processing decision for claim {}. Current status: {}, New status: {}",
-                claimId, previousStatus, decision.getStatus());
-
-        try {
-            if (previousStatus == ClaimStatus.CARRIER_APPROVED || previousStatus == ClaimStatus.REJECTED || previousStatus == ClaimStatus.SETTLED) {
-                log.warn("[CLAIM-SYNC] Claim {} is in terminal state {}. Skipping decision.", claimId, previousStatus);
-                return;
-            }
-
-            claimStateMachine.validateTransition(previousStatus, ClaimStatus.AI_VALIDATED);
-
-            claim.setStatus(ClaimStatus.AI_VALIDATED);
-            claimRepository.save(claim);
-            auditLogService.logAction(claimId, "AI_VALIDATION_PASSED", previousStatus, ClaimStatus.AI_VALIDATED);
-
-            claimStateMachine.validateTransition(ClaimStatus.AI_VALIDATED, decision.getStatus());
-
-            claim.setStatus(decision.getStatus());
-            claim.setProcessedDate(LocalDateTime.now());
-
-            if (decision.getReasons() != null && !decision.getReasons().isEmpty()) {
-                claim.setRejectionReason(String.join(", ", decision.getReasons()));
-            }
-
-            claimRepository.save(claim);
-            auditLogService.logAction(claimId, "RULE_ENGINE_DECISION", ClaimStatus.AI_VALIDATED, claim.getStatus());
-            log.info("[CLAIM-SYNC] Claim {} successfully moved to {}", claimId, claim.getStatus());
-
-            ClaimNotificationEvent notificationEvent = ClaimNotificationEvent.builder()
-                    .claimId(claim.getId())
-                    .policyNumber(claim.getPolicyNumber())
-                    .customerEmail(claim.getUser().getEmail())
-                    .status(claim.getStatus())
-                    .message("Status: " + claim.getStatus() + ". Notes: " + (claim.getRejectionReason() != null ? claim.getRejectionReason() : "N/A"))
-                    .build();
-            producerService.sendClaimNotificationEvent(notificationEvent);
-
-        } catch (Exception e) {
-            log.error("[CLAIM-SYNC] CRITICAL: Status transition failed for claim {}: {}", claimId, e.getMessage());
-            throw e;
-        }
-    }
-
-    @Override
-    public Page<ClaimResponse> searchClaims(ClaimStatus status, LocalDateTime from, LocalDateTime to, Double minAmount, Double maxAmount, String username, Pageable pageable) {
-        Specification<Claim> spec = Specification.where(ClaimSpecification.hasStatus(status))
+    @Transactional(readOnly = true)
+    public Page<ClaimResponse> searchClaims(ClaimStatus claimStatus, LocalDateTime from, LocalDateTime to, Double minAmount, Double maxAmount, String username, Pageable pageable) {
+        Specification<Claim> specification = Specification.where(ClaimSpecification.hasStatus(claimStatus))
                 .and(ClaimSpecification.createdBetween(from, to))
                 .and(ClaimSpecification.amountBetween(minAmount, maxAmount))
                 .and(ClaimSpecification.hasUser(username));
-
-        return claimRepository.findAll(spec, pageable).map(claimMapper::toClaimResponse);
+        return claimRepository.findAll(specification, applyDefaultSorting(pageable)).map(claimMapper::toClaimResponse);
     }
 
     @Override
-    public List<ClaimAudit> getClaimAudits(Long claimId) {
+    @Transactional(readOnly = true)
+    public List<ClaimAudit> getClaimAudits(Long claimId, String username) {
+        getClaim(claimId, username);
         return claimAuditRepository.findByClaimIdOrderByChangedAtDesc(claimId);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ClaimAudit> getClaimTimeline(Long claimId, String username) {
+        return getClaimAudits(claimId, username);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public byte[] exportClaimReport(Long claimId, String username) {
+        getClaim(claimId, username);
+        return pdfExportService.exportClaimReport(claimId);
+    }
+
+    @Override
+    @Transactional
+    public void carrierApproveClaim(Long claimId, String username) {
+        carrierService.approveClaim(claimId, username);
     }
 
     @Override
     @Transactional
     public void deleteClaim(Long claimId, String username) {
-        Claim claim = claimRepository.findById(claimId)
-                .orElseThrow(() -> new RuntimeException("Claim not found"));
+        Claim claim = claimRepository.findById(claimId).orElseThrow(() -> new RuntimeException("Claim not found"));
 
-        // Check ownership if user is a CUSTOMER
-        User user = userRepository.findByEmail(username).orElseThrow(() -> new RuntimeException("User not found"));
-        boolean isAdmin = user.getUserRole() == com.tpa.enums.UserRole.ADMIN;
-        
+        User user = getUser(username);
+
+        boolean isAdmin = user.getUserRole() == UserRole.ADMIN;
+
         if (!isAdmin && !claim.getUser().getEmail().equals(username)) {
-            throw new org.springframework.security.access.AccessDeniedException("You do not have permission to delete this claim");
+            throw new AccessDeniedException("You do not have permission to delete this claim");
         }
 
-        // Status validation: ONLY SUBMITTED or UNDER_REVIEW can be deleted
-        if (claim.getStatus() != ClaimStatus.SUBMITTED && claim.getStatus() != ClaimStatus.UNDER_REVIEW) {
-            throw new com.tpa.exception.BadRequestException("Cannot delete claim in " + claim.getStatus() + " status. Only SUBMITTED or UNDER_REVIEW claims can be deleted.");
+        if (claim.getClaimStatus() != ClaimStatus.SUBMITTED && claim.getClaimStatus() != ClaimStatus.UNDER_REVIEW) {
+            throw new BadRequestException("Cannot delete claim in " + claim.getClaimStatus() + " status");
         }
-
-        log.info("Deleting claim {} requested by {}", claimId, username);
-        
-        // Delete associated audits
         claimAuditRepository.deleteByClaimId(claimId);
-        
-        // Delete associated documents
         claimDocumentRepository.deleteByClaimId(claimId);
-        
         claimRepository.delete(claim);
-        log.info("Claim {} successfully deleted", claimId);
     }
 }
