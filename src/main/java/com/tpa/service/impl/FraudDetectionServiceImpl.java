@@ -6,6 +6,7 @@ import com.tpa.entity.Carrier;
 import com.tpa.entity.Claim;
 import com.tpa.entity.User;
 import com.tpa.enums.RiskLevel;
+import com.tpa.mapper.FraudClaimMapper;
 import com.tpa.repository.CarrierRepository;
 import com.tpa.repository.ClaimDocumentRepository;
 import com.tpa.repository.ClaimRepository;
@@ -34,17 +35,15 @@ public class FraudDetectionServiceImpl implements FraudDetectionService {
     private final CarrierRepository carrierRepository;
     private final UserRepository userRepository;
     private final ClaimDocumentRepository claimDocumentRepository;
+
     private final MedicalValidationService medicalValidationService;
+
     private final StorageProvider storageProvider;
-    private final com.tpa.mapper.FraudClaimMapper fraudClaimMapper;
 
-    private static final Set<String> BLACKLISTED_HOSPITALS = Set.of(
-            "Fake Hospital City", "Fraudulent Medical Center", "Scam Healthcare"
-    );
+    private final FraudClaimMapper fraudClaimMapper;
 
-    private static final Set<String> SUSPICIOUS_PRODUCERS = Set.of(
-            "Adobe Photoshop", "Adobe Illustrator", "Canva", "CorelDRAW", "GIMP"
-    );
+    private static final Set<String> BLACKLISTED_HOSPITALS = Set.of("Fake Hospital City", "Fraudulent Medical Center", "Scam Healthcare");
+    private static final Set<String> SUSPICIOUS_PRODUCERS = Set.of("Adobe Photoshop", "Adobe Illustrator", "Canva", "CorelDRAW", "GIMP");
 
     @Override
     public void calculateAndSaveHealthAndRisk(Claim claim) {
@@ -88,16 +87,14 @@ public class FraudDetectionServiceImpl implements FraudDetectionService {
 
         if (claim.getRiskScore() != null && claim.getRiskScore() > 0) {
             riskScore += claim.getRiskScore();
+
             if (claim.getRiskFlags() != null && !claim.getRiskFlags().isBlank()) {
                 reasons.add("AI Document flag: " + claim.getRiskFlags());
             }
         }
 
-        // --- Industry Standard Advanced Forensic Checks ---
-
         // 1. Hospital Blacklist Check
-        if (claim.getHospitalName() != null && BLACKLISTED_HOSPITALS.stream()
-                .anyMatch(bh -> claim.getHospitalName().toLowerCase().contains(bh.toLowerCase()))) {
+        if (claim.getHospitalName() != null && BLACKLISTED_HOSPITALS.stream().anyMatch(bh -> claim.getHospitalName().toLowerCase().contains(bh.toLowerCase()))) {
             riskScore += 50;
             reasons.add("Hospital is in the global fraud blacklist");
         }
@@ -105,6 +102,7 @@ public class FraudDetectionServiceImpl implements FraudDetectionService {
         // 2. Duplicate Bill Number Check (Industry standard for fraud prevention)
         if (claim.getBillNumber() != null && !claim.getBillNumber().isBlank()) {
             boolean duplicateBill = claimRepository.existsByBillNumberAndIdNot(claim.getBillNumber(), claim.getId());
+
             if (duplicateBill) {
                 riskScore += 60;
                 reasons.add("Duplicate bill number detected across multiple claims");
@@ -116,6 +114,7 @@ public class FraudDetectionServiceImpl implements FraudDetectionService {
         for (com.tpa.entity.ClaimDocument doc : docs) {
             if ("PDF".equalsIgnoreCase(doc.getFileType())) {
                 String forensicIssues = analyzePdfMetadata(doc.getFilePath());
+
                 if (forensicIssues != null) {
                     riskScore += 40;
                     reasons.add("Forensic Alert: " + forensicIssues);
@@ -126,10 +125,12 @@ public class FraudDetectionServiceImpl implements FraudDetectionService {
         // 4. Medical Consistency & High-Risk Diagnosis Check
         if (claim.getIcdCode() != null) {
             List<String> medicalIssues = medicalValidationService.validateIcdCode(claim.getIcdCode(), claim.getDiagnosis());
+
             if (!medicalIssues.isEmpty()) {
                 riskScore += 30;
                 reasons.addAll(medicalIssues);
             }
+
             if (medicalValidationService.isHighRiskDiagnosis(claim.getIcdCode())) {
                 riskScore += 20;
                 reasons.add("High-risk medical diagnosis detected (requires specialized review)");
@@ -139,13 +140,14 @@ public class FraudDetectionServiceImpl implements FraudDetectionService {
         riskScore = Math.min(riskScore, 100.0);
         
         String riskLevel = "LOW";
+
         if (riskScore >= 70) {
             riskLevel = "HIGH";
         } else if (riskScore >= 30) {
             riskLevel = "MEDIUM";
         }
         
-        int healthScore = 100 - (int) riskScore;
+        double healthScore = 100 - riskScore;
 
         claim.setRiskScore(riskScore);
         claim.setRiskLevel(RiskLevel.valueOf(riskLevel));
@@ -158,11 +160,12 @@ public class FraudDetectionServiceImpl implements FraudDetectionService {
 
     private String analyzePdfMetadata(String filePath) {
         try (InputStream is = storageProvider.loadFileAsResource(filePath).getInputStream();
-             PDDocument document = Loader.loadPDF(is.readAllBytes())) {
+             PDDocument pdDocument = Loader.loadPDF(is.readAllBytes())) {
             
-            PDDocumentInformation info = document.getDocumentInformation();
-            String producer = info.getProducer();
-            String creator = info.getCreator();
+            PDDocumentInformation pdDocumentInformation = pdDocument.getDocumentInformation();
+
+            String producer = pdDocumentInformation.getProducer();
+            String creator = pdDocumentInformation.getCreator();
 
             if (producer != null && SUSPICIOUS_PRODUCERS.stream().anyMatch(p -> producer.contains(p))) {
                 return "Document was produced using editing software: " + producer;
@@ -181,9 +184,11 @@ public class FraudDetectionServiceImpl implements FraudDetectionService {
     @Override
     public FraudDashboardResponse getAdminFraudDashboard() {
         List<Claim> allClaims = claimRepository.findAll();
+
         if (allClaims == null) {
             allClaims = new ArrayList<>();
         }
+
         return generateDashboardResponse(allClaims);
     }
 
@@ -194,6 +199,7 @@ public class FraudDetectionServiceImpl implements FraudDetectionService {
         Carrier carrier = carrierRepository.findByUser_Id(user.getId()).orElseThrow(() -> new RuntimeException("Carrier not found for user ID: " + user.getId()));
         
         List<Claim> carrierClaims = claimRepository.findByCarrier_Id(carrier.getId());
+
         if (carrierClaims == null) {
             carrierClaims = new ArrayList<>();
         }
@@ -203,10 +209,12 @@ public class FraudDetectionServiceImpl implements FraudDetectionService {
     @Override
     public void markClaimAsSafe(Long claimId) {
         Claim claim = claimRepository.findById(claimId).orElseThrow(() -> new RuntimeException("Claim not found"));
+
         claim.setRiskScore(0.0);
         claim.setRiskLevel(RiskLevel.LOW);
-        claim.setHealthScore(100);
+        claim.setHealthScore(100d);
         claim.setRiskFlags("Marked safe by Admin");
+
         claimRepository.save(claim);
         log.info("Claim {} marked as safe", claimId);
     }
@@ -217,7 +225,7 @@ public class FraudDetectionServiceImpl implements FraudDetectionService {
         int mediumRisk = 0;
         int lowRisk = 0;
         
-        List<FraudClaimResponse> fraudClaims = new ArrayList<>();
+        List<FraudClaimResponse> fraudClaimResponses = new ArrayList<>();
 
         for (Claim c : claims) {
             if (c.getHealthScore() == null) {
@@ -228,11 +236,11 @@ public class FraudDetectionServiceImpl implements FraudDetectionService {
             if ("HIGH".equals(level)) highRisk++;
             else if ("MEDIUM".equals(level)) mediumRisk++;
             else lowRisk++;
-            
-            fraudClaims.add(fraudClaimMapper.toFraudClaimDto(c));
+
+            fraudClaimResponses.add(fraudClaimMapper.toFraudClaimDto(c));
         }
 
-        FraudDashboardResponse.DashboardStats stats = FraudDashboardResponse.DashboardStats.builder()
+        FraudDashboardResponse.DashboardStats dashboardStats = FraudDashboardResponse.DashboardStats.builder()
                 .totalClaims(total)
                 .highRisk(highRisk)
                 .mediumRisk(mediumRisk)
@@ -241,8 +249,8 @@ public class FraudDetectionServiceImpl implements FraudDetectionService {
                 .build();
 
         return FraudDashboardResponse.builder()
-                .stats(stats)
-                .claims(fraudClaims)
+                .dashboardStats(dashboardStats)
+                .claims(fraudClaimResponses)
                 .build();
     }
 }
