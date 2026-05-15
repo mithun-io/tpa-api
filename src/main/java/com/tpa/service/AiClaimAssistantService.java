@@ -11,7 +11,7 @@ public interface AiClaimAssistantService {
 
     String generateClaimSummary(Long claimId);
 
-    AiAnalysisResponse validatePreClaim(AiValidationRequest request);
+    AiAnalysisResponse validatePreClaim(AiValidationRequest aiValidationRequest);
 
-    DocumentValidationResponse validateDocument(MultipartFile file, String documentType);
+    DocumentValidationResponse validateDocument(MultipartFile multipartFile, String documentType);
 }

@@ -49,12 +49,13 @@ spring:
     google:
       genai:
         api-key: ${GEMINI_API_KEY}
+        base-url: https://generativelanguage.googleapis.com/v1beta
         chat:
           options:
             model: gemini-1.5-flash
 
 server:
-  port: ${PORT:8080}
+  port: ${PORT}
 
 admin:
   name: ${ADMIN_NAME}
@@ -73,7 +74,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,metrics,prometheus
+        include: health, metrics, prometheus
 
 logging:
   level:

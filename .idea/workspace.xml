@@ -6,15 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="b816a75b-6920-4401-836e-1b55556aa93c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/controller/AdminController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/request/AiValidationRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/request/AiValidationRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/repository/CarrierRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/repository/CarrierRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/repository/ClaimRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/repository/ClaimRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/repository/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/AdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/AdminService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/BulkClaimService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/BulkClaimService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/AdminServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/AdminServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/controller/AiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/controller/AiClaimAssistantController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/AiClaimAssistantService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/AiClaimAssistantService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/AiClaimAssistantServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/AiClaimAssistantServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application-dev.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application-dev.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/tpa/controller/AiControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/tpa/controller/AiControllerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -139,7 +135,7 @@
       <workItem from="1778746991991" duration="18981000" />
       <workItem from="1778767708238" duration="1144000" />
       <workItem from="1778769431837" duration="98000" />
-      <workItem from="1778820434800" duration="4275000" />
+      <workItem from="1778820434800" duration="5773000" />
     </task>
     <servers />
   </component>

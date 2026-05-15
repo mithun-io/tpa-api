@@ -30,7 +30,7 @@ class AiControllerTest {
     private AiClaimAssistantService aiClaimAssistantService;
 
     @InjectMocks
-    private AiController aiController;
+    private AiClaimAssistantController aiController;
 
     private MockMvc mockMvc;
     private final ObjectMapper objectMapper = new ObjectMapper();
