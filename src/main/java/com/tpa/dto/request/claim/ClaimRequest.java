@@ -73,4 +73,6 @@ public class ClaimRequest {
 
     @NotNull(message = "Bill date is required")
     private LocalDate billDate;
+
+    private Boolean isDuplicate;
 }
