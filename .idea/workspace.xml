@@ -6,11 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="b816a75b-6920-4401-836e-1b55556aa93c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/controller/AiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/controller/AiClaimAssistantController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/AiClaimAssistantService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/AiClaimAssistantService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/AiClaimAssistantServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/AiClaimAssistantServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application-dev.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application-dev.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/tpa/controller/AiControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/tpa/controller/AiControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/controller/AnalyticsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/controller/AnalyticsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/controller/AuditController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/controller/AuditController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/repository/PaymentLedgerRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/repository/PaymentLedgerRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/AnalyticsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/AnalyticsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/AnalyticsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/AnalyticsServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,6 +41,9 @@
     &quot;accountId&quot;: &quot;6714f6ac-159e-464b-93a0-7f957681d314&quot;
   }
 }</component>
+  <component name="ProblemsViewState">
+    <option name="autoscrollToSource" value="true" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5,
   &quot;fromUser&quot;: false
@@ -135,7 +138,7 @@
       <workItem from="1778746991991" duration="18981000" />
       <workItem from="1778767708238" duration="1144000" />
       <workItem from="1778769431837" duration="98000" />
-      <workItem from="1778820434800" duration="5773000" />
+      <workItem from="1778820434800" duration="7872000" />
     </task>
     <servers />
   </component>

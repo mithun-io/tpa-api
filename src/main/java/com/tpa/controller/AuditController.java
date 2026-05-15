@@ -103,7 +103,7 @@ public class AuditController {
     @GetMapping("/payments/reconcile")
     public ResponseEntity<Map<String, Object>> reconcilePayments() {
         Double total = paymentLedgerRepository.sumVerifiedPayments();
-        long totalPaid = paymentLedgerRepository.findByEventTypeOrderByCreatedAtDesc("PAYMENT_VERIFIED").size();
+        long totalPaid = paymentLedgerRepository.findByPaymentEventTypeOrderByCreatedAtDesc("PAYMENT_VERIFIED").size();
         return ResponseEntity.ok(Map.of(
                 "totalVerifiedPayments", totalPaid,
                 "totalAmountSettled", total != null ? total : 0.0,
