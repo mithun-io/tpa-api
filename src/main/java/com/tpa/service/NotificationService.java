@@ -11,11 +11,11 @@ public interface NotificationService {
 
     void notifyAllAdmins(String title, String message, String targetUrl);
 
-    List<NotificationResponse> getUserNotifications(Long userId);
+    List<NotificationResponse> getUserNotifications(String username);
 
-    long countUnread(Long userId);
+    long countUnread(String username);
 
-    void markAllAsRead(Long userId);
+    void markAllAsRead(String username);
 
-    void markOneAsRead(Long notificationId, Long userId);
+    void markOneAsRead(Long notificationId, String username);
 }
