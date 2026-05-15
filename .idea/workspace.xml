@@ -5,9 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b816a75b-6920-4401-836e-1b55556aa93c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/controller/FraudController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/controller/FraudDetectionController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/FraudDetectionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/FraudDetectionServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/LocalStorageProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/StorageProviderImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/controller/DocumentController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/controller/MedicalVaultController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/controller/MedicalValidationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/MedicalValidationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/MedicalValidationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/MedicalValidationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/MedicalValidationServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -136,7 +138,7 @@
       <workItem from="1778746991991" duration="18981000" />
       <workItem from="1778767708238" duration="1144000" />
       <workItem from="1778769431837" duration="98000" />
-      <workItem from="1778820434800" duration="19441000" />
+      <workItem from="1778820434800" duration="20394000" />
     </task>
     <servers />
   </component>
