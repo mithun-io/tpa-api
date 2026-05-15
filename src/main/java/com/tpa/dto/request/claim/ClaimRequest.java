@@ -2,11 +2,13 @@ package com.tpa.dto.request.claim;
 
 import com.tpa.enums.PolicyStatus;
 import jakarta.validation.constraints.*;
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
 
 @Data
+@Builder
 public class ClaimRequest {
 
     @NotBlank(message = "Policy id is required")

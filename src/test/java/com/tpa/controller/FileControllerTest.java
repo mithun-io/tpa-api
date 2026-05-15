@@ -33,7 +33,7 @@ class FileControllerTest {
     private FileUploadService fileUploadService;
 
     @InjectMocks
-    private FileController fileController;
+    private FileUploadController fileController;
 
     private MockMvc mockMvc;
 

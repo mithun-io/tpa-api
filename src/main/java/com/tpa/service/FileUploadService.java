@@ -1,20 +1,23 @@
 package com.tpa.service;
 
-import com.tpa.entity.ClaimDocument;
+import com.tpa.dto.response.claim.ClaimDocumentResponse;
 import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 public interface FileUploadService {
 
-    ClaimDocument uploadFile(Long claimId, String documentType, MultipartFile file);
+    ClaimDocumentResponse uploadDocument(Long claimId, String documentType, MultipartFile multipartFile);
 
-    List<ClaimDocument> uploadFiles(Long claimId, List<MultipartFile> files);
+    List<ClaimDocumentResponse> uploadDocuments(Long claimId, List<MultipartFile> multipartFiles);
 
-    Resource downloadFile(Long documentId);
+    ResponseEntity<Resource> downloadDocument(Long documentId);
 
-    ClaimDocument getDocument(Long documentId);
+    ClaimDocumentResponse getDocument(Long documentId);
 
-    java.util.List<ClaimDocument> getDocumentsForClaim(Long claimId);
+    List<ClaimDocumentResponse> getDocumentsForClaim(Long claimId);
+
+    void validateFile(MultipartFile multipartFile);
 }

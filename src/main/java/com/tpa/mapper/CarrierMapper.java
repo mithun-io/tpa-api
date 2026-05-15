@@ -11,7 +11,7 @@ import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = {UserMapper.class})
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = UserMapper.class)
 public interface CarrierMapper {
 
     @Mapping(source = "user.email", target = "email")
@@ -21,14 +21,14 @@ public interface CarrierMapper {
     @Mapping(source = "user.phoneNumber", target = "contactPersonPhone")
     CarrierResponse toCarrierResponse(Carrier carrier);
 
+    List<CarrierResponse> toCarrierResponses(List<Carrier> carriers);
+
     @Mapping(source = "name", target = "user.username")
     @Mapping(source = "email", target = "user.email")
     @Mapping(source = "mobile", target = "user.phoneNumber")
     @Mapping(source = "address", target = "user.address")
     @Mapping(target = "user.password", ignore = true)
-    Carrier toCarrier(CarrierRequest request);
-
-    List<CarrierResponse> toCarrierResponses(List<Carrier> carriers);
+    Carrier toCarrier(CarrierRequest carrierRequest);
 
     @BeanMapping(ignoreByDefault = true)
     @Mapping(source = "companyName", target = "companyName")
