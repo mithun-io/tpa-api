@@ -8,7 +8,6 @@ import com.tpa.repository.ClaimDocumentRepository;
 import com.tpa.repository.ClaimRepository;
 import com.tpa.repository.UserRepository;
 import com.tpa.service.MedicalValidationService;
-import com.tpa.service.StorageProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

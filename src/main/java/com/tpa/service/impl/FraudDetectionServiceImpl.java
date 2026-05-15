@@ -6,6 +6,7 @@ import com.tpa.entity.Carrier;
 import com.tpa.entity.Claim;
 import com.tpa.entity.User;
 import com.tpa.enums.RiskLevel;
+import com.tpa.helper.StorageProvider;
 import com.tpa.mapper.FraudClaimMapper;
 import com.tpa.repository.CarrierRepository;
 import com.tpa.repository.ClaimDocumentRepository;
@@ -13,7 +14,6 @@ import com.tpa.repository.ClaimRepository;
 import com.tpa.repository.UserRepository;
 import com.tpa.service.FraudDetectionService;
 import com.tpa.service.MedicalValidationService;
-import com.tpa.service.StorageProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.pdfbox.Loader;
@@ -45,10 +45,46 @@ public class FraudDetectionServiceImpl implements FraudDetectionService {
     private static final Set<String> BLACKLISTED_HOSPITALS = Set.of("Fake Hospital City", "Fraudulent Medical Center", "Scam Healthcare");
     private static final Set<String> SUSPICIOUS_PRODUCERS = Set.of("Adobe Photoshop", "Adobe Illustrator", "Canva", "CorelDRAW", "GIMP");
 
+
+    private FraudDashboardResponse generateDashboardResponse(List<Claim> claims) {
+        int total = claims.size();
+        int highRisk = 0;
+        int mediumRisk = 0;
+        int lowRisk = 0;
+
+        List<FraudClaimResponse> fraudClaimResponses = new ArrayList<>();
+
+        for (Claim c : claims) {
+            if (c.getHealthScore() == null) {
+                calculateAndSaveHealthAndRisk(c);
+            }
+
+            String level = c.getRiskLevel() != null ? c.getRiskLevel().name() : "LOW";
+            if ("HIGH".equals(level)) highRisk++;
+            else if ("MEDIUM".equals(level)) mediumRisk++;
+            else lowRisk++;
+
+            fraudClaimResponses.add(fraudClaimMapper.toFraudClaimDto(c));
+        }
+
+        FraudDashboardResponse.DashboardStats dashboardStats = FraudDashboardResponse.DashboardStats.builder()
+                .totalClaims(total)
+                .highRisk(highRisk)
+                .mediumRisk(mediumRisk)
+                .lowRisk(lowRisk)
+                .flagged(highRisk + mediumRisk)
+                .build();
+
+        return FraudDashboardResponse.builder()
+                .dashboardStats(dashboardStats)
+                .claims(fraudClaimResponses)
+                .build();
+    }
+
     @Override
     public void calculateAndSaveHealthAndRisk(Claim claim) {
         if (claim == null) return;
-        
+
         if ("LOW".equals(claim.getRiskLevel()) && claim.getHealthScore() != null && claim.getHealthScore() == 100) {
             return;
         }
@@ -138,7 +174,7 @@ public class FraudDetectionServiceImpl implements FraudDetectionService {
         }
 
         riskScore = Math.min(riskScore, 100.0);
-        
+
         String riskLevel = "LOW";
 
         if (riskScore >= 70) {
@@ -146,14 +182,14 @@ public class FraudDetectionServiceImpl implements FraudDetectionService {
         } else if (riskScore >= 30) {
             riskLevel = "MEDIUM";
         }
-        
+
         double healthScore = 100 - riskScore;
 
         claim.setRiskScore(riskScore);
         claim.setRiskLevel(RiskLevel.valueOf(riskLevel));
         claim.setRiskFlags(String.join(", ", reasons));
         claim.setHealthScore(healthScore);
-        
+
         claimRepository.save(claim);
         log.info("Calculated HealthScore: {} for Claim ID: {}", healthScore, claim.getId());
     }
@@ -161,7 +197,7 @@ public class FraudDetectionServiceImpl implements FraudDetectionService {
     private String analyzePdfMetadata(String filePath) {
         try (InputStream is = storageProvider.loadFileAsResource(filePath).getInputStream();
              PDDocument pdDocument = Loader.loadPDF(is.readAllBytes())) {
-            
+
             PDDocumentInformation pdDocumentInformation = pdDocument.getDocumentInformation();
 
             String producer = pdDocumentInformation.getProducer();
@@ -173,7 +209,7 @@ public class FraudDetectionServiceImpl implements FraudDetectionService {
             if (creator != null && SUSPICIOUS_PRODUCERS.stream().anyMatch(p -> creator.contains(p))) {
                 return "Document was created using editing software: " + creator;
             }
-            
+
             return null;
         } catch (Exception e) {
             log.warn("Failed to perform forensic analysis on PDF: {}. Skipping.", filePath);
@@ -195,9 +231,9 @@ public class FraudDetectionServiceImpl implements FraudDetectionService {
     @Override
     public FraudDashboardResponse getCarrierFraudDashboard(String carrierEmail) {
         User user = userRepository.findByEmail(carrierEmail).orElseThrow(() -> new RuntimeException("User not found"));
-                
+
         Carrier carrier = carrierRepository.findByUser_Id(user.getId()).orElseThrow(() -> new RuntimeException("Carrier not found for user ID: " + user.getId()));
-        
+
         List<Claim> carrierClaims = claimRepository.findByCarrier_Id(carrier.getId());
 
         if (carrierClaims == null) {
@@ -217,40 +253,5 @@ public class FraudDetectionServiceImpl implements FraudDetectionService {
 
         claimRepository.save(claim);
         log.info("Claim {} marked as safe", claimId);
-    }
-
-    private FraudDashboardResponse generateDashboardResponse(List<Claim> claims) {
-        int total = claims.size();
-        int highRisk = 0;
-        int mediumRisk = 0;
-        int lowRisk = 0;
-        
-        List<FraudClaimResponse> fraudClaimResponses = new ArrayList<>();
-
-        for (Claim c : claims) {
-            if (c.getHealthScore() == null) {
-                calculateAndSaveHealthAndRisk(c);
-            }
-            
-            String level = c.getRiskLevel() != null ? c.getRiskLevel().name() : "LOW";
-            if ("HIGH".equals(level)) highRisk++;
-            else if ("MEDIUM".equals(level)) mediumRisk++;
-            else lowRisk++;
-
-            fraudClaimResponses.add(fraudClaimMapper.toFraudClaimDto(c));
-        }
-
-        FraudDashboardResponse.DashboardStats dashboardStats = FraudDashboardResponse.DashboardStats.builder()
-                .totalClaims(total)
-                .highRisk(highRisk)
-                .mediumRisk(mediumRisk)
-                .lowRisk(lowRisk)
-                .flagged(highRisk + mediumRisk)
-                .build();
-
-        return FraudDashboardResponse.builder()
-                .dashboardStats(dashboardStats)
-                .claims(fraudClaimResponses)
-                .build();
     }
 }

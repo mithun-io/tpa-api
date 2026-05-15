@@ -8,7 +8,6 @@ import com.tpa.repository.ClaimDocumentRepository;
 import com.tpa.repository.ClaimRepository;
 import com.tpa.service.ClaimService;
 import com.tpa.service.RuleEngineService;
-import com.tpa.service.StorageProvider;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/fraud")
 @RequiredArgsConstructor
 @PreAuthorize("hasAnyRole('ADMIN', 'CARRIER')")
-public class FraudController {
+public class FraudDetectionController {
 
     private final FraudDetectionService fraudDetectionService;
 

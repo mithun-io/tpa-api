@@ -25,7 +25,6 @@ import com.tpa.repository.ClaimStatusTimelineRepository;
 import com.tpa.repository.RefreshTokenRepository;
 import com.tpa.repository.UserRepository;
 import com.tpa.service.FileUploadService;
-import com.tpa.service.StorageProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
