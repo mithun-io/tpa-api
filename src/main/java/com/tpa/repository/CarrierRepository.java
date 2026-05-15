@@ -2,6 +2,9 @@ package com.tpa.repository;
 
 import com.tpa.entity.Carrier;
 import com.tpa.entity.User;
+import com.tpa.enums.UserStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -21,4 +24,10 @@ public interface CarrierRepository extends JpaRepository<Carrier, Long> {
     boolean existsByRegistrationNumber(String registrationNumber);
 
     boolean existsByUser(User user);
+
+    Page<Carrier> findByCompanyNameContainingIgnoreCaseAndUser_UserStatus(String companyName, UserStatus userStatus, Pageable pageable);
+
+    Page<Carrier> findByCompanyNameContainingIgnoreCase(String companyName, Pageable pageable);
+
+    Page<Carrier> findByUser_UserStatus(UserStatus userStatus, Pageable pageable);
 }

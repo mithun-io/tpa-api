@@ -1,13 +1,13 @@
 package com.tpa.service;
 
-import com.tpa.dto.response.CarrierResponse;
-import com.tpa.dto.response.UserResponse;
+import com.tpa.dto.response.*;
 import com.tpa.dto.request.ClaimReviewRequest;
-import com.tpa.dto.response.ClaimResponse;
-import com.tpa.dto.response.AiAnalysisResponse;
+import com.tpa.enums.ClaimStatus;
+import com.tpa.enums.UserStatus;
 import org.springframework.data.domain.Page;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface AdminService {
@@ -18,21 +18,27 @@ public interface AdminService {
 
     Page<UserResponse> getAllUsers(int page, int size, String search);
 
-    ClaimResponse reviewClaim(ClaimReviewRequest request, Principal principal);
+    Page<CarrierResponse> getAllCarriers(String companyName, UserStatus userStatus, int page, int size, String sortBy, boolean desc);
+
+    Page<UserResponse> getAllPatients(String username, String email, UserStatus userStatus, int page, int size, String sortBy, boolean desc);
+
+    Page<ClaimResponse> getAllClaims(ClaimStatus claimStatus, LocalDateTime createdAt, int page, int size, String sortBy, boolean desc);
+
+    ClaimResponse reviewClaim(ClaimReviewRequest claimReviewRequest, Principal principal);
 
     ClaimResponse approveClaim(Long claimId, String reason, Principal principal);
 
     ClaimResponse rejectClaim(Long claimId, String reason, Principal principal);
 
-    AiAnalysisResponse getClaimAiSummary(Long claimId);
-
-    AiAnalysisResponse askAiAboutClaim(Long claimId, String prompt);
-
-    List<CarrierResponse> getAllCarriers();
-
     CarrierResponse approveCarrier(Long carrierId);
 
     CarrierResponse rejectCarrier(Long carrierId);
 
-    ClaimResponse assignCarrierToClaim(Long claimId, Long carrierId);
+    ClaimResponse assignClaimToCarrier(Long claimId, Long carrierId);
+
+    AiAnalysisResponse getClaimAiSummary(Long claimId);
+
+    AiAnalysisResponse askAiAboutClaim(Long claimId, String prompt);
+
+    MonitoringResponse getSystemMonitoring();
 }

@@ -68,14 +68,14 @@ public class AiClaimAssistantServiceImpl implements AiClaimAssistantService {
         for (ClaimDocument doc : documents) {
             docContext.append("- ").append(doc.getType() != null ? doc.getType().name() : "UNKNOWN").append("\n");
             if (doc.getValidationStatus() != null) {
-                aiValidationStatus = doc.getValidationStatus();
+                aiValidationStatus = String.valueOf(doc.getValidationStatus());
                 aiValidationIssues = doc.getValidationIssues() != null ? doc.getValidationIssues() : "[]";
                 aiConfidenceScore = doc.getConfidenceScore() != null ? doc.getConfidenceScore() : 0;
             }
         }
 
         String claimJson = String.format("{\"id\": %d, \"patientName\": \"%s\", \"hospitalName\": \"%s\", \"policyNumber\": \"%s\", \"status\": \"%s\", \"amount\": %f, \"admissionDate\": \"%s\", \"dischargeDate\": \"%s\"}",
-                claim.getId(), safe(claim.getPatientName()), safe(claim.getHospitalName()), claim.getPolicyNumber(), claim.getStatus(), claim.getAmount(), safe(String.valueOf(claim.getAdmissionDate())), safe(String.valueOf(claim.getDischargeDate())));
+                claim.getId(), safe(claim.getPatientName()), safe(claim.getHospitalName()), claim.getPolicyNumber(), claim.getClaimStatus(), claim.getAmount(), safe(String.valueOf(claim.getAdmissionDate())), safe(String.valueOf(claim.getDischargeDate())));
 
         String validationJson = String.format("{\"status\": \"%s\", \"confidenceScore\": %d, \"issues\": %s}", 
                 aiValidationStatus, aiConfidenceScore, aiValidationIssues);
@@ -137,7 +137,7 @@ public class AiClaimAssistantServiceImpl implements AiClaimAssistantService {
         String claimContext = String.format(
                 "Patient: %s, Hospital: %s, Diagnosis: %s, Amount: %s, Policy: %s, Status: %s, Admission: %s, Discharge: %s",
                 safe(claim.getPatientName()), safe(claim.getHospitalName()), safe(claim.getDiagnosis()),
-                claim.getAmount(), safe(claim.getPolicyNumber()), claim.getStatus(),
+                claim.getAmount(), safe(claim.getPolicyNumber()), claim.getClaimStatus(),
                 safe(claim.getAdmissionDate() != null ? claim.getAdmissionDate().toString() : ""),
                 safe(claim.getDischargeDate() != null ? claim.getDischargeDate().toString() : "")
         );
@@ -385,8 +385,8 @@ public class AiClaimAssistantServiceImpl implements AiClaimAssistantService {
                 .verdict(verdict)
                 .confidence(0.5)
                 .riskScore(0.5)
-                .validations(AiAnalysisResponse.ValidationChecks.builder().policyActive(false).documentsComplete(false).withinLimit(false).build())
-                .financial(AiAnalysisResponse.FinancialSummary.builder().claimedAmount(BigDecimal.ZERO).eligibleAmount(BigDecimal.ZERO).build())
+                .validationChecks(AiAnalysisResponse.ValidationChecks.builder().policyActive(false).documentsComplete(false).withinLimit(false).build())
+                .financialSummary(AiAnalysisResponse.FinancialSummary.builder().claimedAmount(BigDecimal.ZERO).eligibleAmount(BigDecimal.ZERO).build())
                 .flags(flags)
                 .recommendation(recommendation)
                 .generatedAt(LocalDateTime.now())

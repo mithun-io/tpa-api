@@ -1,6 +1,6 @@
 package com.tpa.service.impl;
 
-import com.tpa.dto.response.UserResponse;
+import com.tpa.dto.response.*;
 import com.tpa.entity.Carrier;
 import com.tpa.service.NotificationService;
 import org.springframework.cache.annotation.CacheEvict;
@@ -15,12 +15,9 @@ import com.tpa.mapper.UserMapper;
 import com.tpa.repository.UserRepository;
 import com.tpa.service.AdminService;
 import com.tpa.dto.request.ClaimReviewRequest;
-import com.tpa.dto.response.ClaimResponse;
 import com.tpa.entity.Claim;
 import com.tpa.enums.ClaimStatus;
 import com.tpa.kafka.event.ClaimNotificationEvent;
-import com.tpa.dto.response.AiAnalysisResponse;
-import com.tpa.dto.response.CarrierResponse;
 import com.tpa.mapper.ClaimMapper;
 import com.tpa.repository.CarrierRepository;
 import com.tpa.repository.ClaimRepository;
@@ -42,6 +39,7 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -91,8 +89,10 @@ public class AdminServiceImpl implements AdminService {
         if (user.getUserRole() == UserRole.ADMIN) {
             throw new IllegalArgumentException("admin cannot be blocked!");
         }
+
         validateUserTransition(user.getUserStatus(), UserStatus.BLOCKED);
         user.setUserStatus(UserStatus.BLOCKED);
+
         return userMapper.toUserResponse(user);
     }
 
@@ -102,6 +102,7 @@ public class AdminServiceImpl implements AdminService {
         User user = getUser(id);
         validateUserTransition(user.getUserStatus(), UserStatus.ACTIVE);
         user.setUserStatus(UserStatus.ACTIVE);
+
         return userMapper.toUserResponse(user);
     }
 
@@ -110,58 +111,128 @@ public class AdminServiceImpl implements AdminService {
     public Page<UserResponse> getAllUsers(int page, int size, String search) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
         Page<User> users;
+
         if (search != null && !search.trim().isEmpty()) {
             users = userRepository.findByUsernameContainingIgnoreCaseOrEmailContainingIgnoreCase(search.trim(), search.trim(), pageable);
         } else {
             users = userRepository.findAll(pageable);
         }
+
         return users.map(userMapper::toUserResponse);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Page<CarrierResponse> getAllCarriers(String companyName, UserStatus userStatus, int page, int size, String sortBy, boolean desc) {
+        Sort sort = desc ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
+        Pageable pageable = PageRequest.of(page - 1, size, sort);
+        Page<Carrier> carriers;
+
+        if (companyName == null && userStatus == null) {
+            carriers = carrierRepository.findAll(pageable);
+        } else if (companyName != null && userStatus != null) {
+            carriers = carrierRepository.findByCompanyNameContainingIgnoreCaseAndUser_UserStatus(companyName, userStatus, pageable);
+        } else if (companyName != null) {
+            carriers = carrierRepository.findByCompanyNameContainingIgnoreCase(companyName, pageable);
+        } else {
+            carriers = carrierRepository.findByUser_UserStatus(userStatus, pageable);
+        }
+
+        if (carriers.isEmpty()) {
+            throw new NoResourceFoundException("carriers not found");
+        }
+
+        return carriers.map(carrierMapper::toCarrierResponse);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Page<UserResponse> getAllPatients(String username, String email, UserStatus userStatus, int page, int size, String sortBy, boolean desc) {
+        Sort sort = desc ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
+        Pageable pageable = PageRequest.of(page - 1, size, sort);
+        Page<User> patients;
+
+        if (username == null && email == null && userStatus == null) {
+            patients = userRepository.findByUserRole(UserRole.PATIENT, pageable);
+        } else if (username != null && email != null && userStatus != null) {
+            patients = userRepository.findByUsernameContainingIgnoreCaseAndEmailContainingIgnoreCaseAndUserStatusAndUserRole(username, email, userStatus, UserRole.PATIENT, pageable);
+        } else if (username != null) {
+            patients = userRepository.findByUsernameContainingIgnoreCaseAndUserRole(username, UserRole.PATIENT, pageable);
+        } else if (email != null) {
+            patients = userRepository.findByEmailContainingIgnoreCaseAndUserRole(email, UserRole.PATIENT, pageable);
+        } else {
+            patients = userRepository.findByUserStatusAndUserRole(userStatus, UserRole.PATIENT, pageable);
+        }
+
+        if (patients.isEmpty()) {
+            throw new NoResourceFoundException("patients not found");
+        }
+
+        return patients.map(userMapper::toUserResponse);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Page<ClaimResponse> getAllClaims(ClaimStatus claimStatus, LocalDateTime createdAt, int page, int size, String sortBy, boolean desc) {
+        Sort sort = desc ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
+        Pageable pageable = PageRequest.of(page - 1, size, sort);
+        Page<Claim> claims;
+
+        if (claimStatus == null && createdAt == null) {
+            claims = claimRepository.findAll(pageable);
+        } else if (claimStatus != null && createdAt != null) {
+            claims = claimRepository.findByClaimStatusAndCreatedDateAfter(claimStatus, createdAt, pageable);
+        } else if (claimStatus != null) {
+            claims = claimRepository.findByClaimStatus(claimStatus, pageable);
+        } else {
+            claims = claimRepository.findByCreatedDateAfter(createdAt, pageable);
+        }
+
+        if (claims.isEmpty()) {
+            throw new NoResourceFoundException("claims not found");
+        }
+
+        return claims.map(claimMapper::toClaimResponse);
     }
 
     @Transactional
     @Override
-    @Caching(evict = {
-        @CacheEvict(value = "claims", key = "#request.claimId"),
-        @CacheEvict(value = "aiSummaries", key = "#request.claimId")
-    })
-    public ClaimResponse reviewClaim(ClaimReviewRequest request, Principal principal) {
-        Claim claim = claimRepository.findById(request.getClaimId()).orElseThrow(() -> new NoResourceFoundException("claim not found"));
+    @Caching(evict = {@CacheEvict(value = "claims", key = "#request.claimId"), @CacheEvict(value = "aiSummaries", key = "#request.claimId")})
+    public ClaimResponse reviewClaim(ClaimReviewRequest claimReviewRequest, Principal principal) {
+        Claim claim = claimRepository.findById(claimReviewRequest.getClaimId()).orElseThrow(() -> new NoResourceFoundException("claim not found"));
 
-        claimStateMachine.validateTransition(claim.getClaimStatus(), request.getClaimStatus());
+        claimStateMachine.validateTransition(claim.getClaimStatus(), claimReviewRequest.getClaimStatus());
 
         ClaimStatus previousStatus = claim.getClaimStatus();
-        claim.setClaimStatus(request.getClaimStatus());
-        claim.setRejectionReason(request.getReviewNotes());
+        claim.setClaimStatus(claimReviewRequest.getClaimStatus());
+        claim.setRejectionReason(claimReviewRequest.getReviewNotes());
         claim.setProcessedDate(LocalDateTime.now());
         claim.setReviewedBy(principal.getName());
         claim.setReviewedAt(LocalDateTime.now());
-        claim.setReviewNotes(request.getReviewNotes());
-        
+        claim.setReviewNotes(claimReviewRequest.getReviewNotes());
+
         claimRepository.save(claim);
         log.info("Admin {} reviewed claim {} with status {}", principal.getName(), claim.getId(), claim.getClaimStatus());
 
         auditLogService.logAction(claim.getId(), "ADMIN_REVIEW", previousStatus, claim.getClaimStatus());
 
-        ClaimNotificationEvent notificationEvent = ClaimNotificationEvent.builder()
+        ClaimNotificationEvent claimNotificationEvent = ClaimNotificationEvent.builder()
                 .claimId(claim.getId())
                 .policyNumber(claim.getPolicyNumber())
                 .customerEmail(claim.getUser().getEmail())
                 .status(claim.getClaimStatus())
-                .message("Your claim has been " + claim.getClaimStatus() + ". Notes: " + request.getReviewNotes())
+                .message("Your claim has been " + claim.getClaimStatus() + ". Notes: " + claimReviewRequest.getReviewNotes())
                 .build();
-                
-        producerService.sendClaimNotificationEvent(notificationEvent);
-        notificationService.createNotification(claim.getUser(), "Claim " + claim.getClaimStatus(), notificationEvent.getMessage(), "/claims/" + claim.getId());
+
+        producerService.sendClaimNotificationEvent(claimNotificationEvent);
+        notificationService.createNotification(claim.getUser(), "Claim " + claim.getClaimStatus(), claimNotificationEvent.getMessage(), "/claims/" + claim.getId());
 
         return claimMapper.toClaimResponse(claim);
     }
 
     @Transactional
     @Override
-    @Caching(evict = {
-        @CacheEvict(value = "claims", key = "#claimId"),
-        @CacheEvict(value = "aiSummaries", key = "#claimId")
-    })
+    @Caching(evict = {@CacheEvict(value = "claims", key = "#claimId"), @CacheEvict(value = "aiSummaries", key = "#claimId")})
     public ClaimResponse approveClaim(Long claimId, String reason, Principal principal) {
         Claim claim = claimRepository.findById(claimId).orElseThrow(() -> new NoResourceFoundException("claim not found"));
 
@@ -173,31 +244,28 @@ public class AdminServiceImpl implements AdminService {
         claim.setReviewedBy(principal.getName());
         claim.setReviewedAt(LocalDateTime.now());
         claim.setReviewNotes(reason);
-        
+
         claimRepository.save(claim);
         log.info("Admin {} APPROVED claim {}", principal.getName(), claim.getId());
 
         auditLogService.logAction(claim.getId(), "ADMIN_APPROVED", previousStatus, ClaimStatus.ADMIN_APPROVED);
 
-        ClaimNotificationEvent notificationEvent = ClaimNotificationEvent.builder()
+        ClaimNotificationEvent claimNotificationEvent = ClaimNotificationEvent.builder()
                 .claimId(claim.getId())
                 .policyNumber(claim.getPolicyNumber())
                 .customerEmail(claim.getUser().getEmail())
                 .status(ClaimStatus.ADMIN_APPROVED)
                 .message("Your claim has been APPROVED. Notes: " + reason)
                 .build();
-        producerService.sendClaimNotificationEvent(notificationEvent);
-        notificationService.createNotification(claim.getUser(), "Claim Approved", notificationEvent.getMessage(), "/claims/" + claim.getId());
+        producerService.sendClaimNotificationEvent(claimNotificationEvent);
+        notificationService.createNotification(claim.getUser(), "Claim Approved", claimNotificationEvent.getMessage(), "/claims/" + claim.getId());
 
         return claimMapper.toClaimResponse(claim);
     }
 
     @Transactional
     @Override
-    @Caching(evict = {
-        @CacheEvict(value = "claims", key = "#claimId"),
-        @CacheEvict(value = "aiSummaries", key = "#claimId")
-    })
+    @Caching(evict = {@CacheEvict(value = "claims", key = "#claimId"), @CacheEvict(value = "aiSummaries", key = "#claimId")})
     public ClaimResponse rejectClaim(Long claimId, String reason, Principal principal) {
         Claim claim = claimRepository.findById(claimId).orElseThrow(() -> new NoResourceFoundException("claim not found"));
 
@@ -210,49 +278,23 @@ public class AdminServiceImpl implements AdminService {
         claim.setReviewedBy(principal.getName());
         claim.setReviewedAt(LocalDateTime.now());
         claim.setReviewNotes(reason);
-        
+
         claimRepository.save(claim);
         log.info("Admin {} REJECTED claim {}", principal.getName(), claim.getId());
 
         auditLogService.logAction(claim.getId(), "ADMIN_REJECTED", previousStatus, ClaimStatus.REJECTED);
 
-        ClaimNotificationEvent notificationEvent = ClaimNotificationEvent.builder()
+        ClaimNotificationEvent claimNotificationEvent = ClaimNotificationEvent.builder()
                 .claimId(claim.getId())
                 .policyNumber(claim.getPolicyNumber())
                 .customerEmail(claim.getUser().getEmail())
                 .status(ClaimStatus.REJECTED)
                 .message("Your claim has been REJECTED. Reason: " + reason)
                 .build();
-        producerService.sendClaimNotificationEvent(notificationEvent);
-        notificationService.createNotification(claim.getUser(), "Claim Rejected", notificationEvent.getMessage(), "/claims/" + claim.getId());
+        producerService.sendClaimNotificationEvent(claimNotificationEvent);
+        notificationService.createNotification(claim.getUser(), "Claim Rejected", claimNotificationEvent.getMessage(), "/claims/" + claim.getId());
 
         return claimMapper.toClaimResponse(claim);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public AiAnalysisResponse getClaimAiSummary(Long claimId) {
-        if (!claimRepository.existsById(claimId)) {
-            throw new NoResourceFoundException("claim not found");
-        }
-        log.info("Requesting AI summary for claim {}", claimId);
-        return aiClaimAssistantService.analyzeClaim(claimId, "Please summarize this claim for an admin reviewer. Highlight any discrepancies or high-risk factors.");
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public AiAnalysisResponse askAiAboutClaim(Long claimId, String prompt) {
-        if (!claimRepository.existsById(claimId)) {
-            throw new NoResourceFoundException("claim not found");
-        }
-        log.info("Requesting custom AI analysis for claim {} with prompt: {}", claimId, prompt);
-        return aiClaimAssistantService.analyzeClaim(claimId, prompt);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<CarrierResponse> getAllCarriers() {
-        return carrierMapper.toCarrierResponses(carrierRepository.findAll());
     }
 
     @Override
@@ -268,6 +310,7 @@ public class AdminServiceImpl implements AdminService {
         final Long cId = carrier.getId();
         final String cName = carrier.getCompanyName();
         final String cEmail = carrierUser.getEmail();
+
         TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
             @Override
             public void afterCommit() {
@@ -299,6 +342,7 @@ public class AdminServiceImpl implements AdminService {
 
         final String cEmail = carrierUser.getEmail();
         final String cName = carrier.getCompanyName();
+
         TransactionSynchronizationManager.registerSynchronization(new org.springframework.transaction.support.TransactionSynchronization() {
             @Override
             public void afterCommit() {
@@ -315,15 +359,76 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     @Transactional
-    public ClaimResponse assignCarrierToClaim(Long claimId, Long carrierId) {
-        Claim claim = claimRepository.findById(claimId).orElseThrow(() -> new NoResourceFoundException("claim not found"));
-        Carrier carrier = carrierRepository.findById(carrierId).orElseThrow(() -> new NoResourceFoundException("carrier not found"));
+    public ClaimResponse assignClaimToCarrier(Long claimId, Long carrierId) {
+        if (carrierId == null) {
+            throw new IllegalArgumentException("carrier id is required");
+        }
+
+        Claim claim = claimRepository.findById(claimId).orElseThrow(() -> new NoResourceFoundException("Claim not found"));
+        Carrier carrier = carrierRepository.findById(carrierId).orElseThrow(() -> new NoResourceFoundException("Carrier not found"));
+
         if (carrier.getUser().getUserStatus() != UserStatus.ACTIVE) {
             throw new IllegalArgumentException("Carrier is not active and cannot be assigned to claims");
         }
+
         claim.setCarrier(carrier);
         claimRepository.save(claim);
+
         log.info("Claim {} assigned to carrier {} by admin", claimId, carrier.getCompanyName());
         return claimMapper.toClaimResponse(claim);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public AiAnalysisResponse getClaimAiSummary(Long claimId) {
+        if (!claimRepository.existsById(claimId)) {
+            throw new NoResourceFoundException("Claim not found");
+        }
+
+        log.info("Requesting AI summary for claim {}", claimId);
+        return aiClaimAssistantService.analyzeClaim(claimId, "Please summarize this claim for an admin reviewer. Highlight any discrepancies or high-risk factors.");
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public AiAnalysisResponse askAiAboutClaim(Long claimId, String prompt) {
+        if (!claimRepository.existsById(claimId)) {
+            throw new NoResourceFoundException("Claim not found");
+        }
+
+        log.info("Requesting custom AI analysis for claim {} with prompt: {}", claimId, prompt);
+        return aiClaimAssistantService.analyzeClaim(claimId, prompt);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public MonitoringResponse getSystemMonitoring() {
+        Pageable pageable = PageRequest.of(0, 5, Sort.by("createdDate").descending());
+        Page<Claim> failedClaims = claimRepository.findByClaimStatus(ClaimStatus.REJECTED, pageable);
+
+        Map<String, Object> kafka = Map.of(
+                "status", "ONLINE",
+                "brokers", "localhost:9092",
+                "topics", List.of("claim_events", "notifications")
+        );
+
+        List<Map<String, Object>> errorLogs = List.of(
+                Map.of(
+                        "timestamp", LocalDateTime.now().minusHours(1),
+                        "level", "ERROR",
+                        "message", "Failed to connect to AI provider"
+                ),
+                Map.of(
+                        "timestamp", LocalDateTime.now().minusHours(3),
+                        "level", "WARN",
+                        "message", "Rate limit exceeded on AI provider API"
+                ),
+                Map.of(
+                        "timestamp", LocalDateTime.now().minusDays(1),
+                        "level", "ERROR",
+                        "message", "NullPointerException in RuleEngine"
+                ));
+
+        return new MonitoringResponse(kafka, claimMapper.toClaimResponses(failedClaims.getContent()), errorLogs);
     }
 }

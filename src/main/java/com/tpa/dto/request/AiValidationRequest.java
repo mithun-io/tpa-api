@@ -28,7 +28,7 @@ public class AiValidationRequest {
 
     @NotNull(message = "Claimed amount is required")
     @DecimalMin(value = "0.01", message = "Amount must be greater than zero")
-    private BigDecimal bigDecimal;
+    private BigDecimal amount;
 
     @NotEmpty(message = "Diagnosis details is required")
     private String diagnosis;

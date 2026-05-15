@@ -34,7 +34,7 @@ public class BulkClaimService {
                 Claim claim = claimRepository.findById(id).orElseThrow();
                 
                 // Set status to APPROVED (or SETTLED if moving direct to payment)
-                claim.setStatus(ClaimStatus.APPROVED);
+                claim.setClaimStatus(ClaimStatus.APPROVED);
                 claim.setReviewedBy(approvedBy);
                 claimRepository.save(claim);
                 

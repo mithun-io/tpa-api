@@ -1,0 +1,133 @@
+package com.tpa.rules;
+
+import com.tpa.dto.request.ClaimDataRequest;
+import com.tpa.dto.response.ClaimDecisionResponse;
+import com.tpa.enums.ClaimStatus;
+import java.util.ArrayList;
+import java.util.List;
+
+global com.tpa.dto.response.ClaimDecisionResponse decision;
+
+rule "Rule 1: Claim form missing"
+    salience 100
+    when
+        $c : ClaimDataRequest(claimFormPresent == null || claimFormPresent == false)
+    then
+        decision.setStatus(ClaimStatus.REJECTED);
+        decision.getReasons().add("Claim form is missing");
+end
+
+rule "Rule 2: Combined document missing"
+    salience 90
+    when
+        $c : ClaimDataRequest(combinedDocumentPresent == null || combinedDocumentPresent == false)
+    then
+        decision.setStatus(ClaimStatus.REJECTED);
+        decision.getReasons().add("Combined document is missing");
+end
+
+rule "Rule 3: Policy inactive on admission date"
+    salience 80
+    when
+        $c : ClaimDataRequest(policyStatus != null && policyStatus.equalsIgnoreCase("INACTIVE"))
+    then
+        decision.setStatus(ClaimStatus.REJECTED);
+        decision.getReasons().add("Policy is inactive");
+end
+
+rule "Rule 4: Policy number missing"
+    salience 70
+    when
+        $c : ClaimDataRequest(policyNumber == null || policyNumber.trim().isEmpty())
+    then
+        decision.setStatus(ClaimStatus.UNDER_REVIEW);
+        decision.getReasons().add("Policy number is missing");
+end
+
+rule "Rule 5: Patient name mismatch"
+    salience 60
+    when
+        $c : ClaimDataRequest(
+            claimFormPatientName != null && combinedDocPatientName != null && 
+            !claimFormPatientName.trim().equalsIgnoreCase(combinedDocPatientName.trim())
+        )
+    then
+        decision.setStatus(ClaimStatus.UNDER_REVIEW);
+        decision.getReasons().add("Patient name mismatch across documents");
+end
+
+rule "Rule 6: Hospital name mismatch"
+    salience 50
+    when
+        $c : ClaimDataRequest(
+            claimFormHospitalName != null && combinedDocHospitalName != null && 
+            !claimFormHospitalName.trim().equalsIgnoreCase(combinedDocHospitalName.trim())
+        )
+    then
+        decision.setStatus(ClaimStatus.UNDER_REVIEW);
+        decision.getReasons().add("Hospital name mismatch across documents");
+end
+
+rule "Rule 7a: Admission date mismatch"
+    salience 45
+    when
+        $c : ClaimDataRequest(
+            claimFormAdmissionDate != null && combinedDocAdmissionDate != null && 
+            !claimFormAdmissionDate.equals(combinedDocAdmissionDate)
+        )
+    then
+        decision.setStatus(ClaimStatus.UNDER_REVIEW);
+        decision.getReasons().add("Admission date mismatch across documents");
+end
+
+rule "Rule 7b: Discharge date mismatch"
+    salience 44
+    when
+        $c : ClaimDataRequest(
+            claimFormDischargeDate != null && combinedDocDischargeDate != null && 
+            !claimFormDischargeDate.equals(combinedDocDischargeDate)
+        )
+    then
+        decision.setStatus(ClaimStatus.UNDER_REVIEW);
+        decision.getReasons().add("Discharge date mismatch across documents");
+end
+
+rule "Rule 8: Claimed amount exceeds bill"
+    salience 40
+    when
+        $c : ClaimDataRequest(
+            claimedAmount != null && totalBillAmount != null && 
+            claimedAmount > totalBillAmount
+        )
+    then
+        decision.setStatus(ClaimStatus.UNDER_REVIEW);
+        decision.getReasons().add("Claimed amount is greater than total bill amount");
+end
+
+rule "Rule 9: High claim amount threshold"
+    salience 30
+    when
+        $c : ClaimDataRequest(claimedAmount != null && claimedAmount > 50000)
+    then
+        decision.setStatus(ClaimStatus.UNDER_REVIEW);
+        decision.getReasons().add("High claim amount (> ₹50,000)");
+end
+
+rule "Rule 10: Duplicate claim detected"
+    salience 20
+    when
+        $c : ClaimDataRequest(isDuplicate != null && isDuplicate == true)
+    then
+        decision.setStatus(ClaimStatus.UNDER_REVIEW);
+        decision.getReasons().add("Possible duplicate claim detected");
+end
+
+rule "Default: Auto Validated"
+    salience 0
+    when
+        $c : ClaimDataRequest()
+        eval(decision.getReasons().isEmpty())
+    then
+        decision.setStatus(ClaimStatus.AI_VALIDATED);
+        decision.getReasons().add("System auto-verified: Pending admin approval");
+end
