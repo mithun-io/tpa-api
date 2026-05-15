@@ -1,7 +1,7 @@
 package com.tpa.service.impl;
 
-import com.tpa.dto.response.CarrierClaimDetailResponse;
-import com.tpa.dto.response.PolicyStatusResponse;
+import com.tpa.dto.response.claim.CarrierClaimDetailResponse;
+import com.tpa.dto.response.claim.PolicyStatusResponse;
 import com.tpa.enums.PolicyStatus;
 import com.tpa.entity.Carrier;
 import com.tpa.entity.Claim;

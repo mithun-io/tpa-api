@@ -1,6 +1,8 @@
 package com.tpa.service.impl;
 
-import com.tpa.dto.response.*;
+import com.tpa.dto.response.analytics.*;
+import com.tpa.dto.response.claim.ClaimLeakageResponse;
+import com.tpa.dto.response.payment.PaymentSummaryResponse;
 import com.tpa.entity.Claim;
 import com.tpa.enums.ClaimStatus;
 import com.tpa.enums.PaymentEventType;

@@ -1,8 +1,8 @@
 package com.tpa.service;
 
-import com.tpa.dto.request.CreatePaymentOrderRequest;
-import com.tpa.dto.request.VerifyPaymentRequest;
-import com.tpa.dto.response.PaymentResponse;
+import com.tpa.dto.request.payment.CreatePaymentOrderRequest;
+import com.tpa.dto.request.payment.VerifyPaymentRequest;
+import com.tpa.dto.response.payment.PaymentResponse;
 
 import java.util.Map;
 

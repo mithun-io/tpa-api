@@ -1,13 +1,9 @@
 package com.tpa.service.impl;
 
-import com.tpa.dto.request.ClaimRequest;
-import com.tpa.dto.response.BulkClaimProcessResponse;
-import com.tpa.dto.response.ClaimDecisionResponse;
-import com.tpa.dto.response.ClaimResponse;
-import com.tpa.entity.Carrier;
-import com.tpa.entity.Claim;
-import com.tpa.entity.ClaimAudit;
-import com.tpa.entity.User;
+import com.tpa.dto.request.claim.ClaimQueryRequest;
+import com.tpa.dto.request.claim.ClaimRequest;
+import com.tpa.dto.response.claim.*;
+import com.tpa.entity.*;
 import com.tpa.enums.ClaimStatus;
 import com.tpa.enums.UserRole;
 import com.tpa.exception.BadRequestException;
@@ -17,14 +13,9 @@ import com.tpa.helper.ClaimSpecification;
 import com.tpa.helper.ClaimStateMachine;
 import com.tpa.helper.PdfExportService;
 import com.tpa.kafka.event.ClaimNotificationEvent;
-import com.tpa.kafka.producer.ClaimEventProducer;
 import com.tpa.kafka.producer.ProducerService;
 import com.tpa.mapper.ClaimMapper;
-import com.tpa.repository.CarrierRepository;
-import com.tpa.repository.ClaimAuditRepository;
-import com.tpa.repository.ClaimDocumentRepository;
-import com.tpa.repository.ClaimRepository;
-import com.tpa.repository.UserRepository;
+import com.tpa.repository.*;
 import com.tpa.service.AuditLogService;
 import com.tpa.service.CarrierService;
 import com.tpa.service.ClaimService;
@@ -37,6 +28,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -46,6 +38,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -57,6 +50,8 @@ public class ClaimServiceImpl implements ClaimService {
     private final ClaimDocumentRepository claimDocumentRepository;
     private final CarrierRepository carrierRepository;
     private final ClaimAuditRepository claimAuditRepository;
+    private final ClaimQueryRepository claimQueryRepository;
+    private final ClaimStatusTimelineRepository timelineRepository;
 
     private final ClaimMapper claimMapper;
 
@@ -68,6 +63,8 @@ public class ClaimServiceImpl implements ClaimService {
     private final CarrierService carrierService;
     private final PaymentService paymentService;
     private final AuditForensicService auditForensicService;
+
+    private final SimpMessagingTemplate messagingTemplate;
 
     private User getUser(String username) {
         return userRepository.findByEmail(username).orElseThrow(() -> new RuntimeException("User not found"));
@@ -229,12 +226,6 @@ public class ClaimServiceImpl implements ClaimService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<ClaimAudit> getClaimTimeline(Long claimId, String username) {
-        return getClaimAudits(claimId, username);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
     public byte[] exportClaimReport(Long claimId, String username) {
         getClaim(claimId, username);
         return pdfExportService.exportClaimReport(claimId);
@@ -301,5 +292,97 @@ public class ClaimServiceImpl implements ClaimService {
                 .success(successCount)
                 .failed(failCount)
                 .build();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ClaimQueryResponse> getClaimQueries(Long claimId, String username) {
+
+        getClaim(claimId, username);
+        List<ClaimQuery> claimQueries = claimQueryRepository.findByClaimIdOrderByTimestampAsc(claimId);
+
+        return claimQueries.stream().map(query -> ClaimQueryResponse.builder()
+                        .id(query.getId())
+                        .claimId(query.getClaim().getId())
+                        .username(query.getSenderUsername())
+                        .message(query.getMessage())
+                        .carrier(query.isCarrierQuery())
+                        .timestamp(query.getTimestamp())
+                        .build()).toList();
+    }
+
+    @Override
+    @Transactional
+    public ClaimQueryResponse createClaimQuery(Long claimId, ClaimQueryRequest claimQueryRequest, String username) {
+        Claim claim = claimRepository.findById(claimId).orElseThrow(() -> new RuntimeException("Claim not found"));
+        getClaim(claimId, username);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        boolean isCarrier = authentication.getAuthorities()
+                        .stream()
+                        .anyMatch(a -> a.getAuthority().equals("ROLE_CARRIER"));
+
+        ClaimQuery claimQuery = ClaimQuery.builder()
+                .claim(claim)
+                .senderUsername(username)
+                .message(claimQueryRequest.getMessage())
+                .isCarrierQuery(isCarrier)
+                .build();
+
+        ClaimQuery savedQuery = claimQueryRepository.save(claimQuery);
+
+        return ClaimQueryResponse.builder()
+                .id(savedQuery.getId())
+                .claimId(claim.getId())
+                .username(savedQuery.getSenderUsername())
+                .message(savedQuery.getMessage())
+                .carrier(savedQuery.isCarrierQuery())
+                .timestamp(savedQuery.getTimestamp())
+                .build();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ClaimTimelineResponse> getClaimTimeline(Long claimId, String username) {
+
+        getClaim(claimId, username);
+
+        List<ClaimStatusTimeline> claimStatusTimelines = timelineRepository.findByClaimIdOrderByOccurredAtAsc(claimId);
+
+        return claimStatusTimelines.stream().map(timeline -> ClaimTimelineResponse.builder()
+                        .id(timeline.getId())
+                        .claimId(timeline.getClaimId())
+                        .fromStatus(timeline.getFromStatus())
+                        .toStatus(timeline.getToStatus())
+                        .notes(timeline.getNotes())
+                        .changedBy(timeline.getChangedBy())
+                        .occurredAt(timeline.getOccurredAt())
+                        .build()).toList();
+    }
+
+    @Override
+    public void broadcastStatusUpdate(Long claimId, String status, String message) {
+        Map<String, Object> payload = Map.of(
+                "claimId", claimId,
+                "status", status,
+                "message", message != null ? message : "",
+                "timestamp", LocalDateTime.now().toString());
+
+        String destination = "/topic/claims/" + claimId;
+
+        messagingTemplate.convertAndSend(destination, payload);
+        log.info("[WS] Broadcast status '{}' for claim {}", status, claimId);
+    }
+
+    @Override
+    public void sendUserNotification(String userEmail, String title, String message) {
+        Map<String, Object> payload = Map.of(
+                "title", title,
+                "message", message,
+                "timestamp", LocalDateTime.now().toString());
+
+        messagingTemplate.convertAndSendToUser(userEmail, "/queue/notifications", payload);
+        log.info("[WS] Sent private notification to {}", userEmail);
     }
 }

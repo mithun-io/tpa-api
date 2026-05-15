@@ -1,9 +1,11 @@
 package com.tpa.controller;
 
-import com.tpa.dto.request.*;
-import com.tpa.dto.response.ApiResponse;
-import com.tpa.dto.response.LoginResponse;
-import com.tpa.dto.response.UserResponse;
+import com.tpa.dto.request.auth.*;
+import com.tpa.dto.request.user.CarrierRequest;
+import com.tpa.dto.request.user.PatientRequest;
+import com.tpa.dto.response.auth.ApiResponse;
+import com.tpa.dto.response.auth.LoginResponse;
+import com.tpa.dto.response.user.UserResponse;
 import com.tpa.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

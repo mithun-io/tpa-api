@@ -1,6 +1,6 @@
 package com.tpa.controller;
 
-import com.tpa.dto.response.FraudDashboardResponse;
+import com.tpa.dto.response.auth.FraudDashboardResponse;
 import com.tpa.service.FraudDetectionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

@@ -1,5 +1,6 @@
 package com.tpa.controller;
 
+import com.tpa.dto.response.claim.ClaimResponse;
 import com.tpa.helper.AdminInitializer;
 import com.tpa.helper.EnterpriseDataSeeder;
 import com.tpa.service.ClaimService;
@@ -64,7 +65,7 @@ class SecurityAndUploadTest {
     @WithMockUser(username = "customer@tpa.com", roles = "CUSTOMER")
     @DisplayName("Should allow customer to access their own timeline")
     void getTimeline_Authorized_Returns200() throws Exception {
-        com.tpa.dto.response.ClaimResponse mockClaim = com.tpa.dto.response.ClaimResponse.builder()
+        ClaimResponse mockClaim = ClaimResponse.builder()
                 .id(1L)
                 .userEmail("customer@tpa.com")
                 .build();

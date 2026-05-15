@@ -1,6 +1,6 @@
 package com.tpa.controller;
 
-import com.tpa.dto.response.NotificationResponse;
+import com.tpa.dto.response.auth.NotificationResponse;
 import com.tpa.entity.User;
 import com.tpa.exception.GlobalExceptionHandler;
 import com.tpa.repository.UserRepository;

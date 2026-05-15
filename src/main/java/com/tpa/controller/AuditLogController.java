@@ -1,8 +1,8 @@
 package com.tpa.controller;
 
-import com.tpa.dto.response.ApiResponse;
-import com.tpa.dto.response.PaymentReconciliationResponse;
-import com.tpa.dto.response.VerifyAuditResponse;
+import com.tpa.dto.response.auth.ApiResponse;
+import com.tpa.dto.response.payment.PaymentReconciliationResponse;
+import com.tpa.dto.response.auth.VerifyAuditResponse;
 import com.tpa.entity.AuditLog;
 import com.tpa.entity.EventAuditLog;
 import com.tpa.entity.PaymentLedger;
@@ -29,7 +29,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/audit")
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('FMG_ADMIN')")
+@PreAuthorize("hasRole('ADMIN')")
 public class AuditLogController {
 
     private final AuditLogService auditLogService;

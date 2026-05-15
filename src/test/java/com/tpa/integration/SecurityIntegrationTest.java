@@ -3,7 +3,7 @@ package com.tpa.integration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
-import com.tpa.dto.request.LoginRequest;
+import com.tpa.dto.request.auth.LoginRequest;
 import com.tpa.entity.User;
 import com.tpa.enums.Gender;
 import com.tpa.enums.UserRole;

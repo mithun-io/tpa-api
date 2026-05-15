@@ -1,14 +1,11 @@
 package com.tpa.service.impl;
 
-import com.razorpay.RazorpayException;
-import com.tpa.dto.request.CreatePaymentOrderRequest;
-import com.tpa.dto.request.VerifyPaymentRequest;
-import com.tpa.dto.response.PaymentResponse;
+import com.tpa.dto.request.payment.CreatePaymentOrderRequest;
+import com.tpa.dto.request.payment.VerifyPaymentRequest;
 import com.tpa.entity.Claim;
 import com.tpa.entity.Payment;
 import com.tpa.enums.ClaimStatus;
 import com.tpa.enums.PaymentStatus;
-import com.tpa.exception.NoResourceFoundException;
 import com.tpa.repository.ClaimRepository;
 import com.tpa.repository.PaymentRepository;
 import org.junit.jupiter.api.BeforeEach;

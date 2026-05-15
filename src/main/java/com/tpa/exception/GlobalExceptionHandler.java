@@ -1,6 +1,6 @@
 package com.tpa.exception;
 
-import com.tpa.dto.response.ApiResponse;
+import com.tpa.dto.response.auth.ApiResponse;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import jakarta.validation.UnexpectedTypeException;

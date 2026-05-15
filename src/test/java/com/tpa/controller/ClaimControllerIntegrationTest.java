@@ -1,7 +1,7 @@
 package com.tpa.controller;
 
 
-import com.tpa.dto.response.ClaimResponse;
+import com.tpa.dto.response.claim.ClaimResponse;
 import com.tpa.enums.ClaimStatus;
 import com.tpa.helper.AdminInitializer;
 import com.tpa.helper.EnterpriseDataSeeder;

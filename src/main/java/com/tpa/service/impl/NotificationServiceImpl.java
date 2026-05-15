@@ -1,6 +1,6 @@
 package com.tpa.service.impl;
 
-import com.tpa.dto.response.NotificationResponse;
+import com.tpa.dto.response.auth.NotificationResponse;
 import com.tpa.entity.Notification;
 import com.tpa.entity.User;
 import com.tpa.enums.UserRole;

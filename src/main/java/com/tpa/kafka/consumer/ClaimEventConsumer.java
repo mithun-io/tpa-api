@@ -2,9 +2,9 @@ package com.tpa.kafka.consumer;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tpa.dto.request.ClaimRequest;
-import com.tpa.dto.response.ClaimDecisionResponse;
-import com.tpa.dto.response.ClaimResponse;
+import com.tpa.dto.request.claim.ClaimRequest;
+import com.tpa.dto.response.claim.ClaimDecisionResponse;
+import com.tpa.dto.response.claim.ClaimResponse;
 import com.tpa.enums.ClaimStatus;
 import com.tpa.helper.EmailService;
 import com.tpa.kafka.producer.ClaimEventPipelineProducer;

@@ -1,7 +1,7 @@
 package com.tpa.mapper;
 
-import com.tpa.dto.request.PatientRequest;
-import com.tpa.dto.response.PatientResponse;
+import com.tpa.dto.request.user.PatientRequest;
+import com.tpa.dto.response.user.PatientResponse;
 import com.tpa.entity.Patient;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;

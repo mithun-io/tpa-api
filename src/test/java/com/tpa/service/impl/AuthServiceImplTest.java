@@ -1,10 +1,10 @@
 package com.tpa.service.impl;
 
-import com.tpa.dto.request.LoginRequest;
-import com.tpa.dto.request.PasswordResetRequest;
-import com.tpa.dto.request.OtpRequest;
-import com.tpa.dto.response.LoginResponse;
-import com.tpa.dto.response.UserResponse;
+import com.tpa.dto.request.auth.LoginRequest;
+import com.tpa.dto.request.auth.PasswordResetRequest;
+import com.tpa.dto.request.auth.OtpRequest;
+import com.tpa.dto.response.auth.LoginResponse;
+import com.tpa.dto.response.user.UserResponse;
 import com.tpa.entity.RefreshToken;
 import com.tpa.entity.User;
 import com.tpa.enums.UserRole;

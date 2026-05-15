@@ -3,7 +3,7 @@ package com.tpa.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.tpa.dto.request.ClaimDataRequest;
-import com.tpa.dto.response.ClaimResponse;
+import com.tpa.dto.response.claim.ClaimResponse;
 import com.tpa.enums.ClaimStatus;
 import com.tpa.exception.GlobalExceptionHandler;
 import com.tpa.service.ClaimService;

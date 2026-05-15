@@ -1,7 +1,12 @@
 package com.tpa.controller;
 
-import com.tpa.dto.request.ClaimReviewRequest;
-import com.tpa.dto.response.*;
+import com.tpa.dto.request.claim.ClaimReviewRequest;
+import com.tpa.dto.response.analytics.AiAnalysisResponse;
+import com.tpa.dto.response.analytics.MonitoringResponse;
+import com.tpa.dto.response.auth.ApiResponse;
+import com.tpa.dto.response.claim.ClaimResponse;
+import com.tpa.dto.response.user.CarrierResponse;
+import com.tpa.dto.response.user.UserResponse;
 import com.tpa.enums.ClaimStatus;
 import com.tpa.enums.UserStatus;
 import com.tpa.service.AdminService;
@@ -9,9 +14,6 @@ import com.tpa.service.ClaimService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,14 +21,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/admin")
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('FMG_ADMIN')")
+@PreAuthorize("hasRole('ADMIN')")
 public class AdminController {
 
     private final AdminService adminService;

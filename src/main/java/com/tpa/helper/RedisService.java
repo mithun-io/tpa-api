@@ -2,8 +2,8 @@ package com.tpa.helper;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tpa.dto.request.CarrierRequest;
-import com.tpa.dto.request.PatientRequest;
+import com.tpa.dto.request.user.CarrierRequest;
+import com.tpa.dto.request.user.PatientRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;

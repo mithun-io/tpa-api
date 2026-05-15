@@ -1,6 +1,6 @@
 package com.tpa.controller;
 
-import com.tpa.dto.response.UserResponse;
+import com.tpa.dto.response.user.UserResponse;
 import com.tpa.entity.User;
 import com.tpa.mapper.UserMapper;
 import com.tpa.repository.UserRepository;

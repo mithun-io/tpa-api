@@ -1,7 +1,7 @@
 package com.tpa.service.impl;
 
-import com.tpa.dto.response.FraudClaimResponse;
-import com.tpa.dto.response.FraudDashboardResponse;
+import com.tpa.dto.response.claim.FraudClaimResponse;
+import com.tpa.dto.response.auth.FraudDashboardResponse;
 import com.tpa.entity.Carrier;
 import com.tpa.entity.Claim;
 import com.tpa.entity.User;

@@ -1,7 +1,7 @@
 package com.tpa.service;
 
-import com.tpa.dto.request.ClaimRequest;
-import com.tpa.dto.response.ClaimDecisionResponse;
+import com.tpa.dto.request.claim.ClaimRequest;
+import com.tpa.dto.response.claim.ClaimDecisionResponse;
 
 public interface RuleEngineService {
 

@@ -13,7 +13,7 @@ import com.tpa.service.FileUploadService;
 import com.tpa.service.RuleEngineService;
 import com.tpa.service.StorageProvider;
 import com.tpa.service.AiClaimAssistantService;
-import com.tpa.dto.response.DocumentValidationResponse;
+import com.tpa.dto.response.auth.DocumentValidationResponse;
 import com.tpa.enums.ClaimStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;

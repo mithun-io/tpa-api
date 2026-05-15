@@ -8,8 +8,8 @@ import com.tpa.entity.Claim;
 import com.tpa.entity.ClaimDocument;
 import com.tpa.enums.DocumentStatus;
 import com.tpa.repository.ClaimRepository;
-import com.tpa.dto.request.AiValidationRequest;
-import com.tpa.dto.response.AiAnalysisResponse;
+import com.tpa.dto.request.ai.AiValidationRequest;
+import com.tpa.dto.response.analytics.AiAnalysisResponse;
 import com.tpa.enums.Verdict;
 import com.tpa.service.AiClaimAssistantService;
 import com.tpa.service.MedicalValidationService;
@@ -32,7 +32,7 @@ import java.util.Map;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
-import com.tpa.dto.response.DocumentValidationResponse;
+import com.tpa.dto.response.auth.DocumentValidationResponse;
 import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j

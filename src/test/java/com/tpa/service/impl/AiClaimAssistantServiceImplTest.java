@@ -1,11 +1,11 @@
 package com.tpa.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tpa.dto.response.DocumentValidationResponse;
+import com.tpa.dto.request.ai.AiValidationRequest;
+import com.tpa.dto.response.auth.DocumentValidationResponse;
+import com.tpa.dto.response.analytics.AiAnalysisResponse;
 import com.tpa.enums.DocumentStatus;
 import com.tpa.entity.Claim;
-import com.tpa.entity.ClaimDocument;
-import com.tpa.enums.ClaimStatus;
 import com.tpa.repository.ClaimDocumentRepository;
 import com.tpa.repository.ClaimRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -169,7 +169,7 @@ class AiClaimAssistantServiceImplTest {
         claim.setId(10L);
         when(claimRepository.findById(10L)).thenReturn(Optional.of(claim));
 
-        com.tpa.dto.response.AiAnalysisResponse response = aiService.analyzeClaim(10L, "prompt");
+        AiAnalysisResponse response = aiService.analyzeClaim(10L, "prompt");
 
         assertThat(response.getVerdict()).isEqualTo(com.tpa.enums.Verdict.REVIEW);
         assertThat(response.getFlags()).contains("AI analysis failed: No valid JSON object found in AI response");
@@ -184,7 +184,7 @@ class AiClaimAssistantServiceImplTest {
         claim.setId(10L);
         when(claimRepository.findById(10L)).thenReturn(Optional.of(claim));
 
-        com.tpa.dto.response.AiAnalysisResponse response = aiService.analyzeClaim(10L, "prompt");
+        AiAnalysisResponse response = aiService.analyzeClaim(10L, "prompt");
 
         assertThat(response.getVerdict()).isEqualTo(com.tpa.enums.Verdict.REVIEW);
         assertThat(response.getRecommendation()).contains("Manual review required due to AI failure");
@@ -193,12 +193,12 @@ class AiClaimAssistantServiceImplTest {
     @Test
     @DisplayName("TC-AI-03: validatePreClaim fails fast on missing policy")
     void validatePreClaim_shouldReturnEarlyFlags_whenFieldsMissing() {
-        com.tpa.dto.request.AiValidationRequest req = new com.tpa.dto.request.AiValidationRequest();
+        AiValidationRequest req = new AiValidationRequest();
         req.setPolicyNumber(null);
         req.setAmount(new java.math.BigDecimal("100"));
         req.setHospitalName("Test Hospital");
 
-        com.tpa.dto.response.AiAnalysisResponse res = aiService.validatePreClaim(req);
+        AiAnalysisResponse res = aiService.validatePreClaim(req);
         assertThat(res.getVerdict()).isEqualTo(com.tpa.enums.Verdict.REVIEW);
         assertThat(res.getFlags()).contains("Policy number is missing");
     }
@@ -220,14 +220,14 @@ class AiClaimAssistantServiceImplTest {
     @Test
     @DisplayName("TC-AI-05: preValidate fallback works if API fails")
     void preValidate_fallbackWorks() {
-        com.tpa.dto.request.AiValidationRequest req = new com.tpa.dto.request.AiValidationRequest();
+        AiValidationRequest req = new AiValidationRequest();
         req.setPolicyNumber("POL-123");
         req.setAmount(new java.math.BigDecimal("100"));
         req.setHospitalName("Test Hospital");
         
         when(requestBodySpec.retrieve()).thenThrow(new RuntimeException("API Down"));
 
-        com.tpa.dto.response.AiAnalysisResponse res = aiService.validatePreClaim(req);
+        AiAnalysisResponse res = aiService.validatePreClaim(req);
         assertThat(res.getVerdict()).isEqualTo(com.tpa.enums.Verdict.REVIEW);
         assertThat(res.getRecommendation()).contains("AI pre-validation unavailable. Please proceed with manual review.");
     }

@@ -1,7 +1,7 @@
 package com.tpa.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tpa.dto.response.AiAnalysisResponse;
+import com.tpa.dto.response.analytics.AiAnalysisResponse;
 import com.tpa.exception.GlobalExceptionHandler;
 import com.tpa.service.AiClaimAssistantService;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,6 +1,6 @@
 package com.tpa.service;
 
-import com.tpa.dto.response.NotificationResponse;
+import com.tpa.dto.response.auth.NotificationResponse;
 import com.tpa.entity.User;
 
 import java.util.List;

@@ -1,8 +1,8 @@
 package com.tpa.service;
 
-import com.tpa.dto.response.AiAnalysisResponse;
-import com.tpa.dto.response.CarrierClaimDetailResponse;
-import com.tpa.dto.response.PolicyStatusResponse;
+import com.tpa.dto.response.analytics.AiAnalysisResponse;
+import com.tpa.dto.response.claim.CarrierClaimDetailResponse;
+import com.tpa.dto.response.claim.PolicyStatusResponse;
 
 import java.util.List;
 import java.util.Map;

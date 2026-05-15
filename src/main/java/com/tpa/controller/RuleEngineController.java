@@ -1,7 +1,7 @@
 package com.tpa.controller;
 
 import com.tpa.dto.request.ClaimDataRequest;
-import com.tpa.dto.response.ClaimDecisionResponse;
+import com.tpa.dto.response.claim.ClaimDecisionResponse;
 import com.tpa.service.RuleEngineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

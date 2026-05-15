@@ -1,6 +1,6 @@
 package com.tpa.service.impl;
 
-import com.tpa.dto.response.FraudDashboardResponse;
+import com.tpa.dto.response.auth.FraudDashboardResponse;
 import com.tpa.entity.Claim;
 import com.tpa.enums.RiskLevel;
 import com.tpa.repository.CarrierRepository;

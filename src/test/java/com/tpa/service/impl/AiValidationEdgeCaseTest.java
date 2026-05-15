@@ -1,6 +1,6 @@
 package com.tpa.service.impl;
 
-import com.tpa.dto.response.AiAnalysisResponse;
+import com.tpa.dto.response.analytics.AiAnalysisResponse;
 import com.tpa.entity.Claim;
 import com.tpa.repository.ClaimRepository;
 import com.tpa.repository.ClaimDocumentRepository;

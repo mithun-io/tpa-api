@@ -1,7 +1,7 @@
 package com.tpa.service;
 
-import com.tpa.dto.response.PaymentReconciliationResponse;
-import com.tpa.dto.response.VerifyAuditResponse;
+import com.tpa.dto.response.payment.PaymentReconciliationResponse;
+import com.tpa.dto.response.auth.VerifyAuditResponse;
 import com.tpa.entity.AuditLog;
 import com.tpa.entity.EventAuditLog;
 import com.tpa.entity.PaymentLedger;

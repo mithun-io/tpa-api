@@ -1,8 +1,8 @@
 package com.tpa.mapper;
 
-import com.tpa.dto.response.CarrierClaimDetailResponse;
-import com.tpa.dto.response.CarrierClaimDetailResponse.FraudInfo;
-import com.tpa.dto.response.CarrierClaimDetailResponse.PatientInfo;
+import com.tpa.dto.response.claim.CarrierClaimDetailResponse;
+import com.tpa.dto.response.claim.CarrierClaimDetailResponse.FraudInfo;
+import com.tpa.dto.response.claim.CarrierClaimDetailResponse.PatientInfo;
 import com.tpa.entity.Claim;
 import com.tpa.entity.User;
 import com.tpa.enums.RiskLevel;

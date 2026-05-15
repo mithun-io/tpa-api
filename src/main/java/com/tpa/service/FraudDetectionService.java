@@ -1,6 +1,6 @@
 package com.tpa.service;
 
-import com.tpa.dto.response.FraudDashboardResponse;
+import com.tpa.dto.response.auth.FraudDashboardResponse;
 import com.tpa.entity.Claim;
 
 public interface FraudDetectionService {

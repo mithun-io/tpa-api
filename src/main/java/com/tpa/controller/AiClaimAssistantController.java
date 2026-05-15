@@ -1,10 +1,10 @@
 package com.tpa.controller;
 
-import com.tpa.dto.response.ApiResponse;
-import com.tpa.dto.response.DocumentValidationResponse;
+import com.tpa.dto.response.auth.ApiResponse;
+import com.tpa.dto.response.auth.DocumentValidationResponse;
 import com.tpa.service.AiClaimAssistantService;
-import com.tpa.dto.request.AiValidationRequest;
-import com.tpa.dto.response.AiAnalysisResponse;
+import com.tpa.dto.request.ai.AiValidationRequest;
+import com.tpa.dto.response.analytics.AiAnalysisResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

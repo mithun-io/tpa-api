@@ -1,10 +1,11 @@
 package com.tpa.service;
 
-import com.tpa.dto.request.ClaimRequest;
-import com.tpa.dto.response.BulkClaimProcessResponse;
-import com.tpa.dto.response.ClaimDecisionResponse;
-import com.tpa.dto.response.ClaimResponse;
+import com.tpa.dto.request.claim.ClaimQueryRequest;
+import com.tpa.dto.request.claim.ClaimRequest;
+import com.tpa.dto.response.claim.*;
 import com.tpa.entity.ClaimAudit;
+import com.tpa.entity.ClaimQuery;
+import com.tpa.entity.ClaimStatusTimeline;
 import com.tpa.enums.ClaimStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,8 +27,6 @@ public interface ClaimService {
 
     List<ClaimAudit> getClaimAudits(Long claimId, String username);
 
-    List<ClaimAudit> getClaimTimeline(Long claimId, String username);
-
     byte[] exportClaimReport(Long claimId, String username);
 
     void carrierApproveClaim(Long claimId, String username);
@@ -35,4 +34,14 @@ public interface ClaimService {
     void deleteClaim(Long claimId, String username);
 
     BulkClaimProcessResponse processBulkApproval(List<Long> claimIds, String approvedBy);
+
+    List<ClaimQueryResponse> getClaimQueries(Long claimId, String username);
+
+    ClaimQueryResponse createClaimQuery(Long claimId, ClaimQueryRequest claimQueryRequest, String username);
+
+    List<ClaimTimelineResponse> getClaimTimeline(Long claimId, String username);
+
+    void broadcastStatusUpdate(Long claimId, String status, String message);
+
+    void sendUserNotification(String userEmail, String title, String message);
 }

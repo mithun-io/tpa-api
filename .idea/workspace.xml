@@ -6,11 +6,128 @@
   <component name="ChangeListManager">
     <list default="true" id="b816a75b-6920-4401-836e-1b55556aa93c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/controller/BulkClaimController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/controller/BulkClaimController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/controller/AdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/controller/AiClaimAssistantController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/controller/AiClaimAssistantController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/controller/AnalyticsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/controller/AnalyticsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/controller/AuditLogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/controller/AuditLogController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/controller/BulkClaimController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/controller/CarrierController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/controller/CarrierController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/controller/ClaimController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/controller/ClaimController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/BulkClaimService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/controller/ClaimTrackingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/controller/ClaimTrackingController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/controller/FraudController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/controller/FraudController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/controller/NotificationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/controller/NotificationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/controller/PaymentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/controller/PaymentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/controller/RuleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/controller/RuleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/controller/RuleEngineController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/controller/RuleEngineController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/request/AiValidationRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/request/ai/AiValidationRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/request/CarrierRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/request/user/CarrierRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/request/ClaimRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/request/claim/ClaimRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/request/ClaimReviewRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/request/claim/ClaimReviewRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/request/CreatePaymentOrderRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/request/payment/CreatePaymentOrderRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/request/InsuranceProductRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/request/claim/InsuranceProductRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/request/LoginRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/request/auth/LoginRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/request/OtpRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/request/auth/OtpRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/request/PasswordChangeRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/request/auth/PasswordChangeRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/request/PasswordResetRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/request/auth/PasswordResetRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/request/PatientRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/request/user/PatientRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/request/RefreshTokenRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/request/auth/RefreshTokenRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/request/UserRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/request/user/UserRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/request/VerifyPaymentRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/request/payment/VerifyPaymentRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/AiAnalysisResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/analytics/AiAnalysisResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/AnalyticsResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/analytics/AnalyticsResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/ApiResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/auth/ApiResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/BulkClaimProcessResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/claim/BulkClaimProcessResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/CarrierAnalyticsResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/analytics/CarrierAnalyticsResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/CarrierClaimDetailResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/claim/CarrierClaimDetailResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/CarrierResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/user/CarrierResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/CarrierRiskAssessmentResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/user/CarrierRiskAssessmentResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/ClaimDecisionResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/claim/ClaimDecisionResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/ClaimLeakageResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/claim/ClaimLeakageResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/ClaimResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/claim/ClaimResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/DocumentValidationResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/auth/DocumentValidationResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/ForecastAnalyticsResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/analytics/ForecastAnalyticsResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/FraudClaimResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/claim/FraudClaimResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/FraudDashboardResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/auth/FraudDashboardResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/FraudTrendResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/analytics/FraudTrendResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/HospitalAnalyticsResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/analytics/HospitalAnalyticsResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/InsuranceProductResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/claim/InsuranceProductResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/LoginResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/auth/LoginResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/LossRatioResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/analytics/LossRatioResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/MonitoringResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/analytics/MonitoringResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/NotificationResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/auth/NotificationResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/PageResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/auth/PageResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/PatientResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/user/PatientResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/PaymentReconciliationResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/payment/PaymentReconciliationResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/PaymentResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/payment/PaymentResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/PaymentSummaryResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/payment/PaymentSummaryResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/PolicyStatusResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/claim/PolicyStatusResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/SlaPerformanceResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/analytics/SlaPerformanceResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/UserResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/user/UserResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/VerifyAuditResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/response/auth/VerifyAuditResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/entity/ClaimQuery.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/entity/ClaimQuery.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/exception/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/exception/GlobalExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/helper/PolicyValidationHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/helper/PolicyValidationHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/helper/RedisService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/helper/RedisService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/kafka/consumer/ClaimEventConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/kafka/consumer/ClaimEventConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/kafka/producer/ClaimEventProducer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/kafka/producer/ClaimEventProducer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/mapper/CarrierClaimMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/mapper/CarrierClaimMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/mapper/CarrierMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/mapper/CarrierMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/mapper/ClaimMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/mapper/ClaimMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/mapper/FraudClaimMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/mapper/FraudClaimMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/mapper/InsuranceProductMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/mapper/InsuranceProductMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/mapper/NotificationMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/mapper/NotificationMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/mapper/PatientMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/mapper/PatientMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/mapper/PaymentMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/mapper/PaymentMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/mapper/PolicyValidationMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/mapper/PolicyValidationMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/mapper/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/mapper/UserMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/AdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/AdminService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/AiClaimAssistantService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/AiClaimAssistantService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/AnalyticsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/AnalyticsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/AuditLogService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/AuditLogService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/AuthService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/CarrierService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/CarrierService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/ClaimService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/ClaimService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/FraudDetectionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/FraudDetectionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/NotificationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/NotificationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/PaymentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/PaymentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/RuleEngineService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/RuleEngineService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/AdminServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/AdminServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/AiClaimAssistantServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/AiClaimAssistantServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/AnalyticsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/AnalyticsServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/AuditLogServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/AuditLogServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/AuthServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/AuthServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/CarrierServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/CarrierServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/ClaimServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/ClaimServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/FileUploadServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/FileUploadServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/FraudDetectionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/FraudDetectionServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/NotificationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/NotificationServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/PaymentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/PaymentServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/RuleEngineServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/RuleEngineServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/tpa/controller/AdminControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/tpa/controller/AdminControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/tpa/controller/AiControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/tpa/controller/AiControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/tpa/controller/AuthControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/tpa/controller/AuthControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/tpa/controller/CarrierControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/tpa/controller/CarrierControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/tpa/controller/ClaimControllerIntegrationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/tpa/controller/ClaimControllerIntegrationTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/tpa/controller/ClaimControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/tpa/controller/ClaimControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/tpa/controller/NotificationControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/tpa/controller/NotificationControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/tpa/controller/SecurityAndUploadTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/tpa/controller/SecurityAndUploadTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/tpa/integration/SecurityIntegrationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/tpa/integration/SecurityIntegrationTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/tpa/service/RuleEngineServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/tpa/service/RuleEngineServiceImplTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/tpa/service/impl/AdminServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/tpa/service/impl/AdminServiceImplTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/tpa/service/impl/AiClaimAssistantServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/tpa/service/impl/AiClaimAssistantServiceImplTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/tpa/service/impl/AiValidationEdgeCaseTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/tpa/service/impl/AiValidationEdgeCaseTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/tpa/service/impl/AuthServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/tpa/service/impl/AuthServiceImplTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/tpa/service/impl/CarrierServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/tpa/service/impl/CarrierServiceImplTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/tpa/service/impl/ClaimServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/tpa/service/impl/ClaimServiceImplTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/tpa/service/impl/FraudDetectionServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/tpa/service/impl/FraudDetectionServiceImplTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/tpa/service/impl/NotificationServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/tpa/service/impl/NotificationServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/tpa/service/impl/PaymentServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/tpa/service/impl/PaymentServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/tpa/service/impl/RuleEngineServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/tpa/service/impl/RuleEngineServiceImplTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application-dev.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application-dev.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/generated-sources/annotations/com/tpa/mapper/NotificationMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/annotations/com/tpa/mapper/NotificationMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/generated-sources/annotations/com/tpa/mapper/PaymentMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/annotations/com/tpa/mapper/PaymentMapperImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,7 +160,7 @@
 }</component>
   <component name="ProblemsViewState">
     <option name="autoscrollToSource" value="true" />
-    <option name="selectedTabId" value="Security Analysis" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5,
@@ -57,29 +174,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.JwtKeyGenerator.executor&quot;: &quot;Run&quot;,
-    &quot;Maven.tpa [clean,install,-U].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.tpa [clean,test].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.tpa [clean].executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;Spring Boot.TpaApplication.executor&quot;: &quot;Run&quot;,
-    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.JwtKeyGenerator.executor": "Run",
+    "Maven.tpa [clean,install,-U].executor": "Run",
+    "Maven.tpa [clean,test].executor": "Run",
+    "Maven.tpa [clean].executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "Spring Boot.TpaApplication.executor": "Debug",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "MavenSettings",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\MithunM\IdeaProjects\tpa\presentation" />
@@ -139,7 +256,7 @@
       <workItem from="1778746991991" duration="18981000" />
       <workItem from="1778767708238" duration="1144000" />
       <workItem from="1778769431837" duration="98000" />
-      <workItem from="1778820434800" duration="14254000" />
+      <workItem from="1778820434800" duration="15765000" />
     </task>
     <servers />
   </component>

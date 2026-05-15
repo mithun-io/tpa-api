@@ -1,6 +1,6 @@
 package com.tpa.mapper;
 
-import com.tpa.dto.response.NotificationResponse;
+import com.tpa.dto.response.auth.NotificationResponse;
 import com.tpa.entity.Notification;
 import java.util.ArrayList;
 import java.util.List;

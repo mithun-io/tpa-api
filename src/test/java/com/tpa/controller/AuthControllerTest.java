@@ -1,11 +1,11 @@
 package com.tpa.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tpa.dto.request.LoginRequest;
-import com.tpa.dto.request.OtpRequest;
-import com.tpa.dto.request.RefreshTokenRequest;
-import com.tpa.dto.response.LoginResponse;
-import com.tpa.dto.response.UserResponse;
+import com.tpa.dto.request.auth.LoginRequest;
+import com.tpa.dto.request.auth.OtpRequest;
+import com.tpa.dto.request.auth.RefreshTokenRequest;
+import com.tpa.dto.response.auth.LoginResponse;
+import com.tpa.dto.response.user.UserResponse;
 import com.tpa.exception.GlobalExceptionHandler;
 import com.tpa.exception.NoResourceFoundException;
 import com.tpa.service.AuthService;

@@ -1,7 +1,7 @@
 package com.tpa.service;
 
 import com.tpa.dto.request.ClaimDataRequest;
-import com.tpa.dto.response.ClaimDecisionResponse;
+import com.tpa.dto.response.claim.ClaimDecisionResponse;
 import com.tpa.entity.RuleConfig;
 import com.tpa.enums.ClaimStatus;
 import com.tpa.repository.RuleConfigRepository;

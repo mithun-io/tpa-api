@@ -1,9 +1,9 @@
 package com.tpa.controller;
 
-import com.tpa.dto.response.AiAnalysisResponse;
-import com.tpa.dto.response.ApiResponse;
-import com.tpa.dto.response.CarrierClaimDetailResponse;
-import com.tpa.dto.response.PolicyStatusResponse;
+import com.tpa.dto.response.analytics.AiAnalysisResponse;
+import com.tpa.dto.response.auth.ApiResponse;
+import com.tpa.dto.response.claim.CarrierClaimDetailResponse;
+import com.tpa.dto.response.claim.PolicyStatusResponse;
 import com.tpa.service.AiClaimAssistantService;
 import com.tpa.service.CarrierService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/v1/carrier")
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('CARRIER_USER')")
+@PreAuthorize("hasRole('CARRIER')")
 public class CarrierController {
 
     private final CarrierService carrierService;

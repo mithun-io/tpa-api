@@ -1,7 +1,7 @@
 package com.tpa.mapper;
 
-import com.tpa.dto.request.UserRequest;
-import com.tpa.dto.response.UserResponse;
+import com.tpa.dto.request.user.UserRequest;
+import com.tpa.dto.response.user.UserResponse;
 import com.tpa.entity.User;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;

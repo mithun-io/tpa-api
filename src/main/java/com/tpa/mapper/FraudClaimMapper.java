@@ -1,6 +1,6 @@
 package com.tpa.mapper;
 
-import com.tpa.dto.response.FraudClaimResponse;
+import com.tpa.dto.response.claim.FraudClaimResponse;
 import com.tpa.entity.Claim;
 import com.tpa.enums.RiskLevel;
 import org.mapstruct.Mapper;

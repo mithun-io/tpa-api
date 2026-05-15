@@ -1,14 +1,17 @@
 package com.tpa.service;
 
-import com.tpa.dto.response.*;
-import com.tpa.dto.request.ClaimReviewRequest;
+import com.tpa.dto.request.claim.ClaimReviewRequest;
+import com.tpa.dto.response.analytics.AiAnalysisResponse;
+import com.tpa.dto.response.analytics.MonitoringResponse;
+import com.tpa.dto.response.claim.ClaimResponse;
+import com.tpa.dto.response.user.CarrierResponse;
+import com.tpa.dto.response.user.UserResponse;
 import com.tpa.enums.ClaimStatus;
 import com.tpa.enums.UserStatus;
 import org.springframework.data.domain.Page;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.List;
 
 public interface AdminService {
 

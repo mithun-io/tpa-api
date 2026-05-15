@@ -1,6 +1,9 @@
 package com.tpa.controller;
 
-import com.tpa.dto.response.*;
+import com.tpa.dto.response.analytics.*;
+import com.tpa.dto.response.auth.ApiResponse;
+import com.tpa.dto.response.claim.ClaimLeakageResponse;
+import com.tpa.dto.response.payment.PaymentSummaryResponse;
 import com.tpa.service.AnalyticsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/analytics")
 @RequiredArgsConstructor
-@PreAuthorize("hasAnyRole('FMG_ADMIN', 'CARRIER_USER')")
+@PreAuthorize("hasAnyRole('ADMIN', 'CARRIER')")
 public class AnalyticsController {
 
     private final AnalyticsService analyticsService;

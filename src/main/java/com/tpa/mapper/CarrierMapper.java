@@ -1,7 +1,7 @@
 package com.tpa.mapper;
 
-import com.tpa.dto.request.CarrierRequest;
-import com.tpa.dto.response.CarrierResponse;
+import com.tpa.dto.request.user.CarrierRequest;
+import com.tpa.dto.response.user.CarrierResponse;
 import com.tpa.entity.Carrier;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;

@@ -1,7 +1,7 @@
 package com.tpa.mapper;
 
-import com.tpa.dto.response.CarrierClaimDetailResponse.PolicyInfo;
-import com.tpa.dto.response.PolicyStatusResponse;
+import com.tpa.dto.response.claim.CarrierClaimDetailResponse.PolicyInfo;
+import com.tpa.dto.response.claim.PolicyStatusResponse;
 import com.tpa.entity.Claim;
 import com.tpa.helper.PolicyValidationHelper;
 import lombok.RequiredArgsConstructor;

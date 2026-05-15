@@ -1,7 +1,7 @@
 package com.tpa.service.impl;
 
-import com.tpa.dto.response.PaymentReconciliationResponse;
-import com.tpa.dto.response.VerifyAuditResponse;
+import com.tpa.dto.response.payment.PaymentReconciliationResponse;
+import com.tpa.dto.response.auth.VerifyAuditResponse;
 import com.tpa.entity.*;
 import com.tpa.enums.ClaimStatus;
 import com.tpa.enums.PaymentEventType;
@@ -19,7 +19,6 @@ import java.security.MessageDigest;
 import java.time.LocalDateTime;
 import java.util.HexFormat;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Enhanced AuditLogService with:

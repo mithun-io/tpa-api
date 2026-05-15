@@ -1,6 +1,6 @@
 package com.tpa.helper;
 
-import com.tpa.dto.response.PolicyStatusResponse;
+import com.tpa.dto.response.claim.PolicyStatusResponse;
 import com.tpa.entity.Claim;
 import com.tpa.enums.ClaimStatus;
 import com.tpa.enums.PolicyStatus;

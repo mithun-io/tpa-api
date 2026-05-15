@@ -1,6 +1,8 @@
 package com.tpa.service;
 
-import com.tpa.dto.response.*;
+import com.tpa.dto.response.analytics.*;
+import com.tpa.dto.response.claim.ClaimLeakageResponse;
+import com.tpa.dto.response.payment.PaymentSummaryResponse;
 
 public interface AnalyticsService {
 

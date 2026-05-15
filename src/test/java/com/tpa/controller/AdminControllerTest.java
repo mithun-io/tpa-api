@@ -1,11 +1,11 @@
 package com.tpa.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tpa.dto.request.ClaimReviewRequest;
-import com.tpa.dto.response.ClaimResponse;
-import com.tpa.dto.response.UserResponse;
+import com.tpa.dto.request.claim.ClaimReviewRequest;
+import com.tpa.dto.response.claim.ClaimResponse;
+import com.tpa.dto.response.user.UserResponse;
 import com.tpa.enums.ClaimStatus;
-import com.tpa.dto.response.AiAnalysisResponse;
+import com.tpa.dto.response.analytics.AiAnalysisResponse;
 import com.tpa.exception.GlobalExceptionHandler;
 import com.tpa.exception.NoResourceFoundException;
 import com.tpa.service.AdminService;

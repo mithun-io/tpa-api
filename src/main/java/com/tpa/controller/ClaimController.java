@@ -1,9 +1,9 @@
 package com.tpa.controller;
 
-import com.tpa.dto.request.ClaimRequest;
-import com.tpa.dto.response.ApiResponse;
-import com.tpa.dto.response.BulkClaimProcessResponse;
-import com.tpa.dto.response.ClaimResponse;
+import com.tpa.dto.request.claim.ClaimQueryRequest;
+import com.tpa.dto.request.claim.ClaimRequest;
+import com.tpa.dto.response.auth.ApiResponse;
+import com.tpa.dto.response.claim.*;
 import com.tpa.entity.ClaimAudit;
 import com.tpa.enums.ClaimStatus;
 import com.tpa.service.ClaimService;
@@ -29,116 +29,114 @@ public class ClaimController {
 
     private final ClaimService claimService;
 
-    private String currentUser() {
+    private String currentUsername() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getName();
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('CUSTOMER')")
-    public ResponseEntity<ApiResponse<ClaimResponse>> createClaim(@RequestBody ClaimRequest request) {
-        return ResponseEntity.ok(new ApiResponse<>(true, "Claim created successfully", claimService.createClaim(request, currentUser()), 200));
+    @PreAuthorize("hasRole('PATIENT')")
+    public ResponseEntity<ApiResponse<ClaimResponse>> createClaim(@RequestBody ClaimRequest claimRequest) {
+        ClaimResponse claimResponse = claimService.createClaim(claimRequest, currentUsername());
+        return ResponseEntity.ok(new ApiResponse<>(true, "Claim created successfully", claimResponse, 200));
     }
 
-    @GetMapping("/{id}")
-    @PreAuthorize("""
-            hasAnyRole(
-                'FMG_ADMIN',
-                'FMG_EMPLOYEE',
-                'CARRIER_USER',
-                'CUSTOMER'
-            )
-            """)
-    public ResponseEntity<ApiResponse<ClaimResponse>> getClaim(@PathVariable Long id) {
-        return ResponseEntity.ok(new ApiResponse<>(true, "Claim fetched successfully", claimService.getClaim(id, currentUser()), 200));
+    @GetMapping("/{claimId}")
+    @PreAuthorize("hasAnyRole('ADMIN','SPECIALIST','CARRIER','PATIENT')")
+    public ResponseEntity<ApiResponse<ClaimResponse>> getClaim(@PathVariable Long claimId) {
+        ClaimResponse claimResponse = claimService.getClaim(claimId, currentUsername());
+        return ResponseEntity.ok(new ApiResponse<>(true, "Claim fetched successfully", claimResponse, 200));
+    }
+
+    @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN','SPECIALIST','CARRIER','PATIENT')")
+    public ResponseEntity<ApiResponse<Page<ClaimResponse>>> getAllClaims(Pageable pageable) {
+        Page<ClaimResponse> claimResponses = claimService.getAllClaims(pageable, currentUsername());
+        return ResponseEntity.ok(new ApiResponse<>(true, "Claims fetched successfully", claimResponses, 200));
     }
 
     @GetMapping("/search")
-    public ResponseEntity<ApiResponse<Page<ClaimResponse>>> searchClaims(@RequestParam(required = false) ClaimStatus status,
+    @PreAuthorize("hasAnyRole('ADMIN','SPECIALIST','CARRIER','PATIENT')")
+    public ResponseEntity<ApiResponse<Page<ClaimResponse>>> searchClaims(@RequestParam(required = false) ClaimStatus claimStatus,
                                                                          @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime from,
                                                                          @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime to,
                                                                          @RequestParam(required = false) Double minAmount,
                                                                          @RequestParam(required = false) Double maxAmount,
-                                                                         @RequestParam(required = false) String username,
                                                                          Pageable pageable) {
-        return ResponseEntity.ok(new ApiResponse<>(true, "Claims fetched successfully", claimService.searchClaims(status, from, to, minAmount, maxAmount, username, pageable), 200));
+        Page<ClaimResponse> claimResponses = claimService.searchClaims(claimStatus, from, to, minAmount, maxAmount, currentUsername(), pageable);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Claims search completed", claimResponses, 200));
     }
 
-    @GetMapping
-    public ResponseEntity<ApiResponse<Page<ClaimResponse>>> getAllClaims(Pageable pageable) {
-        return ResponseEntity.ok(new ApiResponse<>(true, "Claims fetched successfully", claimService.getAllClaims(pageable, currentUser()), 200));
+    @GetMapping("/{claimId}/audits")
+    @PreAuthorize("hasAnyRole('ADMIN','SPECIALIST','CARRIER','PATIENT')")
+    public ResponseEntity<ApiResponse<List<ClaimAudit>>> getClaimAudits(@PathVariable Long claimId) {
+        List<ClaimAudit> claimAudits = claimService.getClaimAudits(claimId, currentUsername());
+        return ResponseEntity.ok(new ApiResponse<>(true, "Claim audits fetched successfully", claimAudits, 200));
     }
 
-    @GetMapping("/{id}/export")
-    @PreAuthorize("""
-            hasAnyRole(
-                'FMG_ADMIN',
-                'FMG_EMPLOYEE',
-                'CARRIER_USER',
-                'CUSTOMER'
-            )
-            """)
-    public ResponseEntity<byte[]> exportClaimReport(@PathVariable Long id) {
-        byte[] pdfBytes = claimService.exportClaimReport(id, currentUser());
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_PDF);
-        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"claim-report-" + id + ".pdf\"");
-        headers.setContentLength(pdfBytes.length);
-        return ResponseEntity.ok().headers(headers).body(pdfBytes);
+    @GetMapping("/{claimId}/timeline")
+    @PreAuthorize("hasAnyRole('ADMIN','SPECIALIST','CARRIER','PATIENT')")
+    public ResponseEntity<ApiResponse<List<ClaimTimelineResponse>>> getClaimTimeline(@PathVariable Long claimId) {
+        List<ClaimTimelineResponse> claimTimelineResponses = claimService.getClaimTimeline(claimId, currentUsername());
+        return ResponseEntity.ok(new ApiResponse<>(true, "Claim timeline fetched successfully", claimTimelineResponses, 200));
     }
 
-    @GetMapping("/{id}/audits")
-    @PreAuthorize("""
-            hasAnyRole(
-                'FMG_ADMIN',
-                'FMG_EMPLOYEE',
-                'CARRIER_USER',
-                'CUSTOMER'
-            )
-            """)
-    public ResponseEntity<ApiResponse<List<ClaimAudit>>> getClaimAudits(@PathVariable Long id) {
-        return ResponseEntity.ok(new ApiResponse<>(true, "Claim audits fetched successfully", claimService.getClaimAudits(id, currentUser()), 200));
+    @GetMapping("/{claimId}/export")
+    @PreAuthorize("hasAnyRole('ADMIN','SPECIALIST','CARRIER','PATIENT')")
+    public ResponseEntity<byte[]> exportClaimReport(@PathVariable Long claimId) {
+        byte[] pdf = claimService.exportClaimReport(claimId, currentUsername());
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=claim-report-" + claimId + ".pdf")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdf);
     }
 
-    @GetMapping("/{id}/timeline")
-    @PreAuthorize("""
-            hasAnyRole(
-                'FMG_ADMIN',
-                'FMG_EMPLOYEE',
-                'CARRIER_USER',
-                'CUSTOMER'
-            )
-            """)
-    public ResponseEntity<ApiResponse<List<ClaimAudit>>> getClaimTimeline(@PathVariable Long id) {
-        return ResponseEntity.ok(new ApiResponse<>(true, "Claim timeline fetched successfully", claimService.getClaimTimeline(id, currentUser()), 200));
+    @PutMapping("/{claimId}/carrier-approve")
+    @PreAuthorize("hasRole('CARRIER')")
+    public ResponseEntity<ApiResponse<Void>> carrierApproveClaim(@PathVariable Long claimId) {
+        claimService.carrierApproveClaim(claimId, currentUsername());
+        return ResponseEntity.ok(new ApiResponse<>(true, "Claim approved successfully", null, 200));
     }
 
-    @PutMapping("/{id}/carrier-approve")
-    @PreAuthorize("hasRole('CARRIER_USER')")
-    public ResponseEntity<ApiResponse<Void>> carrierApproveClaim(@PathVariable Long id) {
-        claimService.carrierApproveClaim(id, currentUser());
-        return ResponseEntity.ok(new ApiResponse<>(true, "Claim status updated to carrier approved", null, 200));
-    }
-
-    @DeleteMapping("/{id}")
-    @PreAuthorize("""
-            hasAnyRole(
-                'FMG_ADMIN',
-                'CUSTOMER'
-            )
-            """)
-    public ResponseEntity<ApiResponse<Void>> deleteClaim(@PathVariable Long id) {
-        claimService.deleteClaim(id, currentUser());
+    @DeleteMapping("/{claimId}")
+    @PreAuthorize("hasAnyRole('ADMIN','PATIENT')")
+    public ResponseEntity<ApiResponse<Void>> deleteClaim(@PathVariable Long claimId) {
+        claimService.deleteClaim(claimId, currentUsername());
         return ResponseEntity.ok(new ApiResponse<>(true, "Claim deleted successfully", null, 200));
     }
 
     @PostMapping("/bulk-approve")
-    @PreAuthorize("hasAnyRole('FMG_ADMIN', 'FMG_EMPLOYEE')")
-    public ResponseEntity<ApiResponse<BulkClaimProcessResponse>>
-    bulkApproveClaims(@RequestBody List<Long> claimIds) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        BulkClaimProcessResponse bulkClaimProcessResponse = claimService.processBulkApproval(claimIds, authentication.getName());
+    @PreAuthorize("hasAnyRole('ADMIN','SPECIALIST')")
+    public ResponseEntity<ApiResponse<BulkClaimProcessResponse>> processBulkApproval(@RequestBody List<Long> claimIds) {
+        BulkClaimProcessResponse bulkClaimProcessResponse = claimService.processBulkApproval(claimIds, currentUsername());
+        return ResponseEntity.ok(new ApiResponse<>(true, "Bulk approval processed successfully", bulkClaimProcessResponse, 200));
+    }
 
-        return ResponseEntity.ok(new ApiResponse<>(true, "Bulk claim approval completed successfully", bulkClaimProcessResponse, 200));
+    @GetMapping("/{claimId}/queries")
+    @PreAuthorize("hasAnyRole('ADMIN','SPECIALIST','CARRIER','PATIENT')")
+    public ResponseEntity<ApiResponse<List<ClaimQueryResponse>>> getClaimQueries(@PathVariable Long claimId) {
+        List<ClaimQueryResponse> claimQueryResponses = claimService.getClaimQueries(claimId, currentUsername());
+        return ResponseEntity.ok(new ApiResponse<>(true, "Claim queries fetched successfully", claimQueryResponses, 200));
+    }
+
+    @PostMapping("/{claimId}/queries")
+    @PreAuthorize("hasAnyRole('ADMIN','SPECIALIST','CARRIER','PATIENT')")
+    public ResponseEntity<ApiResponse<ClaimQueryResponse>> createClaimQuery(@PathVariable Long claimId, @RequestBody ClaimQueryRequest claimQueryRequest) {
+        ClaimQueryResponse claimQueryResponsee = claimService.createClaimQuery(claimId, claimQueryRequest, currentUsername());
+        return ResponseEntity.ok(new ApiResponse<>(true, "Claim query created successfully", claimQueryResponsee, 200));
+    }
+
+    @PostMapping("/broadcast/{claimId}")
+    @PreAuthorize("hasAnyRole('ADMIN','SPECIALIST')")
+    public ResponseEntity<ApiResponse<Void>> broadcastStatusUpdate(@PathVariable Long claimId, @RequestParam String status, @RequestParam(required = false) String message) {
+        claimService.broadcastStatusUpdate(claimId, status, message);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Status broadcasted successfully", null, 200));
+    }
+
+    @PostMapping("/notify")
+    @PreAuthorize("hasAnyRole('ADMIN','SPECIALIST')")
+    public ResponseEntity<ApiResponse<Void>> sendUserNotification(@RequestParam String userEmail, @RequestParam String title, @RequestParam String message) {
+        claimService.sendUserNotification(userEmail, title, message);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Notification sent successfully", null, 200));
     }
 }

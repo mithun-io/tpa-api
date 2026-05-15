@@ -1,7 +1,7 @@
 package com.tpa.mapper;
 
-import com.tpa.dto.request.InsuranceProductRequest;
-import com.tpa.dto.response.InsuranceProductResponse;
+import com.tpa.dto.request.claim.InsuranceProductRequest;
+import com.tpa.dto.response.claim.InsuranceProductResponse;
 import com.tpa.entity.InsuranceProduct;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;

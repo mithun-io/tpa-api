@@ -1,8 +1,8 @@
 package com.tpa.service.impl;
 
 import com.tpa.dto.request.ClaimDataRequest;
-import com.tpa.dto.response.ClaimDecisionResponse;
-import com.tpa.dto.response.ClaimResponse;
+import com.tpa.dto.response.claim.ClaimDecisionResponse;
+import com.tpa.dto.response.claim.ClaimResponse;
 import com.tpa.entity.Claim;
 import com.tpa.entity.User;
 import com.tpa.enums.ClaimStatus;

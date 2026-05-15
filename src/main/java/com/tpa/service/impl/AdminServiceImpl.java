@@ -1,6 +1,10 @@
 package com.tpa.service.impl;
 
-import com.tpa.dto.response.*;
+import com.tpa.dto.response.analytics.AiAnalysisResponse;
+import com.tpa.dto.response.analytics.MonitoringResponse;
+import com.tpa.dto.response.claim.ClaimResponse;
+import com.tpa.dto.response.user.CarrierResponse;
+import com.tpa.dto.response.user.UserResponse;
 import com.tpa.entity.Carrier;
 import com.tpa.service.NotificationService;
 import org.springframework.cache.annotation.CacheEvict;
@@ -14,7 +18,7 @@ import com.tpa.kafka.producer.ProducerService;
 import com.tpa.mapper.UserMapper;
 import com.tpa.repository.UserRepository;
 import com.tpa.service.AdminService;
-import com.tpa.dto.request.ClaimReviewRequest;
+import com.tpa.dto.request.claim.ClaimReviewRequest;
 import com.tpa.entity.Claim;
 import com.tpa.enums.ClaimStatus;
 import com.tpa.kafka.event.ClaimNotificationEvent;
