@@ -150,7 +150,7 @@ public class EnterpriseDataSeeder implements ApplicationRunner {
 
         // Ensure the carrier entity exists for the carrier demo user
         userRepository.findByEmail("michael.turner@healthshield.com").ifPresent(carrierUser -> {
-            if (!carrierRepository.existsByUser(carrierUser)) {
+            if (carrierRepository.existsByUser(carrierUser)) {
                 Carrier carrier = Carrier.builder()
                         .user(carrierUser)
                         .companyName("HealthShield Insurance Group")
@@ -259,7 +259,7 @@ public class EnterpriseDataSeeder implements ApplicationRunner {
             User saved = userRepository.save(u);
             seeded.add(saved);
 
-            if (!carrierRepository.existsByUser(saved)) {
+            if (carrierRepository.existsByUser(saved)) {
                 carrierRepository.save(Carrier.builder()
                         .user(saved)
                         .companyName(cd[0])

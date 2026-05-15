@@ -1,5 +1,6 @@
 package com.tpa.service.impl;
 
+import com.tpa.dto.response.AiAnalysisResponse;
 import com.tpa.dto.response.CarrierClaimDetailResponse;
 import com.tpa.dto.response.PolicyStatusResponse;
 import com.tpa.entity.Carrier;
@@ -9,7 +10,11 @@ import com.tpa.enums.PolicyStatus;
 import com.tpa.exception.BadRequestException;
 import com.tpa.exception.NoResourceFoundException;
 import com.tpa.helper.ClaimStateMachine;
-import com.tpa.helper.NotificationService;
+import com.tpa.helper.PolicyValidationHelper;
+import com.tpa.mapper.CarrierClaimMapper;
+import com.tpa.service.AiClaimAssistantService;
+import com.tpa.service.AuditLogService;
+import com.tpa.service.NotificationService;
 import com.tpa.kafka.event.ClaimNotificationEvent;
 import com.tpa.kafka.producer.ProducerService;
 import com.tpa.repository.CarrierRepository;
@@ -22,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -30,11 +36,16 @@ public class CarrierServiceImpl implements CarrierService {
 
     private final CarrierRepository carrierRepository;
     private final ClaimRepository claimRepository;
+
     private final ProducerService producerService;
     private final NotificationService notificationService;
+    private final AuditLogService auditLogService;
+    private final AiClaimAssistantService aiClaimAssistantService;
+
     private final ClaimStateMachine claimStateMachine;
-    private final com.tpa.service.AuditLogService auditLogService;
-    private final com.tpa.mapper.CarrierClaimMapper carrierClaimMapper;
+    private final PolicyValidationHelper policyValidationHelper;
+
+    private final CarrierClaimMapper carrierClaimMapper;
 
     private Carrier getCarrierByUsername(String email) {
         return carrierRepository.findByUser_Email(email).orElseThrow(() -> new NoResourceFoundException("Carrier profile not found. Ensure you are logged in as a Carrier."));
@@ -42,6 +53,7 @@ public class CarrierServiceImpl implements CarrierService {
 
     private Claim getClaimForCarrier(Long claimId, Carrier carrier) {
         Claim claim = claimRepository.findById(claimId).orElseThrow(() -> new NoResourceFoundException("Claim not found: " + claimId));
+
         if (claim.getCarrier() == null || !claim.getCarrier().getId().equals(carrier.getId())) {
             throw new BadRequestException("Claim #" + claimId + " is not assigned to your carrier account.");
         }
@@ -49,8 +61,8 @@ public class CarrierServiceImpl implements CarrierService {
     }
 
     private void guardFinalState(Claim claim) {
-        if (claim.getStatus() == ClaimStatus.CARRIER_APPROVED || claim.getStatus() == ClaimStatus.REJECTED || claim.getStatus() == ClaimStatus.SETTLED) {
-            throw new BadRequestException("Claim #" + claim.getId() + " is already " + claim.getStatus() + " and cannot be modified.");
+        if (claim.getClaimStatus() == ClaimStatus.CARRIER_APPROVED || claim.getClaimStatus() == ClaimStatus.REJECTED || claim.getClaimStatus() == ClaimStatus.SETTLED) {
+            throw new BadRequestException("Claim #" + claim.getId() + " is already " + claim.getClaimStatus() + " and cannot be modified.");
         }
     }
 
@@ -60,6 +72,7 @@ public class CarrierServiceImpl implements CarrierService {
     public List<CarrierClaimDetailResponse> getAssignedClaims(String username) {
         Carrier carrier = getCarrierByUsername(username);
         List<Claim> claims = claimRepository.findByCarrier_Id(carrier.getId());
+
         log.info("Carrier {} fetched {} assigned claims", carrier.getCompanyName(), claims.size());
         return carrierClaimMapper.toCarrierClaimDetailResponses(claims);
     }
@@ -69,6 +82,7 @@ public class CarrierServiceImpl implements CarrierService {
     public CarrierClaimDetailResponse getClaimDetail(Long claimId, String username) {
         Carrier carrier = getCarrierByUsername(username);
         Claim claim = getClaimForCarrier(claimId, carrier);
+
         return carrierClaimMapper.toCarrierClaimDetailResponse(claim);
     }
 
@@ -77,16 +91,17 @@ public class CarrierServiceImpl implements CarrierService {
     public void validatePolicy(Long claimId, String username) {
         Carrier carrier = getCarrierByUsername(username);
         Claim claim = getClaimForCarrier(claimId, carrier);
+
         String note = "[" + LocalDateTime.now() + "] Policy validated by " + carrier.getCompanyName();
         claim.setReviewNotes(claim.getReviewNotes() != null ? claim.getReviewNotes() + "\n" + note : note);
+
         claimRepository.save(claim);
         log.info("Claim {} policy validated by carrier {}", claimId, carrier.getCompanyName());
 
         notificationService.notifyAllAdmins(
                 "\uD83D\uDCCB Claim #" + claimId + " Validated by Carrier",
                 "Claim #" + claimId + " (Policy: " + claim.getPolicyNumber() + ") has been validated by carrier " + carrier.getCompanyName() + ".",
-                "/claims/" + claimId
-        );
+                "/claims/" + claimId);
     }
 
     @Override
@@ -94,7 +109,7 @@ public class CarrierServiceImpl implements CarrierService {
     public void approveClaim(Long claimId, String username) {
         Carrier carrier = getCarrierByUsername(username);
         Claim claim = getClaimForCarrier(claimId, carrier);
-        ClaimStatus previousStatus = claim.getStatus();
+        ClaimStatus previousStatus = claim.getClaimStatus();
 
         log.info("Attempting transition: {} → {}", previousStatus, ClaimStatus.CARRIER_APPROVED);
 
@@ -104,7 +119,7 @@ public class CarrierServiceImpl implements CarrierService {
 
         claimStateMachine.validateTransition(previousStatus, ClaimStatus.CARRIER_APPROVED);
 
-        claim.setStatus(ClaimStatus.CARRIER_APPROVED);
+        claim.setClaimStatus(ClaimStatus.CARRIER_APPROVED);
         claim.setProcessedDate(LocalDateTime.now());
         claim.setReviewedBy(carrier.getCompanyName());
         claim.setReviewedAt(LocalDateTime.now());
@@ -130,11 +145,13 @@ public class CarrierServiceImpl implements CarrierService {
         Carrier carrier = getCarrierByUsername(username);
         Claim claim = getClaimForCarrier(claimId, carrier);
         guardFinalState(claim);
-        claim.setStatus(ClaimStatus.REJECTED);
+
+        claim.setClaimStatus(ClaimStatus.REJECTED);
         claim.setProcessedDate(LocalDateTime.now());
         claim.setReviewedBy(carrier.getCompanyName());
         claim.setReviewedAt(LocalDateTime.now());
         claim.setRejectionReason("Rejected by carrier: " + carrier.getCompanyName());
+
         claimRepository.save(claim);
         log.info("Claim {} REJECTED by carrier {}", claimId, carrier.getCompanyName());
 
@@ -146,8 +163,7 @@ public class CarrierServiceImpl implements CarrierService {
         notificationService.notifyAllAdmins(
                 "Claim #" + claimId + " Rejected by Carrier",
                 "Claim #" + claimId + " (Policy: " + claim.getPolicyNumber() + ") has been rejected by carrier " + carrier.getCompanyName() + ".",
-                "/claims/" + claimId
-        );
+                "/claims/" + claimId);
     }
 
     @Override
@@ -158,6 +174,7 @@ public class CarrierServiceImpl implements CarrierService {
         Claim claim = getClaimForCarrier(claimId, carrier);
         String entry = "[" + LocalDateTime.now() + "] " + carrier.getCompanyName() + ": " + remark;
         claim.setReviewNotes(claim.getReviewNotes() != null ? claim.getReviewNotes() + "\n" + entry : entry);
+
         claimRepository.save(claim);
         log.info("Remark added to claim {} by carrier {}", claimId, carrier.getCompanyName());
     }
@@ -169,9 +186,10 @@ public class CarrierServiceImpl implements CarrierService {
         Claim claim = getClaimForCarrier(claimId, carrier);
 
         String entry = "SUSPICIOUS — flagged by " + carrier.getCompanyName() + " at " + LocalDateTime.now();
+
         claim.setRiskFlags(claim.getRiskFlags() != null ? claim.getRiskFlags() + " | " + entry : entry);
-        claim.setRiskScore(claim.getRiskScore() != null
-                ? Math.min(100.0, claim.getRiskScore() + 25.0) : 75.0);
+        claim.setRiskScore(claim.getRiskScore() != null ? Math.min(100.0, claim.getRiskScore() + 25.0) : 75.0);
+
         claimRepository.save(claim);
         log.info("Claim {} flagged suspicious by carrier {}", claimId, carrier.getCompanyName());
     }
@@ -182,18 +200,19 @@ public class CarrierServiceImpl implements CarrierService {
         Carrier carrier = getCarrierByUsername(username);
         Claim claim = getClaimForCarrier(claimId, carrier);
 
-        boolean hasPolicy = claim.getPolicyNumber() != null && !claim.getPolicyNumber().isBlank() && !claim.getPolicyNumber().startsWith("TEMP-");
-        boolean hasAmount = claim.getAmount() != null && claim.getAmount() > 0;
-        boolean notRejected = claim.getStatus() != ClaimStatus.REJECTED;
+        return policyValidationHelper.buildPolicyStatus(claim);
+    }
 
-        String status = (hasPolicy && hasAmount && notRejected) ? "VALID" : "INVALID";
-        String reason = "VALID".equals(status) ? "Policy is active and claim details are complete."
-                : !hasPolicy ? "Missing or temporary policy number."
-                  : !hasAmount ? "Claim amount is zero or missing."
-                    : "Claim has been rejected — policy coverage cannot be applied.";
+    @Override
+    @Transactional(readOnly = true)
+    public AiAnalysisResponse aiAnalyzeClaim(Long claimId, Map<String, String> body, String username) {
+        Carrier carrier = getCarrierByUsername(username);
+        Claim claim = getClaimForCarrier(claimId, carrier);
 
-        return PolicyStatusResponse.builder()
-                .claimId(claimId).policyNumber(claim.getPolicyNumber())
-                .policyStatus(PolicyStatus.valueOf(status)).reason(reason).build();
+        String prompt = (body != null && body.containsKey("prompt"))
+                ? body.get("prompt")
+                : "Analyze this insurance claim for fraud risk, billing mismatch, and policy coverage issues.";
+
+        return aiClaimAssistantService.analyzeClaim(claim.getId(), prompt);
     }
 }
