@@ -22,6 +22,8 @@ public interface AuthService {
 
     LoginResponse login(LoginRequest loginRequest);
 
+    void logout(String username);
+
     UserResponse passwordChange(PasswordChangeRequest passwordChangeRequest, Principal principal);
 
     void forgetPassword(String email);

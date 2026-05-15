@@ -274,6 +274,15 @@ public class AuthServiceImpl implements AuthService {
 
     @Transactional
     @Override
+    public void logout(String username) {
+        User user = userRepository.findByEmail(username).orElseThrow(() -> new NoResourceFoundException("User not found"));
+
+        refreshTokenService.deleteByUserId(user.getId());
+        log.info("User logged out successfully: {}", username);
+    }
+
+    @Transactional
+    @Override
     public UserResponse passwordChange(PasswordChangeRequest passwordChangeRequest, Principal principal) {
         String email = principal.getName();
         User user = userRepository.findByEmail(email).orElseThrow(() -> new NoResourceFoundException("user not found"));
@@ -327,15 +336,21 @@ public class AuthServiceImpl implements AuthService {
     @Transactional
     @Override
     public LoginResponse refreshToken(RefreshTokenRequest request) {
-        return refreshTokenRepository.findByToken(request.getRefreshToken())
-                .map(refreshTokenService::verifyExpiration)
-                .map(RefreshToken::getUser)
-                .map(user -> {
-                    CustomUserDetails customUserDetails = (CustomUserDetails) customUserDetailsService.loadUserByUsername(user.getEmail());
-                    String token = jwtUtil.generateToken(customUserDetails);
-                    UserResponse userResponse = userMapper.toUserResponse(user);
-                    return new LoginResponse(token, request.getRefreshToken(), userResponse);
-                })
-                .orElseThrow(() -> new BadRequestException("Refresh token is not in database!"));
+        RefreshToken refreshToken = refreshTokenRepository.findByToken(request.getRefreshToken()).orElseThrow(() -> new BadRequestException("Invalid refresh token"));
+        refreshTokenService.verifyExpiration(refreshToken);
+
+        User user = refreshToken.getUser();
+
+        CustomUserDetails customUserDetails = (CustomUserDetails) customUserDetailsService.loadUserByUsername(user.getEmail());
+
+        String accessToken = jwtUtil.generateToken(customUserDetails);
+
+        UserResponse userResponse = userMapper.toUserResponse(user);
+
+        return LoginResponse.builder()
+                .token(accessToken)
+                .refreshToken(refreshToken.getToken())
+                .userResponse(userResponse)
+                .build();
     }
 }

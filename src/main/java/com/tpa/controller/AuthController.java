@@ -11,6 +11,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -55,6 +57,13 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<LoginResponse>> login(@Valid @RequestBody LoginRequest loginRequest) {
         return ResponseEntity.ok(new ApiResponse<>(true, "login successful", authService.login(loginRequest), 200));
+    }
+
+    @PostMapping("/logout")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<ApiResponse<Void>> logout(Authentication authentication) {
+        authService.logout(authentication.getName());
+        return ResponseEntity.ok(new ApiResponse<>(true, "Logged out successfully", null, 200));
     }
 
     @PatchMapping("/password-change")
