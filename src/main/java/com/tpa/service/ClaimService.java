@@ -1,6 +1,7 @@
 package com.tpa.service;
 
 import com.tpa.dto.request.ClaimRequest;
+import com.tpa.dto.response.BulkClaimProcessResponse;
 import com.tpa.dto.response.ClaimDecisionResponse;
 import com.tpa.dto.response.ClaimResponse;
 import com.tpa.entity.ClaimAudit;
@@ -32,4 +33,6 @@ public interface ClaimService {
     void carrierApproveClaim(Long claimId, String username);
 
     void deleteClaim(Long claimId, String username);
+
+    BulkClaimProcessResponse processBulkApproval(List<Long> claimIds, String approvedBy);
 }

@@ -2,6 +2,7 @@ package com.tpa.controller;
 
 import com.tpa.dto.request.ClaimRequest;
 import com.tpa.dto.response.ApiResponse;
+import com.tpa.dto.response.BulkClaimProcessResponse;
 import com.tpa.dto.response.ClaimResponse;
 import com.tpa.entity.ClaimAudit;
 import com.tpa.enums.ClaimStatus;
@@ -129,5 +130,15 @@ public class ClaimController {
     public ResponseEntity<ApiResponse<Void>> deleteClaim(@PathVariable Long id) {
         claimService.deleteClaim(id, currentUser());
         return ResponseEntity.ok(new ApiResponse<>(true, "Claim deleted successfully", null, 200));
+    }
+
+    @PostMapping("/bulk-approve")
+    @PreAuthorize("hasAnyRole('FMG_ADMIN', 'FMG_EMPLOYEE')")
+    public ResponseEntity<ApiResponse<BulkClaimProcessResponse>>
+    bulkApproveClaims(@RequestBody List<Long> claimIds) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        BulkClaimProcessResponse bulkClaimProcessResponse = claimService.processBulkApproval(claimIds, authentication.getName());
+
+        return ResponseEntity.ok(new ApiResponse<>(true, "Bulk claim approval completed successfully", bulkClaimProcessResponse, 200));
     }
 }

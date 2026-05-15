@@ -1,6 +1,7 @@
 package com.tpa.service.impl;
 
 import com.tpa.dto.request.ClaimRequest;
+import com.tpa.dto.response.BulkClaimProcessResponse;
 import com.tpa.dto.response.ClaimDecisionResponse;
 import com.tpa.dto.response.ClaimResponse;
 import com.tpa.entity.Carrier;
@@ -11,6 +12,7 @@ import com.tpa.enums.ClaimStatus;
 import com.tpa.enums.UserRole;
 import com.tpa.exception.BadRequestException;
 import com.tpa.exception.NoResourceFoundException;
+import com.tpa.helper.AuditForensicService;
 import com.tpa.helper.ClaimSpecification;
 import com.tpa.helper.ClaimStateMachine;
 import com.tpa.helper.PdfExportService;
@@ -26,6 +28,7 @@ import com.tpa.repository.UserRepository;
 import com.tpa.service.AuditLogService;
 import com.tpa.service.CarrierService;
 import com.tpa.service.ClaimService;
+import com.tpa.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
@@ -61,9 +64,10 @@ public class ClaimServiceImpl implements ClaimService {
 
     private final ProducerService producerService;
     private final AuditLogService auditLogService;
-
     private final PdfExportService pdfExportService;
     private final CarrierService carrierService;
+    private final PaymentService paymentService;
+    private final AuditForensicService auditForensicService;
 
     private User getUser(String username) {
         return userRepository.findByEmail(username).orElseThrow(() -> new RuntimeException("User not found"));
@@ -261,5 +265,41 @@ public class ClaimServiceImpl implements ClaimService {
         claimAuditRepository.deleteByClaimId(claimId);
         claimDocumentRepository.deleteByClaimId(claimId);
         claimRepository.delete(claim);
+    }
+
+    @Override
+    @Transactional
+    public BulkClaimProcessResponse processBulkApproval(List<Long> claimIds, String approvedBy) {
+        log.info("[BULK-SETTLEMENT] Processing approval for {} claims by {}", claimIds.size(), approvedBy);
+
+        int successCount = 0;
+        int failCount = 0;
+
+        for (Long claimId : claimIds) {
+            try {
+                Claim claim = claimRepository.findById(claimId).orElseThrow(() -> new RuntimeException("Claim not found: " + claimId));
+
+                claim.setClaimStatus(ClaimStatus.APPROVED);
+                claim.setReviewedBy(approvedBy);
+                claim.setReviewedAt(LocalDateTime.now());
+
+                claimRepository.save(claim);
+
+                paymentService.initiateInstantPayout(claim);
+                auditForensicService.logAction(claimId, "BULK_APPROVAL", "Claim approved via Bulk Settlement Portal", approvedBy);
+
+                successCount++;
+            } catch (Exception e) {
+                log.error("Failed to process bulk approval for claim #{}", claimId, e);
+
+                failCount++;
+            }
+        }
+
+        return BulkClaimProcessResponse.builder()
+                .totalProcessed(claimIds.size())
+                .success(successCount)
+                .failed(failCount)
+                .build();
     }
 }
