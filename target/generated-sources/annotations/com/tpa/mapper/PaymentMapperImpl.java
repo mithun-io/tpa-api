@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-05-14T20:07:27+0530",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.12 (Oracle Corporation)"
+    date = "2026-05-16T20:00:35+0530",
+    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.18 (Eclipse Adoptium)"
 )
 @Component
 public class PaymentMapperImpl implements PaymentMapper {
@@ -32,6 +32,15 @@ public class PaymentMapperImpl implements PaymentMapper {
         String razorpayOrderId = null;
         String razorpayPaymentId = null;
         LocalDateTime createdAt = null;
+
+        id = payment.getId();
+        claimId = payment.getClaimId();
+        amount = payment.getAmount();
+        currency = payment.getCurrency();
+        status = payment.getStatus();
+        razorpayOrderId = payment.getRazorpayOrderId();
+        razorpayPaymentId = payment.getRazorpayPaymentId();
+        createdAt = payment.getCreatedAt();
 
         PaymentResponse paymentResponse = new PaymentResponse( id, claimId, amount, currency, status, razorpayOrderId, razorpayPaymentId, createdAt );
 
@@ -58,8 +67,11 @@ public class PaymentMapperImpl implements PaymentMapper {
             return null;
         }
 
-        Payment payment = new Payment();
+        Payment.PaymentBuilder payment = Payment.builder();
 
-        return payment;
+        payment.claimId( createPaymentOrderRequest.claimId() );
+        payment.amount( createPaymentOrderRequest.amount() );
+
+        return payment.build();
     }
 }

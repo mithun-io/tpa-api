@@ -17,9 +17,9 @@ import java.util.List;
 public interface CarrierClaimMapper {
 
     @Mapping(source = "id", target = "claimId")
-    @Mapping(target = "patient", expression = "java(mapPatientInfo(claim))")
-    @Mapping(target = "fraud", expression = "java(mapFraudInfo(claim))")
-    @Mapping(source = "claim", target = "policy")
+    @Mapping(target = "patientInfo", expression = "java(mapPatientInfo(claim))")
+    @Mapping(target = "fraudInfo", expression = "java(mapFraudInfo(claim))")
+    @Mapping(source = "claim", target = "policyInfo")
     CarrierClaimDetailResponse toCarrierClaimDetailResponse(Claim claim);
 
     List<CarrierClaimDetailResponse> toCarrierClaimDetailResponses(List<Claim> claims);

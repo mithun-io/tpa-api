@@ -25,7 +25,7 @@ public interface CarrierMapper {
 
     @Mapping(source = "name", target = "user.username")
     @Mapping(source = "email", target = "user.email")
-    @Mapping(source = "mobile", target = "user.phoneNumber")
+    @Mapping(source = "phoneNumber", target = "user.phoneNumber")
     @Mapping(source = "address", target = "user.address")
     @Mapping(target = "user.password", ignore = true)
     Carrier toCarrier(CarrierRequest carrierRequest);

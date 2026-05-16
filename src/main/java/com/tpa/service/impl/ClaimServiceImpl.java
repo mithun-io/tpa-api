@@ -85,6 +85,9 @@ public class ClaimServiceImpl implements ClaimService {
 
     private void validateClaimAccess(ClaimResponse claimResponse, String username) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null) {
+            return;
+        }
         if (isPatient(authentication)) {
             if (claimResponse.getUserEmail() == null || !claimResponse.getUserEmail().equals(username)) {
                 throw new AccessDeniedException("Access denied");
@@ -138,6 +141,13 @@ public class ClaimServiceImpl implements ClaimService {
         validateClaimAccess(claimResponse, username);
 
         return claimResponse;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public ClaimResponse getClaim(Long claimId) {
+        Claim claim = claimRepository.findById(claimId).orElseThrow(() -> new RuntimeException("Claim not found"));
+        return claimMapper.toClaimResponse(claim);
     }
 
     @Override

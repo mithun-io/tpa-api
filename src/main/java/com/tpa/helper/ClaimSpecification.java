@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public class ClaimSpecification {
 
     public static Specification<Claim> hasStatus(ClaimStatus claimStatus) {
-        return (root, query, cb) -> claimStatus == null ? null : cb.equal(root.get("status"), claimStatus);
+        return (root, query, cb) -> claimStatus == null ? null : cb.equal(root.get("claimStatus"), claimStatus);
     }
 
     public static Specification<Claim> createdBetween(LocalDateTime from, LocalDateTime to) {

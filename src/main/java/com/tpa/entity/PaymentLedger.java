@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Table(name = "payment_ledger", indexes = {
         @Index(name = "idx_pl_claim_id", columnList = "claimId"),
         @Index(name = "idx_pl_payment_id", columnList = "paymentId"),
-        @Index(name = "idx_pl_event_type", columnList = "eventType")
+        @Index(name = "idx_pl_event_type", columnList = "paymentEventType")
 })
 @Data
 @Builder

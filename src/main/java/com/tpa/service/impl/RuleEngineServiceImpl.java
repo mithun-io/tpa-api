@@ -181,7 +181,7 @@ public class RuleEngineServiceImpl implements RuleEngineService {
             long executionTime) {
 
         RuleExecutionAudit ruleExecutionAudit = RuleExecutionAudit.builder()
-                .claimId(claimId)
+                .claimId(claimId != null ? claimId : 0L)
                 .ruleKey(ruleKey)
                 .ruleType(ruleType)
                 .ruleVersion(version)
@@ -327,7 +327,7 @@ public class RuleEngineServiceImpl implements RuleEngineService {
     @Override
     @Transactional(readOnly = true)
     public List<RuleExecutionAudit> getSimulationAudits() {
-        return ruleExecutionAuditRepository.findBySimulationModeTrueOrderByExecutedAtDesc();
+        return ruleExecutionAuditRepository.findBySimulationTrueOrderByExecutedAtDesc();
     }
 
     @Override

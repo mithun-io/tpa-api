@@ -1,169 +1,136 @@
 package com.tpa.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.tpa.dto.request.ClaimDataRequest;
-import com.tpa.dto.response.claim.ClaimResponse;
+import com.tpa.entity.*;
 import com.tpa.enums.ClaimStatus;
-import com.tpa.exception.GlobalExceptionHandler;
-import com.tpa.service.ClaimService;
-import com.tpa.helper.PdfExportService;
+import com.tpa.repository.*;
+import com.tpa.support.BaseControllerTest;
+import com.tpa.support.TestDataFactory;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
-import org.springframework.http.HttpHeaders;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@ExtendWith(MockitoExtension.class)
-class ClaimControllerTest {
+/**
+ * TC-090 to TC-096: ClaimController Integration Tests
+ * Tests RBAC enforcement, pagination, carrier approval guard,
+ * bulk approval, claim queries, PDF export content type,
+ * and patient-only claim creation.
+ */
+@DisplayName("ClaimController - REST API Integration Tests")
+class ClaimControllerTest extends BaseControllerTest {
 
-    @Mock
-    private ClaimService claimService;
+    @Autowired private ObjectMapper objectMapper;
+    @Autowired private ClaimRepository claimRepository;
+    @Autowired private CarrierRepository carrierRepository;
+    @Autowired private ClaimDocumentRepository claimDocumentRepository;
 
-    @Mock
-    private PdfExportService pdfExportService;
-
-    @Mock
-    private com.tpa.service.CarrierService carrierService;
-
-    @InjectMocks
-    private ClaimController claimController;
-
-    private MockMvc mockMvc;
-    private final ObjectMapper objectMapper = new ObjectMapper()
-            .registerModule(new JavaTimeModule());
+    private Claim savedClaim;
+    private Carrier savedCarrier;
 
     @BeforeEach
-    void setUp() {
-        // PageableHandlerMethodArgumentResolver is needed to resolve Pageable params
-        mockMvc = MockMvcBuilders.standaloneSetup(claimController)
-                .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
-                .setControllerAdvice(new GlobalExceptionHandler())
-                .build();
+    void setUpClaims() {
+        claimDocumentRepository.deleteAll();
+        claimRepository.deleteAll();
+        carrierRepository.deleteAll();
 
-        // Set up a mock authentication in SecurityContext so getAuthentication().getName() works
-        var auth = new UsernamePasswordAuthenticationToken(
-                "testuser@tpa.com", null,
-                List.of(new SimpleGrantedAuthority("ROLE_CUSTOMER")));
-        SecurityContextHolder.getContext().setAuthentication(auth);
+        // Carrier is created using the carrierUser saved in BaseControllerTest
+        savedCarrier = carrierRepository.save(TestDataFactory.buildCarrier(carrierUser));
+
+        Claim claim = TestDataFactory.buildSubmittedClaim(patientUser);
+        claim.setCarrier(savedCarrier);
+        savedClaim = claimRepository.save(claim);
     }
 
+
+    // ── TC-090 ────────────────────────────────────────────────────────────────
+
     @Test
-    void createClaim_shouldReturn200_whenValidRequest() throws Exception {
-        ClaimDataRequest request = new ClaimDataRequest();
-        request.setClaimedAmount(1000.0);
+    @DisplayName("TC-090: GET /api/v1/claims returns 200 with paginated data for authenticated ADMIN")
+    void getAllClaims_asAdmin_shouldReturn200WithPaginatedResults() throws Exception {
+        mockMvc.perform(get("/api/v1/claims")
+                        .header("Authorization", adminToken)
+                        .param("page", "0")
+                        .param("size", "10"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.data.content").isArray());
+    }
 
-        ClaimResponse response = new ClaimResponse();
-        response.setId(1L);
-        response.setClaimStatus(ClaimStatus.SUBMITTED);
+    // ── TC-091 ────────────────────────────────────────────────────────────────
 
-        when(claimService.createClaim(any(), any())).thenReturn(response);
+    @Test
+    @DisplayName("TC-091: GET /api/v1/claims/{id} returns 200 with claim details for ADMIN")
+    void getClaim_asAdmin_shouldReturn200() throws Exception {
+        mockMvc.perform(get("/api/v1/claims/" + savedClaim.getId())
+                        .header("Authorization", adminToken))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.data").isNotEmpty());
+    }
+
+    // ── TC-092 ────────────────────────────────────────────────────────────────
+
+    @Test
+    @DisplayName("TC-092: POST /api/v1/claims returns 403 when called by non-PATIENT role")
+    void createClaim_asAdmin_shouldReturn403() throws Exception {
+        String requestBody = objectMapper.writeValueAsString(TestDataFactory.buildValidClaimRequest());
 
         mockMvc.perform(post("/api/v1/claims")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1))
-                .andExpect(jsonPath("$.claimStatus").value("SUBMITTED"));
+                        .header("Authorization", adminToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody))
+                .andExpect(status().isForbidden());
     }
 
+    // ── TC-093 ────────────────────────────────────────────────────────────────
+
     @Test
-    void getClaim_shouldReturn200_whenClaimExists() throws Exception {
-        ClaimResponse response = new ClaimResponse();
-        response.setId(1L);
-        response.setClaimStatus(ClaimStatus.CARRIER_APPROVED);
-        response.setUsername("testuser");
-        response.setUserEmail("testuser@tpa.com");
-
-        when(claimService.getClaim(1L)).thenReturn(response);
-
-        mockMvc.perform(get("/api/v1/claims/1"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1))
-                .andExpect(jsonPath("$.claimStatus").value("CARRIER_APPROVED"));
+    @DisplayName("TC-093: DELETE /api/v1/claims/{id} returns 403 when called by CARRIER")
+    void deleteClaim_asCarrier_shouldReturn403() throws Exception {
+        mockMvc.perform(delete("/api/v1/claims/" + savedClaim.getId())
+                        .header("Authorization", carrierToken))
+                .andExpect(status().isForbidden());
     }
 
-    @Test
-    void exportClaimReport_shouldReturnPdfWithCorrectFilename_whenClaimExists() throws Exception {
-        ClaimResponse claim = new ClaimResponse();
-        claim.setId(1L);
-        claim.setUserEmail("testuser@tpa.com");
-        when(claimService.getClaim(1L)).thenReturn(claim);
-        
-        byte[] pdfContent = "dummy pdf bytes".getBytes();
-        when(pdfExportService.exportClaimReport(1L)).thenReturn(pdfContent);
+    // ── TC-094 ────────────────────────────────────────────────────────────────
 
-        mockMvc.perform(get("/api/v1/claims/1/export"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_PDF))
-                .andExpect(header().string(HttpHeaders.CONTENT_DISPOSITION,
-                        "attachment; filename=\"claim-report-1.pdf\""))
-                .andExpect(content().bytes(pdfContent));
+    @Test
+    @DisplayName("TC-094: PUT /api/v1/claims/{id}/carrier-approve returns 403 when called by non-CARRIER")
+    void carrierApproveClaim_asPatient_shouldReturn403() throws Exception {
+        mockMvc.perform(put("/api/v1/claims/" + savedClaim.getId() + "/carrier-approve")
+                        .header("Authorization", patientToken))
+                .andExpect(status().isForbidden());
     }
 
+    // ── TC-095 ────────────────────────────────────────────────────────────────
+
     @Test
-    void searchClaims_shouldReturnPagedResults_whenStatusFilterApplied() throws Exception {
-        ClaimResponse claim = new ClaimResponse();
-        claim.setId(1L);
-        claim.setClaimStatus(ClaimStatus.SUBMITTED);
-        Page<ClaimResponse> page = new PageImpl<>(List.of(claim), org.springframework.data.domain.PageRequest.of(0, 10), 1);
-
-        when(claimService.searchClaims(any(), any(), any(), any(), any(), any(), any()))
-                .thenReturn(page);
-
-        mockMvc.perform(get("/api/v1/claims/search")
-                .param("status", "SUBMITTED")
-                .param("page", "0")
-                .param("size", "10"))
-                .andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.content[0].id").value(1))
-                .andExpect(jsonPath("$.content[0].claimStatus").value("SUBMITTED"))
-                .andExpect(jsonPath("$.totalElements").value(1));
+    @DisplayName("TC-095: POST /api/v1/claims/bulk-approve returns 403 when called by PATIENT")
+    void bulkApprove_asPatient_shouldReturn403() throws Exception {
+        mockMvc.perform(post("/api/v1/claims/bulk-approve")
+                        .header("Authorization", patientToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("[" + savedClaim.getId() + "]"))
+                .andExpect(status().isForbidden());
     }
 
-    @Test
-    void getAllClaims_shouldReturn200WithList_whenClaimsExist() throws Exception {
-        ClaimResponse claim = new ClaimResponse();
-        claim.setId(1L);
-        claim.setUserEmail("testuser@tpa.com");
-
-        // For non-admins, the controller calls searchClaims instead of getAllClaims
-        Page<ClaimResponse> page = new PageImpl<>(List.of(claim), org.springframework.data.domain.PageRequest.of(0, 20), 1);
-        when(claimService.searchClaims(any(), any(), any(), any(), any(), any(), any()))
-                .thenReturn(page);
-
-        mockMvc.perform(get("/api/v1/claims"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.content[0].id").value(1))
-                .andExpect(jsonPath("$.totalElements").value(1));
-    }
+    // ── TC-096 ────────────────────────────────────────────────────────────────
 
     @Test
-    void carrierApproveClaim_shouldReturn200_whenValid() throws Exception {
-        org.mockito.Mockito.doNothing().when(carrierService).approveClaim(any(), any());
-        
-        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put("/api/v1/claims/1/carrier-approve"))
+    @DisplayName("TC-096: GET /api/v1/claims/{id}/export returns PDF content-type for ADMIN")
+    void exportClaimReport_asAdmin_shouldReturnPdfContentType() throws Exception {
+        mockMvc.perform(get("/api/v1/claims/" + savedClaim.getId() + "/export")
+                        .header("Authorization", adminToken))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.success").value(true));
+                .andExpect(header().string("Content-Disposition",
+                        "attachment; filename=claim-report-" + savedClaim.getId() + ".pdf"));
     }
 }

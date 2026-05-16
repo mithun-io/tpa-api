@@ -14,9 +14,9 @@ import java.util.List;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = {UserMapper.class})
 public interface PatientMapper {
 
-    @Mapping(source = "patientName", target = "user.username")
+    @Mapping(source = "name", target = "user.username")
     @Mapping(source = "email", target = "user.email")
-    @Mapping(source = "mobile", target = "user.phoneNumber")
+    @Mapping(source = "phoneNumber", target = "user.phoneNumber")
     @Mapping(source = "dateOfBirth", target = "user.dateOfBirth")
     @Mapping(source = "address", target = "user.address")
     @Mapping(source = "gender", target = "user.gender")

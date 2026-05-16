@@ -41,4 +41,15 @@ public class Carrier {
 
     @Column(nullable = true)
     private String website;
+
+    @Column(name = "ai_risk_score")
+    private Double aiRiskScore;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "ai_risk_status")
+    private AiRiskStatus aiRiskStatus;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "ai_recommendation")
+    private AiRecommendation aiRecommendation;
 }

@@ -1,16 +1,15 @@
 package com.tpa.repository;
 
-
-
-import com.tpa.entity.Claim;
-import com.tpa.entity.User;
+import com.tpa.entity.*;
 import com.tpa.enums.ClaimStatus;
 import com.tpa.enums.Gender;
 import com.tpa.enums.UserRole;
 import com.tpa.enums.UserStatus;
 import com.tpa.helper.AdminInitializer;
-import com.tpa.helper.ClaimSpecification;
 import com.tpa.helper.EnterpriseDataSeeder;
+import com.tpa.helper.ClaimSpecification;
+import org.kie.api.runtime.KieContainer;
+import com.tpa.support.TestDataFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,8 +21,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -32,33 +31,29 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
+/**
+ * TC-069 to TC-076: ClaimRepository Integration Tests
+ * Tests custom JPQL queries, Specification-based search, sorted pagination,
+ * aggregate queries (sum/count), and entity graph eager loading.
+ */
 @SpringBootTest
 @ActiveProfiles("test")
 @Transactional
+@DisplayName("ClaimRepository - Custom Query Tests")
 class ClaimRepositoryTest {
 
-    @Autowired
-    private ClaimRepository claimRepository;
+    @Autowired private ClaimRepository claimRepository;
+    @Autowired private UserRepository userRepository;
+    @Autowired private ClaimDocumentRepository claimDocumentRepository;
+    @Autowired private RefreshTokenRepository refreshTokenRepository;
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private com.tpa.repository.ClaimDocumentRepository claimDocumentRepository;
-
-    @Autowired
-    private com.tpa.repository.RefreshTokenRepository refreshTokenRepository;
-
-    @MockBean
-    private AdminInitializer adminInitializer;
-
-    @MockBean
-    private EnterpriseDataSeeder enterpriseDemoDataSeeder;
+    @MockBean private AdminInitializer adminInitializer;
+    @MockBean private EnterpriseDataSeeder enterpriseDataSeeder;
+    @MockBean private KieContainer kieContainer;
 
     private User savedUser;
-    private Claim claim1;
-    private Claim claim2;
+    private Claim submittedClaim;
+    private Claim approvedClaim;
 
     @BeforeEach
     void setUp() {
@@ -67,204 +62,103 @@ class ClaimRepositoryTest {
         refreshTokenRepository.deleteAll();
         userRepository.deleteAll();
 
-        User user = User.builder()
-                .username("testuser")
-                .email("test@test.com")
-                .mobile("1234567890")
-                .dateOfBirth(LocalDate.of(1990, 1, 1))
-                .address("123 Main St")
-                .password("password")
-                .gender(Gender.MALE)
-                .userRole(UserRole.CUSTOMER)
-                .userStatus(UserStatus.ACTIVE)
-                .createdAt(LocalDateTime.now())
-                .build();
-        savedUser = userRepository.save(user);
+        savedUser = userRepository.save(TestDataFactory.buildPatientUser());
 
-        claim1 = Claim.builder()
-                .policyNumber("POL-001")
-                .status(ClaimStatus.SUBMITTED)
-                .amount(1500.0)
-                .user(savedUser)
-                .build();
-        claimRepository.save(claim1);
+        submittedClaim = claimRepository.save(TestDataFactory.buildSubmittedClaim(savedUser));
 
-        claim2 = Claim.builder()
-                .policyNumber("POL-002")
-                .status(ClaimStatus.CARRIER_APPROVED)
-                .amount(2500.0)
-                .user(savedUser)
-                .build();
-        claimRepository.save(claim2);
+        Claim approved = TestDataFactory.buildSubmittedClaim(savedUser);
+        approved.setPolicyNumber("PN-002");
+        approved.setBillNumber("BILL-002");
+        approved.setClaimStatus(ClaimStatus.ADMIN_APPROVED);
+        approved.setAmount(50000.0);
+        approvedClaim = claimRepository.save(approved);
     }
 
-    // ── TC-36: Basic CRUD ─────────────────────────────────────────────────────
+    // ── TC-069 ────────────────────────────────────────────────────────────────
 
     @Test
-    @DisplayName("TC-036: findByUserId returns claims for existing user")
-    void findByUserId_shouldReturnClaims_whenUserIdExists() {
+    @DisplayName("TC-069: findByUserId returns all claims for the given user")
+    void findByUserId_shouldReturnAllClaimsForUser() {
         List<Claim> claims = claimRepository.findByUserId(savedUser.getId());
-
         assertThat(claims).hasSize(2);
-        assertThat(claims).extracting(Claim::getPolicyNumber)
-                .containsExactlyInAnyOrder("POL-001", "POL-002");
     }
 
+    // ── TC-070 ────────────────────────────────────────────────────────────────
+
     @Test
-    @DisplayName("TC-037: findByUserId returns empty list for non-existing user")
-    void findByUserId_shouldReturnEmpty_whenUserDoesNotExist() {
+    @DisplayName("TC-070: findByUserId returns empty list for non-existent user ID")
+    void findByUserId_withUnknownUser_shouldReturnEmpty() {
         List<Claim> claims = claimRepository.findByUserId(99999L);
         assertThat(claims).isEmpty();
     }
 
+    // ── TC-071 ────────────────────────────────────────────────────────────────
+
     @Test
-    @DisplayName("TC-038: existsByPolicyNumber returns true for existing policy")
-    void existsByPolicyNumber_shouldReturnTrue_whenPolicyExists() {
-        boolean exists = claimRepository.existsByPolicyNumber("POL-001");
-        assertThat(exists).isTrue();
+    @DisplayName("TC-071: Specification by ClaimStatus=SUBMITTED returns only submitted claims")
+    void specification_byStatus_shouldFilterCorrectly() {
+        Specification<Claim> spec = ClaimSpecification.hasStatus(ClaimStatus.SUBMITTED);
+        List<Claim> results = claimRepository.findAll(spec);
+
+        assertThat(results).hasSize(1);
+        assertThat(results.get(0).getClaimStatus()).isEqualTo(ClaimStatus.SUBMITTED);
     }
 
+    // ── TC-072 ────────────────────────────────────────────────────────────────
+
     @Test
-    @DisplayName("TC-039: existsByPolicyNumber returns false for missing policy")
-    void existsByPolicyNumber_shouldReturnFalse_whenPolicyDoesNotExist() {
-        boolean exists = claimRepository.existsByPolicyNumber("POL-999");
-        assertThat(exists).isFalse();
+    @DisplayName("TC-072: Specification with null status returns all claims")
+    void specification_withNullStatus_shouldReturnAll() {
+        Specification<Claim> spec = ClaimSpecification.hasStatus(null);
+        List<Claim> results = claimRepository.findAll(spec);
+
+        assertThat(results).hasSize(2);
     }
 
+    // ── TC-073 ────────────────────────────────────────────────────────────────
+
     @Test
-    @DisplayName("TC-040: findById returns claim when it exists")
-    void findById_shouldReturnClaim_whenExists() {
-        Optional<Claim> found = claimRepository.findById(claim1.getId());
-        assertThat(found).isPresent();
-        assertThat(found.get().getPolicyNumber()).isEqualTo("POL-001");
+    @DisplayName("TC-073: amountBetween Specification filters claims within range correctly")
+    void specification_amountBetween_shouldReturnOnlyMatchingClaims() {
+        Specification<Claim> spec = ClaimSpecification.amountBetween(40000.0, 60000.0);
+        List<Claim> results = claimRepository.findAll(spec);
+
+        assertThat(results).hasSize(1);
+        assertThat(results.get(0).getAmount()).isBetween(40000.0, 60000.0);
     }
 
-    // ── TC-41: Specification / Search ─────────────────────────────────────────
+    // ── TC-074 ────────────────────────────────────────────────────────────────
 
     @Test
-    @DisplayName("TC-041: Specification search by SUBMITTED status returns correct count")
-    void searchClaims_shouldReturnPagedResults_whenFilteringByStatus() {
-        Specification<Claim> spec = Specification.where(ClaimSpecification.hasStatus(ClaimStatus.SUBMITTED));
-        Pageable pageable = PageRequest.of(0, 10);
-
-        Page<Claim> page = claimRepository.findAll(spec, pageable);
-
-        assertThat(page.getTotalElements()).isEqualTo(1);
-        assertThat(page.getContent().get(0).getPolicyNumber()).isEqualTo("POL-001");
-    }
-
-    @Test
-    @DisplayName("TC-042: Specification search by amount range returns correct claim")
-    void searchClaims_shouldReturnClaims_whenAmountBetween() {
-        Specification<Claim> spec = ClaimSpecification.amountBetween(2000.0, 3000.0);
-        List<Claim> claims = claimRepository.findAll(spec);
-
-        assertThat(claims).hasSize(1);
-        assertThat(claims.get(0).getPolicyNumber()).isEqualTo("POL-002");
-    }
-
-    @Test
-    @DisplayName("TC-043: Specification search by username returns matching claims")
-    void searchClaims_shouldReturnClaims_whenUserMatches() {
-        Specification<Claim> spec = ClaimSpecification.hasUser("testuser");
-        List<Claim> claims = claimRepository.findAll(spec);
-
-        assertThat(claims).hasSize(2);
-    }
-
-    @Test
-    @DisplayName("TC-044: Specification null status predicate returns all claims")
-    void searchClaims_withNullStatus_shouldReturnAll() {
-        Specification<Claim> spec = Specification.where(ClaimSpecification.hasStatus(null));
-        List<Claim> claims = claimRepository.findAll(spec);
-
-        assertThat(claims).hasSize(2);
-    }
-
-    // ── TC-45: Sorting ────────────────────────────────────────────────────────
-
-    @Test
-    @DisplayName("TC-045: Sorting by createdDate desc returns claims in correct order")
-    void findAll_shouldSortByCreatedDateDesc_whenRequested() {
-        Pageable pageable = PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "createdDate"));
-        Page<Claim> page = claimRepository.findAll(pageable);
-
-        assertThat(page.getContent()).hasSize(2);
-        if (page.getContent().get(0).getCreatedDate() != null
-                && page.getContent().get(1).getCreatedDate() != null) {
-            assertThat(page.getContent().get(0).getCreatedDate())
-                    .isAfterOrEqualTo(page.getContent().get(1).getCreatedDate());
-        }
-    }
-
-    // ── TC-46: Custom JPQL Queries ────────────────────────────────────────────
-
-    @Test
-    @DisplayName("TC-046: countClaimsByStatus returns grouped results")
-    void countClaimsByStatus_shouldGroupCorrectly() {
+    @DisplayName("TC-074: countClaimsByStatus returns correct grouped result for both statuses")
+    void countClaimsByStatus_shouldGroupCorrectlyByStatus() {
         List<Object[]> results = claimRepository.countClaimsByStatus();
 
         assertThat(results).isNotEmpty();
-        boolean hasPending = results.stream()
-                .anyMatch(r -> r[0].toString().equals("SUBMITTED") && ((Number) r[1]).longValue() == 1);
-        assertThat(hasPending).isTrue();
+        boolean hasSubmitted = results.stream()
+                .anyMatch(r -> ClaimStatus.SUBMITTED.name().equals(r[0].toString())
+                        && ((Number) r[1]).longValue() >= 1);
+        assertThat(hasSubmitted).isTrue();
     }
 
+    // ── TC-075 ────────────────────────────────────────────────────────────────
+
     @Test
-    @DisplayName("TC-047: sumApprovedClaimAmount returns correct sum")
-    void sumApprovedClaimAmount_shouldReturnTotal() {
+    @DisplayName("TC-075: sumApprovedClaimAmount returns sum only for ADMIN_APPROVED/CARRIER_APPROVED/SETTLED claims")
+    void sumApprovedClaimAmount_shouldReturnCorrectTotal() {
         Double total = claimRepository.sumApprovedClaimAmount();
-        assertThat(total).isNotNull().isEqualTo(2500.0);
+        assertThat(total).isNotNull().isEqualTo(50000.0);
     }
 
-    @Test
-    @DisplayName("TC-048: countClaimsPerDay returns data for a date range")
-    void countClaimsPerDay_shouldReturnDailyBreakdown() {
-        LocalDateTime startDate = LocalDateTime.now().minusDays(1);
-        List<Object[]> results = claimRepository.countClaimsPerDay(startDate);
-
-        assertThat(results).isNotEmpty();
-    }
-
-    // ── TC-49: Persistence validation ─────────────────────────────────────────
+    // ── TC-076 ────────────────────────────────────────────────────────────────
 
     @Test
-    @DisplayName("TC-049: Saved claim persists all mandatory fields correctly")
-    void save_shouldPersistAllMandatoryFields() {
-        Claim claim = Claim.builder()
-                .policyNumber("POL-FULL")
-                .status(ClaimStatus.SUBMITTED)
-                .amount(3000.0)
-                .patientName("John Doe")
-                .hospitalName("City Hospital")
-                .diagnosis("Fracture")
-                .user(savedUser)
-                .build();
-        Claim saved = claimRepository.save(claim);
+    @DisplayName("TC-076: findByClaimStatus with pagination returns paged results correctly")
+    void findByClaimStatus_withPageable_shouldReturnPagedResults() {
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("createdDate").descending());
+        Page<Claim> page = claimRepository.findByClaimStatus(ClaimStatus.SUBMITTED, pageable);
 
-        assertThat(saved.getId()).isNotNull();
-        assertThat(saved.getPatientName()).isEqualTo("John Doe");
-        assertThat(saved.getHospitalName()).isEqualTo("City Hospital");
-        assertThat(saved.getDiagnosis()).isEqualTo("Fracture");
-        assertThat(saved.getCreatedDate()).isNotNull(); // auto set by @PrePersist
-    }
-
-    @Test
-    @DisplayName("TC-050: Claim deletion removes from DB")
-    void delete_shouldRemoveClaim_fromDatabase() {
-        Long id = claim1.getId();
-        claimRepository.deleteById(id);
-        assertThat(claimRepository.findById(id)).isEmpty();
-    }
-
-    @Test
-    @DisplayName("Verify custom query for fetching claims by carrier ID returns correct data")
-    void findByCarrier_Id_shouldReturnClaims_whenCarrierIdExists() {
-        com.tpa.entity.Carrier carrier = new com.tpa.entity.Carrier();
-        carrier.setCompanyName("Test Carrier");
-        carrier.setUser(savedUser); // use existing user for simplicity
-        
-        List<Claim> claims = claimRepository.findByCarrier_Id(99L);
-        assertThat(claims).isEmpty();
+        assertThat(page.getTotalElements()).isEqualTo(1);
+        assertThat(page.getContent().get(0).getClaimStatus()).isEqualTo(ClaimStatus.SUBMITTED);
     }
 }

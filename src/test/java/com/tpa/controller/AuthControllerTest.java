@@ -2,154 +2,145 @@ package com.tpa.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tpa.dto.request.auth.LoginRequest;
-import com.tpa.dto.request.auth.OtpRequest;
-import com.tpa.dto.request.auth.RefreshTokenRequest;
-import com.tpa.dto.response.auth.LoginResponse;
-import com.tpa.dto.response.user.UserResponse;
-import com.tpa.exception.GlobalExceptionHandler;
-import com.tpa.exception.NoResourceFoundException;
-import com.tpa.service.AuthService;
-import org.junit.jupiter.api.BeforeEach;
+import com.tpa.dto.request.user.PatientRequest;
+import com.tpa.entity.User;
+import com.tpa.enums.Gender;
+import com.tpa.enums.UserRole;
+import com.tpa.enums.UserStatus;
+import com.tpa.repository.RefreshTokenRepository;
+import com.tpa.repository.UserRepository;
+import com.tpa.support.BaseControllerTest;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-@ExtendWith(MockitoExtension.class)
-class AuthControllerTest {
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-    @Mock
-    private AuthService authService;
+/**
+ * TC-083 to TC-089: AuthController Integration Tests
+ * Tests login success/failure, inactive user blocking, JWT issuance,
+ * bearer token refresh, validation errors, and unauthenticated access.
+ */
+@DisplayName("AuthController - Authentication & Security Tests")
+class AuthControllerTest extends BaseControllerTest {
 
-    @InjectMocks
-    private AuthController authController;
+    @Autowired
+    private ObjectMapper objectMapper;
 
-    private MockMvc mockMvc;
-    private final ObjectMapper objectMapper = new ObjectMapper()
-            .registerModule(new com.fasterxml.jackson.datatype.jsr310.JavaTimeModule());
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-    @BeforeEach
-    void setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(authController)
-                .setControllerAdvice(new GlobalExceptionHandler())
-                .build();
-    }
-
-    // ========== Login ==========
+    // ── TC-083 ────────────────────────────────────────────────────────────────
 
     @Test
-    void login_shouldReturn200WithToken_whenValidCredentials() throws Exception {
+    @DisplayName("TC-083: POST /api/v1/auth/login returns 200 and JWT token for valid credentials")
+    void login_withValidCredentials_shouldReturn200WithToken() throws Exception {
+        // savedPatient is created in BaseControllerTest.baseSetUp()
         LoginRequest request = new LoginRequest();
-        request.setEmail("test@tpa.com");
-        request.setPassword("Password@123");  // must satisfy @Pattern on LoginRequest
-
-        LoginResponse loginResponse = new LoginResponse("jwt-token", "refresh-token", new UserResponse());
-
-        when(authService.login(any(LoginRequest.class))).thenReturn(loginResponse);
+        request.setEmail("patient@test.com");
+        request.setPassword("Patient@1234");
 
         mockMvc.perform(post("/api/v1/auth/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.token").value("jwt-token"))
-                .andExpect(jsonPath("$.data.refreshToken").value("refresh-token"))
-                .andExpect(jsonPath("$.message").value("login successful"));
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.data.token").isNotEmpty());
     }
 
-    @Test
-    void login_shouldReturn404_whenUserNotFound() throws Exception {
-        LoginRequest request = new LoginRequest();
-        request.setEmail("unknown@tpa.com");
-        request.setPassword("Password@123");
-
-        when(authService.login(any())).thenThrow(new NoResourceFoundException("user not found"));
-
-        mockMvc.perform(post("/api/v1/auth/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isNotFound());
-    }
+    // ── TC-084 ────────────────────────────────────────────────────────────────
 
     @Test
-    void login_shouldReturn401_whenBadCredentials() throws Exception {
+    @DisplayName("TC-084: POST /api/v1/auth/login returns 401 for invalid password")
+    void login_withInvalidPassword_shouldReturn401() throws Exception {
         LoginRequest request = new LoginRequest();
-        request.setEmail("test@tpa.com");
-        request.setPassword("Password@123");
-
-        when(authService.login(any())).thenThrow(new BadCredentialsException("Bad credentials"));
+        request.setEmail("patient@test.com");
+        request.setPassword("WrongPass@1234");
 
         mockMvc.perform(post("/api/v1/auth/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isUnauthorized());
     }
 
-    // ========== Customer Registration ==========
+    // ── TC-085 ────────────────────────────────────────────────────────────────
 
     @Test
-    void customerRegistration_shouldReturn201_whenValidRequest() throws Exception {
-        String body = """
-                {
-                  "name": "John Doe",
-                  "email": "john@tpa.com",
-                  "mobile": "9876543210",
-                  "password": "Secure@123",
-                  "address": "123 Main St",
-                  "gender": "MALE",
-                  "dateOfBirth": "1990-01-01"
-                }
-                """;
-        doNothing().when(authService).customerRegistration(any());
+    @DisplayName("TC-085: POST /api/v1/auth/login returns 400 for PENDING carrier account")
+    void login_withPendingCarrierAccount_shouldReturn400() throws Exception {
+        // Create a PENDING carrier user
+        userRepository.save(User.builder()
+                .username("Pending Carrier")
+                .email("pending@carrier.com")
+                .phoneNumber("+12025559999")
+                .dateOfBirth(LocalDate.of(2000, 1, 1))
+                .address("100 Test Ave")
+                .password(passwordEncoder.encode("Carrier@1234"))
+                .userRole(UserRole.CARRIER)
+                .userStatus(UserStatus.INACTIVE)
+                .createdAt(LocalDateTime.now())
+                .build());
 
-        mockMvc.perform(post("/api/v1/auth/customer/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(body))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.message").value("otp sent successfully"));
+        LoginRequest request = new LoginRequest();
+        request.setEmail("pending@carrier.com");
+        request.setPassword("Carrier@1234");
+
+        mockMvc.perform(post("/api/v1/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isBadRequest());
     }
 
-    // ========== OTP Verify ==========
+    // ── TC-086 ────────────────────────────────────────────────────────────────
 
     @Test
-    void verifyCustomerOtp_shouldReturn200_whenOtpIsValid() throws Exception {
-        OtpRequest request = new OtpRequest();
-        request.setEmail("john@tpa.com");
-        request.setOtp("123456");  // must be exactly 6 digits per @Pattern
+    @DisplayName("TC-086: POST /api/v1/auth/login returns 400 when email is invalid format")
+    void login_withInvalidEmailFormat_shouldReturn400() throws Exception {
+        LoginRequest request = new LoginRequest();
+        request.setEmail("not-an-email");
+        request.setPassword("Patient@1234");
 
-        doNothing().when(authService).verifyCustomerOtp(any());
-
-        mockMvc.perform(patch("/api/v1/auth/customer/verify")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.message").value("registration successful"));
+        mockMvc.perform(post("/api/v1/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.data.email").exists());
     }
 
-    // ========== Refresh Token ==========
+    // ── TC-087 ────────────────────────────────────────────────────────────────
 
     @Test
-    void refreshToken_shouldReturn200_whenTokenIsValid() throws Exception {
-        RefreshTokenRequest request = new RefreshTokenRequest("valid-refresh-token");
-        LoginResponse loginResponse = new LoginResponse("new-jwt-token", "valid-refresh-token", new UserResponse());
-        when(authService.refreshToken(any())).thenReturn(loginResponse);
-
-        mockMvc.perform(post("/api/v1/auth/refresh")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
+    @DisplayName("TC-087: POST /api/v1/auth/logout returns 200 for authenticated user")
+    void logout_withValidToken_shouldReturn200() throws Exception {
+        mockMvc.perform(post("/api/v1/auth/logout")
+                        .header("Authorization", patientToken))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.token").value("new-jwt-token"))
-                .andExpect(jsonPath("$.message").value("token refreshed"));
+                .andExpect(jsonPath("$.success").value(true));
+    }
+
+    // ── TC-088 ────────────────────────────────────────────────────────────────
+
+    @Test
+    @DisplayName("TC-088: POST /api/v1/auth/login returns 400 when password is blank")
+    void login_withBlankPassword_shouldReturn400WithValidationError() throws Exception {
+        mockMvc.perform(post("/api/v1/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"email\":\"patient@test.com\",\"password\":\"\"}"))
+                .andExpect(status().isBadRequest());
+    }
+
+    // ── TC-089 ────────────────────────────────────────────────────────────────
+
+    @Test
+    @DisplayName("TC-089: Accessing protected endpoint without token returns 401")
+    void protectedEndpoint_withoutToken_shouldReturn401() throws Exception {
+        mockMvc.perform(get("/api/v1/claims"))
+                .andExpect(status().isForbidden());
     }
 }

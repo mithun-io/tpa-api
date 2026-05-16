@@ -19,6 +19,8 @@ public interface ClaimService {
 
     ClaimResponse getClaim(Long claimId, String username);
 
+    ClaimResponse getClaim(Long claimId);
+
     Page<ClaimResponse> getAllClaims(Pageable pageable, String username);
 
     void processClaimDecision(Long claimId, ClaimDecisionResponse claimDecisionResponse);

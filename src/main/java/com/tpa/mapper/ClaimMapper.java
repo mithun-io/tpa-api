@@ -48,7 +48,8 @@ public interface ClaimMapper {
     void updateEntityFromDto(ClaimRequest claimRequest, @MappingTarget Claim claim);
 
     @Mapping(source = "claim.id", target = "claimId")
-    @Mapping(source = "carrier", target = "carrier")
+    @Mapping(source = "senderUsername", target = "username")
+    @Mapping(source = "carrierQuery", target = "carrier")
     ClaimQueryResponse toClaimQueryResponse(ClaimQuery claimQuery);
 
     List<ClaimQueryResponse> toClaimQueryResponses(List<ClaimQuery> claimQueries);

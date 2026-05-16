@@ -20,6 +20,7 @@ import com.tpa.service.AiClaimAssistantService;
 import com.tpa.service.ClaimService;
 import com.tpa.service.FileUploadService;
 import com.tpa.service.RuleEngineService;
+import com.tpa.helper.StorageProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
