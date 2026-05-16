@@ -32,6 +32,9 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    volumes:
+      - zookeeper_data:/var/lib/zookeeper/data
+      - zookeeper_log:/var/lib/zookeeper/log
 
   kafka:
     image: confluentinc/cp-kafka:7.4.0
@@ -57,6 +60,8 @@ services:
       retries: 5
     networks:
       - tpa-network
+    volumes:
+      - kafka_data:/var/lib/kafka/data
 
   # ─────────────── Backend ──────────────────────────────────────────────────
 
@@ -64,48 +69,56 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: tpa-backend-api
+    image: tpa-backend-api:latest
     container_name: tpa-backend
     restart: always
     ports:
       - "8081:8080"
     depends_on:
-      postgres:
-        condition: service_healthy
       redis:
         condition: service_healthy
       kafka:
         condition: service_healthy
+    # Allows the container to access localhost (the host machine) on host.docker.internal
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     environment:
-      # Spring
-      - SPRING_PROFILES_ACTIVE=dev
-      # Database
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/${DB_NAME:-tpa}
+      # Spring Profile
+      - SPRING_PROFILES_ACTIVE=docker
+      
+      # Database (Connecting to Local Host)
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://host.docker.internal:5432/${DB_NAME:-tpa}
       - SPRING_DATASOURCE_USERNAME=${DB_USER:-postgres}
       - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD:-postgres}
+      
       # Redis
       - SPRING_DATA_REDIS_HOST=redis
       - SPRING_DATA_REDIS_PORT=6379
+      
       # Kafka
-      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
-      # JWT
-      - JWT_SECRET=${JWT_SECRET:-changeme-super-secret-key-min-32-chars}
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:29092
+      
+      # Security / JWT
+      - JWT_SECRET=${JWT_SECRET:-super-secret-default-key-for-jwt-do-not-use-in-prod}
       - JWT_EXPIRATION=${JWT_EXPIRATION:-3600000}
-      # Admin seed credentials
+      
+      # Admin Credentials (Seeding)
       - ADMIN_NAME=${ADMIN_NAME:-Admin}
       - ADMIN_EMAIL=${ADMIN_EMAIL:-admin@tpa.com}
       - ADMIN_MOBILE=${ADMIN_MOBILE:-+1 415-859-2671}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD:-Qw3!@sPe:E1}
-      # Mail (optional — startup won't fail if blank)
+      
+      # AI & 3rd Party Integrations
+      - SPRING_AI_OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - RAZORPAY_KEY=${RAZORPAY_KEY:-}
+      - RAZORPAY_SECRET=${RAZORPAY_SECRET:-}
+      
+      # Mail Configuration (Optional)
       - MAIL_HOST=${MAIL_HOST:-smtp.gmail.com}
       - MAIL_PORT=${MAIL_PORT:-587}
       - MAIL_USERNAME=${MAIL_USERNAME:-}
       - MAIL_PASSWORD=${MAIL_PASSWORD:-}
-      # AI
-      - SPRING_AI_OPENAI_API_KEY=${OPENAI_API_KEY:-}
-      # Razorpay
-      - RAZORPAY_KEY=${RAZORPAY_KEY:-}
-      - RAZORPAY_SECRET=${RAZORPAY_SECRET:-}
+      
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://localhost:8080/actuator/health || exit 1"]
       interval: 15s
@@ -125,4 +138,7 @@ networks:
 
 volumes:
   redis_data:
+  zookeeper_data:
+  zookeeper_log:
+  kafka_data:
   tpa_uploads:
