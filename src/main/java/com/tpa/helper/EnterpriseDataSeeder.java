@@ -234,11 +234,11 @@ public class EnterpriseDataSeeder implements ApplicationRunner {
     private List<User> seedCarrierUsers() {
         List<User> seeded = new ArrayList<>();
         String[][] carrierData = {
-                {"UnitedHealth Group", "NAIC-UHG-001", "support@uhg-demo.com", "+1-212-555-1001", "UHG Corporate"},
-                {"Blue Cross Blue Shield", "NAIC-BCBS-002", "contact@bcbs-demo.com", "+1-312-555-1002", "BCBS Group"},
-                {"Aetna Insurance", "NAIC-AET-003", "service@aetna-demo.com", "+1-415-555-1003", "Aetna Health Group"},
-                {"Cigna Healthcare", "NAIC-CIG-004", "help@cigna-demo.com", "+1-646-555-1004", "Cigna Benefits Group"},
-                {"Humana Insurance", "NAIC-HUM-005", "info@humana-demo.com", "+1-305-555-1005", "Humana Care Group"}
+                {"UnitedHealth Group", "NAIC-UHG-001", "support@uhg.com", "+1-212-555-1001", "UHG Corporate"},
+                {"Blue Cross Blue Shield", "NAIC-BCBS-002", "contact@bcbs.com", "+1-312-555-1002", "BCBS Group"},
+                {"Aetna Insurance", "NAIC-AET-003", "service@aetna.com", "+1-415-555-1003", "Aetna Health Group"},
+                {"Cigna Healthcare", "NAIC-CIG-004", "help@cigna.com", "+1-646-555-1004", "Cigna Benefits Group"},
+                {"Humana Insurance", "NAIC-HUM-005", "info@humana.com", "+1-305-555-1005", "Humana Care Group"}
         };
 
         for (String[] cd : carrierData) {
@@ -250,7 +250,7 @@ public class EnterpriseDataSeeder implements ApplicationRunner {
                     .email(email)
                     .phoneNumber(cd[3])
                     .dateOfBirth(LocalDate.of(1985, 1, 1)).createdAt(LocalDateTime.now().minusMonths(18))
-                    .address("1234 Maplewood Drive Apt 5B Jersey City, NJ 07302 USA")
+                    .address("Albuquerque, New Mexico")
                     .password(passwordEncoder.encode(DEMO_PASSWORD))
                     .gender(Gender.MALE)
                     .userRole(UserRole.CARRIER)
