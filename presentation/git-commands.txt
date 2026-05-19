@@ -18,16 +18,16 @@ git commit -m "commit message"
 git push
 
 // workflow
-git clone 
+git clone https://github.com/mithun-io/tpa-api.git
 
-cd <repo>
+cd tpa/
 
-git checkout -b <name>
+git checkout -b dev
 
 git add .
-git commit -m " "
+git commit -m "commit message"
 
-git push origin <name>
+git push origin dev
  
-goto repo you will get a notification for a pull request
-give a name, and review it
+notification pops up on the repository - https://github.com/mithun-io/tpa-api
+click it and review for pull request and merge finally
