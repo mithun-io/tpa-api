@@ -17,10 +17,17 @@ git add .
 git commit -m "commit message"
 git push
 
-carrier
-pwgcy57804@minitts.net
-Test@123
+// workflow
+git clone 
 
-customer
-wersy78521@minitts.net
-Test@123
+cd <repo>
+
+git checkout -b <name>
+
+git add .
+git commit -m " "
+
+git push origin <name>
+ 
+goto repo you will get a notification for a pull request
+give a name, and review it
