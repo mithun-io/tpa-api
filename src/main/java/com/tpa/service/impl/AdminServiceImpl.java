@@ -58,15 +58,19 @@ public class AdminServiceImpl implements AdminService {
     private final ClaimMapper claimMapper;
     private final CarrierMapper carrierMapper;
 
-    private final ProducerService producerService;
+    private final CarrierRepository carrierRepository;
     private final ClaimRepository claimRepository;
+    
     private final AiClaimAssistantService aiClaimAssistantService;
     private final AuditLogService auditLogService;
+    
+    private final ProducerService producerService;
     private final ClaimStateMachine claimStateMachine;
     private final NotificationService notificationService;
-    private final CarrierRepository carrierRepository;
-    private final ClaimEventProducer claimEventProducer;
     private final EmailService emailService;
+
+    private final ClaimEventProducer claimEventProducer;
+    
 
     private User getUser(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new NoResourceFoundException("user not found"));
