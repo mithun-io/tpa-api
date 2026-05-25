@@ -11,7 +11,7 @@ spring:
       port: ${SPRING_DATA_REDIS_PORT:6379}
 
   kafka:
-    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:kafka:29092}
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:kafka:9092}
     consumer:
       group-id: tpa-group
       auto-offset-reset: earliest

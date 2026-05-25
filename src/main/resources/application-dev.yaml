@@ -71,6 +71,9 @@ file:
   upload-dir: ./uploads
 
 management:
+  health:
+    mail:
+      enabled: false
   endpoints:
     web:
       exposure:
