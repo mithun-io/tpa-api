@@ -1,0 +1,208 @@
+AuthController /api/v1/auth
+
+POST /patient/register
+public, body PatientRequest @Valid; calls authService.patientRegistration; success 201.
+
+PATCH /patient/verify
+public, body OtpRequest @Valid; Redis OTP/user creation; success 200.
+
+POST /carrier/register
+public, body CarrierRequest @Valid; Redis OTP/pending carrier/email; success 201.
+
+PATCH /carrier/verify
+public, body OtpRequest @Valid; creates carrier; success 200.
+
+PATCH /resend-otp/{email}
+public, path email; no @Email; success 200.
+
+POST /login
+public, body LoginRequest @Valid; auth/JWT/refresh token; success 200.
+
+POST /logout
+authenticated; invalidates refresh token; success 200.
+
+PATCH /password-change
+should be authenticated but is not annotated; body PasswordChangeRequest @Valid; success 200.
+
+PATCH /forget-password/{email}
+public, path email; no @Email; sends OTP.
+
+PATCH /password-reset
+public, body PasswordResetRequest @Valid; success 200.
+
+POST /refresh
+public, body RefreshTokenRequest @Valid; success 200.
+
+
+AdminController /api/v1/admin, class role ADMIN
+
+PATCH /users/{id}/block, PATCH /users/{id}/unblock;
+path id; direct UserResponse.
+
+GET /users?page&size&search;
+pageable user listing.
+
+GET /carriers?companyName&userStatus&page&size&sortBy&desc.
+
+GET /patients?username&email&userStatus&page&size&sortBy&desc.
+
+GET /claims?claimStatus&createdAt&page&size&sortBy&desc.
+
+PATCH /claims/review;
+body ClaimReviewRequest @Valid.
+
+PATCH /claims/{id}/approve?reason;
+default reason if absent.
+
+PATCH /claims/{id}/reject?reason;
+required reason.
+
+PATCH /carriers/{id}/approve, /reject.
+
+PATCH /claims/{id}/assign-carrier;
+body { "carrierId": 1 }; no validation.
+
+GET /claims/{id}/ai-summary.
+
+POST /claims/{id}/ai-chat;
+body { "prompt": "..." }; defaults if missing.
+
+GET /monitoring.
+
+
+ClaimController /api/v1/claims
+
+POST / role PATIENT;
+body ClaimRequest but missing @Valid.
+
+GET /{claimId}
+roles ADMIN,SPECIALIST,CARRIER,PATIENT.
+
+GET /
+same roles; Spring Pageable.
+
+GET /search?claimStatus&from&to&minAmount&maxAmount&page&size&sort.
+
+GET /{claimId}/audits, /timeline, /export.
+
+PUT /{claimId}/carrier-approve role CARRIER.
+
+DELETE /{claimId} roles ADMIN,PATIENT.
+
+POST /bulk-approve
+roles ADMIN,SPECIALIST;
+body [1,2]; no non-empty validation.
+
+GET /{claimId}/queries.
+
+POST /{claimId}/queries;
+body ClaimQueryRequest; missing @Valid.
+
+POST /broadcast/{claimId}?status&message;
+roles ADMIN,SPECIALIST.
+
+POST /notify?userEmail&title&message;
+roles ADMIN,SPECIALIST.
+
+
+CarrierController /api/v1/carrier, class role CARRIER
+
+GET /claims, GET /claims/{id}.
+
+PATCH /claims/{id}/validate, /approve, /reject, /flag.
+
+PATCH /claims/{id}/remark;
+body { "remark": "..." }; no validation.
+
+GET /claims/{id}/policy-status.
+
+POST /claims/{id}/ai-analyze;
+optional body { "prompt": "..." }.
+
+
+AiClaimAssistantController /api/v1/ai
+
+POST /analyze/{claimId}
+roles FMG_ADMIN,FMG_EMPLOYEE,CUSTOMER; likely unreachable.
+
+POST /claims/{id}/generate-summary
+roles FMG_ADMIN,CARRIER_USER,CUSTOMER; likely unreachable.
+
+POST /validate-claim authenticated;
+body AiValidationRequest @Valid.
+
+POST /validate-document authenticated multipart: file, documentType.
+
+
+AnalyticsController /api/v1/analytics, roles ADMIN,CARRIER
+
+GET /dashboard, /fraud/trends, /sla/performance, /leakage, /hospitals, /forecast, /payments/summary, /loss-ratio.
+GET /carrier/{carrierName}/summary.
+
+
+AuditLogController /api/v1/audit, role ADMIN
+
+GET /claims/{claimId}, /claims/{claimId}/action/{action}, /claims/{claimId}/verify.
+GET /range?from&to ISO date-time params.
+GET /events/claim/{claimId}, /events/stage/{stage}, /events/unprocessed.
+GET /payments/claim/{claimId}, /payments/payment/{paymentId}, /payments/event/{eventType}, /payments/reconcile.
+
+
+FileUploadController /api/v1/files
+
+POST /upload role PATIENT, multipart claimId, file, documentType=SUPPORTING_DOCUMENT.
+POST /upload/multiple role PATIENT, multipart claimId, files.
+GET /download/{documentId}, GET /{documentId}, GET /claim/{claimId} roles PATIENT,ADMIN,SPECIALIST.
+
+
+FraudDetectionController /api/v1/fraud
+
+Class roles ADMIN,CARRIER.
+GET /admin/dashboard role ADMIN.
+GET /carrier/dashboard role CARRIER.
+PATCH /admin/claims/{id}/safe role ADMIN.
+
+
+KafkaMonitorController /api/v1/admin/kafka
+
+Class role FMG_ADMIN; likely unreachable.
+GET /topics, /health, /dlq?page&size, /pending.
+POST /dlq/{eventId}/retry.
+
+
+MedicalValidationController /api/v1/medical
+
+GET /codes/lookup?code authenticated by global security, no role annotation.
+POST /validate authenticated, body MedicalValidationRequest, no @Valid.
+POST /validate/batch roles ADMIN,CARRIER, body list, no @Valid.
+GET /upcoding/risk?icdCode&claimedAmount roles ADMIN,CARRIER.
+GET /high-risk/codes roles ADMIN,CARRIER.
+
+
+NotificationController /api/v1/notifications
+
+No method roles, but global security requires authenticated.
+GET /, GET /unread-count, POST /mark-read, PATCH /{id}/read; depends on Principal.
+
+
+PaymentController /api/v1/payments
+
+POST /create-order roles PATIENT,ADMIN; body CreatePaymentOrderRequest @Valid.
+POST /verify roles PATIENT,ADMIN; body VerifyPaymentRequest @Valid; Razorpay verification.
+GET /claim/{claimId} broken auth expression; intended PATIENT,ADMIN,CARRIER.
+
+
+RuleEngineController /api/v1/rules
+
+Class role FMG_ADMIN; likely unreachable.
+GET /, /active, /{id}.
+POST /, body RuleConfig @Valid; success 201.
+PUT /{id}, DELETE /{id}, PATCH /{id}/activate, /deactivate.
+POST /evaluate, /simulate; body ClaimRequest @Valid.
+GET /audits/claims/{claimId}, /audits/rules/{ruleKey} with Pageable, /audits/simulations.
+POST /seed.
+
+
+UserController /api/v1/users
+
+GET /profile authenticated; returns current user by Principal.

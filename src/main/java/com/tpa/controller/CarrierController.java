@@ -34,6 +34,7 @@ public class CarrierController {
         }
         return authentication.getName();
     }
+
     @GetMapping("/claims")
     public ResponseEntity<ApiResponse<List<CarrierClaimDetailResponse>>> getAssignedClaims() {
         return ResponseEntity.ok(new ApiResponse<>(true, "claims fetched successfully", carrierService.getAssignedClaims(currentUser()), 200));

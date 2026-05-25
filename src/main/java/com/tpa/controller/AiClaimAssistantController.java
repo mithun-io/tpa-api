@@ -23,13 +23,13 @@ public class AiClaimAssistantController {
     private final AiClaimAssistantService aiClaimAssistantService;
 
     @PostMapping("/analyze/{claimId}")
-    @PreAuthorize("hasAnyRole('FMG_ADMIN', 'FMG_EMPLOYEE', 'CUSTOMER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SPECIALIST', 'PATIENT')")
     public ResponseEntity<ApiResponse<AiAnalysisResponse>> analyzeClaim(@PathVariable Long claimId, @RequestBody(required = false) Map<String, String> request) {
         return ResponseEntity.ok(new ApiResponse<>(true, "Claim analysis completed successfully", aiClaimAssistantService.analyzeClaim(claimId, request != null ? request.get("prompt") : null), 200));
     }
 
     @PostMapping("/claims/{id}/generate-summary")
-    @PreAuthorize("hasAnyRole('FMG_ADMIN', 'CARRIER_USER', 'CUSTOMER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'CARRIER', 'PATIENT')")
     public ResponseEntity<ApiResponse<Map<String, String>>> generateClaimSummary(@PathVariable Long id) {
         return ResponseEntity.ok(new ApiResponse<>(true, "Claim summary generated successfully", Map.of("summary", aiClaimAssistantService.generateClaimSummary(id)), 200));
     }
