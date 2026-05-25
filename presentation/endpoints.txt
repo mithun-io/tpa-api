@@ -1,245 +1,263 @@
-AuthController /api/v1/auth
+AuthController: localhost:8080/api/v1/auth
 
-POST /patient/register
-public, body PatientRequest @Valid; calls authService.patientRegistration; success 201.
+POST: /refresh
 
-PATCH /patient/verify
-public, body OtpRequest @Valid; Redis OTP/user creation; success 200.
+POST: /patient/register
 
-POST /carrier/register
-public, body CarrierRequest @Valid; Redis OTP/pending carrier/email; success 201.
+POST: /logout
 
-PATCH /carrier/verify
-public, body OtpRequest @Valid; creates carrier; success 200.
+POST: /login
 
-PATCH /resend-otp/{email}
-public, path email; no @Email; success 200.
+POST: /carrier/register
 
-POST /login
-public, body LoginRequest @Valid; auth/JWT/refresh token; success 200.
+PATCH: /resend-otp/{email}
 
-POST /logout
-authenticated; invalidates refresh token; success 200.
+PATCH: /patient/verify
 
-PATCH /password-change
-should be authenticated but is not annotated; body PasswordChangeRequest @Valid; success 200.
+PATCH: /password-reset
 
-PATCH /forget-password/{email}
-public, path email; no @Email; sends OTP.
+PATCH: /password-change
 
-PATCH /password-reset
-public, body PasswordResetRequest @Valid; success 200.
+PATCH: /forget-password/{email}
 
-POST /refresh
-public, body RefreshTokenRequest @Valid; success 200.
+PATCH: /carrier/verify
 
 
-AdminController /api/v1/admin, class role ADMIN
+ClaimController: localhost:8080/api/v1/claims
 
-PATCH /users/{id}/block, PATCH /users/{id}/unblock;
-path id; direct UserResponse.
+PUT: /{claimId}/carrier-approve
 
-GET /users?page&size&search;
-pageable user listing.
+GET: /
 
-GET /carriers?companyName&userStatus&page&size&sortBy&desc.
+POST: /
 
-GET /patients?username&email&userStatus&page&size&sortBy&desc.
+GET: /{claimId}/queries
 
-GET /claims?claimStatus&createdAt&page&size&sortBy&desc.
+POST: /{claimId}/queries
 
-PATCH /claims/review;
-body ClaimReviewRequest @Valid.
+POST: /bulk-approve
 
-PATCH /claims/{id}/approve?reason;
-default reason if absent.
+POST: /broadcast/{claimId}
 
-PATCH /claims/{id}/reject?reason;
-required reason.
+GET: /{claimId}
 
-PATCH /carriers/{id}/approve, /reject.
+DELETE: /{claimId}
 
-PATCH /claims/{id}/assign-carrier;
-body { "carrierId": 1 }; no validation.
+GET: /{claimId}/timeline
 
-GET /claims/{id}/ai-summary.
+GET: /{claimId}/export
 
-POST /claims/{id}/ai-chat;
-body { "prompt": "..." }; defaults if missing.
+GET: /{claimId}/audits
 
-GET /monitoring.
+GET: /search
 
 
-ClaimController /api/v1/claims
+PaymentController: localhost:8080/api/v1/payments
 
-POST / role PATIENT;
-body ClaimRequest but missing @Valid.
+POST: /verify
 
-GET /{claimId}
-roles ADMIN,SPECIALIST,CARRIER,PATIENT.
+POST: /create-order
 
-GET /
-same roles; Spring Pageable.
+GET: claim/{claimId}
 
-GET /search?claimStatus&from&to&minAmount&maxAmount&page&size&sort.
 
-GET /{claimId}/audits, /timeline, /export.
+RuleEngineController: localhost:8080/api/v1/rules
 
-PUT /{claimId}/carrier-approve role CARRIER.
+GET: /{id}
 
-DELETE /{claimId} roles ADMIN,PATIENT.
+PUT: /{id}
 
-POST /bulk-approve
-roles ADMIN,SPECIALIST;
-body [1,2]; no non-empty validation.
+DELETE: /{id}
 
-GET /{claimId}/queries.
+GET: /
 
-POST /{claimId}/queries;
-body ClaimQueryRequest; missing @Valid.
+POST: /
 
-POST /broadcast/{claimId}?status&message;
-roles ADMIN,SPECIALIST.
+POST: /simulate
 
-POST /notify?userEmail&title&message;
-roles ADMIN,SPECIALIST.
+POST: /seed
 
+POST: /evaluate
 
-CarrierController /api/v1/carrier, class role CARRIER
+PATCH: /{id}/deactivate
 
-GET /claims, GET /claims/{id}.
+PATCH: /{id}/activate
 
-PATCH /claims/{id}/validate, /approve, /reject, /flag.
+GET: /audits/simulations
 
-PATCH /claims/{id}/remark;
-body { "remark": "..." }; no validation.
+GET: /audits/rules/{ruleKey}
 
-GET /claims/{id}/policy-status.
+GET: /audtis/claims/{claimId}
 
-POST /claims/{id}/ai-analyze;
-optional body { "prompt": "..." }.
+GET: /active
 
 
-AiClaimAssistantController /api/v1/ai
+NotificationController: localhost:8080/api/v1/notifications
 
-POST /analyze/{claimId}
-roles FMG_ADMIN,FMG_EMPLOYEE,CUSTOMER; likely unreachable.
+POST: /mark-read
 
-POST /claims/{id}/generate-summary
-roles FMG_ADMIN,CARRIER_USER,CUSTOMER; likely unreachable.
+PATCH: /{id}/read
 
-POST /validate-claim authenticated;
-body AiValidationRequest @Valid.
+GET: /
 
-POST /validate-document authenticated multipart: file, documentType.
+GET: /uread-count
 
 
-AnalyticsController /api/v1/analytics, roles ADMIN,CARRIER
+MedicalValidationController: localhost:8080/api/v1/medical
 
-GET /dashboard, /fraud/trends, /sla/performance, /leakage, /hospitals, /forecast, /payments/summary, /loss-ratio.
-GET /carrier/{carrierName}/summary.
+POST: /validate
 
+POST: /validate/batch
 
-AuditLogController /api/v1/audit, role ADMIN
+GET: /upcoding/risk
 
-GET /claims/{claimId}, /claims/{claimId}/action/{action}, /claims/{claimId}/verify.
-GET /range?from&to
-ISO date-time params.
+GET: /codes/lookup
 
-GET /events/claim/{claimId}, /events/stage/{stage}, /events/unprocessed.
 
-GET /payments/claim/{claimId}, /payments/payment/{paymentId}, /payments/event/{eventType}, /payments/reconcile.
+FileUploadController: localhost:8080/api/v1/files
 
+POST: /upload
 
-FileUploadController /api/v1/files
+POST: /upload/multiple
 
-POST /upload
-role PATIENT, multipart claimId, file, documentType=SUPPORTING_DOCUMENT.
+GET: /{documentId}
 
-POST /upload/multiple
-role PATIENT, multipart claimId, files.
+GET: /download/{documentId}
 
-GET /download/{documentId}, GET /{documentId}, GET /claim/{claimId}
-roles PATIENT,ADMIN,SPECIALIST.
+GET: /claim/{claimId}
 
 
-FraudDetectionController /api/v1/fraud
+CarrierController: localhost:8080/api/v1/carrier/claims/{id}
 
-Class roles ADMIN,CARRIER.
-GET /admin/dashboard
-role ADMIN.
+POST: /ai-analyze
 
-GET /carrier/dashboard
-role CARRIER.
+PATCH: /validate
 
-PATCH /admin/claims/{id}/safe
-role ADMIN.
+PATCH: /remark
 
+PATCH: /reject
 
-KafkaMonitorController /api/v1/admin/kafka
+PATCH: /flag
 
-Class role FMG_ADMIN;
-likely unreachable.
+PATCH: /approve
 
-GET /topics, /health, /dlq?page&size, /pending.
+GET: / or {id}
 
-POST /dlq/{eventId}/retry.
+GET: /policy-status
 
 
-MedicalValidationController /api/v1/medical
+AiClaimAssistantController: localhost:8080/api/v1/ai
 
-GET /codes/lookup?code
-authenticated by global security, no role annotation.
+POST: /validate-document
 
-POST /validate
-authenticated, body MedicalValidationRequest, no @Valid.
+POST: /validate-claim
 
-POST /validate/batch
-roles ADMIN,CARRIER, body list, no @Valid.
+POST: /claims/{id}/generate-summary
 
-GET /upcoding/risk?icdCode&claimedAmount
-roles ADMIN,CARRIER.
+POST: /analyze/{claimId}
 
-GET /high-risk/codes
-roles ADMIN,CARRIER.
 
+KafkaMonitorController: localhost:8080/api/v1/kafka
 
-NotificationController /api/v1/notifications
+POST: /dlq/{eventId}/retry
 
-No method roles, but global security requires authenticated.
-GET /, GET /unread-count, POST /mark-read, PATCH /{id}/read; depends on Principal.
+GET: /topics
 
+GET: /pending
 
-PaymentController /api/v1/payments
+GET: /health
 
-POST /create-order
-roles PATIENT,ADMIN; body CreatePaymentOrderRequest @Valid.
+GET: /dlq
 
-POST /verify
-roles PATIENT,ADMIN; body VerifyPaymentRequest @Valid; Razorpay verification.
 
-GET /claim/{claimId}
-broken auth expression; intended PATIENT,ADMIN,CARRIER.
+AdminController: localhost:8080/api/v1/admin
 
+POST: /claims/{id}/ai-chat
 
-RuleEngineController /api/v1/rules
+PATCH: /{id}/unblock
 
-Class role FMG_ADMIN; likely unreachable.
-GET /, /active, /{id}.
+PATCH: /{id}/block
 
-POST /,
-body RuleConfig @Valid; success 201.
+PATCH: /claims/{id}/reject
 
-PUT /{id}, DELETE /{id}, PATCH /{id}/activate, /deactivate.
+PATCH: /claims/{id}/assign-carrier
 
-POST /evaluate, /simulate;
-body ClaimRequest @Valid.
+PATCH: /claims/{id}/approve
 
-GET /audits/claims/{claimId}, /audits/rules/{ruleKey} with Pageable, /audits/simulations.
+PATCH: /review
 
-POST /seed.
+PATCH: /carriers/{id}/reject
 
+PATCH: /carriers/{id}/approve
 
-UserController /api/v1/users
+GET: /users
 
-GET /profile authenticated; returns current user by Principal.
+GET: /patients
+
+GET: /carriers
+
+GET: /monitoring
+
+GET: /claims
+
+GET: /claims/{id}/ai-summary
+
+
+FraudDetectionController: localhost:8080/api/v1/fraud
+
+PATCH: /admin/claims/{id}/safe
+
+GET: /carrier/dashboard
+
+GET: /admin/dashboard
+
+
+UserController: localhost:8080/api/v1/users/profile
+
+GET: /profile
+
+
+AuditLogController: localhost:8080/api/v1/audit
+
+GET: /range
+
+GET: /payments/reconcile
+
+GET: /payments/payment/{paymentId}
+
+GET: /payments/event/{eventType}
+
+GET: /payments/claim/{claimId}
+
+GET: /events/unprocessed
+
+GET: /events/stage/{stage}
+
+GET: /events/claim/{claimId}
+
+GET: /claims/{claimId}
+
+GET: /claims/{claimId}/verify
+
+GET: /claims/{claimId}/action/{action}
+
+
+AnalyticsController: localhost:8080/api/v1/analytics
+
+GET: /sla/performancs
+
+GET: /payments/summary
+
+GET: /loss-ratio
+
+GET: /leakage
+
+GET: /hospitals
+
+GET: /fraud/trends
+
+GET: /forecast
+
+GET: /dashboard
+
+GET: /carrier/{carrierName}/summary
