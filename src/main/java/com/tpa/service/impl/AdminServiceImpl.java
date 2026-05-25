@@ -77,7 +77,7 @@ public class AdminServiceImpl implements AdminService {
 
         boolean isValid = switch (currentStatus) {
             case ACTIVE -> target == UserStatus.INACTIVE || target == UserStatus.BLOCKED;
-            case INACTIVE, BLOCKED -> target == UserStatus.ACTIVE;
+            case INACTIVE, PENDING, BLOCKED -> target == UserStatus.ACTIVE;
             default -> throw new IllegalStateException("unexpected status: " + currentStatus);
         };
 
@@ -128,25 +128,37 @@ public class AdminServiceImpl implements AdminService {
     @Transactional(readOnly = true)
     @Override
     public Page<CarrierResponse> getAllCarriers(String companyName, UserStatus userStatus, int page, int size, String sortBy, boolean desc) {
-        Sort sort = desc ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
-        Pageable pageable = PageRequest.of(page - 1, size, sort);
+        String normalizedCompanyName = companyName == null || companyName.isBlank() ? null : companyName.trim();
+        String normalizedSortBy = normalizeCarrierSortBy(sortBy);
+        Sort sort = desc ? Sort.by(normalizedSortBy).descending() : Sort.by(normalizedSortBy).ascending();
+        Pageable pageable = PageRequest.of(Math.max(page, 1) - 1, size, sort);
         Page<Carrier> carriers;
 
-        if (companyName == null && userStatus == null) {
+        if (normalizedCompanyName == null && userStatus == null) {
             carriers = carrierRepository.findAll(pageable);
-        } else if (companyName != null && userStatus != null) {
-            carriers = carrierRepository.findByCompanyNameContainingIgnoreCaseAndUser_UserStatus(companyName, userStatus, pageable);
-        } else if (companyName != null) {
-            carriers = carrierRepository.findByCompanyNameContainingIgnoreCase(companyName, pageable);
+        } else if (normalizedCompanyName != null && userStatus != null) {
+            carriers = carrierRepository.findByCompanyNameContainingIgnoreCaseAndUser_UserStatusIn(normalizedCompanyName, carrierApprovalStatuses(userStatus), pageable);
+        } else if (normalizedCompanyName != null) {
+            carriers = carrierRepository.findByCompanyNameContainingIgnoreCase(normalizedCompanyName, pageable);
         } else {
-            carriers = carrierRepository.findByUser_UserStatus(userStatus, pageable);
-        }
-
-        if (carriers.isEmpty()) {
-            throw new NoResourceFoundException("carriers not found");
+            carriers = carrierRepository.findByUser_UserStatusIn(carrierApprovalStatuses(userStatus), pageable);
         }
 
         return carriers.map(carrierMapper::toCarrierResponse);
+    }
+
+    private String normalizeCarrierSortBy(String sortBy) {
+        if (sortBy == null || sortBy.isBlank() || "createdAt".equals(sortBy)) {
+            return "user.createdAt";
+        }
+        return sortBy;
+    }
+
+    private List<UserStatus> carrierApprovalStatuses(UserStatus userStatus) {
+        if (userStatus == UserStatus.INACTIVE || userStatus == UserStatus.PENDING) {
+            return List.of(UserStatus.PENDING, UserStatus.INACTIVE);
+        }
+        return List.of(userStatus);
     }
 
     @Transactional(readOnly = true)

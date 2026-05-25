@@ -29,13 +29,13 @@ public class AuthController {
     @PostMapping("/patient/register")
     public ResponseEntity<ApiResponse<Void>> patientRegistration(@Valid @RequestBody PatientRequest patientRequest) {
         authService.patientRegistration(patientRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse<>(true, "otp sent successfully", null, 201));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse<>(true, "OTP sent successfully", null, 201));
     }
 
     @PatchMapping("/patient/verify")
     public ResponseEntity<ApiResponse<Void>> verifyPatientOtp(@Valid @RequestBody OtpRequest otpRequest) {
         authService.verifyPatientOtp(otpRequest);
-        return ResponseEntity.ok(new ApiResponse<>(true, "registration successful", null, 200));
+        return ResponseEntity.ok(new ApiResponse<>(true, "Registration successful", null, 200));
     }
 
     @PostMapping("/carrier/register")
@@ -53,12 +53,24 @@ public class AuthController {
     @PatchMapping("/resend-otp/{email}")
     public ResponseEntity<ApiResponse<Void>> resendOtp(@PathVariable("email") String email) {
         authService.resendOtp(email);
-        return ResponseEntity.ok(new ApiResponse<>(true, "otp resent successfully", null, 200));
+        return ResponseEntity.ok(new ApiResponse<>(true, "OTP resent successfully", null, 200));
+    }
+
+    @PatchMapping("/patient/resend-otp/{email}")
+    public ResponseEntity<ApiResponse<Void>> resendPatientOtp(@PathVariable("email") String email) {
+        authService.resendPatientOtp(email);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Patient otp resent successfully", null, 200));
+    }
+
+    @PatchMapping("/carrier/resend-otp/{email}")
+    public ResponseEntity<ApiResponse<Void>> resendCarrierOtp(@PathVariable("email") String email) {
+        authService.resendCarrierOtp(email);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Carrier otp resent successfully", null, 200));
     }
 
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<LoginResponse>> login(@Valid @RequestBody LoginRequest loginRequest) {
-        return ResponseEntity.ok(new ApiResponse<>(true, "login successful", authService.login(loginRequest), 200));
+        return ResponseEntity.ok(new ApiResponse<>(true, "Login successful", authService.login(loginRequest), 200));
     }
 
     @PostMapping("/logout")
@@ -70,23 +82,23 @@ public class AuthController {
 
     @PatchMapping("/password-change")
     public ResponseEntity<ApiResponse<UserResponse>> passwordChange(@Valid @RequestBody PasswordChangeRequest passwordChangeRequest, Principal principal) {
-        return ResponseEntity.ok().body(new ApiResponse<>(true, "password changed successfully", authService.passwordChange(passwordChangeRequest, principal), 200));
+        return ResponseEntity.ok().body(new ApiResponse<>(true, "Password changed successfully", authService.passwordChange(passwordChangeRequest, principal), 200));
     }
 
     @PatchMapping("/forget-password/{email}")
     public ResponseEntity<ApiResponse<Void>> forgetPassword(@PathVariable("email") String email) {
         authService.forgetPassword(email);
-        return ResponseEntity.ok().body(new ApiResponse<>(true, "otp sent successfully, verify to reset password", null, 200));
+        return ResponseEntity.ok().body(new ApiResponse<>(true, "OTP sent successfully, verify to reset password", null, 200));
     }
 
     @PatchMapping("/password-reset")
     public ResponseEntity<ApiResponse<Void>> passwordReset(@Valid @RequestBody PasswordResetRequest passwordResetRequest) {
         authService.passwordReset(passwordResetRequest);
-        return ResponseEntity.ok().body(new ApiResponse<>(true, "password reset successful", null, 200));
+        return ResponseEntity.ok().body(new ApiResponse<>(true, "Password reset successful", null, 200));
     }
 
     @PostMapping("/refresh")
     public ResponseEntity<ApiResponse<LoginResponse>> refreshToken(@Valid @RequestBody RefreshTokenRequest refreshTokenRequest) {
-        return ResponseEntity.ok(new ApiResponse<>(true, "token refreshed", authService.refreshToken(refreshTokenRequest), 200));
+        return ResponseEntity.ok(new ApiResponse<>(true, "Token refreshed", authService.refreshToken(refreshTokenRequest), 200));
     }
 }

@@ -15,6 +15,15 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/controller/KafkaMonitorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/controller/KafkaMonitorController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/controller/PaymentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/controller/PaymentController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/controller/RuleEngineController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/controller/RuleEngineController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/request/user/CarrierRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/request/user/CarrierRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/dto/request/user/PatientRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/dto/request/user/PatientRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/helper/EmailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/helper/EmailService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/helper/RedisService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/helper/RedisService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/repository/CarrierRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/repository/CarrierRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/AuthService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/AdminServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/AdminServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/AuthServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/AuthServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/.env" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/tpa/TpaApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tpa/TpaApplication.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/tpa/config/AsyncConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tpa/config/AsyncConfig.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/tpa/config/CacheConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tpa/config/CacheConfig.class" afterDir="false" />
@@ -223,12 +232,10 @@
       <change beforePath="$PROJECT_DIR$/target/classes/com/tpa/helper/AuditForensicService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tpa/helper/AuditForensicService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/tpa/helper/ClaimAssignment.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tpa/helper/ClaimAssignment.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/tpa/helper/ClaimSpecification.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tpa/helper/ClaimSpecification.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tpa/helper/ClaimStateMachine$1.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/tpa/helper/ClaimStateMachine.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tpa/helper/ClaimStateMachine.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/tpa/helper/EmailService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tpa/helper/EmailService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/tpa/helper/EnterpriseDataSeeder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tpa/helper/EnterpriseDataSeeder.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/tpa/helper/PdfExportService$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tpa/helper/PdfExportService$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tpa/helper/PdfExportService$2.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/tpa/helper/PdfExportService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tpa/helper/PdfExportService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/tpa/helper/PolicyValidationHelper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tpa/helper/PolicyValidationHelper.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/tpa/helper/RedisService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tpa/helper/RedisService.class" afterDir="false" />
@@ -312,7 +319,6 @@
       <change beforePath="$PROJECT_DIR$/target/classes/com/tpa/service/RuleEngineService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tpa/service/RuleEngineService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/tpa/service/impl/AdminServiceImpl$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tpa/service/impl/AdminServiceImpl$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/tpa/service/impl/AdminServiceImpl$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tpa/service/impl/AdminServiceImpl$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tpa/service/impl/AdminServiceImpl$3.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/tpa/service/impl/AdminServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tpa/service/impl/AdminServiceImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/tpa/service/impl/AiClaimAssistantServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tpa/service/impl/AiClaimAssistantServiceImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/tpa/service/impl/AnalyticsServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tpa/service/impl/AnalyticsServiceImpl.class" afterDir="false" />
@@ -389,6 +395,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
     "Application.JwtKeyGenerator.executor": "Run",
     "Maven.tpa [clean,install,-U].executor": "Run",
     "Maven.tpa [clean,test].executor": "Run",

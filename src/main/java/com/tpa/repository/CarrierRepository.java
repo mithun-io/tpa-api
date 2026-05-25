@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.Optional;
 
 @Repository
@@ -27,7 +28,11 @@ public interface CarrierRepository extends JpaRepository<Carrier, Long> {
 
     Page<Carrier> findByCompanyNameContainingIgnoreCaseAndUser_UserStatus(String companyName, UserStatus userStatus, Pageable pageable);
 
+    Page<Carrier> findByCompanyNameContainingIgnoreCaseAndUser_UserStatusIn(String companyName, Collection<UserStatus> userStatuses, Pageable pageable);
+
     Page<Carrier> findByCompanyNameContainingIgnoreCase(String companyName, Pageable pageable);
 
     Page<Carrier> findByUser_UserStatus(UserStatus userStatus, Pageable pageable);
+
+    Page<Carrier> findByUser_UserStatusIn(Collection<UserStatus> userStatuses, Pageable pageable);
 }

@@ -74,35 +74,38 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void patientRegistration(PatientRequest patientRequest) {
         if (userRepository.existsByEmailAndPhoneNumber(patientRequest.getEmail(), patientRequest.getPhoneNumber())) {
-            throw new ConflictException("user already exists");
+            throw new ConflictException("User already exists");
         }
         if (redisService.isPendingPatientExists(patientRequest.getEmail())) {
-            throw new ConflictException("pending registration already exists");
+            throw new ConflictException("Pending registration already exists");
+        }
+        if (redisService.isPendingCarrierExists(patientRequest.getEmail())) {
+            throw new ConflictException("A carrier registration is already pending for this email");
         }
 
         int otp = generateOtp();
-        emailService.sendOtp(patientRequest.getName(), patientRequest.getEmail(), otp);
-        redisService.storeOtp(patientRequest.getEmail(), otp);
+        emailService.sendPatientRegistrationOtp(patientRequest.getName(), patientRequest.getEmail(), otp);
+        redisService.storePatientOtp(patientRequest.getEmail(), otp);
         redisService.storePendingPatient(patientRequest.getEmail(), patientRequest);
     }
 
     @Transactional
     @Override
     public void verifyPatientOtp(OtpRequest otpRequest) {
-        Integer storedOtp = redisService.getOtp(otpRequest.getEmail());
+        Integer storedOtp = redisService.getPatientOtp(otpRequest.getEmail());
         PatientRequest storedPatient = redisService.getPendingPatient(otpRequest.getEmail());
 
         if (storedOtp == null) {
-            throw new BadRequestException("otp expired or invalid");
+            throw new BadRequestException("Otp expired or invalid");
         }
         if (storedPatient == null) {
-            throw new BadRequestException("no pending registration found");
+            throw new BadRequestException("No pending registration found");
         }
         if (!String.valueOf(storedOtp).equals(otpRequest.getOtp())) {
-            throw new BadRequestException("invalid otp");
+            throw new BadRequestException("Invalid otp");
         }
         if (userRepository.existsByEmail(storedPatient.getEmail())) {
-            throw new ConflictException("user already exists!");
+            throw new ConflictException("User already exists!");
         }
 
         User user = User.builder()
@@ -113,7 +116,7 @@ public class AuthServiceImpl implements AuthService {
                 .address(storedPatient.getAddress())
                 .password(passwordEncoder.encode(storedPatient.getPassword()))
                 .gender(storedPatient.getGender())
-                .userRole(UserRole.PATIENT) // Assign CUSTOMER role to Patients
+                .userRole(UserRole.PATIENT)
                 .userStatus(UserStatus.ACTIVE)
                 .createdAt(LocalDateTime.now())
                 .build();
@@ -124,50 +127,53 @@ public class AuthServiceImpl implements AuthService {
                 .build();
         patientRepository.save(patient);
 
-        emailService.sendConfirmation(user.getUsername(), user.getEmail());
-        redisService.deleteOtp(otpRequest.getEmail());
+        emailService.sendPatientRegistrationConfirmation(user.getUsername(), user.getEmail());
+        redisService.deletePatientOtp(otpRequest.getEmail());
         redisService.deletePendingPatient(otpRequest.getEmail());
     }
 
     @Transactional
     @Override
-    public void carrierRegistration(CarrierRequest request) {
-        if (userRepository.existsByEmail(request.getEmail())) {
-            throw new ConflictException("user already exists");
+    public void carrierRegistration(CarrierRequest carrierRequest) {
+        if (userRepository.existsByEmail(carrierRequest.getEmail())) {
+            throw new ConflictException("User already exists");
         }
-        if (carrierRepository.existsByRegistrationNumber(request.getRegistrationNumber())) {
-            throw new ConflictException("a carrier with this registration number already exists");
+        if (carrierRepository.existsByRegistrationNumber(carrierRequest.getRegistrationNumber())) {
+            throw new ConflictException("A carrier with this registration number already exists");
         }
-        if (redisService.isPendingCarrierExists(request.getEmail())) {
-            throw new ConflictException("pending carrier registration already exists");
+        if (redisService.isPendingCarrierExists(carrierRequest.getEmail())) {
+            throw new ConflictException("Pending carrier registration already exists");
+        }
+        if (redisService.isPendingPatientExists(carrierRequest.getEmail())) {
+            throw new ConflictException("A patient registration is already pending for this email");
         }
 
         int otp = generateOtp();
-        emailService.sendOtp(request.getCompanyName(), request.getEmail(), otp);
-        redisService.storeOtp(request.getEmail(), otp);
-        redisService.storePendingCarrier(request.getEmail(), request);
+        emailService.sendCarrierRegistrationOtp(carrierRequest.getCompanyName(), carrierRequest.getEmail(), otp);
+        redisService.storeCarrierOtp(carrierRequest.getEmail(), otp);
+        redisService.storePendingCarrier(carrierRequest.getEmail(), carrierRequest);
     }
 
     @Transactional
     @Override
     public void verifyCarrierOtp(OtpRequest otpRequest) {
-        Integer storedOtp = redisService.getOtp(otpRequest.getEmail());
+        Integer storedOtp = redisService.getCarrierOtp(otpRequest.getEmail());
         CarrierRequest stored = redisService.getPendingCarrier(otpRequest.getEmail());
 
         if (storedOtp == null) {
-            throw new BadRequestException("otp expired or invalid");
+            throw new BadRequestException("Otp expired or invalid");
         }
         if (stored == null) {
-            throw new BadRequestException("no pending carrier registration found");
+            throw new BadRequestException("No pending carrier registration found");
         }
         if (!String.valueOf(storedOtp).equals(otpRequest.getOtp())) {
-            throw new BadRequestException("invalid otp");
+            throw new BadRequestException("Invalid otp");
         }
         if (userRepository.existsByEmail(stored.getEmail())) {
-            throw new ConflictException("user already exists");
+            throw new ConflictException("User already exists");
         }
         if (carrierRepository.existsByRegistrationNumber(stored.getRegistrationNumber())) {
-            throw new ConflictException("a carrier with registration number '" + stored.getRegistrationNumber() + "' already exists");
+            throw new ConflictException("A carrier with registration number '" + stored.getRegistrationNumber() + "' already exists");
         }
 
         User user = User.builder()
@@ -195,8 +201,8 @@ public class AuthServiceImpl implements AuthService {
                 .build();
         carrier = carrierRepository.save(carrier);
 
-        emailService.sendConfirmation(user.getUsername(), user.getEmail());
-        redisService.deleteOtp(otpRequest.getEmail());
+        emailService.sendCarrierRegistrationConfirmation(user.getUsername(), user.getEmail());
+        redisService.deleteCarrierOtp(otpRequest.getEmail());
         redisService.deletePendingCarrier(otpRequest.getEmail());
 
         final Long carrierId = carrier.getId();
@@ -221,27 +227,46 @@ public class AuthServiceImpl implements AuthService {
             }
         });
 
-        log.info("verifyCarrierOtp completed synchronously. AI+Kafka deferred to post-commit.");
+        log.info("VerifyCarrierOtp completed synchronously. AI+Kafka deferred to post-commit.");
     }
 
 
     @Transactional
     @Override
     public void resendOtp(String email) {
+        resendPatientOtp(email);
+    }
+
+    @Transactional
+    @Override
+    public void resendPatientOtp(String email) {
         PatientRequest patient = redisService.getPendingPatient(email);
 
         if (patient == null) {
-            throw new BadRequestException("no pending registration found");
+            throw new BadRequestException("No pending patient registration found");
         }
 
-        redisService.deleteOtp(email);
+        redisService.deletePatientOtp(email);
 
         int otp = generateOtp();
+        emailService.sendPatientRegistrationOtp(patient.getName(), patient.getEmail(), otp);
+        redisService.storePatientOtp(patient.getEmail(), otp);
+    }
 
-        if (patient != null) {
-            emailService.sendOtp(patient.getName(), patient.getEmail(), otp);
-            redisService.storeOtp(patient.getEmail(), otp);
+    @Transactional
+    @Override
+    public void resendCarrierOtp(String email) {
+        CarrierRequest carrier = redisService.getPendingCarrier(email);
+
+        if (carrier == null) {
+            throw new BadRequestException("No pending carrier registration found");
         }
+
+        redisService.deleteCarrierOtp(email);
+
+        int otp = generateOtp();
+        emailService.sendCarrierRegistrationOtp(carrier.getCompanyName(), carrier.getEmail(), otp);
+        redisService.storeCarrierOtp(carrier.getEmail(), otp);
     }
 
     @Transactional
@@ -250,7 +275,7 @@ public class AuthServiceImpl implements AuthService {
         User user = userRepository.findByEmail(loginRequest.getEmail()).orElseThrow(() -> new NoResourceFoundException("user not found"));
 
         if (user.getUserStatus() != UserStatus.ACTIVE) {
-            if (user.getUserRole() == UserRole.CARRIER && user.getUserStatus() == UserStatus.INACTIVE) {
+            if (user.getUserRole() == UserRole.CARRIER && (user.getUserStatus() == UserStatus.PENDING || user.getUserStatus() == UserStatus.INACTIVE)) {
                 throw new BadRequestException("Your carrier account is pending admin approval. You will be notified once approved.");
             }
             if (user.getUserRole() == UserRole.CARRIER && user.getUserStatus() == UserStatus.BLOCKED) {
@@ -263,7 +288,7 @@ public class AuthServiceImpl implements AuthService {
         CustomUserDetails customUserDetails = (CustomUserDetails) customUserDetailsService.loadUserByUsername(loginRequest.getEmail());
 
         String token = jwtUtil.generateToken(customUserDetails);
-        log.info("{} logged in successfully", user.getUsername());
+        log.info("{} Logged in successfully", user.getUsername());
 
         UserResponse userResponse = userMapper.toUserResponse(user);
         
@@ -285,14 +310,14 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public UserResponse passwordChange(PasswordChangeRequest passwordChangeRequest, Principal principal) {
         String email = principal.getName();
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new NoResourceFoundException("user not found"));
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new NoResourceFoundException("User not found"));
 
         if (!passwordEncoder.matches(passwordChangeRequest.getPreviousPassword(), user.getPassword())) {
-            throw new BadRequestException("password is incorrect");
+            throw new BadRequestException("Password is incorrect");
         }
 
         if (passwordEncoder.matches(passwordChangeRequest.getNewPassword(), user.getPassword())) {
-            throw new BadRequestException("new password cannot be same as previous password");
+            throw new BadRequestException("New password cannot be same as previous password");
         }
 
         user.setPassword(passwordEncoder.encode(passwordChangeRequest.getNewPassword()));
@@ -303,7 +328,7 @@ public class AuthServiceImpl implements AuthService {
     @Transactional
     @Override
     public void forgetPassword(String email) {
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new NoResourceFoundException("user not found"));
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new NoResourceFoundException("User not found"));
 
         int otp = generateOtp();
         emailService.sendOtp(user.getUsername(), email, otp);
@@ -313,17 +338,17 @@ public class AuthServiceImpl implements AuthService {
     @Transactional
     @Override
     public void passwordReset(PasswordResetRequest passwordResetRequest) {
-        User user = userRepository.findByEmail(passwordResetRequest.getEmail()).orElseThrow(() -> new NoResourceFoundException("user not found"));
+        User user = userRepository.findByEmail(passwordResetRequest.getEmail()).orElseThrow(() -> new NoResourceFoundException("User not found"));
 
         Integer storedOtp = redisService.getOtp(passwordResetRequest.getEmail());
         if (storedOtp == null) {
-            throw new BadRequestException("otp expired or invalid");
+            throw new BadRequestException("Otp expired or invalid");
         }
         if (!String.valueOf(storedOtp).equals(passwordResetRequest.getOtp())) {
-            throw new BadRequestException("invalid otp");
+            throw new BadRequestException("Invalid otp");
         }
         if (passwordEncoder.matches(passwordResetRequest.getNewPassword(), user.getPassword())) {
-            throw new BadRequestException("new password cannot be same as previous password");
+            throw new BadRequestException("New password cannot be same as previous password");
         }
 
         user.setPassword(passwordEncoder.encode(passwordResetRequest.getNewPassword()));
