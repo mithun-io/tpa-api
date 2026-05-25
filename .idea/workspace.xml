@@ -6,6 +6,15 @@
   <component name="ChangeListManager">
     <list default="true" id="b816a75b-6920-4401-836e-1b55556aa93c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/presentation/endpoints.txt" beforeDir="false" afterPath="$PROJECT_DIR$/presentation/endpoints.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/controller/AiClaimAssistantController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/controller/AiClaimAssistantController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/controller/CarrierController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/controller/CarrierController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/controller/ClaimController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/controller/ClaimController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/controller/PaymentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/controller/PaymentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/tpa/controller/AiClaimAssistantController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tpa/controller/AiClaimAssistantController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/tpa/controller/AuthController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tpa/controller/AuthController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/tpa/controller/CarrierController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tpa/controller/CarrierController.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

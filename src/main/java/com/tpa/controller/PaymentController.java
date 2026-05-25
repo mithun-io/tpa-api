@@ -8,6 +8,7 @@ import com.tpa.dto.response.payment.PaymentResponse;
 import com.tpa.entity.User;
 import com.tpa.repository.UserRepository;
 import com.tpa.service.PaymentService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/payments")
 @RequiredArgsConstructor
+@Tag(name = "Payments", description = "Payment and Settlement APIs")
 public class PaymentController {
 
     private final PaymentService paymentService;

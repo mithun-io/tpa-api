@@ -7,6 +7,7 @@ import com.tpa.dto.response.claim.*;
 import com.tpa.entity.ClaimAudit;
 import com.tpa.enums.ClaimStatus;
 import com.tpa.service.ClaimService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +25,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/claims")
+@Tag(name = "Claims", description = "Insurance Claim Management APIs")
 @RequiredArgsConstructor
 public class ClaimController {
 

@@ -7,6 +7,7 @@ import com.tpa.dto.response.auth.ApiResponse;
 import com.tpa.dto.response.auth.LoginResponse;
 import com.tpa.dto.response.user.UserResponse;
 import com.tpa.service.AuthService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,7 @@ import java.security.Principal;
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
+@Tag(name = "Authentication", description = "Authentication and Authorization APIs")
 public class AuthController {
 
     private final AuthService authService;

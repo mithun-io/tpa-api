@@ -48,9 +48,6 @@ public class OpenApiConfig {
                                 .name("Claims")
                                 .description("Insurance Claim Management APIs"),
                         new Tag()
-                                .name("Policies")
-                                .description("Policy Management APIs"),
-                        new Tag()
                                 .name("Payments")
                                 .description("Payment and Settlement APIs")))
 
