@@ -31,3 +31,72 @@ git push origin dev
  
 notification pops up on the repository - https://github.com/mithun-io/tpa-api
 click it and review for pull request and merge finally
+
+large file
+
+# Remove target folder from Git tracking (keeps files locally)
+git rm -r --cached target
+
+# Add target to .gitignore
+Add-Content .gitignore "target/"
+
+# Commit changes
+git add .gitignore
+git commit -m "Remove build artifacts and update gitignore"
+
+# Push again
+git push -u origin main --force
+
+git filter-branch --force --index-filter "git rm -r --cached --ignore-unmatch target" --prune-empty --tag-name-filter cat -- --all
+
+Remove-Item -Recurse -Force .git\refs\original
+git reflog expire --expire=now --all
+git gc --prune=now --aggressive
+
+git push origin --force --all
+
+
+
+
+
+
+
+git status --short
+git branch --show-current
+git remote -v
+git diff -- pom.xml docker-compose.yml src/main/resources/application-dev.yaml src/main/resources/application.yaml src/test/resources/application.yaml src/main/resources/.env .env.example
+
+git status -sb
+git log --oneline --decorate -5
+git diff -- .idea/workspace.xml
+
+git push -u origin main
+git fetch origin
+
+git log --oneline --left-right --cherry-pick main...origin/main
+git merge-base main origin/main
+git log --oneline --decorate --graph --all -8
+
+git diff --stat origin/main..main
+git diff --name-status origin/main..main
+git ls-tree -r --name-only origin/main
+git ls-tree -r --name-only main
+
+git stash push -m "codex-save-idea-workspace" -- .idea/workspace.xml
+git merge -s ours --allow-unrelated-histories origin/main -m "Merge remote main before publishing local cleanup"
+
+git push -u origin main
+
+git status -sb
+git ls-files target
+git diff --stat origin/main
+
+$tree = git write-tree; $commit = "Publish cleaned local project" | git commit-tree $tree -p origin/main; git update-ref refs/heads/main $commit; git status -sb; git log --oneline --decorate -3
+
+git push -u origin main
+git stash list --date=local
+git status -sb
+git stash pop 'stash@{0}'
+git status -sb
+git log --oneline --decorate -3
+git ls-remote origin refs/heads/main
