@@ -23,12 +23,14 @@ import com.tpa.entity.Claim;
 import com.tpa.enums.ClaimStatus;
 import com.tpa.kafka.event.ClaimNotificationEvent;
 import com.tpa.mapper.ClaimMapper;
+import com.tpa.mapper.CarrierMapper
 import com.tpa.repository.CarrierRepository;
 import com.tpa.repository.ClaimRepository;
 import com.tpa.kafka.producer.ClaimEventProducer;
 import com.tpa.service.AiClaimAssistantService;
 import com.tpa.service.AuditLogService;
 import com.tpa.helper.ClaimStateMachine;
+import com.tpa.helper.EmailService
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -54,7 +56,7 @@ public class AdminServiceImpl implements AdminService {
 
     private final UserMapper userMapper;
     private final ClaimMapper claimMapper;
-    private final com.tpa.mapper.CarrierMapper carrierMapper;
+    private final CarrierMapper carrierMapper;
 
     private final ProducerService producerService;
     private final ClaimRepository claimRepository;
@@ -64,7 +66,7 @@ public class AdminServiceImpl implements AdminService {
     private final NotificationService notificationService;
     private final CarrierRepository carrierRepository;
     private final ClaimEventProducer claimEventProducer;
-    private final com.tpa.helper.EmailService emailService;
+    private final EmailService emailService;
 
     private User getUser(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new NoResourceFoundException("user not found"));
