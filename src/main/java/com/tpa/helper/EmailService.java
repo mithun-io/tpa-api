@@ -54,6 +54,50 @@ public class EmailService {
     }
 
     @Async
+    public void sendPatientRegistrationOtp(String name, String email, Integer otp) {
+        try {
+            String subject = "TPA Patient Registration - OTP Verification";
+
+            String text = "<html><body>"
+                    + "<h2>TPA - Insurance Claim Processing System</h2>"
+                    + "<p>Dear <b>" + name + "</b>,</p>"
+                    + "<p>Your One Time Password (OTP) for patient account registration is:</p>"
+                    + "<h3>" + otp + "</h3>"
+                    + "<p>This OTP is valid for exactly <b>5 minutes</b>.</p>"
+                    + "<br/>"
+                    + "<p>Best regards,<br/>TPA - Insurance Claim Processing System Team</p>"
+                    + "</body></html>";
+
+            sendEmail(email, subject, text);
+
+        } catch (Exception e) {
+            log.error("Failed to send patient registration OTP email to {}", email, e);
+        }
+    }
+
+    @Async
+    public void sendCarrierRegistrationOtp(String companyName, String email, Integer otp) {
+        try {
+            String subject = "TPA Carrier Registration - OTP Verification";
+
+            String text = "<html><body>"
+                    + "<h2>TPA - Insurance Claim Processing System</h2>"
+                    + "<p>Dear <b>" + companyName + "</b>,</p>"
+                    + "<p>Your One Time Password (OTP) for carrier account registration is:</p>"
+                    + "<h3>" + otp + "</h3>"
+                    + "<p>This OTP is valid for exactly <b>5 minutes</b>.</p>"
+                    + "<br/>"
+                    + "<p>Best regards,<br/>TPA - Insurance Claim Processing System Team</p>"
+                    + "</body></html>";
+
+            sendEmail(email, subject, text);
+
+        } catch (Exception e) {
+            log.error("Failed to send carrier registration OTP email to {}", email, e);
+        }
+    }
+
+    @Async
     public void sendConfirmation(String name, String email) {
         try {
             String subject = "TPA Registration Successful";
@@ -74,6 +118,54 @@ public class EmailService {
 
         } catch (Exception e) {
             log.error("Failed to send confirmation email to {}", email, e);
+        }
+    }
+
+    @Async
+    public void sendPatientRegistrationConfirmation(String name, String email) {
+        try {
+            String subject = "TPA Patient Registration Successful";
+
+            String text = "<html><body>"
+                    + "<h2>Welcome to TPA - Insurance Claim Processing System</h2>"
+                    + "<p>Dear <b>" + name + "</b>,</p>"
+                    + "<p>Your patient account has been successfully registered.</p>"
+                    + "<p>You can now log in using your registered email address:</p>"
+                    + "<ul>"
+                    + "<li><b>Email:</b> " + email + "</li>"
+                    + "</ul>"
+                    + "<br/>"
+                    + "<p>Best regards,<br/>TPA - Insurance Claim Processing System Team</p>"
+                    + "</body></html>";
+
+            sendEmail(email, subject, text);
+
+        } catch (Exception e) {
+            log.error("Failed to send patient registration confirmation email to {}", email, e);
+        }
+    }
+
+    @Async
+    public void sendCarrierRegistrationConfirmation(String companyName, String email) {
+        try {
+            String subject = "TPA Carrier Registration Received";
+
+            String text = "<html><body>"
+                    + "<h2>Carrier Registration Received</h2>"
+                    + "<p>Dear <b>" + companyName + "</b>,</p>"
+                    + "<p>Your carrier registration has been submitted successfully and is pending admin approval.</p>"
+                    + "<p>You will receive a separate email after the review is complete.</p>"
+                    + "<ul>"
+                    + "<li><b>Email:</b> " + email + "</li>"
+                    + "</ul>"
+                    + "<br/>"
+                    + "<p>Best regards,<br/>TPA - Insurance Claim Processing System Team</p>"
+                    + "</body></html>";
+
+            sendEmail(email, subject, text);
+
+        } catch (Exception e) {
+            log.error("Failed to send carrier registration confirmation email to {}", email, e);
         }
     }
 

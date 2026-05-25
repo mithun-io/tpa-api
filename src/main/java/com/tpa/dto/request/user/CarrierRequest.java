@@ -16,7 +16,7 @@ public class CarrierRequest {
     private String email;
 
     @NotBlank(message = "Mobile number is required")
-    @Pattern(regexp = "^(\\+1[- ]?)?\\(?[2-9][0-9]{2}\\)?[- ]?[0-9]{3}[- ]?[0-9]{4}$", message = "Invalid US mobile number")
+    @Pattern(regexp = "^(\\+1[- ]?)?(\\([2-9][0-9]{2}\\)|[2-9][0-9]{2})[- ]?[0-9]{3}[- ]?[0-9]{4}$", message = "Invalid US mobile number")
     private String phoneNumber;
 
     @NotBlank(message = "Address is required")

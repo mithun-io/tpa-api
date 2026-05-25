@@ -20,6 +20,10 @@ public interface AuthService {
 
     void resendOtp(String email);
 
+    void resendPatientOtp(String email);
+
+    void resendCarrierOtp(String email);
+
     LoginResponse login(LoginRequest loginRequest);
 
     void logout(String username);

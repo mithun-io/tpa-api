@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-05-25T17:23:49+0530",
-    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.46.0.v20260407-0427, environment: Java 21.0.10 (Eclipse Adoptium)"
+    date = "2026-05-25T18:43:47+0530",
+    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.12 (Oracle Corporation)"
 )
 @Component
 public class CarrierMapperImpl implements CarrierMapper {
@@ -31,9 +31,9 @@ public class CarrierMapperImpl implements CarrierMapper {
         carrierResponse.userStatus( carrierUserUserStatus( carrier ) );
         carrierResponse.contactPersonName( carrierUserUsername( carrier ) );
         carrierResponse.contactPersonPhone( carrierUserPhoneNumber( carrier ) );
+        carrierResponse.id( carrier.getId() );
         carrierResponse.companyName( carrier.getCompanyName() );
         carrierResponse.companyType( carrier.getCompanyType() );
-        carrierResponse.id( carrier.getId() );
         carrierResponse.licenseNumber( carrier.getLicenseNumber() );
         carrierResponse.registrationNumber( carrier.getRegistrationNumber() );
         carrierResponse.taxId( carrier.getTaxId() );
@@ -67,8 +67,8 @@ public class CarrierMapperImpl implements CarrierMapper {
         carrier.user( carrierRequestToUser( carrierRequest ) );
         carrier.companyName( carrierRequest.getCompanyName() );
         carrier.companyType( carrierRequest.getCompanyType() );
-        carrier.licenseNumber( carrierRequest.getLicenseNumber() );
         carrier.registrationNumber( carrierRequest.getRegistrationNumber() );
+        carrier.licenseNumber( carrierRequest.getLicenseNumber() );
         carrier.taxId( carrierRequest.getTaxId() );
         carrier.website( carrierRequest.getWebsite() );
 
