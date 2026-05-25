@@ -143,40 +143,65 @@ GET /carrier/{carrierName}/summary.
 AuditLogController /api/v1/audit, role ADMIN
 
 GET /claims/{claimId}, /claims/{claimId}/action/{action}, /claims/{claimId}/verify.
-GET /range?from&to ISO date-time params.
+GET /range?from&to
+ISO date-time params.
+
 GET /events/claim/{claimId}, /events/stage/{stage}, /events/unprocessed.
+
 GET /payments/claim/{claimId}, /payments/payment/{paymentId}, /payments/event/{eventType}, /payments/reconcile.
 
 
 FileUploadController /api/v1/files
 
-POST /upload role PATIENT, multipart claimId, file, documentType=SUPPORTING_DOCUMENT.
-POST /upload/multiple role PATIENT, multipart claimId, files.
-GET /download/{documentId}, GET /{documentId}, GET /claim/{claimId} roles PATIENT,ADMIN,SPECIALIST.
+POST /upload
+role PATIENT, multipart claimId, file, documentType=SUPPORTING_DOCUMENT.
+
+POST /upload/multiple
+role PATIENT, multipart claimId, files.
+
+GET /download/{documentId}, GET /{documentId}, GET /claim/{claimId}
+roles PATIENT,ADMIN,SPECIALIST.
 
 
 FraudDetectionController /api/v1/fraud
 
 Class roles ADMIN,CARRIER.
-GET /admin/dashboard role ADMIN.
-GET /carrier/dashboard role CARRIER.
-PATCH /admin/claims/{id}/safe role ADMIN.
+GET /admin/dashboard
+role ADMIN.
+
+GET /carrier/dashboard
+role CARRIER.
+
+PATCH /admin/claims/{id}/safe
+role ADMIN.
 
 
 KafkaMonitorController /api/v1/admin/kafka
 
-Class role FMG_ADMIN; likely unreachable.
+Class role FMG_ADMIN;
+likely unreachable.
+
 GET /topics, /health, /dlq?page&size, /pending.
+
 POST /dlq/{eventId}/retry.
 
 
 MedicalValidationController /api/v1/medical
 
-GET /codes/lookup?code authenticated by global security, no role annotation.
-POST /validate authenticated, body MedicalValidationRequest, no @Valid.
-POST /validate/batch roles ADMIN,CARRIER, body list, no @Valid.
-GET /upcoding/risk?icdCode&claimedAmount roles ADMIN,CARRIER.
-GET /high-risk/codes roles ADMIN,CARRIER.
+GET /codes/lookup?code
+authenticated by global security, no role annotation.
+
+POST /validate
+authenticated, body MedicalValidationRequest, no @Valid.
+
+POST /validate/batch
+roles ADMIN,CARRIER, body list, no @Valid.
+
+GET /upcoding/risk?icdCode&claimedAmount
+roles ADMIN,CARRIER.
+
+GET /high-risk/codes
+roles ADMIN,CARRIER.
 
 
 NotificationController /api/v1/notifications
@@ -187,19 +212,31 @@ GET /, GET /unread-count, POST /mark-read, PATCH /{id}/read; depends on Principa
 
 PaymentController /api/v1/payments
 
-POST /create-order roles PATIENT,ADMIN; body CreatePaymentOrderRequest @Valid.
-POST /verify roles PATIENT,ADMIN; body VerifyPaymentRequest @Valid; Razorpay verification.
-GET /claim/{claimId} broken auth expression; intended PATIENT,ADMIN,CARRIER.
+POST /create-order
+roles PATIENT,ADMIN; body CreatePaymentOrderRequest @Valid.
+
+POST /verify
+roles PATIENT,ADMIN; body VerifyPaymentRequest @Valid; Razorpay verification.
+
+GET /claim/{claimId}
+broken auth expression; intended PATIENT,ADMIN,CARRIER.
 
 
 RuleEngineController /api/v1/rules
 
 Class role FMG_ADMIN; likely unreachable.
 GET /, /active, /{id}.
-POST /, body RuleConfig @Valid; success 201.
+
+POST /,
+body RuleConfig @Valid; success 201.
+
 PUT /{id}, DELETE /{id}, PATCH /{id}/activate, /deactivate.
-POST /evaluate, /simulate; body ClaimRequest @Valid.
+
+POST /evaluate, /simulate;
+body ClaimRequest @Valid.
+
 GET /audits/claims/{claimId}, /audits/rules/{ruleKey} with Pageable, /audits/simulations.
+
 POST /seed.
 
 
