@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-05-25T15:58:53+0530",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.12 (Oracle Corporation)"
+    date = "2026-05-25T17:23:49+0530",
+    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.46.0.v20260407-0427, environment: Java 21.0.10 (Eclipse Adoptium)"
 )
 @Component
 public class InsuranceProductMapperImpl implements InsuranceProductMapper {
@@ -27,14 +27,14 @@ public class InsuranceProductMapperImpl implements InsuranceProductMapper {
 
         insuranceProductResponse.carrierId( insuranceProductCarrierId( insuranceProduct ) );
         insuranceProductResponse.carrierName( insuranceProductCarrierCompanyName( insuranceProduct ) );
-        insuranceProductResponse.id( insuranceProduct.getId() );
-        insuranceProductResponse.productName( insuranceProduct.getProductName() );
-        insuranceProductResponse.productCode( insuranceProduct.getProductCode() );
-        insuranceProductResponse.policyType( insuranceProduct.getPolicyType() );
-        insuranceProductResponse.coverageAmount( insuranceProduct.getCoverageAmount() );
-        insuranceProductResponse.premiumAmount( insuranceProduct.getPremiumAmount() );
-        insuranceProductResponse.waitingPeriodDays( insuranceProduct.getWaitingPeriodDays() );
         insuranceProductResponse.active( insuranceProduct.getActive() );
+        insuranceProductResponse.coverageAmount( insuranceProduct.getCoverageAmount() );
+        insuranceProductResponse.id( insuranceProduct.getId() );
+        insuranceProductResponse.policyType( insuranceProduct.getPolicyType() );
+        insuranceProductResponse.premiumAmount( insuranceProduct.getPremiumAmount() );
+        insuranceProductResponse.productCode( insuranceProduct.getProductCode() );
+        insuranceProductResponse.productName( insuranceProduct.getProductName() );
+        insuranceProductResponse.waitingPeriodDays( insuranceProduct.getWaitingPeriodDays() );
 
         return insuranceProductResponse.build();
     }
@@ -61,13 +61,13 @@ public class InsuranceProductMapperImpl implements InsuranceProductMapper {
 
         InsuranceProduct.InsuranceProductBuilder insuranceProduct = InsuranceProduct.builder();
 
-        insuranceProduct.productName( insuranceProductRequest.getProductName() );
-        insuranceProduct.productCode( insuranceProductRequest.getProductCode() );
-        insuranceProduct.policyType( insuranceProductRequest.getPolicyType() );
-        insuranceProduct.coverageAmount( insuranceProductRequest.getCoverageAmount() );
-        insuranceProduct.premiumAmount( insuranceProductRequest.getPremiumAmount() );
-        insuranceProduct.waitingPeriodDays( insuranceProductRequest.getWaitingPeriodDays() );
         insuranceProduct.active( insuranceProductRequest.getActive() );
+        insuranceProduct.coverageAmount( insuranceProductRequest.getCoverageAmount() );
+        insuranceProduct.policyType( insuranceProductRequest.getPolicyType() );
+        insuranceProduct.premiumAmount( insuranceProductRequest.getPremiumAmount() );
+        insuranceProduct.productCode( insuranceProductRequest.getProductCode() );
+        insuranceProduct.productName( insuranceProductRequest.getProductName() );
+        insuranceProduct.waitingPeriodDays( insuranceProductRequest.getWaitingPeriodDays() );
 
         return insuranceProduct.build();
     }

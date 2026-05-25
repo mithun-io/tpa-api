@@ -15,8 +15,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-05-25T15:58:53+0530",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.12 (Oracle Corporation)"
+    date = "2026-05-25T17:23:49+0530",
+    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.46.0.v20260407-0427, environment: Java 21.0.10 (Eclipse Adoptium)"
 )
 @Component
 public class ClaimMapperImpl implements ClaimMapper {
@@ -31,33 +31,33 @@ public class ClaimMapperImpl implements ClaimMapper {
 
         claimResponse.userName( claimUserUsername( claim ) );
         claimResponse.userEmail( claimUserEmail( claim ) );
-        claimResponse.id( claim.getId() );
-        claimResponse.patientName( claim.getPatientName() );
-        claimResponse.hospitalName( claim.getHospitalName() );
         claimResponse.admissionDate( claim.getAdmissionDate() );
-        claimResponse.dischargeDate( claim.getDischargeDate() );
-        claimResponse.totalBillAmount( claim.getTotalBillAmount() );
-        claimResponse.policyId( claim.getPolicyId() );
-        claimResponse.policyNumber( claim.getPolicyNumber() );
+        claimResponse.aiSummary( claim.getAiSummary() );
+        claimResponse.amount( claim.getAmount() );
         claimResponse.claimStatus( claim.getClaimStatus() );
         claimResponse.claimType( claim.getClaimType() );
-        claimResponse.diagnosis( claim.getDiagnosis() );
-        claimResponse.amount( claim.getAmount() );
-        claimResponse.rejectionReason( claim.getRejectionReason() );
-        claimResponse.reviewedBy( claim.getReviewedBy() );
-        claimResponse.reviewedAt( claim.getReviewedAt() );
-        claimResponse.reviewNotes( claim.getReviewNotes() );
         claimResponse.createdDate( claim.getCreatedDate() );
-        claimResponse.processedDate( claim.getProcessedDate() );
-        claimResponse.riskScore( claim.getRiskScore() );
-        claimResponse.riskFlags( claim.getRiskFlags() );
+        claimResponse.diagnosis( claim.getDiagnosis() );
+        claimResponse.dischargeDate( claim.getDischargeDate() );
         if ( claim.getHealthScore() != null ) {
             claimResponse.healthScore( claim.getHealthScore().intValue() );
         }
+        claimResponse.hospitalName( claim.getHospitalName() );
+        claimResponse.id( claim.getId() );
+        claimResponse.patientName( claim.getPatientName() );
+        claimResponse.policyId( claim.getPolicyId() );
+        claimResponse.policyNumber( claim.getPolicyNumber() );
+        claimResponse.processedDate( claim.getProcessedDate() );
+        claimResponse.rejectionReason( claim.getRejectionReason() );
+        claimResponse.reviewNotes( claim.getReviewNotes() );
+        claimResponse.reviewedAt( claim.getReviewedAt() );
+        claimResponse.reviewedBy( claim.getReviewedBy() );
+        claimResponse.riskFlags( claim.getRiskFlags() );
         if ( claim.getRiskLevel() != null ) {
             claimResponse.riskLevel( claim.getRiskLevel().name() );
         }
-        claimResponse.aiSummary( claim.getAiSummary() );
+        claimResponse.riskScore( claim.getRiskScore() );
+        claimResponse.totalBillAmount( claim.getTotalBillAmount() );
 
         return claimResponse.build();
     }
@@ -89,15 +89,15 @@ public class ClaimMapperImpl implements ClaimMapper {
         claim.hospitalName( claimRequest.getClaimFormHospitalName() );
         claim.admissionDate( claimRequest.getClaimFormAdmissionDate() );
         claim.dischargeDate( claimRequest.getClaimFormDischargeDate() );
-        claim.totalBillAmount( claimRequest.getTotalBillAmount() );
-        claim.policyId( claimRequest.getPolicyId() );
-        claim.policyNumber( claimRequest.getPolicyNumber() );
-        claim.policyName( claimRequest.getPolicyName() );
+        claim.billDate( claimRequest.getBillDate() );
+        claim.billNumber( claimRequest.getBillNumber() );
         claim.carrierName( claimRequest.getCarrierName() );
         claim.claimType( claimRequest.getClaimType() );
         claim.diagnosis( claimRequest.getDiagnosis() );
-        claim.billNumber( claimRequest.getBillNumber() );
-        claim.billDate( claimRequest.getBillDate() );
+        claim.policyId( claimRequest.getPolicyId() );
+        claim.policyName( claimRequest.getPolicyName() );
+        claim.policyNumber( claimRequest.getPolicyNumber() );
+        claim.totalBillAmount( claimRequest.getTotalBillAmount() );
 
         return claim.build();
     }
@@ -160,13 +160,13 @@ public class ClaimMapperImpl implements ClaimMapper {
 
         ClaimTimelineResponse.ClaimTimelineResponseBuilder claimTimelineResponse = ClaimTimelineResponse.builder();
 
-        claimTimelineResponse.id( timeline.getId() );
+        claimTimelineResponse.changedBy( timeline.getChangedBy() );
         claimTimelineResponse.claimId( timeline.getClaimId() );
         claimTimelineResponse.fromStatus( timeline.getFromStatus() );
-        claimTimelineResponse.toStatus( timeline.getToStatus() );
+        claimTimelineResponse.id( timeline.getId() );
         claimTimelineResponse.notes( timeline.getNotes() );
-        claimTimelineResponse.changedBy( timeline.getChangedBy() );
         claimTimelineResponse.occurredAt( timeline.getOccurredAt() );
+        claimTimelineResponse.toStatus( timeline.getToStatus() );
 
         return claimTimelineResponse.build();
     }

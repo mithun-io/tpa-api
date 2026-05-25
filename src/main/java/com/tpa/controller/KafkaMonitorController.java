@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/admin/kafka")
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('FMG_ADMIN')")
+@PreAuthorize("hasRole('ADMIN')")
 public class KafkaMonitorController {
 
     private final KafkaMonitorService kafkaMonitorService;

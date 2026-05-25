@@ -41,7 +41,7 @@ public class PaymentController {
     }
 
     @GetMapping("/claim/{claimId}")
-    @PreAuthorize("hasAnyRole('PATIENT', 'ADMIN', CARRIER)")
+    @PreAuthorize("hasAnyRole('PATIENT', 'ADMIN', 'CARRIER')")
     public ResponseEntity<ApiResponse<PaymentResponse>> getPaymentByClaimId(@PathVariable Long claimId) {
         return ResponseEntity.ok(new ApiResponse<>(true, "Payment details fetched successfully", paymentService.getPaymentByClaimId(claimId), 200));
     }

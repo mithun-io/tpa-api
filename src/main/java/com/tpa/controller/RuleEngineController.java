@@ -21,7 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/rules")
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('FMG_ADMIN')")
+@PreAuthorize("hasRole('ADMIN')")
 public class RuleEngineController {
 
     private final RuleEngineService ruleEngineService;

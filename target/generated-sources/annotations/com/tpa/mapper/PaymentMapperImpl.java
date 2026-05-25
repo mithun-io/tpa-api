@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-05-25T15:58:53+0530",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.12 (Oracle Corporation)"
+    date = "2026-05-25T17:23:49+0530",
+    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.46.0.v20260407-0427, environment: Java 21.0.10 (Eclipse Adoptium)"
 )
 @Component
 public class PaymentMapperImpl implements PaymentMapper {
@@ -69,8 +69,8 @@ public class PaymentMapperImpl implements PaymentMapper {
 
         Payment.PaymentBuilder payment = Payment.builder();
 
-        payment.claimId( createPaymentOrderRequest.claimId() );
         payment.amount( createPaymentOrderRequest.amount() );
+        payment.claimId( createPaymentOrderRequest.claimId() );
 
         return payment.build();
     }
