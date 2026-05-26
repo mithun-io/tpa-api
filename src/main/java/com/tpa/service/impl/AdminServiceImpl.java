@@ -23,14 +23,14 @@ import com.tpa.entity.Claim;
 import com.tpa.enums.ClaimStatus;
 import com.tpa.kafka.event.ClaimNotificationEvent;
 import com.tpa.mapper.ClaimMapper;
-import com.tpa.mapper.CarrierMapper
+import com.tpa.mapper.CarrierMapper;
 import com.tpa.repository.CarrierRepository;
 import com.tpa.repository.ClaimRepository;
 import com.tpa.kafka.producer.ClaimEventProducer;
 import com.tpa.service.AiClaimAssistantService;
 import com.tpa.service.AuditLogService;
 import com.tpa.helper.ClaimStateMachine;
-import com.tpa.helper.EmailService
+import com.tpa.helper.EmailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;

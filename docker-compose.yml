@@ -88,7 +88,7 @@ services:
       - SPRING_PROFILES_ACTIVE=docker
       
       # Database (Connecting to Local Host)
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/tpa}
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://host.docker.internal:5432/tpa
       - SPRING_DATASOURCE_USERNAME=${DB_USER:-postgres}
       - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD:-postgres}
       
