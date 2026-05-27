@@ -106,7 +106,7 @@ services:
       # Admin Credentials (Seeding)
       - ADMIN_NAME=${ADMIN_NAME:-Admin}
       - ADMIN_EMAIL=${ADMIN_EMAIL:-admin@tpa.com}
-      - ADMIN_MOBILE=${ADMIN_MOBILE:-+1 415-859-2671}
+      - ADMIN_MOBILE=${ADMIN_MOBILE:-+1 (415) 859-2671}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD:-Qw3!@sPe:E1}
       
       # AI & 3rd Party Integrations
