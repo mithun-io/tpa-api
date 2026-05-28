@@ -1,0 +1,90 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:tpadb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    database-platform: org.hibernate.dialect.H2Dialect
+    properties:
+      hibernate:
+        format_sql: false
+        dialect: org.hibernate.dialect.H2Dialect
+
+  h2:
+    console:
+      enabled: false
+
+  config:
+    import: ""
+
+  mail:
+    host: smtp.test.com
+    port: 587
+    username: test@test.com
+    password: testpass
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: tpa-test-group
+      auto-offset-reset: earliest
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+  ai:
+    google:
+      genai:
+        api-key: test-api-key
+        base-url: https://generativelanguage.googleapis.com/v1beta
+        chat:
+          options:
+            model: gemini-1.5-flash
+
+server:
+  port: 0
+
+admin:
+  name: TestAdmin
+  email: admin@test.com
+  mobile: "+12025551234"
+  password: Admin@1234
+
+jwt:
+  secret: dGVzdFNlY3JldEtleUZvclRwYUFwcGxpY2F0aW9uVGVzdGluZzEyMzQ1Njc4OTA=
+  expiration: 86400000
+
+file:
+  upload-dir: ./test-uploads
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+logging:
+  level:
+    root: warn
+    com.tpa: warn
+
+razorpay:
+  api:
+    key: test_razorpay_key
+    secret: test_razorpay_secret

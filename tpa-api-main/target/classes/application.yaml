@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: tpa
+
+  profiles:
+    active: "dev"

@@ -1,0 +1,37 @@
+in local machine
+docker-compose up -d --build
+or
+docker-compose -f .\tpa\docker-compose.yml up -d --build
+
+Step 1: Create a EC2 instance in AWS
+Instance:
+1. OS - Ubuntu
+2. Create a Key Pair
+3. Security Groups - Allow port 3000 & 8080 (Custom TCP)
+4. Launch and Connect to the Instance
+
+sudo apt update -y
+sudo apt install docker.io -y
+sudo systemctl start docker
+sudo systemctl enable docker
+
+sudo usermod -aG docker ubuntu
+newgrp docker
+
+sudo apt install docker-compose -y
+
+git clone https://github.com/mithun-io/tpa.git
+cd tpa
+
+sudo usermod -aG docker ubuntu
+exit
+
+docker-compose up --build -d
+
+| Type       | Port | Source    |
+| ---------- | ---- | --------- |
+| Custom TCP | 3000 | 0.0.0.0/0 |
+| Custom TCP | 8080 | 0.0.0.0/0 |
+
+
+http://<public-ip>:3000
