@@ -119,6 +119,9 @@ public class Claim {
     @Column(length = 500)
     private String fraudFlags;
 
+    @Version
+    private Long version;
+
     @PrePersist
     protected void onCreate() {
         if (tenantId == null) tenantId = "default";

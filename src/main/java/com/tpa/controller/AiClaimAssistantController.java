@@ -24,14 +24,14 @@ public class AiClaimAssistantController {
 
     @PostMapping("/analyze/{claimId}")
     @PreAuthorize("hasAnyRole('ADMIN', 'SPECIALIST', 'PATIENT')")
-    public ResponseEntity<ApiResponse<AiAnalysisResponse>> analyzeClaim(@PathVariable Long claimId, @RequestBody(required = false) Map<String, String> request) {
-        return ResponseEntity.ok(new ApiResponse<>(true, "Claim analysis completed successfully", aiClaimAssistantService.analyzeClaim(claimId, request != null ? request.get("prompt") : null), 200));
+    public ResponseEntity<ApiResponse<AiAnalysisResponse>> analyzeClaim(@PathVariable Long claimId, @RequestBody(required = false) Map<String, String> request, java.security.Principal principal) {
+        return ResponseEntity.ok(new ApiResponse<>(true, "Claim analysis completed successfully", aiClaimAssistantService.analyzeClaim(claimId, request != null ? request.get("prompt") : null, principal.getName()), 200));
     }
 
     @PostMapping("/claims/{id}/generate-summary")
     @PreAuthorize("hasAnyRole('ADMIN', 'CARRIER', 'PATIENT')")
-    public ResponseEntity<ApiResponse<Map<String, String>>> generateClaimSummary(@PathVariable Long id) {
-        return ResponseEntity.ok(new ApiResponse<>(true, "Claim summary generated successfully", Map.of("summary", aiClaimAssistantService.generateClaimSummary(id)), 200));
+    public ResponseEntity<ApiResponse<Map<String, String>>> generateClaimSummary(@PathVariable Long id, java.security.Principal principal) {
+        return ResponseEntity.ok(new ApiResponse<>(true, "Claim summary generated successfully", Map.of("summary", aiClaimAssistantService.generateClaimSummary(id, principal.getName())), 200));
     }
 
     @PostMapping("/validate-claim")

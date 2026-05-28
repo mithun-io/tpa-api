@@ -43,6 +43,15 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     @Transactional
     public void createNotification(User user, String title, String message, String targetUrl) {
+        List<Notification> recent = notificationRepository.findByUserIdOrderByCreatedAtDesc(user.getId());
+        if (!recent.isEmpty()) {
+            Notification last = recent.get(0);
+            if (title.equals(last.getTitle()) && message.equals(last.getMessage()) 
+                && last.getCreatedAt().isAfter(java.time.LocalDateTime.now().minusMinutes(5))) {
+                log.info("Ignoring duplicate spam notification for user {}", user.getEmail());
+                return;
+            }
+        }
         Notification notification = Notification.builder()
                 .user(user)
                 .title(title)

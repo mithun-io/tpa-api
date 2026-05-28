@@ -17,27 +17,20 @@ public class WebConfig implements WebMvcConfigurer {
 
     private final RateLimitingInterceptor rateLimitingInterceptor;
 
-    @Value("${file.upload-dir}")
-    private String uploadDir;
+    @Value("${cors.allowed-origins:http://localhost:3000}")
+    private String allowedOrigins;
 
     @Override
     public void addInterceptors(InterceptorRegistry interceptorRegistry) {
         interceptorRegistry.addInterceptor(rateLimitingInterceptor).addPathPatterns("/api/v1/**");
     }
 
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry resourceHandlerRegistry) {
-        String path = Paths.get(uploadDir)
-                .toAbsolutePath()
-                .toUri()
-                .toString();
-        resourceHandlerRegistry.addResourceHandler("/uploads/**").addResourceLocations(path);
-    }
+    // Removed addResourceHandlers to prevent static exposure of /uploads/**
 
     @Override
     public void addCorsMappings(CorsRegistry corsRegistry) {
         corsRegistry.addMapping("/**")
-                .allowedOriginPatterns("*")
+                .allowedOrigins(allowedOrigins.split(","))
                 .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true)

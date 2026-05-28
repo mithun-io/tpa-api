@@ -1,7 +1,9 @@
 package com.tpa.controller;
 
+import com.tpa.dto.response.auth.ApiResponse;
 import com.tpa.dto.response.user.UserResponse;
 import com.tpa.entity.User;
+import com.tpa.exception.NoResourceFoundException;
 import com.tpa.mapper.UserMapper;
 import com.tpa.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +25,8 @@ public class UserController {
 
     @GetMapping("/profile")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<UserResponse> getUserProfile(Principal principal) {
-        User user = userRepository.findByEmail(principal.getName()).orElseThrow(() -> new RuntimeException("User not found"));
-        return ResponseEntity.ok(userMapper.toUserResponse(user));
+    public ResponseEntity<ApiResponse<UserResponse>> getUserProfile(Principal principal) {
+        User user = userRepository.findByEmail(principal.getName()).orElseThrow(() -> new NoResourceFoundException("User not found"));
+        return ResponseEntity.ok(new ApiResponse<>(true, "Profile fetched successfully", userMapper.toUserResponse(user), 200));
     }
 }

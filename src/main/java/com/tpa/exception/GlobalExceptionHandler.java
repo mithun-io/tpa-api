@@ -18,6 +18,7 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -134,9 +135,15 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse<>(false, "Validation configuration error.", e.getMessage(), 500));
     }
 
+    @ExceptionHandler(ObjectOptimisticLockingFailureException.class)
+    public ResponseEntity<ApiResponse<String>> handle(ObjectOptimisticLockingFailureException e) {
+        log.warn("Optimistic locking conflict: {}", e.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(new ApiResponse<>(false, "Data was modified by another transaction. Please refresh and try again.", e.getMessage(), 409));
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<String>> handle(Exception e) {
         log.error("Unhandled exception [{}]: {}", e.getClass().getSimpleName(), e.getMessage(), e);
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse<>(false, "An unexpected error occurred. Please contact support if the issue persists.", e.getMessage(), 500));
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse<>(false, "An unexpected internal error occurred. Please contact support if the issue persists.", null, 500));
     }
 }

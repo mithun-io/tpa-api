@@ -29,4 +29,7 @@ public class RefreshToken {
 
     @Column(nullable = false)
     private LocalDateTime expiryDate;
+
+    @Transient
+    private String rawToken;
 }

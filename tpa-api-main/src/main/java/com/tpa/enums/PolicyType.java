@@ -1,6 +1,0 @@
-package com.tpa.enums;
-
-public enum PolicyType {
-    INDIVIDUAL_HEALTH, FAMILY_FLOATER, SENIOR_CITIZEN, CRITICAL_ILLNESS, GROUP_HEALTH
-}
-

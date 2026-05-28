@@ -10,12 +10,16 @@ import com.tpa.enums.ClaimStatus;
 import com.tpa.enums.DocumentStatus;
 import com.tpa.enums.DocumentType;
 import com.tpa.enums.PolicyStatus;
+import com.tpa.enums.UserRole;
+import com.tpa.entity.User;
 import com.tpa.exception.BadRequestException;
 import com.tpa.exception.NoResourceFoundException;
+import org.springframework.security.access.AccessDeniedException;
 import com.tpa.kafka.producer.ClaimEventProducer;
 import com.tpa.mapper.ClaimDocumentMapper;
 import com.tpa.repository.ClaimDocumentRepository;
 import com.tpa.repository.ClaimRepository;
+import com.tpa.repository.UserRepository;
 import com.tpa.service.AiClaimAssistantService;
 import com.tpa.service.ClaimService;
 import com.tpa.service.FileUploadService;
@@ -41,6 +45,7 @@ public class FileUploadServiceImpl implements FileUploadService {
 
     private final ClaimDocumentRepository claimDocumentRepository;
     private final ClaimRepository claimRepository;
+    private final UserRepository userRepository;
 
     private final StorageProvider storageProvider;
 
@@ -54,12 +59,25 @@ public class FileUploadServiceImpl implements FileUploadService {
 
     private final ObjectMapper objectMapper;
 
+    private void verifyOwnership(Claim claim, String username) {
+        User user = userRepository.findByEmail(username).orElseThrow(() -> new NoResourceFoundException("User not found"));
+        if (user.getUserRole() == UserRole.ADMIN || user.getUserRole() == UserRole.SPECIALIST) {
+            return;
+        }
+        if (user.getUserRole() == UserRole.PATIENT && !claim.getUser().getId().equals(user.getId())) {
+            throw new AccessDeniedException("You don't have access to this claim");
+        }
+        if (user.getUserRole() == UserRole.CARRIER && (claim.getCarrier() == null || !claim.getCarrier().getUser().getId().equals(user.getId()))) {
+            throw new AccessDeniedException("You don't have access to this claim");
+        }
+    }
+
     @Override
-    @Transactional
-    public ClaimDocumentResponse uploadDocument(Long claimId, String documentType, MultipartFile multipartFile) {
+    public ClaimDocumentResponse uploadDocument(Long claimId, String documentType, MultipartFile multipartFile, String username) {
         validateFile(multipartFile);
 
         Claim claim = claimRepository.findById(claimId).orElseThrow(() -> new NoResourceFoundException("Claim not found"));
+        verifyOwnership(claim, username);
         String filePath = storageProvider.storeFile(multipartFile);
 
         ClaimDocument claimDocument = ClaimDocument.builder()
@@ -82,14 +100,14 @@ public class FileUploadServiceImpl implements FileUploadService {
     }
 
     @Override
-    @Transactional
-    public List<ClaimDocumentResponse> uploadDocuments(Long claimId, List<MultipartFile> multipartFiles) {
+    public List<ClaimDocumentResponse> uploadDocuments(Long claimId, List<MultipartFile> multipartFiles, String username) {
 
         if (multipartFiles == null || multipartFiles.isEmpty()) {
             throw new BadRequestException("No files uploaded");
         }
 
         Claim claim = claimRepository.findById(claimId).orElseThrow(() -> new NoResourceFoundException("Claim not found"));
+        verifyOwnership(claim, username);
 
         List<ClaimDocument> savedDocuments = new ArrayList<>();
 
@@ -131,8 +149,9 @@ public class FileUploadServiceImpl implements FileUploadService {
 
     @Override
     @Transactional(readOnly = true)
-    public ResponseEntity<Resource> downloadDocument(Long documentId) {
+    public ResponseEntity<Resource> downloadDocument(Long documentId, String username) {
         ClaimDocument document = claimDocumentRepository.findById(documentId).orElseThrow(() -> new NoResourceFoundException("Document not found"));
+        verifyOwnership(document.getClaim(), username);
 
         Resource resource = storageProvider.loadFileAsResource(document.getFilePath());
 
@@ -144,15 +163,17 @@ public class FileUploadServiceImpl implements FileUploadService {
 
     @Override
     @Transactional(readOnly = true)
-    public ClaimDocumentResponse getDocument(Long documentId) {
+    public ClaimDocumentResponse getDocument(Long documentId, String username) {
         ClaimDocument document = claimDocumentRepository.findById(documentId).orElseThrow(() -> new NoResourceFoundException("Document not found"));
+        verifyOwnership(document.getClaim(), username);
         return claimDocumentMapper.toResponse(document);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<ClaimDocumentResponse> getDocumentsForClaim(Long claimId) {
+    public List<ClaimDocumentResponse> getDocumentsForClaim(Long claimId, String username) {
         Claim claim = claimRepository.findById(claimId).orElseThrow(() -> new NoResourceFoundException("Claim not found"));
+        verifyOwnership(claim, username);
         List<ClaimDocument> documents = claimDocumentRepository.findByClaim(claim);
         return claimDocumentMapper.toResponses(documents);
     }

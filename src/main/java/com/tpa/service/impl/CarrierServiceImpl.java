@@ -212,6 +212,6 @@ public class CarrierServiceImpl implements CarrierService {
                 ? body.get("prompt")
                 : "Analyze this insurance claim for fraud risk, billing mismatch, and policy coverage issues.";
 
-        return aiClaimAssistantService.analyzeClaim(claim.getId(), prompt);
+        return aiClaimAssistantService.analyzeClaim(claim.getId(), prompt, username);
     }
 }

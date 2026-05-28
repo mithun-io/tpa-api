@@ -57,6 +57,15 @@ public class AuditLogServiceImpl implements AuditLogService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         String performedBy = (authentication != null && authentication.getName() != null) ? authentication.getName() : "SYSTEM";
+        
+        String ipAddress = "UNKNOWN";
+        try {
+            org.springframework.web.context.request.ServletRequestAttributes attributes = 
+                (org.springframework.web.context.request.ServletRequestAttributes) org.springframework.web.context.request.RequestContextHolder.getRequestAttributes();
+            if (attributes != null) {
+                ipAddress = attributes.getRequest().getRemoteAddr();
+            }
+        } catch (Exception e) {}
 
         // Fetch the hash of the last audit record for this claim (chain link)
         String previousHash = auditLogRepository.findTopByClaimIdOrderByIdDesc(claimId)
@@ -73,7 +82,8 @@ public class AuditLogServiceImpl implements AuditLogService {
                 "|" + prevStatusStr +
                 "|" + newStatusStr +
                 "|" + performedBy +
-                "|" + previousHash;
+                "|" + previousHash + 
+                "|" + ipAddress;
 
         String hash = computeSha256(payload);
 
@@ -83,6 +93,7 @@ public class AuditLogServiceImpl implements AuditLogService {
                 .previousStatus(previousStatus)
                 .newStatus(newStatus)
                 .performedBy(performedBy)
+                .ipAddress(ipAddress)
                 .integrityHash(hash)
                 .previousHash(previousHash)
                 .blockchainHash(hash)
@@ -145,6 +156,10 @@ public class AuditLogServiceImpl implements AuditLogService {
                     "|" + newStatus +
                     "|" + record.getPerformedBy() +
                     "|" + record.getPreviousHash();
+            
+            if (record.getIpAddress() != null) {
+                payload += "|" + record.getIpAddress();
+            }
 
             String recomputed = computeSha256(payload);
             if (!recomputed.equals(record.getIntegrityHash())) {

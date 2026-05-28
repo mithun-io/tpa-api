@@ -63,4 +63,16 @@ public class AuditLog {
     // @Deprecated Kept for backward compatibility. Use integrityHash instead.
     @Deprecated
     private String blockchainHash;
+
+    private String ipAddress;
+
+    @PreUpdate
+    public void preUpdate() {
+        throw new UnsupportedOperationException("Audit logs are immutable and cannot be updated");
+    }
+
+    @PreRemove
+    public void preRemove() {
+        throw new UnsupportedOperationException("Audit logs are permanent and cannot be deleted");
+    }
 }

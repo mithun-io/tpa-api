@@ -4,12 +4,21 @@ spring:
     url: ${DATABASE_URL}
     username: ${DATABASE_USERNAME}
     password: ${DATABASE_PASSWORD}
+    hikari:
+      maximum-pool-size: 15
+      connection-timeout: 20000
+      idle-timeout: 300000
 
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: false
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      javax:
+        persistence:
+          query:
+            timeout: 10000
 
   servlet:
     multipart:

@@ -35,6 +35,8 @@ public class ClaimResponse {
 
     private String policyNumber;
 
+    private String carrierName;
+
     private ClaimStatus claimStatus;
 
     private String claimType;

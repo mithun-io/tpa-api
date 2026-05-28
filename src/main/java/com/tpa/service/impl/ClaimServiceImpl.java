@@ -71,10 +71,15 @@ public class ClaimServiceImpl implements ClaimService {
     }
 
     private boolean isPatient(Authentication authentication) {
-
         return authentication.getAuthorities()
                 .stream()
                 .anyMatch(a -> a.getAuthority().equals("ROLE_PATIENT"));
+    }
+
+    private boolean isCarrier(Authentication authentication) {
+        return authentication.getAuthorities()
+                .stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_CARRIER"));
     }
 
     private boolean isAdmin(Authentication authentication) {
@@ -91,6 +96,15 @@ public class ClaimServiceImpl implements ClaimService {
         if (isPatient(authentication)) {
             if (claimResponse.getUserEmail() == null || !claimResponse.getUserEmail().equals(username)) {
                 throw new AccessDeniedException("Access denied");
+            }
+        } else if (isCarrier(authentication)) {
+            if (claimResponse.getCarrierName() == null) {
+                throw new AccessDeniedException("Access denied");
+            }
+            User user = getUser(username);
+            Carrier carrier = carrierRepository.findByUser_Email(user.getEmail()).orElseThrow(() -> new AccessDeniedException("Carrier profile not found"));
+            if (!claimResponse.getCarrierName().equalsIgnoreCase(carrier.getCompanyName())) {
+                throw new AccessDeniedException("Access denied: claim assigned to different carrier");
             }
         }
     }
@@ -135,7 +149,7 @@ public class ClaimServiceImpl implements ClaimService {
     @Override
     @Transactional(readOnly = true)
     public ClaimResponse getClaim(Long claimId, String username) {
-        Claim claim = claimRepository.findById(claimId).orElseThrow(() -> new RuntimeException("Claim not found"));
+        Claim claim = claimRepository.findById(claimId).orElseThrow(() -> new NoResourceFoundException("Claim not found"));
 
         ClaimResponse claimResponse = claimMapper.toClaimResponse(claim);
         validateClaimAccess(claimResponse, username);
@@ -146,7 +160,7 @@ public class ClaimServiceImpl implements ClaimService {
     @Override
     @Transactional(readOnly = true)
     public ClaimResponse getClaim(Long claimId) {
-        Claim claim = claimRepository.findById(claimId).orElseThrow(() -> new RuntimeException("Claim not found"));
+        Claim claim = claimRepository.findById(claimId).orElseThrow(() -> new NoResourceFoundException("Claim not found"));
         return claimMapper.toClaimResponse(claim);
     }
 
@@ -166,7 +180,7 @@ public class ClaimServiceImpl implements ClaimService {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     @CacheEvict(value = "claims", key = "#claimId")
     public void processClaimDecision(Long claimId, ClaimDecisionResponse claimDecisionResponse) {
-        Claim claim = claimRepository.findById(claimId).orElseThrow(() -> new RuntimeException("Claim not found"));
+        Claim claim = claimRepository.findById(claimId).orElseThrow(() -> new NoResourceFoundException("Claim not found"));
         ClaimStatus previousStatus = claim.getClaimStatus();
 
         if (previousStatus == ClaimStatus.CARRIER_APPROVED || previousStatus == ClaimStatus.REJECTED || previousStatus == ClaimStatus.SETTLED) {
@@ -250,7 +264,7 @@ public class ClaimServiceImpl implements ClaimService {
     @Override
     @Transactional
     public void deleteClaim(Long claimId, String username) {
-        Claim claim = claimRepository.findById(claimId).orElseThrow(() -> new RuntimeException("Claim not found"));
+        Claim claim = claimRepository.findById(claimId).orElseThrow(() -> new NoResourceFoundException("Claim not found"));
 
         User user = getUser(username);
 
@@ -278,14 +292,18 @@ public class ClaimServiceImpl implements ClaimService {
 
         for (Long claimId : claimIds) {
             try {
-                Claim claim = claimRepository.findById(claimId).orElseThrow(() -> new RuntimeException("Claim not found: " + claimId));
+                Claim claim = claimRepository.findById(claimId).orElseThrow(() -> new NoResourceFoundException("Claim not found: " + claimId));
 
-                claim.setClaimStatus(ClaimStatus.APPROVED);
+                claimStateMachine.validateTransition(claim.getClaimStatus(), ClaimStatus.ADMIN_APPROVED);
+                ClaimStatus previousStatus = claim.getClaimStatus();
+
+                claim.setClaimStatus(ClaimStatus.ADMIN_APPROVED);
                 claim.setReviewedBy(approvedBy);
                 claim.setReviewedAt(LocalDateTime.now());
 
                 claimRepository.save(claim);
 
+                auditLogService.logAction(claimId, "BULK_APPROVAL", previousStatus, ClaimStatus.ADMIN_APPROVED);
                 paymentService.initiateInstantPayout(claim);
                 auditForensicService.logAction(claimId, "BULK_APPROVAL", "Claim approved via Bulk Settlement Portal", approvedBy);
 
@@ -324,7 +342,7 @@ public class ClaimServiceImpl implements ClaimService {
     @Override
     @Transactional
     public ClaimQueryResponse createClaimQuery(Long claimId, ClaimQueryRequest claimQueryRequest, String username) {
-        Claim claim = claimRepository.findById(claimId).orElseThrow(() -> new RuntimeException("Claim not found"));
+        Claim claim = claimRepository.findById(claimId).orElseThrow(() -> new NoResourceFoundException("Claim not found"));
         getClaim(claimId, username);
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

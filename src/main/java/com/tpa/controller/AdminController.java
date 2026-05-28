@@ -33,17 +33,17 @@ public class AdminController {
     private final ClaimService claimService;
 
     @PatchMapping("/users/{id}/block")
-    public ResponseEntity<UserResponse> blockUser(@PathVariable Long id) {
-        return ResponseEntity.ok(adminService.blockUser(id));
+    public ResponseEntity<ApiResponse<UserResponse>> blockUser(@PathVariable Long id) {
+        return ResponseEntity.ok(new ApiResponse<>(true, "User blocked successfully", adminService.blockUser(id), 200));
     }
 
     @PatchMapping("/users/{id}/unblock")
-    public ResponseEntity<UserResponse> unblockUser(@PathVariable Long id) {
-        return ResponseEntity.ok(adminService.unblockUser(id));
+    public ResponseEntity<ApiResponse<UserResponse>> unblockUser(@PathVariable Long id) {
+        return ResponseEntity.ok(new ApiResponse<>(true, "User unblocked successfully", adminService.unblockUser(id), 200));
     }
 
     @GetMapping("/users")
-    public ResponseEntity<ApiResponse<Page<UserResponse>>> getAllUsers(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(required = false) String search) {
+    public ResponseEntity<ApiResponse<Page<UserResponse>>> getAllUsers(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(required = false) String search) {
         return ResponseEntity.ok(new ApiResponse<>(true, "Users fetched successfully", adminService.getAllUsers(page, size, search), 200));
     }
 

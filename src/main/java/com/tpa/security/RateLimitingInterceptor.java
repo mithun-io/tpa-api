@@ -21,9 +21,11 @@ public class RateLimitingInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object object) throws Exception {
         String clientIp = httpServletRequest.getRemoteAddr();
+        String uri = httpServletRequest.getRequestURI();
+        String key = clientIp + ":" + uri;
         long currentTime = Instant.now().getEpochSecond();
 
-        requestCounts.compute(clientIp, (key, requestInfo) -> {
+        requestCounts.compute(key, (k, requestInfo) -> {
             if (requestInfo == null || currentTime - requestInfo.timestamp > 60) {
                 return new RequestInfo(1, currentTime);
             }
@@ -31,7 +33,7 @@ public class RateLimitingInterceptor implements HandlerInterceptor {
             return requestInfo;
         });
 
-        RequestInfo requestInfo = requestCounts.get(clientIp);
+        RequestInfo requestInfo = requestCounts.get(key);
 
         if (requestInfo.count > MAX_REQUESTS_PER_MINUTE) {
             httpServletResponse.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());

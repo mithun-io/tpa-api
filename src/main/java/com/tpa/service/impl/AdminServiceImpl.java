@@ -29,6 +29,7 @@ import com.tpa.repository.ClaimRepository;
 import com.tpa.kafka.producer.ClaimEventProducer;
 import com.tpa.service.AiClaimAssistantService;
 import com.tpa.service.AuditLogService;
+import com.tpa.service.RefreshTokenService;
 import com.tpa.helper.ClaimStateMachine;
 import com.tpa.helper.EmailService;
 import lombok.RequiredArgsConstructor;
@@ -63,6 +64,7 @@ public class AdminServiceImpl implements AdminService {
     
     private final AiClaimAssistantService aiClaimAssistantService;
     private final AuditLogService auditLogService;
+    private final RefreshTokenService refreshTokenService;
     
     private final ProducerService producerService;
     private final ClaimStateMachine claimStateMachine;
@@ -103,6 +105,8 @@ public class AdminServiceImpl implements AdminService {
         validateUserTransition(user.getUserStatus(), UserStatus.BLOCKED);
         user.setUserStatus(UserStatus.BLOCKED);
 
+        refreshTokenService.deleteByUserId(id);
+
         return userMapper.toUserResponse(user);
     }
 
@@ -119,7 +123,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     @Transactional(readOnly = true)
     public Page<UserResponse> getAllUsers(int page, int size, String search) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        Pageable pageable = PageRequest.of(Math.max(page, 1) - 1, size, Sort.by("createdAt").descending());
         Page<User> users;
 
         if (search != null && !search.trim().isEmpty()) {
@@ -408,7 +412,8 @@ public class AdminServiceImpl implements AdminService {
         }
 
         log.info("Requesting AI summary for claim {}", claimId);
-        return aiClaimAssistantService.analyzeClaim(claimId, "Please summarize this claim for an admin reviewer. Highlight any discrepancies or high-risk factors.");
+        String username = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getName();
+        return aiClaimAssistantService.analyzeClaim(claimId, "Please summarize this claim for an admin reviewer. Highlight any discrepancies or high-risk factors.", username);
     }
 
     @Override
@@ -419,7 +424,8 @@ public class AdminServiceImpl implements AdminService {
         }
 
         log.info("Requesting custom AI analysis for claim {} with prompt: {}", claimId, prompt);
-        return aiClaimAssistantService.analyzeClaim(claimId, prompt);
+        String username = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getName();
+        return aiClaimAssistantService.analyzeClaim(claimId, prompt, username);
     }
 
     @Override

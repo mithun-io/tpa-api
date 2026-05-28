@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
+import org.springframework.transaction.annotation.Transactional;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -16,16 +18,12 @@ public class ConsumerService {
     private final EmailService emailService;
     private final ObjectMapper objectMapper;
 
-    @KafkaListener(topics = "payment-success", groupId = "tpa-group")
-    public void consume(String message) {
-        try {
-            PaymentEvent paymentEvent = objectMapper.readValue(message, PaymentEvent.class);
+    @KafkaListener(topics = "payment-success", groupId = "tpa-group", containerFactory = "retryKafkaListenerContainerFactory")
+    @Transactional
+    public void consume(String message) throws Exception {
+        PaymentEvent paymentEvent = objectMapper.readValue(message, PaymentEvent.class);
 
-            log.info("Kafka received: {}", paymentEvent);
-            emailService.sendPaymentConfirmation(paymentEvent.getEmail(), paymentEvent.getOrderId(), paymentEvent.getAmount());
-
-        } catch (Exception e) {
-            log.error("Failed to process Kafka message: {}", message, e);
-        }
+        log.info("Kafka received: {}", paymentEvent);
+        emailService.sendPaymentConfirmation(paymentEvent.getEmail(), paymentEvent.getOrderId(), paymentEvent.getAmount());
     }
 }

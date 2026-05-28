@@ -20,6 +20,22 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final UserRepository userRepository;
 
+    private String hashToken(String token) {
+        try {
+            java.security.MessageDigest digest = java.security.MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(token.getBytes(java.nio.charset.StandardCharsets.UTF_8));
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hash) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to hash token", e);
+        }
+    }
+
     @Override
     @Transactional
     public RefreshToken createRefreshToken(Long userId) {
@@ -27,9 +43,13 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
 
         refreshTokenRepository.deleteByUser_Id(userId);
 
+        String rawToken = UUID.randomUUID().toString();
+        String hashedToken = hashToken(rawToken);
+
         RefreshToken refreshToken = RefreshToken.builder()
                 .user(user)
-                .token(UUID.randomUUID().toString())
+                .token(hashedToken)
+                .rawToken(rawToken)
                 .expiryDate(LocalDateTime.now().plusDays(7)) // 7 days expiry
                 .build();
 

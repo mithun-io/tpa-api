@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-05-28T10:48:18+0530",
+    date = "2026-05-28T12:58:22+0530",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.12 (Oracle Corporation)"
 )
 @Component
@@ -39,6 +39,7 @@ public class ClaimMapperImpl implements ClaimMapper {
         claimResponse.totalBillAmount( claim.getTotalBillAmount() );
         claimResponse.policyId( claim.getPolicyId() );
         claimResponse.policyNumber( claim.getPolicyNumber() );
+        claimResponse.carrierName( claim.getCarrierName() );
         claimResponse.claimStatus( claim.getClaimStatus() );
         claimResponse.claimType( claim.getClaimType() );
         claimResponse.diagnosis( claim.getDiagnosis() );

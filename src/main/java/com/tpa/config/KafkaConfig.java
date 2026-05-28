@@ -101,15 +101,15 @@ public class KafkaConfig {
     @Bean public NewTopic claimRejectedTopic()        { return newTopic("claim-lifecycle.rejected"); }
 
     // DLQ topics — all lifecycle topics get a DLQ companion
-    @Bean public NewTopic claimUploadedDlqTopic()        { return newTopic("claim-lifecycle.uploaded-dlq"); }
-    @Bean public NewTopic claimOcrCompletedDlqTopic()    { return newTopic("claim-lifecycle.ocr-completed-dlq"); }
-    @Bean public NewTopic claimAiDoneDlqTopic()          { return newTopic("claim-lifecycle.ai-done-dlq"); }
-    @Bean public NewTopic claimRuleEvaluatedDlqTopic()   { return newTopic("claim-lifecycle.rule-evaluated-dlq"); }
-    @Bean public NewTopic claimAdminApprovedDlqTopic()   { return newTopic("claim-lifecycle.admin-approved-dlq"); }
-    @Bean public NewTopic claimCarrierApprovedDlqTopic() { return newTopic("claim-lifecycle.carrier-approved-dlq"); }
-    @Bean public NewTopic claimPaymentInitiatedDlqTopic(){ return newTopic("claim-lifecycle.payment-initiated-dlq"); }
-    @Bean public NewTopic claimPaymentCompletedDlqTopic(){ return newTopic("claim-lifecycle.payment-completed-dlq"); }
-    @Bean public NewTopic claimRejectedDlqTopic()        { return newTopic("claim-lifecycle.rejected-dlq"); }
+    @Bean public NewTopic claimUploadedDlqTopic()        { return newDlqTopic("claim-lifecycle.uploaded-dlq"); }
+    @Bean public NewTopic claimOcrCompletedDlqTopic()    { return newDlqTopic("claim-lifecycle.ocr-completed-dlq"); }
+    @Bean public NewTopic claimAiDoneDlqTopic()          { return newDlqTopic("claim-lifecycle.ai-done-dlq"); }
+    @Bean public NewTopic claimRuleEvaluatedDlqTopic()   { return newDlqTopic("claim-lifecycle.rule-evaluated-dlq"); }
+    @Bean public NewTopic claimAdminApprovedDlqTopic()   { return newDlqTopic("claim-lifecycle.admin-approved-dlq"); }
+    @Bean public NewTopic claimCarrierApprovedDlqTopic() { return newDlqTopic("claim-lifecycle.carrier-approved-dlq"); }
+    @Bean public NewTopic claimPaymentInitiatedDlqTopic(){ return newDlqTopic("claim-lifecycle.payment-initiated-dlq"); }
+    @Bean public NewTopic claimPaymentCompletedDlqTopic(){ return newDlqTopic("claim-lifecycle.payment-completed-dlq"); }
+    @Bean public NewTopic claimRejectedDlqTopic()        { return newDlqTopic("claim-lifecycle.rejected-dlq"); }
 
     // Supporting topics
     @Bean public NewTopic claimNotificationsTopic()  { return newTopic("claim-notifications"); }
@@ -121,6 +121,14 @@ public class KafkaConfig {
         return TopicBuilder.name(name)
                 .partitions(3)
                 .replicas(1)
+                .build();
+    }
+
+    private NewTopic newDlqTopic(String name) {
+        return TopicBuilder.name(name)
+                .partitions(3)
+                .replicas(1)
+                .config(org.apache.kafka.common.config.TopicConfig.RETENTION_MS_CONFIG, "1209600000") // 14 days
                 .build();
     }
 }

@@ -150,6 +150,7 @@ com\tpa\dto\response\auth\NotificationResponse.class
 com\tpa\dto\response\claim\ClaimQueryResponse.class
 com\tpa\dto\response\auth\VerifyAuditResponse$VerifyAuditResponseBuilder.class
 com\tpa\mapper\PatientMapperImpl.class
+com\tpa\service\impl\AuthServiceImpl$2.class
 com\tpa\dto\response\user\UserResponse.class
 com\tpa\dto\response\analytics\LossRatioResponse$LossRatioResponseBuilder.class
 com\tpa\dto\response\claim\ClaimLeakageResponse$ClaimLeakageResponseBuilder.class
@@ -169,6 +170,7 @@ com\tpa\dto\request\medical\MedicalValidationRequest.class
 com\tpa\mapper\UserMapper.class
 com\tpa\dto\response\claim\FraudClaimResponse$FraudClaimResponseBuilder.class
 com\tpa\enums\RiskLevel.class
+com\tpa\service\impl\AuthServiceImpl$3.class
 com\tpa\service\impl\FraudDetectionServiceImpl.class
 com\tpa\dto\response\auth\DocumentValidationResponse$DocumentValidationResponseBuilder.class
 com\tpa\dto\response\analytics\AnalyticsResponse.class

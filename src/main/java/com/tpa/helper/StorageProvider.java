@@ -51,7 +51,11 @@ public class StorageProvider {
         String fileName = UUID.randomUUID() + "_" + originalFileName;
 
         try {
-            Path targetLocation = this.uploadPath.resolve(fileName);
+            Path targetLocation = this.uploadPath.resolve(fileName).normalize();
+
+            if (!targetLocation.startsWith(this.uploadPath)) {
+                throw new BadRequestException("Path traversal attempt detected");
+            }
 
             Files.copy(multipartFile.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
@@ -88,16 +92,26 @@ public class StorageProvider {
             throw new BadRequestException("File is empty");
         }
 
-        String contentType = file.getContentType();
-
-        if (contentType == null || !ALLOWED_CONTENT_TYPES.contains(contentType)) {
-            throw new BadRequestException("Invalid file type. Only PDF, JPG and PNG are allowed");
-        }
-
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-
+        String fileName = StringUtils.cleanPath(file.getOriginalFilename() != null ? file.getOriginalFilename() : "");
         if (fileName.contains("..")) {
             throw new BadRequestException("Invalid file name");
+        }
+
+        try (java.io.InputStream is = file.getInputStream()) {
+            byte[] header = new byte[8];
+            if (is.read(header) < 4) {
+                throw new BadRequestException("File too small");
+            }
+
+            boolean isPdf = header[0] == 0x25 && header[1] == 0x50 && header[2] == 0x44 && header[3] == 0x46;
+            boolean isJpeg = (header[0] & 0xFF) == 0xFF && (header[1] & 0xFF) == 0xD8 && (header[2] & 0xFF) == 0xFF;
+            boolean isPng = (header[0] & 0xFF) == 0x89 && header[1] == 0x50 && header[2] == 0x4E && header[3] == 0x47 && header[4] == 0x0D && header[5] == 0x0A && header[6] == 0x1A && header[7] == 0x0A;
+
+            if (!isPdf && !isJpeg && !isPng) {
+                throw new BadRequestException("Invalid file type. Only PDF, JPG and PNG are allowed");
+            }
+        } catch (IOException e) {
+            throw new BadRequestException("Could not read file for validation");
         }
     }
 }

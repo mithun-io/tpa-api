@@ -98,10 +98,14 @@ public class AuthServiceImpl implements AuthService {
         if (storedOtp == null) {
             throw new BadRequestException("Otp expired or invalid");
         }
+        if (redisService.getOtpAttempts(otpRequest.getEmail()) >= 5) {
+            throw new BadRequestException("Max OTP attempts reached. Please request a new OTP.");
+        }
         if (storedPatient == null) {
             throw new BadRequestException("No pending registration found");
         }
         if (!String.valueOf(storedOtp).equals(otpRequest.getOtp())) {
+            redisService.incrementOtpAttempt(otpRequest.getEmail());
             throw new BadRequestException("Invalid otp");
         }
         if (userRepository.existsByEmail(storedPatient.getEmail())) {
@@ -127,9 +131,23 @@ public class AuthServiceImpl implements AuthService {
                 .build();
         patientRepository.save(patient);
 
-        emailService.sendPatientRegistrationConfirmation(user.getUsername(), user.getEmail());
+        final String username = user.getUsername();
+        final String email = user.getEmail();
+
+        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+            @Override
+            public void afterCommit() {
+                try {
+                    emailService.sendPatientRegistrationConfirmation(username, email);
+                } catch (Exception e) {
+                    log.error("Failed to send patient registration confirmation email to {}: {}", email, e.getMessage());
+                }
+            }
+        });
+
         redisService.deletePatientOtp(otpRequest.getEmail());
         redisService.deletePendingPatient(otpRequest.getEmail());
+        redisService.deleteOtpAttempt(otpRequest.getEmail());
     }
 
     @Transactional
@@ -163,10 +181,14 @@ public class AuthServiceImpl implements AuthService {
         if (storedOtp == null) {
             throw new BadRequestException("Otp expired or invalid");
         }
+        if (redisService.getOtpAttempts(otpRequest.getEmail()) >= 5) {
+            throw new BadRequestException("Max OTP attempts reached. Please request a new OTP.");
+        }
         if (stored == null) {
             throw new BadRequestException("No pending carrier registration found");
         }
         if (!String.valueOf(storedOtp).equals(otpRequest.getOtp())) {
+            redisService.incrementOtpAttempt(otpRequest.getEmail());
             throw new BadRequestException("Invalid otp");
         }
         if (userRepository.existsByEmail(stored.getEmail())) {
@@ -201,18 +223,24 @@ public class AuthServiceImpl implements AuthService {
                 .build();
         carrier = carrierRepository.save(carrier);
 
-        emailService.sendCarrierRegistrationConfirmation(user.getUsername(), user.getEmail());
         redisService.deleteCarrierOtp(otpRequest.getEmail());
         redisService.deletePendingCarrier(otpRequest.getEmail());
+        redisService.deleteOtpAttempt(otpRequest.getEmail());
 
         final Long carrierId = carrier.getId();
         final String companyName = carrier.getCompanyName();
         final String email = user.getEmail();
         final Carrier carrierRef = carrier;
+        final String username = user.getUsername();
 
         TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
             @Override
             public void afterCommit() {
+                try {
+                    emailService.sendCarrierRegistrationConfirmation(username, email);
+                } catch (Exception e) {
+                    log.error("Failed to send carrier registration confirmation email to {}: {}", email, e.getMessage());
+                }
                 log.info("[POST-COMMIT] Running AI validation + Kafka for carrier {}", carrierId);
                 try {
                     carrierAiValidationService.validateAndScore(carrierRef);
@@ -227,17 +255,15 @@ public class AuthServiceImpl implements AuthService {
             }
         });
 
-        log.info("VerifyCarrierOtp completed synchronously. AI+Kafka deferred to post-commit.");
+        log.info("VerifyCarrierOtp completed synchronously. Email, AI+Kafka deferred to post-commit.");
     }
 
 
-    @Transactional
     @Override
     public void resendOtp(String email) {
         resendPatientOtp(email);
     }
 
-    @Transactional
     @Override
     public void resendPatientOtp(String email) {
         PatientRequest patient = redisService.getPendingPatient(email);
@@ -253,7 +279,6 @@ public class AuthServiceImpl implements AuthService {
         redisService.storePatientOtp(patient.getEmail(), otp);
     }
 
-    @Transactional
     @Override
     public void resendCarrierOtp(String email) {
         CarrierRequest carrier = redisService.getPendingCarrier(email);
@@ -294,7 +319,7 @@ public class AuthServiceImpl implements AuthService {
         
         RefreshToken refreshToken = refreshTokenService.createRefreshToken(user.getId());
         
-        return new LoginResponse(token, refreshToken.getToken(), userResponse);
+        return new LoginResponse(token, refreshToken.getRawToken(), userResponse);
     }
 
     @Transactional
@@ -322,10 +347,13 @@ public class AuthServiceImpl implements AuthService {
 
         user.setPassword(passwordEncoder.encode(passwordChangeRequest.getNewPassword()));
         userRepository.save(user);
+        
+        // Revoke all existing sessions/tokens
+        refreshTokenService.deleteByUserId(user.getId());
+        
         return userMapper.toUserResponse(user);
     }
 
-    @Transactional
     @Override
     public void forgetPassword(String email) {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new NoResourceFoundException("User not found"));
@@ -344,7 +372,11 @@ public class AuthServiceImpl implements AuthService {
         if (storedOtp == null) {
             throw new BadRequestException("Otp expired or invalid");
         }
+        if (redisService.getOtpAttempts(passwordResetRequest.getEmail()) >= 5) {
+            throw new BadRequestException("Max OTP attempts reached. Please request a new OTP.");
+        }
         if (!String.valueOf(storedOtp).equals(passwordResetRequest.getOtp())) {
+            redisService.incrementOtpAttempt(passwordResetRequest.getEmail());
             throw new BadRequestException("Invalid otp");
         }
         if (passwordEncoder.matches(passwordResetRequest.getNewPassword(), user.getPassword())) {
@@ -353,15 +385,33 @@ public class AuthServiceImpl implements AuthService {
 
         user.setPassword(passwordEncoder.encode(passwordResetRequest.getNewPassword()));
         userRepository.save(user);
+        
+        // Revoke all existing sessions/tokens
+        refreshTokenService.deleteByUserId(user.getId());
 
-        emailService.sendConfirmation(user.getUsername(), user.getEmail());
+        final String username = user.getUsername();
+        final String finalEmail = user.getEmail();
+
+        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+            @Override
+            public void afterCommit() {
+                try {
+                    emailService.sendConfirmation(username, finalEmail);
+                } catch (Exception e) {
+                    log.error("Failed to send password reset confirmation email to {}: {}", finalEmail, e.getMessage());
+                }
+            }
+        });
+        
         redisService.deleteOtp(passwordResetRequest.getEmail());
+        redisService.deleteOtpAttempt(passwordResetRequest.getEmail());
     }
 
     @Transactional
     @Override
     public LoginResponse refreshToken(RefreshTokenRequest request) {
-        RefreshToken refreshToken = refreshTokenRepository.findByToken(request.getRefreshToken()).orElseThrow(() -> new BadRequestException("Invalid refresh token"));
+        String hashedToken = hashToken(request.getRefreshToken());
+        RefreshToken refreshToken = refreshTokenRepository.findByToken(hashedToken).orElseThrow(() -> new BadRequestException("Invalid refresh token"));
         refreshTokenService.verifyExpiration(refreshToken);
 
         User user = refreshToken.getUser();
@@ -374,8 +424,24 @@ public class AuthServiceImpl implements AuthService {
 
         return LoginResponse.builder()
                 .token(accessToken)
-                .refreshToken(refreshToken.getToken())
+                .refreshToken(request.getRefreshToken())
                 .userResponse(userResponse)
                 .build();
+    }
+
+    private String hashToken(String token) {
+        try {
+            java.security.MessageDigest digest = java.security.MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(token.getBytes(java.nio.charset.StandardCharsets.UTF_8));
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hash) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to hash token", e);
+        }
     }
 }

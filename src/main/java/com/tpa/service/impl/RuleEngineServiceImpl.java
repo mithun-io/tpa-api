@@ -12,6 +12,8 @@ import com.tpa.repository.RuleExecutionAuditRepository;
 import com.tpa.service.RuleEngineService;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
+import org.codehaus.groovy.control.CompilerConfiguration;
+import org.codehaus.groovy.control.customizers.SecureASTCustomizer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.kie.api.runtime.KieContainer;
@@ -163,7 +165,32 @@ public class RuleEngineServiceImpl implements RuleEngineService {
         binding.setVariable("claim", claimRequest);
         binding.setVariable("decision", claimDecisionResponse);
 
-        GroovyShell groovyShell = new GroovyShell(binding);
+        SecureASTCustomizer secureASTCustomizer = new SecureASTCustomizer();
+        secureASTCustomizer.setMethodDefinitionAllowed(false);
+        secureASTCustomizer.setImportsWhitelist(List.of(
+                "java.lang.Math",
+                "java.util.List",
+                "java.util.ArrayList"
+        ));
+        secureASTCustomizer.setReceiversBlackList(List.of(
+                System.class.getName(),
+                Runtime.class.getName(),
+                ProcessBuilder.class.getName(),
+                java.io.File.class.getName(),
+                java.net.URL.class.getName(),
+                Class.class.getName(),
+                "java.lang.reflect.Method",
+                "java.lang.reflect.Field",
+                "java.lang.reflect.Constructor"
+        ));
+        
+        secureASTCustomizer.setIndirectImportCheckEnabled(true);
+        secureASTCustomizer.setStarImportsWhitelist(List.of());
+
+        CompilerConfiguration compilerConfiguration = new CompilerConfiguration();
+        compilerConfiguration.addCompilationCustomizers(secureASTCustomizer);
+
+        GroovyShell groovyShell = new GroovyShell(binding, compilerConfiguration);
 
         Object result = groovyShell.evaluate(ruleConfig.getGroovyScript());
 

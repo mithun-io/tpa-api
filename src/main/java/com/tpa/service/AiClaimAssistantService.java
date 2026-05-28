@@ -7,9 +7,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface AiClaimAssistantService {
 
-    AiAnalysisResponse analyzeClaim(Long claimId, String prompt);
+    AiAnalysisResponse analyzeClaim(Long claimId, String prompt, String username);
 
-    String generateClaimSummary(Long claimId);
+    String generateClaimSummary(Long claimId, String username);
 
     AiAnalysisResponse validatePreClaim(AiValidationRequest aiValidationRequest);
 

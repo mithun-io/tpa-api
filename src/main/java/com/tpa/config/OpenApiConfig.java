@@ -15,7 +15,10 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 
+import org.springframework.context.annotation.Profile;
+
 @Configuration
+@Profile("!prod")
 public class OpenApiConfig {
 
     private static final String SCHEME_NAME = "Bearer Authentication";

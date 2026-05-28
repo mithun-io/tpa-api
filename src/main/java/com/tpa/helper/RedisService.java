@@ -107,6 +107,21 @@ public class RedisService {
         redisTemplate.delete(PENDING_CARRIER_PREFIX + email);
     }
 
+    public Integer getOtpAttempts(String email) {
+        Integer attempts = (Integer) redisTemplate.opsForValue().get("OTP_ATTEMPT:" + email);
+        return attempts == null ? 0 : attempts;
+    }
+
+    public void incrementOtpAttempt(String email) {
+        String key = "OTP_ATTEMPT:" + email;
+        redisTemplate.opsForValue().increment(key);
+        redisTemplate.expire(key, Duration.ofMinutes(5));
+    }
+
+    public void deleteOtpAttempt(String email) {
+        redisTemplate.delete("OTP_ATTEMPT:" + email);
+    }
+
     public boolean isPendingPatientExists(String email) {
         return getPendingPatient(email) != null;
     }

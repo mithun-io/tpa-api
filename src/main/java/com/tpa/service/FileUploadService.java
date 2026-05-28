@@ -9,15 +9,15 @@ import java.util.List;
 
 public interface FileUploadService {
 
-    ClaimDocumentResponse uploadDocument(Long claimId, String documentType, MultipartFile multipartFile);
+    ClaimDocumentResponse uploadDocument(Long claimId, String documentType, MultipartFile multipartFile, String username);
 
-    List<ClaimDocumentResponse> uploadDocuments(Long claimId, List<MultipartFile> multipartFiles);
+    List<ClaimDocumentResponse> uploadDocuments(Long claimId, List<MultipartFile> multipartFiles, String username);
 
-    ResponseEntity<Resource> downloadDocument(Long documentId);
+    ResponseEntity<Resource> downloadDocument(Long documentId, String username);
 
-    ClaimDocumentResponse getDocument(Long documentId);
+    ClaimDocumentResponse getDocument(Long documentId, String username);
 
-    List<ClaimDocumentResponse> getDocumentsForClaim(Long claimId);
+    List<ClaimDocumentResponse> getDocumentsForClaim(Long claimId, String username);
 
     void validateFile(MultipartFile multipartFile);
 }

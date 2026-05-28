@@ -18,6 +18,7 @@ public class AsyncConfig {
         threadPoolTaskExecutor.setMaxPoolSize(10);
         threadPoolTaskExecutor.setQueueCapacity(100);
         threadPoolTaskExecutor.setThreadNamePrefix("AsyncThread-");
+        threadPoolTaskExecutor.setRejectedExecutionHandler(new java.util.concurrent.ThreadPoolExecutor.CallerRunsPolicy());
         threadPoolTaskExecutor.initialize();
 
         return threadPoolTaskExecutor;

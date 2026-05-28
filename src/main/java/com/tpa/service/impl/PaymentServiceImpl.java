@@ -176,7 +176,12 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     @Transactional
     public PaymentResponse verifyPayment(VerifyPaymentRequest request) {
-        Payment payment = paymentRepository.findByRazorpayOrderId(request.razorpay_order_id()).orElseThrow(() -> new NoResourceFoundException("Payment order not found"));
+        Payment payment = paymentRepository.findByRazorpayOrderIdWithLock(request.razorpay_order_id()).orElseThrow(() -> new NoResourceFoundException("Payment order not found"));
+
+        if (payment.getStatus() == PaymentStatus.SUCCESS || payment.getStatus() == PaymentStatus.PAID) {
+            log.info("Payment {} already verified, ignoring replay", payment.getId());
+            return mapToPaymentResponse(payment);
+        }
 
         boolean validSignature = verifySignature(request.razorpay_order_id(), request.razorpay_payment_id(), request.razorpay_signature());
         if (!validSignature) {

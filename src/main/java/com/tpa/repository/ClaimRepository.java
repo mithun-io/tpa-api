@@ -45,9 +45,12 @@ public interface ClaimRepository extends JpaRepository<Claim, Long>, JpaSpecific
     @EntityGraph(attributePaths = {"user", "carrier"})
     List<Claim> findAll();
 
+    @EntityGraph(attributePaths = {"user", "carrier"})
     Page<Claim> findByClaimStatus(ClaimStatus claimStatus, Pageable pageable);
 
+    @EntityGraph(attributePaths = {"user", "carrier"})
     Page<Claim> findByCreatedDateAfter(LocalDateTime createdDate, Pageable pageable);
 
+    @EntityGraph(attributePaths = {"user", "carrier"})
     Page<Claim> findByClaimStatusAndCreatedDateAfter(ClaimStatus claimStatus, LocalDateTime createdDate, Pageable pageable);
 }
