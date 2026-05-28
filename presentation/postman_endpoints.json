@@ -1,0 +1,3505 @@
+[
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/rules/{id} | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/rules/{id}. Replace path variables like {id} with actual values.",
+    "controller": "RulesController",
+    "baseUrl": "localhost:8080/api/v1/rules",
+    "method": "GET",
+    "path": "/{id}",
+    "parameters": {
+      "id": "101"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "id": 101,
+        "ruleKey": "MAX_CLAIM_AMOUNT",
+        "ruleValue": "50000",
+        "description": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+        "groovyScript": "return claim.amount <= 50000;",
+        "ruleType": "PRE_AUTHORIZATION",
+        "priority": 1,
+        "version": 1,
+        "active": true,
+        "simulationMode": true,
+        "category": "FINANCIAL_LIMITS",
+        "lastUpdatedBy": "Standard string input",
+        "createdAt": "2026-05-28T10:30:00Z",
+        "updatedAt": "2026-05-28T10:30:00Z"
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: PUT | URL: http://localhost:8080/api/v1/rules/{id} | Usage: Call this endpoint using a PUT request to http://localhost:8080/api/v1/rules/{id}. Replace path variables like {id} with actual values. Provide the JSON payload in the request body.",
+    "controller": "RulesController",
+    "baseUrl": "localhost:8080/api/v1/rules",
+    "method": "PUT",
+    "path": "/{id}",
+    "parameters": {
+      "id": "101"
+    },
+    "request": {
+      "id": 101,
+      "ruleKey": "MAX_CLAIM_AMOUNT",
+      "ruleValue": "50000",
+      "description": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "groovyScript": "return claim.amount <= 50000;",
+      "ruleType": "PRE_AUTHORIZATION",
+      "priority": 1,
+      "version": 1,
+      "active": true,
+      "simulationMode": true,
+      "category": "FINANCIAL_LIMITS",
+      "lastUpdatedBy": "Standard string input",
+      "createdAt": "2026-05-28T10:30:00Z",
+      "updatedAt": "2026-05-28T10:30:00Z"
+    },
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "id": 101,
+        "ruleKey": "MAX_CLAIM_AMOUNT",
+        "ruleValue": "50000",
+        "description": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+        "groovyScript": "return claim.amount <= 50000;",
+        "ruleType": "PRE_AUTHORIZATION",
+        "priority": 1,
+        "version": 1,
+        "active": true,
+        "simulationMode": true,
+        "category": "FINANCIAL_LIMITS",
+        "lastUpdatedBy": "Standard string input",
+        "createdAt": "2026-05-28T10:30:00Z",
+        "updatedAt": "2026-05-28T10:30:00Z"
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: DELETE | URL: http://localhost:8080/api/v1/rules/{id} | Usage: Call this endpoint using a DELETE request to http://localhost:8080/api/v1/rules/{id}. Replace path variables like {id} with actual values.",
+    "controller": "RulesController",
+    "baseUrl": "localhost:8080/api/v1/rules",
+    "method": "DELETE",
+    "path": "/{id}",
+    "parameters": {
+      "id": "101"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": null,
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/rules | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/rules.",
+    "controller": "RulesController",
+    "baseUrl": "localhost:8080/api/v1/rules",
+    "method": "GET",
+    "path": "/",
+    "parameters": {
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": [
+        {
+          "id": 101,
+          "ruleKey": "MAX_CLAIM_AMOUNT",
+          "ruleValue": "50000",
+          "description": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+          "groovyScript": "return claim.amount <= 50000;",
+          "ruleType": "PRE_AUTHORIZATION",
+          "priority": 1,
+          "version": 1,
+          "active": true,
+          "simulationMode": true,
+          "category": "FINANCIAL_LIMITS",
+          "lastUpdatedBy": "Standard string input",
+          "createdAt": "2026-05-28T10:30:00Z",
+          "updatedAt": "2026-05-28T10:30:00Z"
+        }
+      ],
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: POST | URL: http://localhost:8080/api/v1/rules | Usage: Call this endpoint using a POST request to http://localhost:8080/api/v1/rules. Provide the JSON payload in the request body.",
+    "controller": "RulesController",
+    "baseUrl": "localhost:8080/api/v1/rules",
+    "method": "POST",
+    "path": "/",
+    "parameters": {
+    },
+    "request": {
+      "id": 101,
+      "ruleKey": "MAX_CLAIM_AMOUNT",
+      "ruleValue": "50000",
+      "description": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "groovyScript": "return claim.amount <= 50000;",
+      "ruleType": "PRE_AUTHORIZATION",
+      "priority": 1,
+      "version": 1,
+      "active": true,
+      "simulationMode": true,
+      "category": "FINANCIAL_LIMITS",
+      "lastUpdatedBy": "Standard string input",
+      "createdAt": "2026-05-28T10:30:00Z",
+      "updatedAt": "2026-05-28T10:30:00Z"
+    },
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "id": 101,
+        "ruleKey": "MAX_CLAIM_AMOUNT",
+        "ruleValue": "50000",
+        "description": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+        "groovyScript": "return claim.amount <= 50000;",
+        "ruleType": "PRE_AUTHORIZATION",
+        "priority": 1,
+        "version": 1,
+        "active": true,
+        "simulationMode": true,
+        "category": "FINANCIAL_LIMITS",
+        "lastUpdatedBy": "Standard string input",
+        "createdAt": "2026-05-28T10:30:00Z",
+        "updatedAt": "2026-05-28T10:30:00Z"
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: POST | URL: http://localhost:8080/api/v1/rules/simulate | Usage: Call this endpoint using a POST request to http://localhost:8080/api/v1/rules/simulate. Provide the JSON payload in the request body.",
+    "controller": "RulesController",
+    "baseUrl": "localhost:8080/api/v1/rules",
+    "method": "POST",
+    "path": "/simulate",
+    "parameters": {
+    },
+    "request": {
+      "policyId": "PID-500123",
+      "policyName": "Comprehensive Platinum Health Plan",
+      "policyNumber": "POL-ABC-998877",
+      "policyStatus": "ACTIVE",
+      "claimFormPresent": true,
+      "claimFormPatientName": "Alexander Smith",
+      "claimFormHospitalName": "Metro General Medical Center",
+      "claimFormAdmissionDate": "2026-05-28",
+      "claimFormDischargeDate": "2026-05-28",
+      "combinedDocumentPresent": true,
+      "combinedDocPatientName": "Alexander Smith",
+      "combinedDocHospitalName": "Metro General Medical Center",
+      "combinedDocAdmissionDate": "2026-05-28",
+      "combinedDocDischargeDate": "2026-05-28",
+      "claimedAmount": 4500.75,
+      "totalBillAmount": 4500.75,
+      "carrierName": "Global Health Insurance Partners",
+      "claimType": "REIMBURSEMENT",
+      "diagnosis": "Acute Bronchitis (J20.9)",
+      "billNumber": "BILL-2026-001A",
+      "billDate": "2026-05-28",
+      "isDuplicate": false
+    },
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "claimStatus": "SUBMITTED",
+        "reasons": [
+          "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing."
+        ]
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: POST | URL: http://localhost:8080/api/v1/rules/seed | Usage: Call this endpoint using a POST request to http://localhost:8080/api/v1/rules/seed.",
+    "controller": "RulesController",
+    "baseUrl": "localhost:8080/api/v1/rules",
+    "method": "POST",
+    "path": "/seed",
+    "parameters": {
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": null,
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: POST | URL: http://localhost:8080/api/v1/rules/evaluate | Usage: Call this endpoint using a POST request to http://localhost:8080/api/v1/rules/evaluate. Provide the JSON payload in the request body.",
+    "controller": "RulesController",
+    "baseUrl": "localhost:8080/api/v1/rules",
+    "method": "POST",
+    "path": "/evaluate",
+    "parameters": {
+    },
+    "request": {
+      "policyId": "PID-500123",
+      "policyName": "Comprehensive Platinum Health Plan",
+      "policyNumber": "POL-ABC-998877",
+      "policyStatus": "ACTIVE",
+      "claimFormPresent": true,
+      "claimFormPatientName": "Alexander Smith",
+      "claimFormHospitalName": "Metro General Medical Center",
+      "claimFormAdmissionDate": "2026-05-28",
+      "claimFormDischargeDate": "2026-05-28",
+      "combinedDocumentPresent": true,
+      "combinedDocPatientName": "Alexander Smith",
+      "combinedDocHospitalName": "Metro General Medical Center",
+      "combinedDocAdmissionDate": "2026-05-28",
+      "combinedDocDischargeDate": "2026-05-28",
+      "claimedAmount": 4500.75,
+      "totalBillAmount": 4500.75,
+      "carrierName": "Global Health Insurance Partners",
+      "claimType": "REIMBURSEMENT",
+      "diagnosis": "Acute Bronchitis (J20.9)",
+      "billNumber": "BILL-2026-001A",
+      "billDate": "2026-05-28",
+      "isDuplicate": false
+    },
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "claimStatus": "SUBMITTED",
+        "reasons": [
+          "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing."
+        ]
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: PATCH | URL: http://localhost:8080/api/v1/rules/{id}/deactivate | Usage: Call this endpoint using a PATCH request to http://localhost:8080/api/v1/rules/{id}/deactivate. Replace path variables like {id} with actual values.",
+    "controller": "RulesController",
+    "baseUrl": "localhost:8080/api/v1/rules",
+    "method": "PATCH",
+    "path": "/{id}/deactivate",
+    "parameters": {
+      "id": "101"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "id": 101,
+        "ruleKey": "MAX_CLAIM_AMOUNT",
+        "ruleValue": "50000",
+        "description": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+        "groovyScript": "return claim.amount <= 50000;",
+        "ruleType": "PRE_AUTHORIZATION",
+        "priority": 1,
+        "version": 1,
+        "active": true,
+        "simulationMode": true,
+        "category": "FINANCIAL_LIMITS",
+        "lastUpdatedBy": "Standard string input",
+        "createdAt": "2026-05-28T10:30:00Z",
+        "updatedAt": "2026-05-28T10:30:00Z"
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: PATCH | URL: http://localhost:8080/api/v1/rules/{id}/activate | Usage: Call this endpoint using a PATCH request to http://localhost:8080/api/v1/rules/{id}/activate. Replace path variables like {id} with actual values.",
+    "controller": "RulesController",
+    "baseUrl": "localhost:8080/api/v1/rules",
+    "method": "PATCH",
+    "path": "/{id}/activate",
+    "parameters": {
+      "id": "101"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "id": 101,
+        "ruleKey": "MAX_CLAIM_AMOUNT",
+        "ruleValue": "50000",
+        "description": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+        "groovyScript": "return claim.amount <= 50000;",
+        "ruleType": "PRE_AUTHORIZATION",
+        "priority": 1,
+        "version": 1,
+        "active": true,
+        "simulationMode": true,
+        "category": "FINANCIAL_LIMITS",
+        "lastUpdatedBy": "Standard string input",
+        "createdAt": "2026-05-28T10:30:00Z",
+        "updatedAt": "2026-05-28T10:30:00Z"
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/rules/audits/simulations | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/rules/audits/simulations.",
+    "controller": "RulesController",
+    "baseUrl": "localhost:8080/api/v1/rules",
+    "method": "GET",
+    "path": "/audits/simulations",
+    "parameters": {
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": [
+        {
+          "id": 101,
+          "claimId": 101,
+          "ruleKey": "MAX_CLAIM_AMOUNT",
+          "ruleType": "PRE_AUTHORIZATION",
+          "ruleVersion": 1,
+          "inputStatus": "Standard string input",
+          "outputStatus": "Standard string input",
+          "reasons": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+          "simulation": true,
+          "fired": true,
+          "executionTimeMs": 42,
+          "executedBy": "Standard string input",
+          "executedAt": "2026-05-28T10:30:00Z"
+        }
+      ],
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/rules/audits/rules/{ruleKey} | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/rules/audits/rules/{ruleKey}. Replace path variables like {id} with actual values.",
+    "controller": "RulesController",
+    "baseUrl": "localhost:8080/api/v1/rules",
+    "method": "GET",
+    "path": "/audits/rules/{ruleKey}",
+    "parameters": {
+      "ruleKey": "MAX_CLAIM_AMOUNT",
+      "pageable": "value"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "totalElements": 42,
+        "totalPages": 42,
+        "first": true,
+        "last": true,
+        "size": 10,
+        "content": [
+          {
+            "id": 101,
+            "claimId": 101,
+            "ruleKey": "MAX_CLAIM_AMOUNT",
+            "ruleType": "PRE_AUTHORIZATION",
+            "ruleVersion": 1,
+            "inputStatus": "Standard string input",
+            "outputStatus": "Standard string input",
+            "reasons": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+            "simulation": true,
+            "fired": true,
+            "executionTimeMs": 42,
+            "executedBy": "Standard string input",
+            "executedAt": "2026-05-28T10:30:00Z"
+          }
+        ],
+        "number": 42,
+        "sort": {
+          "empty": true,
+          "sorted": true,
+          "unsorted": true
+        },
+        "numberOfElements": 42,
+        "pageable": {
+          "offset": 42,
+          "sort": {
+            "empty": true,
+            "sorted": true,
+            "unsorted": true
+          },
+          "paged": true,
+          "pageNumber": 42,
+          "pageSize": 42,
+          "unpaged": true
+        },
+        "empty": true
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/rules/audits/claims/{claimId} | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/rules/audits/claims/{claimId}. Replace path variables like {id} with actual values.",
+    "controller": "RulesController",
+    "baseUrl": "localhost:8080/api/v1/rules",
+    "method": "GET",
+    "path": "/audits/claims/{claimId}",
+    "parameters": {
+      "claimId": "101"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": [
+        {
+          "id": 101,
+          "claimId": 101,
+          "ruleKey": "MAX_CLAIM_AMOUNT",
+          "ruleType": "PRE_AUTHORIZATION",
+          "ruleVersion": 1,
+          "inputStatus": "Standard string input",
+          "outputStatus": "Standard string input",
+          "reasons": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+          "simulation": true,
+          "fired": true,
+          "executionTimeMs": 42,
+          "executedBy": "Standard string input",
+          "executedAt": "2026-05-28T10:30:00Z"
+        }
+      ],
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/rules/active | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/rules/active.",
+    "controller": "RulesController",
+    "baseUrl": "localhost:8080/api/v1/rules",
+    "method": "GET",
+    "path": "/active",
+    "parameters": {
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": [
+        {
+          "id": 101,
+          "ruleKey": "MAX_CLAIM_AMOUNT",
+          "ruleValue": "50000",
+          "description": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+          "groovyScript": "return claim.amount <= 50000;",
+          "ruleType": "PRE_AUTHORIZATION",
+          "priority": 1,
+          "version": 1,
+          "active": true,
+          "simulationMode": true,
+          "category": "FINANCIAL_LIMITS",
+          "lastUpdatedBy": "Standard string input",
+          "createdAt": "2026-05-28T10:30:00Z",
+          "updatedAt": "2026-05-28T10:30:00Z"
+        }
+      ],
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: PUT | URL: http://localhost:8080/api/v1/claims/{claimId}/carrier-approve | Usage: Call this endpoint using a PUT request to http://localhost:8080/api/v1/claims/{claimId}/carrier-approve. Replace path variables like {id} with actual values.",
+    "controller": "ClaimsController",
+    "baseUrl": "localhost:8080/api/v1/claims",
+    "method": "PUT",
+    "path": "/{claimId}/carrier-approve",
+    "parameters": {
+      "claimId": "101"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": null,
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/claims | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/claims.",
+    "controller": "ClaimsController",
+    "baseUrl": "localhost:8080/api/v1/claims",
+    "method": "GET",
+    "path": "/",
+    "parameters": {
+      "pageable": "value"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "totalElements": 42,
+        "totalPages": 42,
+        "first": true,
+        "last": true,
+        "size": 10,
+        "content": [
+          {
+            "id": 101,
+            "userName": "Alexander Smith",
+            "userEmail": "contact@globalhealth.com",
+            "patientName": "Alexander Smith",
+            "hospitalName": "Metro General Medical Center",
+            "admissionDate": "2026-05-28",
+            "dischargeDate": "2026-05-28",
+            "totalBillAmount": 4500.75,
+            "policyId": "PID-500123",
+            "policyNumber": "POL-ABC-998877",
+            "carrierName": "Global Health Insurance Partners",
+            "claimStatus": "SUBMITTED",
+            "claimType": "REIMBURSEMENT",
+            "diagnosis": "Acute Bronchitis (J20.9)",
+            "amount": 4500.75,
+            "rejectionReason": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+            "reviewedBy": "Standard string input",
+            "reviewedAt": "2026-05-28T10:30:00Z",
+            "reviewNotes": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+            "createdDate": "2026-05-28T10:30:00Z",
+            "processedDate": "2026-05-28T10:30:00Z",
+            "riskScore": 85,
+            "riskFlags": "LOW_RISK",
+            "healthScore": 85,
+            "riskLevel": "LOW_RISK",
+            "aiSummary": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing."
+          }
+        ],
+        "number": 42,
+        "sort": {
+          "empty": true,
+          "sorted": true,
+          "unsorted": true
+        },
+        "numberOfElements": 42,
+        "pageable": {
+          "offset": 42,
+          "sort": {
+            "empty": true,
+            "sorted": true,
+            "unsorted": true
+          },
+          "paged": true,
+          "pageNumber": 42,
+          "pageSize": 42,
+          "unpaged": true
+        },
+        "empty": true
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: POST | URL: http://localhost:8080/api/v1/claims | Usage: Call this endpoint using a POST request to http://localhost:8080/api/v1/claims. Provide the JSON payload in the request body.",
+    "controller": "ClaimsController",
+    "baseUrl": "localhost:8080/api/v1/claims",
+    "method": "POST",
+    "path": "/",
+    "parameters": {
+    },
+    "request": {
+      "policyId": "PID-500123",
+      "policyName": "Comprehensive Platinum Health Plan",
+      "policyNumber": "POL-ABC-998877",
+      "policyStatus": "ACTIVE",
+      "claimFormPresent": true,
+      "claimFormPatientName": "Alexander Smith",
+      "claimFormHospitalName": "Metro General Medical Center",
+      "claimFormAdmissionDate": "2026-05-28",
+      "claimFormDischargeDate": "2026-05-28",
+      "combinedDocumentPresent": true,
+      "combinedDocPatientName": "Alexander Smith",
+      "combinedDocHospitalName": "Metro General Medical Center",
+      "combinedDocAdmissionDate": "2026-05-28",
+      "combinedDocDischargeDate": "2026-05-28",
+      "claimedAmount": 4500.75,
+      "totalBillAmount": 4500.75,
+      "carrierName": "Global Health Insurance Partners",
+      "claimType": "REIMBURSEMENT",
+      "diagnosis": "Acute Bronchitis (J20.9)",
+      "billNumber": "BILL-2026-001A",
+      "billDate": "2026-05-28",
+      "isDuplicate": false
+    },
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "id": 101,
+        "userName": "Alexander Smith",
+        "userEmail": "contact@globalhealth.com",
+        "patientName": "Alexander Smith",
+        "hospitalName": "Metro General Medical Center",
+        "admissionDate": "2026-05-28",
+        "dischargeDate": "2026-05-28",
+        "totalBillAmount": 4500.75,
+        "policyId": "PID-500123",
+        "policyNumber": "POL-ABC-998877",
+        "carrierName": "Global Health Insurance Partners",
+        "claimStatus": "SUBMITTED",
+        "claimType": "REIMBURSEMENT",
+        "diagnosis": "Acute Bronchitis (J20.9)",
+        "amount": 4500.75,
+        "rejectionReason": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+        "reviewedBy": "Standard string input",
+        "reviewedAt": "2026-05-28T10:30:00Z",
+        "reviewNotes": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+        "createdDate": "2026-05-28T10:30:00Z",
+        "processedDate": "2026-05-28T10:30:00Z",
+        "riskScore": 85,
+        "riskFlags": "LOW_RISK",
+        "healthScore": 85,
+        "riskLevel": "LOW_RISK",
+        "aiSummary": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing."
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/claims/{claimId}/queries | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/claims/{claimId}/queries. Replace path variables like {id} with actual values.",
+    "controller": "ClaimsController",
+    "baseUrl": "localhost:8080/api/v1/claims",
+    "method": "GET",
+    "path": "/{claimId}/queries",
+    "parameters": {
+      "claimId": "101"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": [
+        {
+          "id": 101,
+          "claimId": 101,
+          "username": "Alexander Smith",
+          "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+          "carrier": true,
+          "timestamp": "2026-05-28T10:30:00Z"
+        }
+      ],
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: POST | URL: http://localhost:8080/api/v1/claims/{claimId}/queries | Usage: Call this endpoint using a POST request to http://localhost:8080/api/v1/claims/{claimId}/queries. Replace path variables like {id} with actual values. Provide the JSON payload in the request body.",
+    "controller": "ClaimsController",
+    "baseUrl": "localhost:8080/api/v1/claims",
+    "method": "POST",
+    "path": "/{claimId}/queries",
+    "parameters": {
+      "claimId": "101"
+    },
+    "request": {
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing."
+    },
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "id": 101,
+        "claimId": 101,
+        "username": "Alexander Smith",
+        "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+        "carrier": true,
+        "timestamp": "2026-05-28T10:30:00Z"
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: POST | URL: http://localhost:8080/api/v1/claims/notify | Usage: Call this endpoint using a POST request to http://localhost:8080/api/v1/claims/notify.",
+    "controller": "ClaimsController",
+    "baseUrl": "localhost:8080/api/v1/claims",
+    "method": "POST",
+    "path": "/notify",
+    "parameters": {
+      "userEmail": "contact@globalhealth.com",
+      "title": "Standard string input",
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing."
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": null,
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: POST | URL: http://localhost:8080/api/v1/claims/bulk-approve | Usage: Call this endpoint using a POST request to http://localhost:8080/api/v1/claims/bulk-approve. Provide the JSON payload in the request body.",
+    "controller": "ClaimsController",
+    "baseUrl": "localhost:8080/api/v1/claims",
+    "method": "POST",
+    "path": "/bulk-approve",
+    "parameters": {
+    },
+    "request": [
+      42
+    ],
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "totalProcessed": 42,
+        "success": 42,
+        "failed": 42
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: POST | URL: http://localhost:8080/api/v1/claims/broadcast/{claimId} | Usage: Call this endpoint using a POST request to http://localhost:8080/api/v1/claims/broadcast/{claimId}. Replace path variables like {id} with actual values.",
+    "controller": "ClaimsController",
+    "baseUrl": "localhost:8080/api/v1/claims",
+    "method": "POST",
+    "path": "/broadcast/{claimId}",
+    "parameters": {
+      "claimId": "101",
+      "status": "SUBMITTED",
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing."
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": null,
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/claims/{claimId} | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/claims/{claimId}. Replace path variables like {id} with actual values.",
+    "controller": "ClaimsController",
+    "baseUrl": "localhost:8080/api/v1/claims",
+    "method": "GET",
+    "path": "/{claimId}",
+    "parameters": {
+      "claimId": "101"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "id": 101,
+        "userName": "Alexander Smith",
+        "userEmail": "contact@globalhealth.com",
+        "patientName": "Alexander Smith",
+        "hospitalName": "Metro General Medical Center",
+        "admissionDate": "2026-05-28",
+        "dischargeDate": "2026-05-28",
+        "totalBillAmount": 4500.75,
+        "policyId": "PID-500123",
+        "policyNumber": "POL-ABC-998877",
+        "carrierName": "Global Health Insurance Partners",
+        "claimStatus": "SUBMITTED",
+        "claimType": "REIMBURSEMENT",
+        "diagnosis": "Acute Bronchitis (J20.9)",
+        "amount": 4500.75,
+        "rejectionReason": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+        "reviewedBy": "Standard string input",
+        "reviewedAt": "2026-05-28T10:30:00Z",
+        "reviewNotes": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+        "createdDate": "2026-05-28T10:30:00Z",
+        "processedDate": "2026-05-28T10:30:00Z",
+        "riskScore": 85,
+        "riskFlags": "LOW_RISK",
+        "healthScore": 85,
+        "riskLevel": "LOW_RISK",
+        "aiSummary": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing."
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: DELETE | URL: http://localhost:8080/api/v1/claims/{claimId} | Usage: Call this endpoint using a DELETE request to http://localhost:8080/api/v1/claims/{claimId}. Replace path variables like {id} with actual values.",
+    "controller": "ClaimsController",
+    "baseUrl": "localhost:8080/api/v1/claims",
+    "method": "DELETE",
+    "path": "/{claimId}",
+    "parameters": {
+      "claimId": "101"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": null,
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/claims/{claimId}/timeline | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/claims/{claimId}/timeline. Replace path variables like {id} with actual values.",
+    "controller": "ClaimsController",
+    "baseUrl": "localhost:8080/api/v1/claims",
+    "method": "GET",
+    "path": "/{claimId}/timeline",
+    "parameters": {
+      "claimId": "101"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": [
+        {
+          "id": 101,
+          "claimId": 101,
+          "fromStatus": "Standard string input",
+          "toStatus": "Standard string input",
+          "notes": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+          "changedBy": "Standard string input",
+          "occurredAt": "2026-05-28T10:30:00Z"
+        }
+      ],
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/claims/{claimId}/export | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/claims/{claimId}/export. Replace path variables like {id} with actual values.",
+    "controller": "ClaimsController",
+    "baseUrl": "localhost:8080/api/v1/claims",
+    "method": "GET",
+    "path": "/{claimId}/export",
+    "parameters": {
+      "claimId": "101"
+    },
+    "request": null,
+    "response": "\"Standard string input\""
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/claims/{claimId}/audits | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/claims/{claimId}/audits. Replace path variables like {id} with actual values.",
+    "controller": "ClaimsController",
+    "baseUrl": "localhost:8080/api/v1/claims",
+    "method": "GET",
+    "path": "/{claimId}/audits",
+    "parameters": {
+      "claimId": "101"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": [
+        {
+          "id": 101,
+          "previousStatus": "Standard string input",
+          "newStatus": "Standard string input",
+          "changedBy": "Standard string input",
+          "notes": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+          "changedAt": "2026-05-28T10:30:00Z"
+        }
+      ],
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/claims/search | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/claims/search.",
+    "controller": "ClaimsController",
+    "baseUrl": "localhost:8080/api/v1/claims",
+    "method": "GET",
+    "path": "/search",
+    "parameters": {
+      "claimStatus": "SUBMITTED",
+      "from": "2026-05-28T10:30:00Z",
+      "to": "2026-05-28T10:30:00Z",
+      "minAmount": "4500.75",
+      "maxAmount": "4500.75",
+      "pageable": "value"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "totalElements": 42,
+        "totalPages": 42,
+        "first": true,
+        "last": true,
+        "size": 10,
+        "content": [
+          {
+            "id": 101,
+            "userName": "Alexander Smith",
+            "userEmail": "contact@globalhealth.com",
+            "patientName": "Alexander Smith",
+            "hospitalName": "Metro General Medical Center",
+            "admissionDate": "2026-05-28",
+            "dischargeDate": "2026-05-28",
+            "totalBillAmount": 4500.75,
+            "policyId": "PID-500123",
+            "policyNumber": "POL-ABC-998877",
+            "carrierName": "Global Health Insurance Partners",
+            "claimStatus": "SUBMITTED",
+            "claimType": "REIMBURSEMENT",
+            "diagnosis": "Acute Bronchitis (J20.9)",
+            "amount": 4500.75,
+            "rejectionReason": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+            "reviewedBy": "Standard string input",
+            "reviewedAt": "2026-05-28T10:30:00Z",
+            "reviewNotes": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+            "createdDate": "2026-05-28T10:30:00Z",
+            "processedDate": "2026-05-28T10:30:00Z",
+            "riskScore": 85,
+            "riskFlags": "LOW_RISK",
+            "healthScore": 85,
+            "riskLevel": "LOW_RISK",
+            "aiSummary": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing."
+          }
+        ],
+        "number": 42,
+        "sort": {
+          "empty": true,
+          "sorted": true,
+          "unsorted": true
+        },
+        "numberOfElements": 42,
+        "pageable": {
+          "offset": 42,
+          "sort": {
+            "empty": true,
+            "sorted": true,
+            "unsorted": true
+          },
+          "paged": true,
+          "pageNumber": 42,
+          "pageSize": 42,
+          "unpaged": true
+        },
+        "empty": true
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: POST | URL: http://localhost:8080/api/v1/payments/verify | Usage: Call this endpoint using a POST request to http://localhost:8080/api/v1/payments/verify. Provide the JSON payload in the request body.",
+    "controller": "PaymentsController",
+    "baseUrl": "localhost:8080/api/v1/payments",
+    "method": "POST",
+    "path": "/verify",
+    "parameters": {
+    },
+    "request": {
+      "razorpay_order_id": "ID-778899",
+      "razorpay_payment_id": "ID-778899",
+      "razorpay_signature": "abc123signaturehashxyz"
+    },
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "id": 101,
+        "claimId": 101,
+        "amount": 4500.75,
+        "currency": "USD",
+        "status": "SUBMITTED",
+        "razorpayOrderId": "ID-778899",
+        "razorpayPaymentId": "ID-778899",
+        "createdAt": "2026-05-28T10:30:00Z"
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: POST | URL: http://localhost:8080/api/v1/payments/create-order | Usage: Call this endpoint using a POST request to http://localhost:8080/api/v1/payments/create-order. Provide the JSON payload in the request body.",
+    "controller": "PaymentsController",
+    "baseUrl": "localhost:8080/api/v1/payments",
+    "method": "POST",
+    "path": "/create-order",
+    "parameters": {
+    },
+    "request": {
+      "claimId": 101,
+      "amount": 4500.75
+    },
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "orderId": "ID-778899",
+        "amount": 4500.75,
+        "currency": "USD",
+        "key": "Standard string input",
+        "claimId": 101
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/payments/claim/{claimId} | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/payments/claim/{claimId}. Replace path variables like {id} with actual values.",
+    "controller": "PaymentsController",
+    "baseUrl": "localhost:8080/api/v1/payments",
+    "method": "GET",
+    "path": "/claim/{claimId}",
+    "parameters": {
+      "claimId": "101"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "id": 101,
+        "claimId": 101,
+        "amount": 4500.75,
+        "currency": "USD",
+        "status": "SUBMITTED",
+        "razorpayOrderId": "ID-778899",
+        "razorpayPaymentId": "ID-778899",
+        "createdAt": "2026-05-28T10:30:00Z"
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: POST | URL: http://localhost:8080/api/v1/notifications/mark-read | Usage: Call this endpoint using a POST request to http://localhost:8080/api/v1/notifications/mark-read.",
+    "controller": "NotificationsController",
+    "baseUrl": "localhost:8080/api/v1/notifications",
+    "method": "POST",
+    "path": "/mark-read",
+    "parameters": {
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": null,
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: PATCH | URL: http://localhost:8080/api/v1/notifications/{id}/read | Usage: Call this endpoint using a PATCH request to http://localhost:8080/api/v1/notifications/{id}/read. Replace path variables like {id} with actual values.",
+    "controller": "NotificationsController",
+    "baseUrl": "localhost:8080/api/v1/notifications",
+    "method": "PATCH",
+    "path": "/{id}/read",
+    "parameters": {
+      "id": "101"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": null,
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/notifications | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/notifications.",
+    "controller": "NotificationsController",
+    "baseUrl": "localhost:8080/api/v1/notifications",
+    "method": "GET",
+    "path": "/",
+    "parameters": {
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": [
+        {
+          "id": 101,
+          "title": "Standard string input",
+          "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+          "read": true,
+          "createdAt": "2026-05-28T10:30:00Z",
+          "targetUrl": "Standard string input"
+        }
+      ],
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/notifications/unread-count | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/notifications/unread-count.",
+    "controller": "NotificationsController",
+    "baseUrl": "localhost:8080/api/v1/notifications",
+    "method": "GET",
+    "path": "/unread-count",
+    "parameters": {
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": null,
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: POST | URL: http://localhost:8080/api/v1/medical/validate | Usage: Call this endpoint using a POST request to http://localhost:8080/api/v1/medical/validate. Provide the JSON payload in the request body.",
+    "controller": "MedicalController",
+    "baseUrl": "localhost:8080/api/v1/medical",
+    "method": "POST",
+    "path": "/validate",
+    "parameters": {
+    },
+    "request": {
+      "icdCode": "J20.9",
+      "diagnosis": "Acute Bronchitis (J20.9)",
+      "claimedAmount": 4500.75
+    },
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "icdCode": "J20.9",
+        "diagnosis": "Acute Bronchitis (J20.9)",
+        "validationIssues": [
+          "ID-778899"
+        ],
+        "upcodingWarnings": [
+          "Standard string input"
+        ],
+        "highRisk": true,
+        "medicalRiskScore": 85,
+        "overallStatus": "Standard string input",
+        "validatedAt": "2026-05-28T10:30:00Z"
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: POST | URL: http://localhost:8080/api/v1/medical/validate/batch | Usage: Call this endpoint using a POST request to http://localhost:8080/api/v1/medical/validate/batch. Provide the JSON payload in the request body.",
+    "controller": "MedicalController",
+    "baseUrl": "localhost:8080/api/v1/medical",
+    "method": "POST",
+    "path": "/validate/batch",
+    "parameters": {
+    },
+    "request": [
+      {
+        "icdCode": "J20.9",
+        "diagnosis": "Acute Bronchitis (J20.9)",
+        "claimedAmount": 4500.75
+      }
+    ],
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "totalValidated": 42,
+        "flaggedCount": 42,
+        "cleanCount": 42,
+        "results": [
+          {
+            "icdCode": "J20.9",
+            "diagnosis": "Acute Bronchitis (J20.9)",
+            "validationIssues": [
+              "ID-778899"
+            ],
+            "upcodingWarnings": [
+              "Standard string input"
+            ],
+            "highRisk": true,
+            "medicalRiskScore": 85,
+            "overallStatus": "Standard string input",
+            "validatedAt": "2026-05-28T10:30:00Z"
+          }
+        ],
+        "validatedAt": "2026-05-28T10:30:00Z"
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/medical/upcoding/risk | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/medical/upcoding/risk.",
+    "controller": "MedicalController",
+    "baseUrl": "localhost:8080/api/v1/medical",
+    "method": "GET",
+    "path": "/upcoding/risk",
+    "parameters": {
+      "icdCode": "J20.9",
+      "claimedAmount": "4500.75"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "icdCode": "J20.9",
+        "icdDescription": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+        "claimedAmount": 4500.75,
+        "upcodingRisk": true,
+        "warnings": [
+          "Standard string input"
+        ],
+        "riskLevel": "LOW_RISK",
+        "analyzedAt": "2026-05-28T10:30:00Z"
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/medical/high-risk/codes | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/medical/high-risk/codes.",
+    "controller": "MedicalController",
+    "baseUrl": "localhost:8080/api/v1/medical",
+    "method": "GET",
+    "path": "/high-risk/codes",
+    "parameters": {
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "totalCodes": 42,
+        "codes": [
+          {
+            "code": "Standard string input",
+            "description": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing."
+          }
+        ],
+        "retrievedAt": "2026-05-28T10:30:00Z"
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/medical/codes/lookup | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/medical/codes/lookup.",
+    "controller": "MedicalController",
+    "baseUrl": "localhost:8080/api/v1/medical",
+    "method": "GET",
+    "path": "/codes/lookup",
+    "parameters": {
+      "code": "Standard string input"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "code": "Standard string input",
+        "found": true,
+        "description": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+        "highRisk": true,
+        "medicalRiskScore": 85,
+        "retrievedAt": "2026-05-28T10:30:00Z"
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: POST | URL: http://localhost:8080/api/v1/files/upload | Usage: Call this endpoint using a POST request to http://localhost:8080/api/v1/files/upload.",
+    "controller": "FilesController",
+    "baseUrl": "localhost:8080/api/v1/files",
+    "method": "POST",
+    "path": "/upload",
+    "parameters": {
+      "claimId": "101",
+      "documentType": "medical_record.pdf (Binary File Attached)"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "id": 101,
+        "fileName": "medical_record.pdf (Binary File Attached)",
+        "fileType": "medical_record.pdf (Binary File Attached)",
+        "documentType": "medical_record.pdf (Binary File Attached)",
+        "validationStatus": "ID-778899",
+        "validationIssues": "ID-778899",
+        "confidenceScore": 85,
+        "fileUrl": "medical_record.pdf (Binary File Attached)"
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: POST | URL: http://localhost:8080/api/v1/files/upload/multiple | Usage: Call this endpoint using a POST request to http://localhost:8080/api/v1/files/upload/multiple.",
+    "controller": "FilesController",
+    "baseUrl": "localhost:8080/api/v1/files",
+    "method": "POST",
+    "path": "/upload/multiple",
+    "parameters": {
+      "claimId": "101"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": [
+        {
+          "id": 101,
+          "fileName": "medical_record.pdf (Binary File Attached)",
+          "fileType": "medical_record.pdf (Binary File Attached)",
+          "documentType": "medical_record.pdf (Binary File Attached)",
+          "validationStatus": "ID-778899",
+          "validationIssues": "ID-778899",
+          "confidenceScore": 85,
+          "fileUrl": "medical_record.pdf (Binary File Attached)"
+        }
+      ],
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/files/{documentId} | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/files/{documentId}. Replace path variables like {id} with actual values.",
+    "controller": "FilesController",
+    "baseUrl": "localhost:8080/api/v1/files",
+    "method": "GET",
+    "path": "/{documentId}",
+    "parameters": {
+      "documentId": "42"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "id": 101,
+        "fileName": "medical_record.pdf (Binary File Attached)",
+        "fileType": "medical_record.pdf (Binary File Attached)",
+        "documentType": "medical_record.pdf (Binary File Attached)",
+        "validationStatus": "ID-778899",
+        "validationIssues": "ID-778899",
+        "confidenceScore": 85,
+        "fileUrl": "medical_record.pdf (Binary File Attached)"
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/files/download/{documentId} | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/files/download/{documentId}. Replace path variables like {id} with actual values.",
+    "controller": "FilesController",
+    "baseUrl": "localhost:8080/api/v1/files",
+    "method": "GET",
+    "path": "/download/{documentId}",
+    "parameters": {
+      "documentId": "42"
+    },
+    "request": null,
+    "response": "\"Standard string input\""
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/files/claim/{claimId} | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/files/claim/{claimId}. Replace path variables like {id} with actual values.",
+    "controller": "FilesController",
+    "baseUrl": "localhost:8080/api/v1/files",
+    "method": "GET",
+    "path": "/claim/{claimId}",
+    "parameters": {
+      "claimId": "101"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": [
+        {
+          "id": 101,
+          "fileName": "medical_record.pdf (Binary File Attached)",
+          "fileType": "medical_record.pdf (Binary File Attached)",
+          "documentType": "medical_record.pdf (Binary File Attached)",
+          "validationStatus": "ID-778899",
+          "validationIssues": "ID-778899",
+          "confidenceScore": 85,
+          "fileUrl": "medical_record.pdf (Binary File Attached)"
+        }
+      ],
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: POST | URL: http://localhost:8080/api/v1/carrier/claims/{id}/ai-analyze | Usage: Call this endpoint using a POST request to http://localhost:8080/api/v1/carrier/claims/{id}/ai-analyze. Replace path variables like {id} with actual values. Provide the JSON payload in the request body.",
+    "controller": "CarrierController",
+    "baseUrl": "localhost:8080/api/v1/carrier",
+    "method": "POST",
+    "path": "/claims/{id}/ai-analyze",
+    "parameters": {
+      "id": "101"
+    },
+    "request": "null",
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "verdict": "Standard string input",
+        "confidence": 42,
+        "riskScore": 85,
+        "validationChecks": {
+          "policyActive": true,
+          "documentsComplete": true,
+          "withinLimit": true
+        },
+        "financialSummary": {
+          "claimedAmount": 4500.75,
+          "eligibleAmount": 4500.75
+        },
+        "flags": [
+          "LOW_RISK"
+        ],
+        "recommendation": "Standard string input",
+        "generatedAt": "2026-05-28T10:30:00Z"
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: PATCH | URL: http://localhost:8080/api/v1/carrier/claims/{id}/validate | Usage: Call this endpoint using a PATCH request to http://localhost:8080/api/v1/carrier/claims/{id}/validate. Replace path variables like {id} with actual values.",
+    "controller": "CarrierController",
+    "baseUrl": "localhost:8080/api/v1/carrier",
+    "method": "PATCH",
+    "path": "/claims/{id}/validate",
+    "parameters": {
+      "id": "101"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": null,
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: PATCH | URL: http://localhost:8080/api/v1/carrier/claims/{id}/remark | Usage: Call this endpoint using a PATCH request to http://localhost:8080/api/v1/carrier/claims/{id}/remark. Replace path variables like {id} with actual values. Provide the JSON payload in the request body.",
+    "controller": "CarrierController",
+    "baseUrl": "localhost:8080/api/v1/carrier",
+    "method": "PATCH",
+    "path": "/claims/{id}/remark",
+    "parameters": {
+      "id": "101"
+    },
+    "request": "null",
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": null,
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: PATCH | URL: http://localhost:8080/api/v1/carrier/claims/{id}/reject | Usage: Call this endpoint using a PATCH request to http://localhost:8080/api/v1/carrier/claims/{id}/reject. Replace path variables like {id} with actual values.",
+    "controller": "CarrierController",
+    "baseUrl": "localhost:8080/api/v1/carrier",
+    "method": "PATCH",
+    "path": "/claims/{id}/reject",
+    "parameters": {
+      "id": "101"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": null,
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: PATCH | URL: http://localhost:8080/api/v1/carrier/claims/{id}/flag | Usage: Call this endpoint using a PATCH request to http://localhost:8080/api/v1/carrier/claims/{id}/flag. Replace path variables like {id} with actual values.",
+    "controller": "CarrierController",
+    "baseUrl": "localhost:8080/api/v1/carrier",
+    "method": "PATCH",
+    "path": "/claims/{id}/flag",
+    "parameters": {
+      "id": "101"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": null,
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: PATCH | URL: http://localhost:8080/api/v1/carrier/claims/{id}/approve | Usage: Call this endpoint using a PATCH request to http://localhost:8080/api/v1/carrier/claims/{id}/approve. Replace path variables like {id} with actual values.",
+    "controller": "CarrierController",
+    "baseUrl": "localhost:8080/api/v1/carrier",
+    "method": "PATCH",
+    "path": "/claims/{id}/approve",
+    "parameters": {
+      "id": "101"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": null,
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/carrier/claims | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/carrier/claims.",
+    "controller": "CarrierController",
+    "baseUrl": "localhost:8080/api/v1/carrier",
+    "method": "GET",
+    "path": "/claims",
+    "parameters": {
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": [
+        {
+          "policyNumber": "POL-ABC-998877",
+          "claimId": 101,
+          "claimType": "REIMBURSEMENT",
+          "claimStatus": "SUBMITTED",
+          "amount": 4500.75,
+          "totalBillAmount": 4500.75,
+          "diagnosis": "Acute Bronchitis (J20.9)",
+          "hospitalName": "Metro General Medical Center",
+          "admissionDate": "2026-05-28",
+          "dischargeDate": "2026-05-28",
+          "createdDate": "2026-05-28T10:30:00Z",
+          "processedDate": "2026-05-28T10:30:00Z",
+          "rejectionReason": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+          "reviewNotes": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+          "reviewedBy": "Standard string input",
+          "reviewedAt": "2026-05-28T10:30:00Z",
+          "patientInfo": {
+            "name": "Alexander Smith",
+            "email": "contact@globalhealth.com",
+            "mobile": "+1-800-555-0199",
+            "dateOfBirth": "2026-05-28",
+            "gender": "MALE",
+            "address": "456 Medical Avenue, Suite 100, New York, NY 10001"
+          },
+          "fraudInfo": {
+            "riskScore": 85,
+            "riskLevel": "LOW_RISK",
+            "healthScore": 85,
+            "riskFlags": "LOW_RISK",
+            "aiSummary": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing."
+          },
+          "policyInfo": {
+            "policyNumber": "POL-ABC-998877",
+            "policyStatus": "ACTIVE",
+            "reason": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing."
+          }
+        }
+      ],
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/carrier/claims/{id} | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/carrier/claims/{id}. Replace path variables like {id} with actual values.",
+    "controller": "CarrierController",
+    "baseUrl": "localhost:8080/api/v1/carrier",
+    "method": "GET",
+    "path": "/claims/{id}",
+    "parameters": {
+      "id": "101"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "policyNumber": "POL-ABC-998877",
+        "claimId": 101,
+        "claimType": "REIMBURSEMENT",
+        "claimStatus": "SUBMITTED",
+        "amount": 4500.75,
+        "totalBillAmount": 4500.75,
+        "diagnosis": "Acute Bronchitis (J20.9)",
+        "hospitalName": "Metro General Medical Center",
+        "admissionDate": "2026-05-28",
+        "dischargeDate": "2026-05-28",
+        "createdDate": "2026-05-28T10:30:00Z",
+        "processedDate": "2026-05-28T10:30:00Z",
+        "rejectionReason": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+        "reviewNotes": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+        "reviewedBy": "Standard string input",
+        "reviewedAt": "2026-05-28T10:30:00Z",
+        "patientInfo": {
+          "name": "Alexander Smith",
+          "email": "contact@globalhealth.com",
+          "mobile": "+1-800-555-0199",
+          "dateOfBirth": "2026-05-28",
+          "gender": "MALE",
+          "address": "456 Medical Avenue, Suite 100, New York, NY 10001"
+        },
+        "fraudInfo": {
+          "riskScore": 85,
+          "riskLevel": "LOW_RISK",
+          "healthScore": 85,
+          "riskFlags": "LOW_RISK",
+          "aiSummary": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing."
+        },
+        "policyInfo": {
+          "policyNumber": "POL-ABC-998877",
+          "policyStatus": "ACTIVE",
+          "reason": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing."
+        }
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/carrier/claims/{id}/policy-status | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/carrier/claims/{id}/policy-status. Replace path variables like {id} with actual values.",
+    "controller": "CarrierController",
+    "baseUrl": "localhost:8080/api/v1/carrier",
+    "method": "GET",
+    "path": "/claims/{id}/policy-status",
+    "parameters": {
+      "id": "101"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "claimId": 101,
+        "policyNumber": "POL-ABC-998877",
+        "policyStatus": "ACTIVE",
+        "reason": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing."
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: POST | URL: http://localhost:8080/api/v1/ai/validate-document | Usage: Call this endpoint using a POST request to http://localhost:8080/api/v1/ai/validate-document.",
+    "controller": "AiController",
+    "baseUrl": "localhost:8080/api/v1/ai",
+    "method": "POST",
+    "path": "/validate-document",
+    "parameters": {
+      "documentType": "medical_record.pdf (Binary File Attached)"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "status": "SUBMITTED",
+        "issues": [
+          "Standard string input"
+        ],
+        "confidenceScore": 85,
+        "icdCode": "J20.9"
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: POST | URL: http://localhost:8080/api/v1/ai/validate-claim | Usage: Call this endpoint using a POST request to http://localhost:8080/api/v1/ai/validate-claim. Provide the JSON payload in the request body.",
+    "controller": "AiController",
+    "baseUrl": "localhost:8080/api/v1/ai",
+    "method": "POST",
+    "path": "/validate-claim",
+    "parameters": {
+    },
+    "request": {
+      "patientName": "Alexander Smith",
+      "hospitalName": "Metro General Medical Center",
+      "policyNumber": "POL-ABC-998877",
+      "amount": 4500.75,
+      "diagnosis": "Acute Bronchitis (J20.9)",
+      "admissionDate": "Standard string input",
+      "dischargeDate": "Standard string input"
+    },
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "verdict": "Standard string input",
+        "confidence": 42,
+        "riskScore": 85,
+        "validationChecks": {
+          "policyActive": true,
+          "documentsComplete": true,
+          "withinLimit": true
+        },
+        "financialSummary": {
+          "claimedAmount": 4500.75,
+          "eligibleAmount": 4500.75
+        },
+        "flags": [
+          "LOW_RISK"
+        ],
+        "recommendation": "Standard string input",
+        "generatedAt": "2026-05-28T10:30:00Z"
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: POST | URL: http://localhost:8080/api/v1/ai/claims/{id}/generate-summary | Usage: Call this endpoint using a POST request to http://localhost:8080/api/v1/ai/claims/{id}/generate-summary. Replace path variables like {id} with actual values.",
+    "controller": "AiController",
+    "baseUrl": "localhost:8080/api/v1/ai",
+    "method": "POST",
+    "path": "/claims/{id}/generate-summary",
+    "parameters": {
+      "id": "101"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": null,
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: POST | URL: http://localhost:8080/api/v1/ai/analyze/{claimId} | Usage: Call this endpoint using a POST request to http://localhost:8080/api/v1/ai/analyze/{claimId}. Replace path variables like {id} with actual values. Provide the JSON payload in the request body.",
+    "controller": "AiController",
+    "baseUrl": "localhost:8080/api/v1/ai",
+    "method": "POST",
+    "path": "/analyze/{claimId}",
+    "parameters": {
+      "claimId": "101"
+    },
+    "request": "null",
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "verdict": "Standard string input",
+        "confidence": 42,
+        "riskScore": 85,
+        "validationChecks": {
+          "policyActive": true,
+          "documentsComplete": true,
+          "withinLimit": true
+        },
+        "financialSummary": {
+          "claimedAmount": 4500.75,
+          "eligibleAmount": 4500.75
+        },
+        "flags": [
+          "LOW_RISK"
+        ],
+        "recommendation": "Standard string input",
+        "generatedAt": "2026-05-28T10:30:00Z"
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: POST | URL: http://localhost:8080/api/v1/admin/kafka/dlq/{eventId}/retry | Usage: Call this endpoint using a POST request to http://localhost:8080/api/v1/admin/kafka/dlq/{eventId}/retry. Replace path variables like {id} with actual values.",
+    "controller": "KafkaMonitorController",
+    "baseUrl": "localhost:8080/api/v1/admin",
+    "method": "POST",
+    "path": "/kafka/dlq/{eventId}/retry",
+    "parameters": {
+      "eventId": "ID-778899"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "success": true,
+        "eventId": "ID-778899",
+        "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+        "retriedAt": "2026-05-28T10:30:00Z"
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: POST | URL: http://localhost:8080/api/v1/admin/claims/{id}/ai-chat | Usage: Call this endpoint using a POST request to http://localhost:8080/api/v1/admin/claims/{id}/ai-chat. Replace path variables like {id} with actual values. Provide the JSON payload in the request body.",
+    "controller": "AdminController",
+    "baseUrl": "localhost:8080/api/v1/admin",
+    "method": "POST",
+    "path": "/claims/{id}/ai-chat",
+    "parameters": {
+      "id": "101"
+    },
+    "request": "null",
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "verdict": "Standard string input",
+        "confidence": 42,
+        "riskScore": 85,
+        "validationChecks": {
+          "policyActive": true,
+          "documentsComplete": true,
+          "withinLimit": true
+        },
+        "financialSummary": {
+          "claimedAmount": 4500.75,
+          "eligibleAmount": 4500.75
+        },
+        "flags": [
+          "LOW_RISK"
+        ],
+        "recommendation": "Standard string input",
+        "generatedAt": "2026-05-28T10:30:00Z"
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: PATCH | URL: http://localhost:8080/api/v1/admin/users/{id}/unblock | Usage: Call this endpoint using a PATCH request to http://localhost:8080/api/v1/admin/users/{id}/unblock. Replace path variables like {id} with actual values.",
+    "controller": "AdminController",
+    "baseUrl": "localhost:8080/api/v1/admin",
+    "method": "PATCH",
+    "path": "/users/{id}/unblock",
+    "parameters": {
+      "id": "101"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "id": 101,
+        "name": "Alexander Smith",
+        "email": "contact@globalhealth.com",
+        "phoneNumber": "+1-800-555-0199",
+        "dateOfBirth": "2026-05-28",
+        "address": "456 Medical Avenue, Suite 100, New York, NY 10001",
+        "gender": "MALE",
+        "userRole": "PATIENT",
+        "userStatus": "ACTIVE",
+        "createdAt": "2026-05-28T10:30:00Z"
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: PATCH | URL: http://localhost:8080/api/v1/admin/users/{id}/block | Usage: Call this endpoint using a PATCH request to http://localhost:8080/api/v1/admin/users/{id}/block. Replace path variables like {id} with actual values.",
+    "controller": "AdminController",
+    "baseUrl": "localhost:8080/api/v1/admin",
+    "method": "PATCH",
+    "path": "/users/{id}/block",
+    "parameters": {
+      "id": "101"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "id": 101,
+        "name": "Alexander Smith",
+        "email": "contact@globalhealth.com",
+        "phoneNumber": "+1-800-555-0199",
+        "dateOfBirth": "2026-05-28",
+        "address": "456 Medical Avenue, Suite 100, New York, NY 10001",
+        "gender": "MALE",
+        "userRole": "PATIENT",
+        "userStatus": "ACTIVE",
+        "createdAt": "2026-05-28T10:30:00Z"
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: PATCH | URL: http://localhost:8080/api/v1/admin/claims/{id}/reject | Usage: Call this endpoint using a PATCH request to http://localhost:8080/api/v1/admin/claims/{id}/reject. Replace path variables like {id} with actual values.",
+    "controller": "AdminController",
+    "baseUrl": "localhost:8080/api/v1/admin",
+    "method": "PATCH",
+    "path": "/claims/{id}/reject",
+    "parameters": {
+      "id": "101",
+      "reason": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing."
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "id": 101,
+        "userName": "Alexander Smith",
+        "userEmail": "contact@globalhealth.com",
+        "patientName": "Alexander Smith",
+        "hospitalName": "Metro General Medical Center",
+        "admissionDate": "2026-05-28",
+        "dischargeDate": "2026-05-28",
+        "totalBillAmount": 4500.75,
+        "policyId": "PID-500123",
+        "policyNumber": "POL-ABC-998877",
+        "carrierName": "Global Health Insurance Partners",
+        "claimStatus": "SUBMITTED",
+        "claimType": "REIMBURSEMENT",
+        "diagnosis": "Acute Bronchitis (J20.9)",
+        "amount": 4500.75,
+        "rejectionReason": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+        "reviewedBy": "Standard string input",
+        "reviewedAt": "2026-05-28T10:30:00Z",
+        "reviewNotes": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+        "createdDate": "2026-05-28T10:30:00Z",
+        "processedDate": "2026-05-28T10:30:00Z",
+        "riskScore": 85,
+        "riskFlags": "LOW_RISK",
+        "healthScore": 85,
+        "riskLevel": "LOW_RISK",
+        "aiSummary": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing."
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: PATCH | URL: http://localhost:8080/api/v1/admin/claims/{id}/assign-carrier | Usage: Call this endpoint using a PATCH request to http://localhost:8080/api/v1/admin/claims/{id}/assign-carrier. Replace path variables like {id} with actual values. Provide the JSON payload in the request body.",
+    "controller": "AdminController",
+    "baseUrl": "localhost:8080/api/v1/admin",
+    "method": "PATCH",
+    "path": "/claims/{id}/assign-carrier",
+    "parameters": {
+      "id": "101"
+    },
+    "request": "null",
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "id": 101,
+        "userName": "Alexander Smith",
+        "userEmail": "contact@globalhealth.com",
+        "patientName": "Alexander Smith",
+        "hospitalName": "Metro General Medical Center",
+        "admissionDate": "2026-05-28",
+        "dischargeDate": "2026-05-28",
+        "totalBillAmount": 4500.75,
+        "policyId": "PID-500123",
+        "policyNumber": "POL-ABC-998877",
+        "carrierName": "Global Health Insurance Partners",
+        "claimStatus": "SUBMITTED",
+        "claimType": "REIMBURSEMENT",
+        "diagnosis": "Acute Bronchitis (J20.9)",
+        "amount": 4500.75,
+        "rejectionReason": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+        "reviewedBy": "Standard string input",
+        "reviewedAt": "2026-05-28T10:30:00Z",
+        "reviewNotes": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+        "createdDate": "2026-05-28T10:30:00Z",
+        "processedDate": "2026-05-28T10:30:00Z",
+        "riskScore": 85,
+        "riskFlags": "LOW_RISK",
+        "healthScore": 85,
+        "riskLevel": "LOW_RISK",
+        "aiSummary": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing."
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: PATCH | URL: http://localhost:8080/api/v1/admin/claims/{id}/approve | Usage: Call this endpoint using a PATCH request to http://localhost:8080/api/v1/admin/claims/{id}/approve. Replace path variables like {id} with actual values.",
+    "controller": "AdminController",
+    "baseUrl": "localhost:8080/api/v1/admin",
+    "method": "PATCH",
+    "path": "/claims/{id}/approve",
+    "parameters": {
+      "id": "101",
+      "reason": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing."
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "id": 101,
+        "userName": "Alexander Smith",
+        "userEmail": "contact@globalhealth.com",
+        "patientName": "Alexander Smith",
+        "hospitalName": "Metro General Medical Center",
+        "admissionDate": "2026-05-28",
+        "dischargeDate": "2026-05-28",
+        "totalBillAmount": 4500.75,
+        "policyId": "PID-500123",
+        "policyNumber": "POL-ABC-998877",
+        "carrierName": "Global Health Insurance Partners",
+        "claimStatus": "SUBMITTED",
+        "claimType": "REIMBURSEMENT",
+        "diagnosis": "Acute Bronchitis (J20.9)",
+        "amount": 4500.75,
+        "rejectionReason": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+        "reviewedBy": "Standard string input",
+        "reviewedAt": "2026-05-28T10:30:00Z",
+        "reviewNotes": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+        "createdDate": "2026-05-28T10:30:00Z",
+        "processedDate": "2026-05-28T10:30:00Z",
+        "riskScore": 85,
+        "riskFlags": "LOW_RISK",
+        "healthScore": 85,
+        "riskLevel": "LOW_RISK",
+        "aiSummary": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing."
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: PATCH | URL: http://localhost:8080/api/v1/admin/claims/review | Usage: Call this endpoint using a PATCH request to http://localhost:8080/api/v1/admin/claims/review. Provide the JSON payload in the request body.",
+    "controller": "AdminController",
+    "baseUrl": "localhost:8080/api/v1/admin",
+    "method": "PATCH",
+    "path": "/claims/review",
+    "parameters": {
+    },
+    "request": {
+      "claimId": 101,
+      "claimStatus": "SUBMITTED",
+      "reviewNotes": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing."
+    },
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "id": 101,
+        "userName": "Alexander Smith",
+        "userEmail": "contact@globalhealth.com",
+        "patientName": "Alexander Smith",
+        "hospitalName": "Metro General Medical Center",
+        "admissionDate": "2026-05-28",
+        "dischargeDate": "2026-05-28",
+        "totalBillAmount": 4500.75,
+        "policyId": "PID-500123",
+        "policyNumber": "POL-ABC-998877",
+        "carrierName": "Global Health Insurance Partners",
+        "claimStatus": "SUBMITTED",
+        "claimType": "REIMBURSEMENT",
+        "diagnosis": "Acute Bronchitis (J20.9)",
+        "amount": 4500.75,
+        "rejectionReason": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+        "reviewedBy": "Standard string input",
+        "reviewedAt": "2026-05-28T10:30:00Z",
+        "reviewNotes": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+        "createdDate": "2026-05-28T10:30:00Z",
+        "processedDate": "2026-05-28T10:30:00Z",
+        "riskScore": 85,
+        "riskFlags": "LOW_RISK",
+        "healthScore": 85,
+        "riskLevel": "LOW_RISK",
+        "aiSummary": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing."
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: PATCH | URL: http://localhost:8080/api/v1/admin/carriers/{id}/reject | Usage: Call this endpoint using a PATCH request to http://localhost:8080/api/v1/admin/carriers/{id}/reject. Replace path variables like {id} with actual values.",
+    "controller": "AdminController",
+    "baseUrl": "localhost:8080/api/v1/admin",
+    "method": "PATCH",
+    "path": "/carriers/{id}/reject",
+    "parameters": {
+      "id": "101"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "id": 101,
+        "companyName": "Global Health Insurance Partners",
+        "email": "contact@globalhealth.com",
+        "phoneNumber": "+1-800-555-0199",
+        "companyType": "TPA Provider",
+        "licenseNumber": "LIC-112233-MED",
+        "registrationNumber": "REG-554433",
+        "taxId": "TAX-99-888-777",
+        "contactPersonName": "Standard string input",
+        "contactPersonPhone": "+1-800-555-0199",
+        "website": "https://www.globalhealth.com",
+        "userStatus": "ACTIVE"
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: PATCH | URL: http://localhost:8080/api/v1/admin/carriers/{id}/approve | Usage: Call this endpoint using a PATCH request to http://localhost:8080/api/v1/admin/carriers/{id}/approve. Replace path variables like {id} with actual values.",
+    "controller": "AdminController",
+    "baseUrl": "localhost:8080/api/v1/admin",
+    "method": "PATCH",
+    "path": "/carriers/{id}/approve",
+    "parameters": {
+      "id": "101"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "id": 101,
+        "companyName": "Global Health Insurance Partners",
+        "email": "contact@globalhealth.com",
+        "phoneNumber": "+1-800-555-0199",
+        "companyType": "TPA Provider",
+        "licenseNumber": "LIC-112233-MED",
+        "registrationNumber": "REG-554433",
+        "taxId": "TAX-99-888-777",
+        "contactPersonName": "Standard string input",
+        "contactPersonPhone": "+1-800-555-0199",
+        "website": "https://www.globalhealth.com",
+        "userStatus": "ACTIVE"
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/admin/users | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/admin/users.",
+    "controller": "AdminController",
+    "baseUrl": "localhost:8080/api/v1/admin",
+    "method": "GET",
+    "path": "/users",
+    "parameters": {
+      "search": "Standard string input"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "totalElements": 42,
+        "totalPages": 42,
+        "first": true,
+        "last": true,
+        "size": 10,
+        "content": [
+          {
+            "id": 101,
+            "name": "Alexander Smith",
+            "email": "contact@globalhealth.com",
+            "phoneNumber": "+1-800-555-0199",
+            "dateOfBirth": "2026-05-28",
+            "address": "456 Medical Avenue, Suite 100, New York, NY 10001",
+            "gender": "MALE",
+            "userRole": "PATIENT",
+            "userStatus": "ACTIVE",
+            "createdAt": "2026-05-28T10:30:00Z"
+          }
+        ],
+        "number": 42,
+        "sort": {
+          "empty": true,
+          "sorted": true,
+          "unsorted": true
+        },
+        "numberOfElements": 42,
+        "pageable": {
+          "offset": 42,
+          "sort": {
+            "empty": true,
+            "sorted": true,
+            "unsorted": true
+          },
+          "paged": true,
+          "pageNumber": 42,
+          "pageSize": 42,
+          "unpaged": true
+        },
+        "empty": true
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/admin/patients | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/admin/patients.",
+    "controller": "AdminController",
+    "baseUrl": "localhost:8080/api/v1/admin",
+    "method": "GET",
+    "path": "/patients",
+    "parameters": {
+      "username": "Alexander Smith",
+      "email": "contact@globalhealth.com",
+      "userStatus": "ACTIVE",
+      "sortBy": "Standard string input"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "totalElements": 42,
+        "totalPages": 42,
+        "first": true,
+        "last": true,
+        "size": 10,
+        "content": [
+          {
+            "id": 101,
+            "name": "Alexander Smith",
+            "email": "contact@globalhealth.com",
+            "phoneNumber": "+1-800-555-0199",
+            "dateOfBirth": "2026-05-28",
+            "address": "456 Medical Avenue, Suite 100, New York, NY 10001",
+            "gender": "MALE",
+            "userRole": "PATIENT",
+            "userStatus": "ACTIVE",
+            "createdAt": "2026-05-28T10:30:00Z"
+          }
+        ],
+        "number": 42,
+        "sort": {
+          "empty": true,
+          "sorted": true,
+          "unsorted": true
+        },
+        "numberOfElements": 42,
+        "pageable": {
+          "offset": 42,
+          "sort": {
+            "empty": true,
+            "sorted": true,
+            "unsorted": true
+          },
+          "paged": true,
+          "pageNumber": 42,
+          "pageSize": 42,
+          "unpaged": true
+        },
+        "empty": true
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/admin/monitoring | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/admin/monitoring.",
+    "controller": "AdminController",
+    "baseUrl": "localhost:8080/api/v1/admin",
+    "method": "GET",
+    "path": "/monitoring",
+    "parameters": {
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "kafka": null,
+        "failedClaims": [
+          {
+            "id": 101,
+            "userName": "Alexander Smith",
+            "userEmail": "contact@globalhealth.com",
+            "patientName": "Alexander Smith",
+            "hospitalName": "Metro General Medical Center",
+            "admissionDate": "2026-05-28",
+            "dischargeDate": "2026-05-28",
+            "totalBillAmount": 4500.75,
+            "policyId": "PID-500123",
+            "policyNumber": "POL-ABC-998877",
+            "carrierName": "Global Health Insurance Partners",
+            "claimStatus": "SUBMITTED",
+            "claimType": "REIMBURSEMENT",
+            "diagnosis": "Acute Bronchitis (J20.9)",
+            "amount": 4500.75,
+            "rejectionReason": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+            "reviewedBy": "Standard string input",
+            "reviewedAt": "2026-05-28T10:30:00Z",
+            "reviewNotes": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+            "createdDate": "2026-05-28T10:30:00Z",
+            "processedDate": "2026-05-28T10:30:00Z",
+            "riskScore": 85,
+            "riskFlags": "LOW_RISK",
+            "healthScore": 85,
+            "riskLevel": "LOW_RISK",
+            "aiSummary": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing."
+          }
+        ],
+        "errorLogs": [
+          null
+        ]
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/admin/kafka/topics | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/admin/kafka/topics.",
+    "controller": "KafkaMonitorController",
+    "baseUrl": "localhost:8080/api/v1/admin",
+    "method": "GET",
+    "path": "/kafka/topics",
+    "parameters": {
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "topics": [
+          {
+            "name": "Alexander Smith",
+            "partitions": 42,
+            "dlq": true
+          }
+        ],
+        "totalTopics": 42,
+        "dlqTopics": 42,
+        "retrievedAt": "2026-05-28T10:30:00Z"
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/admin/kafka/pending | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/admin/kafka/pending.",
+    "controller": "KafkaMonitorController",
+    "baseUrl": "localhost:8080/api/v1/admin",
+    "method": "GET",
+    "path": "/kafka/pending",
+    "parameters": {
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "pendingEvents": [
+          {
+            "id": 101,
+            "eventId": "ID-778899",
+            "claimId": 101,
+            "stage": "Standard string input",
+            "claimStatus": "SUBMITTED",
+            "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+            "metadata": "Standard string input",
+            "topic": "Standard string input",
+            "receivedAt": "2026-05-28T10:30:00Z",
+            "processedAt": "2026-05-28T10:30:00Z",
+            "processed": true,
+            "retryCount": 42,
+            "errorDetails": "Standard string input"
+          }
+        ],
+        "count": 42,
+        "retrievedAt": "2026-05-28T10:30:00Z"
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/admin/kafka/health | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/admin/kafka/health.",
+    "controller": "KafkaMonitorController",
+    "baseUrl": "localhost:8080/api/v1/admin",
+    "method": "GET",
+    "path": "/kafka/health",
+    "parameters": {
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "totalEventsProcessed": 42,
+        "pendingEvents": 42,
+        "totalEvents": 42,
+        "successRate": 42,
+        "dlqMessageCount": 42,
+        "kafkaStatus": "Standard string input",
+        "stageBreakdown": {
+          "claimUploaded": 42,
+          "ocrCompleted": 42,
+          "aiAnalysisDone": 42,
+          "ruleEvaluated": 42,
+          "adminApproved": 42,
+          "carrierApproved": 42,
+          "paymentInitiated": 42,
+          "paymentCompleted": 42,
+          "rejected": 42
+        },
+        "retrievedAt": "2026-05-28T10:30:00Z"
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/admin/kafka/dlq | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/admin/kafka/dlq.",
+    "controller": "KafkaMonitorController",
+    "baseUrl": "localhost:8080/api/v1/admin",
+    "method": "GET",
+    "path": "/kafka/dlq",
+    "parameters": {
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "dlqMessages": [
+          {
+            "id": 101,
+            "eventId": "ID-778899",
+            "claimId": 101,
+            "stage": "Standard string input",
+            "claimStatus": "SUBMITTED",
+            "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+            "metadata": "Standard string input",
+            "topic": "Standard string input",
+            "receivedAt": "2026-05-28T10:30:00Z",
+            "processedAt": "2026-05-28T10:30:00Z",
+            "processed": true,
+            "retryCount": 42,
+            "errorDetails": "Standard string input"
+          }
+        ],
+        "totalDlqMessages": 42,
+        "page": 1,
+        "size": 10,
+        "retrievedAt": "2026-05-28T10:30:00Z"
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/admin/claims | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/admin/claims.",
+    "controller": "AdminController",
+    "baseUrl": "localhost:8080/api/v1/admin",
+    "method": "GET",
+    "path": "/claims",
+    "parameters": {
+      "claimStatus": "SUBMITTED",
+      "createdAt": "2026-05-28T10:30:00Z",
+      "sortBy": "Standard string input"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "totalElements": 42,
+        "totalPages": 42,
+        "first": true,
+        "last": true,
+        "size": 10,
+        "content": [
+          {
+            "id": 101,
+            "userName": "Alexander Smith",
+            "userEmail": "contact@globalhealth.com",
+            "patientName": "Alexander Smith",
+            "hospitalName": "Metro General Medical Center",
+            "admissionDate": "2026-05-28",
+            "dischargeDate": "2026-05-28",
+            "totalBillAmount": 4500.75,
+            "policyId": "PID-500123",
+            "policyNumber": "POL-ABC-998877",
+            "carrierName": "Global Health Insurance Partners",
+            "claimStatus": "SUBMITTED",
+            "claimType": "REIMBURSEMENT",
+            "diagnosis": "Acute Bronchitis (J20.9)",
+            "amount": 4500.75,
+            "rejectionReason": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+            "reviewedBy": "Standard string input",
+            "reviewedAt": "2026-05-28T10:30:00Z",
+            "reviewNotes": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+            "createdDate": "2026-05-28T10:30:00Z",
+            "processedDate": "2026-05-28T10:30:00Z",
+            "riskScore": 85,
+            "riskFlags": "LOW_RISK",
+            "healthScore": 85,
+            "riskLevel": "LOW_RISK",
+            "aiSummary": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing."
+          }
+        ],
+        "number": 42,
+        "sort": {
+          "empty": true,
+          "sorted": true,
+          "unsorted": true
+        },
+        "numberOfElements": 42,
+        "pageable": {
+          "offset": 42,
+          "sort": {
+            "empty": true,
+            "sorted": true,
+            "unsorted": true
+          },
+          "paged": true,
+          "pageNumber": 42,
+          "pageSize": 42,
+          "unpaged": true
+        },
+        "empty": true
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/admin/claims/{id}/ai-summary | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/admin/claims/{id}/ai-summary. Replace path variables like {id} with actual values.",
+    "controller": "AdminController",
+    "baseUrl": "localhost:8080/api/v1/admin",
+    "method": "GET",
+    "path": "/claims/{id}/ai-summary",
+    "parameters": {
+      "id": "101"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "verdict": "Standard string input",
+        "confidence": 42,
+        "riskScore": 85,
+        "validationChecks": {
+          "policyActive": true,
+          "documentsComplete": true,
+          "withinLimit": true
+        },
+        "financialSummary": {
+          "claimedAmount": 4500.75,
+          "eligibleAmount": 4500.75
+        },
+        "flags": [
+          "LOW_RISK"
+        ],
+        "recommendation": "Standard string input",
+        "generatedAt": "2026-05-28T10:30:00Z"
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/admin/carriers | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/admin/carriers.",
+    "controller": "AdminController",
+    "baseUrl": "localhost:8080/api/v1/admin",
+    "method": "GET",
+    "path": "/carriers",
+    "parameters": {
+      "companyName": "Global Health Insurance Partners",
+      "userStatus": "ACTIVE",
+      "sortBy": "Standard string input"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "totalElements": 42,
+        "totalPages": 42,
+        "first": true,
+        "last": true,
+        "size": 10,
+        "content": [
+          {
+            "id": 101,
+            "companyName": "Global Health Insurance Partners",
+            "email": "contact@globalhealth.com",
+            "phoneNumber": "+1-800-555-0199",
+            "companyType": "TPA Provider",
+            "licenseNumber": "LIC-112233-MED",
+            "registrationNumber": "REG-554433",
+            "taxId": "TAX-99-888-777",
+            "contactPersonName": "Standard string input",
+            "contactPersonPhone": "+1-800-555-0199",
+            "website": "https://www.globalhealth.com",
+            "userStatus": "ACTIVE"
+          }
+        ],
+        "number": 42,
+        "sort": {
+          "empty": true,
+          "sorted": true,
+          "unsorted": true
+        },
+        "numberOfElements": 42,
+        "pageable": {
+          "offset": 42,
+          "sort": {
+            "empty": true,
+            "sorted": true,
+            "unsorted": true
+          },
+          "paged": true,
+          "pageNumber": 42,
+          "pageSize": 42,
+          "unpaged": true
+        },
+        "empty": true
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: PATCH | URL: http://localhost:8080/api/v1/fraud/admin/claims/{id}/safe | Usage: Call this endpoint using a PATCH request to http://localhost:8080/api/v1/fraud/admin/claims/{id}/safe. Replace path variables like {id} with actual values.",
+    "controller": "FraudController",
+    "baseUrl": "localhost:8080/api/v1/fraud",
+    "method": "PATCH",
+    "path": "/admin/claims/{id}/safe",
+    "parameters": {
+      "id": "101"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": null,
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/fraud/carrier/dashboard | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/fraud/carrier/dashboard.",
+    "controller": "FraudController",
+    "baseUrl": "localhost:8080/api/v1/fraud",
+    "method": "GET",
+    "path": "/carrier/dashboard",
+    "parameters": {
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "dashboardStats": {
+          "totalClaims": 42,
+          "flagged": 42,
+          "highRisk": 42,
+          "mediumRisk": 42,
+          "lowRisk": 42
+        },
+        "claims": [
+          {
+            "claimId": 101,
+            "policyNumber": "POL-ABC-998877",
+            "amount": 4500.75,
+            "riskScore": 85,
+            "riskLevel": "LOW_RISK",
+            "reasons": [
+              "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing."
+            ]
+          }
+        ]
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/fraud/admin/dashboard | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/fraud/admin/dashboard.",
+    "controller": "FraudController",
+    "baseUrl": "localhost:8080/api/v1/fraud",
+    "method": "GET",
+    "path": "/admin/dashboard",
+    "parameters": {
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "dashboardStats": {
+          "totalClaims": 42,
+          "flagged": 42,
+          "highRisk": 42,
+          "mediumRisk": 42,
+          "lowRisk": 42
+        },
+        "claims": [
+          {
+            "claimId": 101,
+            "policyNumber": "POL-ABC-998877",
+            "amount": 4500.75,
+            "riskScore": 85,
+            "riskLevel": "LOW_RISK",
+            "reasons": [
+              "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing."
+            ]
+          }
+        ]
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/users/profile | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/users/profile.",
+    "controller": "UsersController",
+    "baseUrl": "localhost:8080/api/v1/users",
+    "method": "GET",
+    "path": "/profile",
+    "parameters": {
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "id": 101,
+        "name": "Alexander Smith",
+        "email": "contact@globalhealth.com",
+        "phoneNumber": "+1-800-555-0199",
+        "dateOfBirth": "2026-05-28",
+        "address": "456 Medical Avenue, Suite 100, New York, NY 10001",
+        "gender": "MALE",
+        "userRole": "PATIENT",
+        "userStatus": "ACTIVE",
+        "createdAt": "2026-05-28T10:30:00Z"
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/audit/range | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/audit/range.",
+    "controller": "AuditController",
+    "baseUrl": "localhost:8080/api/v1/audit",
+    "method": "GET",
+    "path": "/range",
+    "parameters": {
+      "from": "2026-05-28T10:30:00Z",
+      "to": "2026-05-28T10:30:00Z"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": [
+        {
+          "id": 101,
+          "claimId": 101,
+          "action": "Standard string input",
+          "previousStatus": "Standard string input",
+          "newStatus": "Standard string input",
+          "timestamp": "2026-05-28T10:30:00Z",
+          "performedBy": "Standard string input",
+          "details": "Standard string input",
+          "integrityHash": "Standard string input",
+          "previousHash": "Standard string input",
+          "blockchainHash": "Standard string input",
+          "ipAddress": "456 Medical Avenue, Suite 100, New York, NY 10001"
+        }
+      ],
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/audit/payments/reconcile | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/audit/payments/reconcile.",
+    "controller": "AuditController",
+    "baseUrl": "localhost:8080/api/v1/audit",
+    "method": "GET",
+    "path": "/payments/reconcile",
+    "parameters": {
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "totalVerifiedPayments": 42,
+        "totalAmountSettled": 4500.75,
+        "currency": "USD",
+        "reconciledAt": "Standard string input"
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/audit/payments/payment/{paymentId} | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/audit/payments/payment/{paymentId}. Replace path variables like {id} with actual values.",
+    "controller": "AuditController",
+    "baseUrl": "localhost:8080/api/v1/audit",
+    "method": "GET",
+    "path": "/payments/payment/{paymentId}",
+    "parameters": {
+      "paymentId": "42"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": [
+        {
+          "id": 101,
+          "claimId": 101,
+          "paymentId": 42,
+          "amount": 4500.75,
+          "currency": "USD",
+          "paymentEventType": "Standard string input",
+          "paymentStatus": "Standard string input",
+          "razorpayOrderId": "ID-778899",
+          "razorpayPaymentId": "ID-778899",
+          "notes": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+          "initiatedBy": "Standard string input",
+          "integrityHash": "Standard string input",
+          "createdAt": "2026-05-28T10:30:00Z"
+        }
+      ],
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/audit/payments/event/{eventType} | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/audit/payments/event/{eventType}. Replace path variables like {id} with actual values.",
+    "controller": "AuditController",
+    "baseUrl": "localhost:8080/api/v1/audit",
+    "method": "GET",
+    "path": "/payments/event/{eventType}",
+    "parameters": {
+      "eventType": "Standard string input"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": [
+        {
+          "id": 101,
+          "claimId": 101,
+          "paymentId": 42,
+          "amount": 4500.75,
+          "currency": "USD",
+          "paymentEventType": "Standard string input",
+          "paymentStatus": "Standard string input",
+          "razorpayOrderId": "ID-778899",
+          "razorpayPaymentId": "ID-778899",
+          "notes": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+          "initiatedBy": "Standard string input",
+          "integrityHash": "Standard string input",
+          "createdAt": "2026-05-28T10:30:00Z"
+        }
+      ],
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/audit/payments/claim/{claimId} | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/audit/payments/claim/{claimId}. Replace path variables like {id} with actual values.",
+    "controller": "AuditController",
+    "baseUrl": "localhost:8080/api/v1/audit",
+    "method": "GET",
+    "path": "/payments/claim/{claimId}",
+    "parameters": {
+      "claimId": "101"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": [
+        {
+          "id": 101,
+          "claimId": 101,
+          "paymentId": 42,
+          "amount": 4500.75,
+          "currency": "USD",
+          "paymentEventType": "Standard string input",
+          "paymentStatus": "Standard string input",
+          "razorpayOrderId": "ID-778899",
+          "razorpayPaymentId": "ID-778899",
+          "notes": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+          "initiatedBy": "Standard string input",
+          "integrityHash": "Standard string input",
+          "createdAt": "2026-05-28T10:30:00Z"
+        }
+      ],
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/audit/events/unprocessed | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/audit/events/unprocessed.",
+    "controller": "AuditController",
+    "baseUrl": "localhost:8080/api/v1/audit",
+    "method": "GET",
+    "path": "/events/unprocessed",
+    "parameters": {
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": [
+        {
+          "id": 101,
+          "eventId": "ID-778899",
+          "claimId": 101,
+          "stage": "Standard string input",
+          "claimStatus": "SUBMITTED",
+          "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+          "metadata": "Standard string input",
+          "topic": "Standard string input",
+          "receivedAt": "2026-05-28T10:30:00Z",
+          "processedAt": "2026-05-28T10:30:00Z",
+          "processed": true,
+          "retryCount": 42,
+          "errorDetails": "Standard string input"
+        }
+      ],
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/audit/events/stage/{stage} | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/audit/events/stage/{stage}. Replace path variables like {id} with actual values.",
+    "controller": "AuditController",
+    "baseUrl": "localhost:8080/api/v1/audit",
+    "method": "GET",
+    "path": "/events/stage/{stage}",
+    "parameters": {
+      "stage": "Standard string input"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": [
+        {
+          "id": 101,
+          "eventId": "ID-778899",
+          "claimId": 101,
+          "stage": "Standard string input",
+          "claimStatus": "SUBMITTED",
+          "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+          "metadata": "Standard string input",
+          "topic": "Standard string input",
+          "receivedAt": "2026-05-28T10:30:00Z",
+          "processedAt": "2026-05-28T10:30:00Z",
+          "processed": true,
+          "retryCount": 42,
+          "errorDetails": "Standard string input"
+        }
+      ],
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/audit/events/claim/{claimId} | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/audit/events/claim/{claimId}. Replace path variables like {id} with actual values.",
+    "controller": "AuditController",
+    "baseUrl": "localhost:8080/api/v1/audit",
+    "method": "GET",
+    "path": "/events/claim/{claimId}",
+    "parameters": {
+      "claimId": "101"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": [
+        {
+          "id": 101,
+          "eventId": "ID-778899",
+          "claimId": 101,
+          "stage": "Standard string input",
+          "claimStatus": "SUBMITTED",
+          "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+          "metadata": "Standard string input",
+          "topic": "Standard string input",
+          "receivedAt": "2026-05-28T10:30:00Z",
+          "processedAt": "2026-05-28T10:30:00Z",
+          "processed": true,
+          "retryCount": 42,
+          "errorDetails": "Standard string input"
+        }
+      ],
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/audit/claims/{claimId} | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/audit/claims/{claimId}. Replace path variables like {id} with actual values.",
+    "controller": "AuditController",
+    "baseUrl": "localhost:8080/api/v1/audit",
+    "method": "GET",
+    "path": "/claims/{claimId}",
+    "parameters": {
+      "claimId": "101"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": [
+        {
+          "id": 101,
+          "claimId": 101,
+          "action": "Standard string input",
+          "previousStatus": "Standard string input",
+          "newStatus": "Standard string input",
+          "timestamp": "2026-05-28T10:30:00Z",
+          "performedBy": "Standard string input",
+          "details": "Standard string input",
+          "integrityHash": "Standard string input",
+          "previousHash": "Standard string input",
+          "blockchainHash": "Standard string input",
+          "ipAddress": "456 Medical Avenue, Suite 100, New York, NY 10001"
+        }
+      ],
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/audit/claims/{claimId}/verify | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/audit/claims/{claimId}/verify. Replace path variables like {id} with actual values.",
+    "controller": "AuditController",
+    "baseUrl": "localhost:8080/api/v1/audit",
+    "method": "GET",
+    "path": "/claims/{claimId}/verify",
+    "parameters": {
+      "claimId": "101"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "claimId": 101,
+        "chainIntact": true,
+        "totalRecords": 42,
+        "verifiedAt": "Standard string input",
+        "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing."
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/audit/claims/{claimId}/action/{action} | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/audit/claims/{claimId}/action/{action}. Replace path variables like {id} with actual values.",
+    "controller": "AuditController",
+    "baseUrl": "localhost:8080/api/v1/audit",
+    "method": "GET",
+    "path": "/claims/{claimId}/action/{action}",
+    "parameters": {
+      "claimId": "101",
+      "action": "Standard string input"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": [
+        {
+          "id": 101,
+          "claimId": 101,
+          "action": "Standard string input",
+          "previousStatus": "Standard string input",
+          "newStatus": "Standard string input",
+          "timestamp": "2026-05-28T10:30:00Z",
+          "performedBy": "Standard string input",
+          "details": "Standard string input",
+          "integrityHash": "Standard string input",
+          "previousHash": "Standard string input",
+          "blockchainHash": "Standard string input",
+          "ipAddress": "456 Medical Avenue, Suite 100, New York, NY 10001"
+        }
+      ],
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/analytics/sla/performance | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/analytics/sla/performance.",
+    "controller": "AnalyticsController",
+    "baseUrl": "localhost:8080/api/v1/analytics",
+    "method": "GET",
+    "path": "/sla/performance",
+    "parameters": {
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "totalClaims": 42,
+        "withinSla": 42,
+        "slaBreached": 42,
+        "escalated": 42,
+        "slaComplianceRate": 42,
+        "avgProcessingHours": 42,
+        "generatedAt": "Standard string input"
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/analytics/payments/summary | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/analytics/payments/summary.",
+    "controller": "AnalyticsController",
+    "baseUrl": "localhost:8080/api/v1/analytics",
+    "method": "GET",
+    "path": "/payments/summary",
+    "parameters": {
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "totalSettledAmount": 4500.75,
+        "totalSuccessfulSettlements": 42,
+        "totalFailedPayments": 42,
+        "successRate": 42,
+        "generatedAt": "Standard string input"
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/analytics/loss-ratio | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/analytics/loss-ratio.",
+    "controller": "AnalyticsController",
+    "baseUrl": "localhost:8080/api/v1/analytics",
+    "method": "GET",
+    "path": "/loss-ratio",
+    "parameters": {
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "totalClaimsPaid": 42,
+        "estimatedPremiumPool": 42,
+        "lossRatioPercent": 42,
+        "lossRatioStatus": "Standard string input",
+        "settledClaims": 42,
+        "rejectedClaims": 42,
+        "totalClaims": 42,
+        "generatedAt": "Standard string input"
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/analytics/leakage | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/analytics/leakage.",
+    "controller": "AnalyticsController",
+    "baseUrl": "localhost:8080/api/v1/analytics",
+    "method": "GET",
+    "path": "/leakage",
+    "parameters": {
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "totalClaimedAmount": 4500.75,
+        "totalApprovedPayout": 42,
+        "leakageAmount": 4500.75,
+        "leakageRate": 42,
+        "amountMismatchCount": 4500.75,
+        "generatedAt": "Standard string input"
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/analytics/hospitals | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/analytics/hospitals.",
+    "controller": "AnalyticsController",
+    "baseUrl": "localhost:8080/api/v1/analytics",
+    "method": "GET",
+    "path": "/hospitals",
+    "parameters": {
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "topHospitalsByVolume": null,
+        "topHospitalsByAmount": null,
+        "totalUniqueHospitals": 42,
+        "generatedAt": "Standard string input"
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/analytics/fraud/trends | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/analytics/fraud/trends.",
+    "controller": "AnalyticsController",
+    "baseUrl": "localhost:8080/api/v1/analytics",
+    "method": "GET",
+    "path": "/fraud/trends",
+    "parameters": {
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "riskDistribution": null,
+        "fraudRate": 42,
+        "topRiskHospitals": null,
+        "averageFraudScore": 85,
+        "generatedAt": "Standard string input"
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/analytics/forecast | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/analytics/forecast.",
+    "controller": "AnalyticsController",
+    "baseUrl": "localhost:8080/api/v1/analytics",
+    "method": "GET",
+    "path": "/forecast",
+    "parameters": {
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "dailyAverageLast30Days": 42,
+        "forecastNext7Days": 42,
+        "forecastNext30Days": 42,
+        "historicalData": [
+          null
+        ],
+        "generatedAt": "Standard string input"
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/analytics/dashboard | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/analytics/dashboard.",
+    "controller": "AnalyticsController",
+    "baseUrl": "localhost:8080/api/v1/analytics",
+    "method": "GET",
+    "path": "/dashboard",
+    "parameters": {
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "totalClaims": 42,
+        "totalApprovedPayout": 42,
+        "totalClaimAmount": 4500.75,
+        "statusDistribution": null,
+        "claimsPerDay": [
+          {
+            "date": "Standard string input",
+            "count": 42
+          }
+        ]
+      },
+      "httpStatus": 42
+    }
+  },
+  {
+    "_comment": "HTTP Method: GET | URL: http://localhost:8080/api/v1/analytics/carrier/{carrierName}/summary | Usage: Call this endpoint using a GET request to http://localhost:8080/api/v1/analytics/carrier/{carrierName}/summary. Replace path variables like {id} with actual values.",
+    "controller": "AnalyticsController",
+    "baseUrl": "localhost:8080/api/v1/analytics",
+    "method": "GET",
+    "path": "/carrier/{carrierName}/summary",
+    "parameters": {
+      "carrierName": "Global Health Insurance Partners"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "All required documents, including medical reports and billing invoices, have been verified and submitted for immediate processing.",
+      "data": {
+        "carrier": "Global Health Insurance Partners",
+        "totalClaims": 42,
+        "totalClaimedAmount": 4500.75,
+        "approvedClaims": 42,
+        "rejectedClaims": 42,
+        "approvalRate": 42,
+        "highRiskClaims": 42,
+        "generatedAt": "Standard string input"
+      },
+      "httpStatus": 42
+    }
+  }
+,
+  {
+    "_comment": "HTTP Method: POST | URL: http://localhost:8080/api/v1/auth/patient/register | Usage: Call this endpoint using a POST request. Provide the JSON payload in the request body.",
+    "controller": "AuthController",
+    "baseUrl": "localhost:8080/api/v1/auth",
+    "method": "POST",
+    "path": "/patient/register",
+    "parameters": {},
+    "request": {
+      "email": "user@example.com",
+      "password": "Password123!"
+    },
+    "response": {
+      "success": true,
+      "message": "OTP sent successfully",
+      "data": null,
+      "httpStatus": 201
+    }
+  },
+  {
+    "_comment": "HTTP Method: PATCH | URL: http://localhost:8080/api/v1/auth/patient/verify | Usage: Call this endpoint using a PATCH request. Provide the JSON payload in the request body.",
+    "controller": "AuthController",
+    "baseUrl": "localhost:8080/api/v1/auth",
+    "method": "PATCH",
+    "path": "/patient/verify",
+    "parameters": {},
+    "request": {
+      "email": "user@example.com",
+      "otp": "123456"
+    },
+    "response": {
+      "success": true,
+      "message": "Registration successful",
+      "data": null,
+      "httpStatus": 200
+    }
+  },
+  {
+    "_comment": "HTTP Method: POST | URL: http://localhost:8080/api/v1/auth/carrier/register | Usage: Call this endpoint using a POST request. Provide the JSON payload in the request body.",
+    "controller": "AuthController",
+    "baseUrl": "localhost:8080/api/v1/auth",
+    "method": "POST",
+    "path": "/carrier/register",
+    "parameters": {},
+    "request": {
+      "email": "carrier@example.com",
+      "password": "Password123!"
+    },
+    "response": {
+      "success": true,
+      "message": "OTP sent to carrier email. Please verify.",
+      "data": null,
+      "httpStatus": 201
+    }
+  },
+  {
+    "_comment": "HTTP Method: PATCH | URL: http://localhost:8080/api/v1/auth/carrier/verify | Usage: Call this endpoint using a PATCH request. Provide the JSON payload in the request body.",
+    "controller": "AuthController",
+    "baseUrl": "localhost:8080/api/v1/auth",
+    "method": "PATCH",
+    "path": "/carrier/verify",
+    "parameters": {},
+    "request": {
+      "email": "carrier@example.com",
+      "otp": "123456"
+    },
+    "response": {
+      "success": true,
+      "message": "Carrier registered successfully",
+      "data": null,
+      "httpStatus": 200
+    }
+  },
+  {
+    "_comment": "HTTP Method: PATCH | URL: http://localhost:8080/api/v1/auth/resend-otp/{email} | Usage: Call this endpoint using a PATCH request. Replace path variables like {email} with actual values.",
+    "controller": "AuthController",
+    "baseUrl": "localhost:8080/api/v1/auth",
+    "method": "PATCH",
+    "path": "/resend-otp/{email}",
+    "parameters": {
+      "email": "user@example.com"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "OTP resent successfully",
+      "data": null,
+      "httpStatus": 200
+    }
+  },
+  {
+    "_comment": "HTTP Method: PATCH | URL: http://localhost:8080/api/v1/auth/patient/resend-otp/{email} | Usage: Call this endpoint using a PATCH request. Replace path variables like {email} with actual values.",
+    "controller": "AuthController",
+    "baseUrl": "localhost:8080/api/v1/auth",
+    "method": "PATCH",
+    "path": "/patient/resend-otp/{email}",
+    "parameters": {
+      "email": "user@example.com"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "Patient otp resent successfully",
+      "data": null,
+      "httpStatus": 200
+    }
+  },
+  {
+    "_comment": "HTTP Method: PATCH | URL: http://localhost:8080/api/v1/auth/carrier/resend-otp/{email} | Usage: Call this endpoint using a PATCH request. Replace path variables like {email} with actual values.",
+    "controller": "AuthController",
+    "baseUrl": "localhost:8080/api/v1/auth",
+    "method": "PATCH",
+    "path": "/carrier/resend-otp/{email}",
+    "parameters": {
+      "email": "carrier@example.com"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "Carrier otp resent successfully",
+      "data": null,
+      "httpStatus": 200
+    }
+  },
+  {
+    "_comment": "HTTP Method: POST | URL: http://localhost:8080/api/v1/auth/login | Usage: Call this endpoint using a POST request. Provide the JSON payload in the request body.",
+    "controller": "AuthController",
+    "baseUrl": "localhost:8080/api/v1/auth",
+    "method": "POST",
+    "path": "/login",
+    "parameters": {},
+    "request": {
+      "email": "user@example.com",
+      "password": "Password123!"
+    },
+    "response": {
+      "success": true,
+      "message": "Login successful",
+      "data": {
+        "accessToken": "eyJhb...",
+        "refreshToken": "eyJhb..."
+      },
+      "httpStatus": 200
+    }
+  },
+  {
+    "_comment": "HTTP Method: POST | URL: http://localhost:8080/api/v1/auth/logout | Usage: Call this endpoint using a POST request.",
+    "controller": "AuthController",
+    "baseUrl": "localhost:8080/api/v1/auth",
+    "method": "POST",
+    "path": "/logout",
+    "parameters": {},
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "Logged out successfully",
+      "data": null,
+      "httpStatus": 200
+    }
+  },
+  {
+    "_comment": "HTTP Method: PATCH | URL: http://localhost:8080/api/v1/auth/password-change | Usage: Call this endpoint using a PATCH request. Provide the JSON payload in the request body.",
+    "controller": "AuthController",
+    "baseUrl": "localhost:8080/api/v1/auth",
+    "method": "PATCH",
+    "path": "/password-change",
+    "parameters": {},
+    "request": {
+      "oldPassword": "Password123!",
+      "newPassword": "NewPassword123!"
+    },
+    "response": {
+      "success": true,
+      "message": "Password changed successfully",
+      "data": null,
+      "httpStatus": 200
+    }
+  },
+  {
+    "_comment": "HTTP Method: PATCH | URL: http://localhost:8080/api/v1/auth/forget-password/{email} | Usage: Call this endpoint using a PATCH request. Replace path variables like {email} with actual values.",
+    "controller": "AuthController",
+    "baseUrl": "localhost:8080/api/v1/auth",
+    "method": "PATCH",
+    "path": "/forget-password/{email}",
+    "parameters": {
+      "email": "user@example.com"
+    },
+    "request": null,
+    "response": {
+      "success": true,
+      "message": "OTP sent successfully, verify to reset password",
+      "data": null,
+      "httpStatus": 200
+    }
+  },
+  {
+    "_comment": "HTTP Method: PATCH | URL: http://localhost:8080/api/v1/auth/password-reset | Usage: Call this endpoint using a PATCH request. Provide the JSON payload in the request body.",
+    "controller": "AuthController",
+    "baseUrl": "localhost:8080/api/v1/auth",
+    "method": "PATCH",
+    "path": "/password-reset",
+    "parameters": {},
+    "request": {
+      "email": "user@example.com",
+      "otp": "123456",
+      "newPassword": "NewPassword123!"
+    },
+    "response": {
+      "success": true,
+      "message": "Password reset successful",
+      "data": null,
+      "httpStatus": 200
+    }
+  },
+  {
+    "_comment": "HTTP Method: POST | URL: http://localhost:8080/api/v1/auth/refresh | Usage: Call this endpoint using a POST request. Provide the JSON payload in the request body.",
+    "controller": "AuthController",
+    "baseUrl": "localhost:8080/api/v1/auth",
+    "method": "POST",
+    "path": "/refresh",
+    "parameters": {},
+    "request": {
+      "refreshToken": "eyJhb..."
+    },
+    "response": {
+      "success": true,
+      "message": "Token refreshed",
+      "data": {
+        "accessToken": "eyJhb...",
+        "refreshToken": "eyJhb..."
+      },
+      "httpStatus": 200
+    }
+  }
+]

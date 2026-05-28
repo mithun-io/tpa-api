@@ -38,6 +38,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionSynchronization;
@@ -412,7 +413,7 @@ public class AdminServiceImpl implements AdminService {
         }
 
         log.info("Requesting AI summary for claim {}", claimId);
-        String username = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getName();
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return aiClaimAssistantService.analyzeClaim(claimId, "Please summarize this claim for an admin reviewer. Highlight any discrepancies or high-risk factors.", username);
     }
 
@@ -424,7 +425,7 @@ public class AdminServiceImpl implements AdminService {
         }
 
         log.info("Requesting custom AI analysis for claim {} with prompt: {}", claimId, prompt);
-        String username = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getName();
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return aiClaimAssistantService.analyzeClaim(claimId, prompt, username);
     }
 

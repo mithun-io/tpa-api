@@ -24,6 +24,7 @@ public class EnterpriseDataSeeder implements ApplicationRunner {
 
     private final UserRepository userRepository;
     private final CarrierRepository carrierRepository;
+    private final PatientRepository patientRepository;
     private final ClaimRepository claimRepository;
     private final NotificationRepository notificationRepository;
     private final PaymentRepository paymentRepository;
@@ -150,7 +151,7 @@ public class EnterpriseDataSeeder implements ApplicationRunner {
 
         // Ensure the carrier entity exists for the carrier demo user
         userRepository.findByEmail("michael.turner@healthshield.com").ifPresent(carrierUser -> {
-            if (carrierRepository.existsByUser(carrierUser)) {
+            if (!carrierRepository.existsByUser(carrierUser)) {
                 Carrier carrier = Carrier.builder()
                         .user(carrierUser)
                         .companyName("HealthShield Insurance Group")
@@ -162,6 +163,14 @@ public class EnterpriseDataSeeder implements ApplicationRunner {
                         .build();
                 carrierRepository.save(carrier);
                 log.info("Demo carrier entity created for michael.turner@healthshield.com");
+            }
+        });
+        
+        userRepository.findByEmail("emma.wilson@outlook.com").ifPresent(patientUser -> {
+            if (!patientRepository.existsByUser(patientUser)) {
+                Patient patient = Patient.builder().user(patientUser).build();
+                patientRepository.save(patient);
+                log.info("Demo patient entity created for emma.wilson@outlook.com");
             }
         });
     }
@@ -223,7 +232,12 @@ public class EnterpriseDataSeeder implements ApplicationRunner {
                     .dateOfBirth(LocalDate.of(1975 + (i % 30), (i % 12) + 1, (i % 28) + 1))
                     .createdAt(LocalDateTime.now().minusMonths(12 - (i % 12)))
                     .build();
-            seeded.add(userRepository.save(u));
+            User savedUser = userRepository.save(u);
+            seeded.add(savedUser);
+            
+            if (!patientRepository.existsByUser(savedUser)) {
+                patientRepository.save(Patient.builder().user(savedUser).build());
+            }
         }
 
         userRepository.findByEmail("emma.wilson@outlook.com").ifPresent(seeded::add);
@@ -259,7 +273,7 @@ public class EnterpriseDataSeeder implements ApplicationRunner {
             User saved = userRepository.save(u);
             seeded.add(saved);
 
-            if (carrierRepository.existsByUser(saved)) {
+            if (!carrierRepository.existsByUser(saved)) {
                 carrierRepository.save(Carrier.builder()
                         .user(saved)
                         .companyName(cd[0])
