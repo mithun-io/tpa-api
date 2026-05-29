@@ -899,3 +899,36 @@ response:
     ],
     "httpStatus": 200
 }
+
+Claim Broadcast: Any role
+
+POST: localhost:8080/api/v1/claims/broadcast/501?status=IN_PROGRESS&message=Working on it
+
+Query params:
+key = status, value = IN_PROGRESS
+key = message, value = Working on it
+
+response:
+{
+    "success": true,
+    "message": "Status broadcasted successfully",
+    "data": null,
+    "httpStatus": 200
+}
+
+Pdf export:
+
+GET: localhost:8080/api/v1/claims/501/export
+Save response - Save as file
+
+Delete Claim: Admin and Patient
+
+DELETE: localhost:8080/api/v1/claims/3
+
+response:
+{
+    "success": true,
+    "message": "Claim deleted successfully",
+    "data": null,
+    "httpStatus": 200
+}
