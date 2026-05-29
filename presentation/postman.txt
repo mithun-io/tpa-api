@@ -271,7 +271,7 @@ response:
     "httpStatus": 200
 }
 
-PATCH: localhost:8080/api/v1/admin/carriers/7/approve
+PATCH: localhost:8080/api/v1/admin/carriers/7/approve - similarly can reject (localhost:8080/api/v1/admin/carriers/{id}/reject)
 response:
 {
     "success": true,
@@ -951,5 +951,1493 @@ response:
     "success": true,
     "message": "Notification sent successfully",
     "data": null,
+    "httpStatus": 200
+}
+
+Admin Controller
+
+Blocking and unblocking the users
+
+Admin
+Bearer token: eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInN1YiI6ImFkbWluQHRwYS5jb20iLCJpYXQiOjE3ODAwNDg4NjYsImV4cCI6MTc4MDA1MjQ2Nn0.soJGKo6MO58T58ARPKWuILm7V1OLsfA1wSdm47r3IJafkQYjdj5RUGcPCGhn8NGn6X_KYeGPFZ_6cX6C61IP7A
+
+PATCH: http://localhost:8080/api/v1/admin/users/1/block
+
+response:
+{
+    "success": true,
+    "message": "User blocked successfully",
+    "data": {
+        "id": 1,
+        "name": "Emma Wilson",
+        "email": "emma.wilson@outlook.com",
+        "phoneNumber": "+1 (917) 555-4821",
+        "dateOfBirth": "1990-06-15",
+        "address": "2458 Maplewood Drive, Austin, Texas 78701, USA",
+        "gender": "FEMALE",
+        "userRole": "PATIENT",
+        "userStatus": "BLOCKED",
+        "createdAt": "2025-03-29 10:49 AM"
+    },
+    "httpStatus": 200
+}
+
+PATCH: http://localhost:8080/api/v1/admin/users/1/unblock
+
+response:
+{
+    "success": true,
+    "message": "User unblocked successfully",
+    "data": {
+        "id": 1,
+        "name": "Emma Wilson",
+        "email": "emma.wilson@outlook.com",
+        "phoneNumber": "+1 (917) 555-4821",
+        "dateOfBirth": "1990-06-15",
+        "address": "2458 Maplewood Drive, Austin, Texas 78701, USA",
+        "gender": "FEMALE",
+        "userRole": "PATIENT",
+        "userStatus": "ACTIVE",
+        "createdAt": "2025-03-29 10:49 AM"
+    },
+    "httpStatus": 200
+}
+
+Admin putting under review (the claims which are freshly submitted)
+
+GET: localhost:8080/api/v1/admin/claims?claimStatus=SUBMITTED
+Query params:
+key = claimStatus, value = SUBMITTED
+
+response
+{
+    "success": true,
+    "message": "Claims fetched successfully",
+    "data": {
+        "content": [
+            {
+                "id": 481,
+                "userName": "Nancy Johnson",
+                "userEmail": "nancy.johnson21@demo.tpa",
+                "patientName": "James Anderson",
+                "hospitalName": "UCLA Medical Center",
+                "admissionDate": "2026-01-26",
+                "dischargeDate": "2026-02-02",
+                "totalBillAmount": 65498.19502274718,
+                "policyId": "UHG-HLT-2026-104582",
+                "policyNumber": "UHG-HLT-2026-104582-0481",
+                "carrierName": "HealthShield Insurance Group",
+                "claimStatus": "SUBMITTED",
+                "claimType": "Cardiac",
+                "diagnosis": "Acute Myocardial Infarction",
+                "amount": 52398.55601819775,
+                "rejectionReason": null,
+                "reviewedBy": "michael.turner@tpa.com",
+                "reviewedAt": null,
+                "reviewNotes": null,
+                "createdDate": "2026-05-29T10:49:47.289571",
+                "processedDate": null,
+                "riskScore": 82.81610532269688,
+                "riskFlags": "INFLATED_BILLING, DUPLICATE_PATTERN",
+                "healthScore": 43,
+                "riskLevel": "HIGH"
+            },
+            {
+                "id": 469,
+                "userName": "Elizabeth Martinez",
+                "userEmail": "elizabeth.martinez9@demo.tpa",
+                "patientName": "Joseph Walker",
+                "hospitalName": "Rigshospitalet",
+                "admissionDate": "2026-01-10",
+                "dischargeDate": "2026-01-19",
+                "totalBillAmount": 49504.30765522208,
+                "policyId": "SBER-MED-2026-974281",
+                "policyNumber": "SBER-MED-2026-974281-0469",
+                "carrierName": "HealthShield Insurance Group",
+                "claimStatus": "SUBMITTED",
+                "claimType": "Ophthalmology",
+                "diagnosis": "Cataract",
+                "amount": 39603.446124177666,
+                "rejectionReason": null,
+                "reviewedBy": "michael.turner@tpa.com",
+                "reviewedAt": null,
+                "reviewNotes": null,
+                "createdDate": "2026-05-29T10:49:47.286835",
+                "processedDate": null,
+                "riskScore": 84.94750891632135,
+                "riskFlags": "INFLATED_BILLING, DUPLICATE_PATTERN",
+                "healthScore": 68,
+                "riskLevel": "HIGH"
+            },
+            {
+                "id": 457,
+                "userName": "Charles Rodriguez",
+                "userEmail": "charles.rodriguez48@demo.tpa",
+                "patientName": "Daniel Thomas",
+                "hospitalName": "Cedars-Sinai Medical Center",
+                "admissionDate": "2026-01-01",
+                "dischargeDate": "2026-01-05",
+                "totalBillAmount": 98227.04217664756,
+                "policyId": "BUPA-PLUS-2026-752194",
+                "policyNumber": "BUPA-PLUS-2026-752194-0457",
+                "carrierName": "HealthShield Insurance Group",
+                "claimStatus": "SUBMITTED",
+                "claimType": "Emergency",
+                "diagnosis": "Road Traffic Accident - Polytrauma",
+                "amount": 78581.63374131806,
+                "rejectionReason": null,
+                "reviewedBy": "michael.turner@tpa.com",
+                "reviewedAt": null,
+                "reviewNotes": null,
+                "createdDate": "2026-05-29T10:49:47.284768",
+                "processedDate": null,
+                "riskScore": 24.943245536330917,
+                "riskFlags": "",
+                "healthScore": 48,
+                "riskLevel": "LOW"
+            },
+            {
+                "id": 445,
+                "userName": "Michael Taylor",
+                "userEmail": "michael.taylor36@demo.tpa",
+                "patientName": "Alexander Scott",
+                "hospitalName": "University Hospital Heidelberg",
+                "admissionDate": "2025-12-16",
+                "dischargeDate": "2025-12-22",
+                "totalBillAmount": 188326.98268156222,
+                "policyId": "ALL-GLOB-2026-538290",
+                "policyNumber": "ALL-GLOB-2026-538290-0445",
+                "carrierName": "HealthShield Insurance Group",
+                "claimStatus": "SUBMITTED",
+                "claimType": "Orthopedic",
+                "diagnosis": "Fracture - Femur",
+                "amount": 150661.58614524978,
+                "rejectionReason": null,
+                "reviewedBy": "michael.turner@tpa.com",
+                "reviewedAt": null,
+                "reviewNotes": null,
+                "createdDate": "2026-05-29T10:49:47.281649",
+                "processedDate": null,
+                "riskScore": 13.779420816910303,
+                "riskFlags": "",
+                "healthScore": 81,
+                "riskLevel": "LOW"
+            },
+            {
+                "id": 433,
+                "userName": "Matthew Jones",
+                "userEmail": "matthew.jones24@demo.tpa",
+                "patientName": "Andrew Thompson",
+                "hospitalName": "Mount Sinai Hospital",
+                "admissionDate": "2025-12-07",
+                "dischargeDate": "2025-12-15",
+                "totalBillAmount": 191964.54066989236,
+                "policyId": "CIG-MED-2026-315904",
+                "policyNumber": "CIG-MED-2026-315904-0433",
+                "carrierName": "HealthShield Insurance Group",
+                "claimStatus": "SUBMITTED",
+                "claimType": "Spine",
+                "diagnosis": "Intervertebral Disc Disease",
+                "amount": 153571.6325359139,
+                "rejectionReason": null,
+                "reviewedBy": "michael.turner@tpa.com",
+                "reviewedAt": null,
+                "reviewNotes": null,
+                "createdDate": "2026-05-29T10:49:47.27849",
+                "processedDate": null,
+                "riskScore": 75.9969259637243,
+                "riskFlags": "INFLATED_BILLING, DUPLICATE_PATTERN",
+                "healthScore": 60,
+                "riskLevel": "HIGH"
+            },
+            {
+                "id": 421,
+                "userName": "Richard Gonzalez",
+                "userEmail": "richard.gonzalez12@demo.tpa",
+                "patientName": "James Anderson",
+                "hospitalName": "Moscow City Clinical Hospital",
+                "admissionDate": "2025-11-26",
+                "dischargeDate": "2025-11-29",
+                "totalBillAmount": 128056.59474339824,
+                "policyId": "UHG-HLT-2026-104582",
+                "policyNumber": "UHG-HLT-2026-104582-0421",
+                "carrierName": "HealthShield Insurance Group",
+                "claimStatus": "SUBMITTED",
+                "claimType": "Cardiac",
+                "diagnosis": "Acute Myocardial Infarction",
+                "amount": 102445.27579471859,
+                "rejectionReason": null,
+                "reviewedBy": "michael.turner@tpa.com",
+                "reviewedAt": null,
+                "reviewNotes": null,
+                "createdDate": "2026-05-29T10:49:47.275388",
+                "processedDate": null,
+                "riskScore": 81.68426301088789,
+                "riskFlags": "INFLATED_BILLING, DUPLICATE_PATTERN",
+                "healthScore": 48,
+                "riskLevel": "HIGH"
+            },
+            {
+                "id": 409,
+                "userName": "James Smith",
+                "userEmail": "james.smith0@demo.tpa",
+                "patientName": "Joseph Walker",
+                "hospitalName": "Houston Methodist Hospital",
+                "admissionDate": "2025-11-12",
+                "dischargeDate": "2025-11-17",
+                "totalBillAmount": 119348.28527342717,
+                "policyId": "SBER-MED-2026-974281",
+                "policyNumber": "SBER-MED-2026-974281-0409",
+                "carrierName": "HealthShield Insurance Group",
+                "claimStatus": "SUBMITTED",
+                "claimType": "Ophthalmology",
+                "diagnosis": "Cataract",
+                "amount": 95478.62821874174,
+                "rejectionReason": null,
+                "reviewedBy": "michael.turner@tpa.com",
+                "reviewedAt": null,
+                "reviewNotes": null,
+                "createdDate": "2026-05-29T10:49:47.272195",
+                "processedDate": null,
+                "riskScore": 23.453001874573832,
+                "riskFlags": "",
+                "healthScore": 52,
+                "riskLevel": "LOW"
+            },
+            {
+                "id": 397,
+                "userName": "Elizabeth Martin",
+                "userEmail": "elizabeth.martin39@demo.tpa",
+                "patientName": "Daniel Thomas",
+                "hospitalName": "Botkin Hospital Moscow",
+                "admissionDate": "2026-05-20",
+                "dischargeDate": "2026-05-27",
+                "totalBillAmount": 189999.46425462357,
+                "policyId": "BUPA-PLUS-2026-752194",
+                "policyNumber": "BUPA-PLUS-2026-752194-0397",
+                "carrierName": "HealthShield Insurance Group",
+                "claimStatus": "SUBMITTED",
+                "claimType": "Emergency",
+                "diagnosis": "Road Traffic Accident - Polytrauma",
+                "amount": 151999.57140369885,
+                "rejectionReason": null,
+                "reviewedBy": "michael.turner@tpa.com",
+                "reviewedAt": null,
+                "reviewNotes": null,
+                "createdDate": "2026-05-29T10:49:47.265747",
+                "processedDate": null,
+                "riskScore": 85.55073923230961,
+                "riskFlags": "INFLATED_BILLING, DUPLICATE_PATTERN",
+                "healthScore": 45,
+                "riskLevel": "HIGH"
+            },
+            {
+                "id": 385,
+                "userName": "Margaret Davis",
+                "userEmail": "margaret.davis27@demo.tpa",
+                "patientName": "Alexander Scott",
+                "hospitalName": "Stanford Health Care",
+                "admissionDate": "2026-05-06",
+                "dischargeDate": "2026-05-15",
+                "totalBillAmount": 131421.53876529608,
+                "policyId": "ALL-GLOB-2026-538290",
+                "policyNumber": "ALL-GLOB-2026-538290-0385",
+                "carrierName": "HealthShield Insurance Group",
+                "claimStatus": "SUBMITTED",
+                "claimType": "Orthopedic",
+                "diagnosis": "Fracture - Femur",
+                "amount": 105137.23101223687,
+                "rejectionReason": null,
+                "reviewedBy": "michael.turner@tpa.com",
+                "reviewedAt": null,
+                "reviewNotes": null,
+                "createdDate": "2026-05-29T10:49:47.262747",
+                "processedDate": null,
+                "riskScore": 0.25906260250561086,
+                "riskFlags": "",
+                "healthScore": 41,
+                "riskLevel": "LOW"
+            },
+            {
+                "id": 373,
+                "userName": "Jessica Thomas",
+                "userEmail": "jessica.thomas15@demo.tpa",
+                "patientName": "Andrew Thompson",
+                "hospitalName": "European Medical Center Moscow",
+                "admissionDate": "2026-04-25",
+                "dischargeDate": "2026-04-29",
+                "totalBillAmount": 117516.21934338873,
+                "policyId": "CIG-MED-2026-315904",
+                "policyNumber": "CIG-MED-2026-315904-0373",
+                "carrierName": "HealthShield Insurance Group",
+                "claimStatus": "SUBMITTED",
+                "claimType": "Spine",
+                "diagnosis": "Intervertebral Disc Disease",
+                "amount": 94012.97547471098,
+                "rejectionReason": null,
+                "reviewedBy": "michael.turner@tpa.com",
+                "reviewedAt": null,
+                "reviewNotes": null,
+                "createdDate": "2026-05-29T10:49:47.259747",
+                "processedDate": null,
+                "riskScore": 2.791398430778347,
+                "riskFlags": "",
+                "healthScore": 55,
+                "riskLevel": "LOW"
+            }
+        ],
+        "pageable": {
+            "pageNumber": 0,
+            "pageSize": 10,
+            "sort": {
+                "empty": false,
+                "sorted": true,
+                "unsorted": false
+            },
+            "offset": 0,
+            "paged": true,
+            "unpaged": false
+        },
+        "last": false,
+        "totalPages": 5,
+        "totalElements": 41,
+        "size": 10,
+        "number": 0,
+        "sort": {
+            "empty": false,
+            "sorted": true,
+            "unsorted": false
+        },
+        "first": true,
+        "numberOfElements": 10,
+        "empty": false
+    },
+    "httpStatus": 200
+}
+
+PATCH: localhost:8080/api/v1/admin/claims/review
+
+request:
+{
+  "claimId": 481,
+  "claimStatus": "UNDER_REVIEW",
+  "reviewNotes": "Requires further investigation."
+}
+
+response:
+{
+    "success": true,
+    "message": "Claim reviewed successfully",
+    "data": {
+        "id": 481,
+        "userName": "Nancy Johnson",
+        "userEmail": "nancy.johnson21@demo.tpa",
+        "patientName": "James Anderson",
+        "hospitalName": "UCLA Medical Center",
+        "admissionDate": "2026-01-26",
+        "dischargeDate": "2026-02-02",
+        "totalBillAmount": 65498.19502274718,
+        "policyId": "UHG-HLT-2026-104582",
+        "policyNumber": "UHG-HLT-2026-104582-0481",
+        "carrierName": "HealthShield Insurance Group",
+        "claimStatus": "UNDER_REVIEW",
+        "claimType": "Cardiac",
+        "diagnosis": "Acute Myocardial Infarction",
+        "amount": 52398.55601819775,
+        "rejectionReason": "Requires further investigation.",
+        "reviewedBy": "admin@tpa.com",
+        "reviewedAt": "2026-05-29T15:45:41.6613954",
+        "reviewNotes": "Requires further investigation.",
+        "createdDate": "2026-05-29T10:49:47.289571",
+        "processedDate": "2026-05-29T15:45:41.6613954",
+        "riskScore": 82.81610532269688,
+        "riskFlags": "INFLATED_BILLING, DUPLICATE_PATTERN",
+        "healthScore": 43,
+        "riskLevel": "HIGH"
+    },
+    "httpStatus": 200
+}
+
+Admin approving and rejecting the claims
+
+Bearer token: eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInN1YiI6ImFkbWluQHRwYS5jb20iLCJpYXQiOjE3ODAwNDg4NjYsImV4cCI6MTc4MDA1MjQ2Nn0.soJGKo6MO58T58ARPKWuILm7V1OLsfA1wSdm47r3IJafkQYjdj5RUGcPCGhn8NGn6X_KYeGPFZ_6cX6C61IP7A
+
+PATCH: localhost:8080/api/v1/admin/claims/50/approve?reason=All checks passed
+
+response:
+{
+    "success": true,
+    "message": "Claim approved successfully",
+    "data": {
+        "id": 50,
+        "userName": "Karen Martinez",
+        "userEmail": "karen.martinez49@demo.tpa",
+        "patientName": "Abigail Hall",
+        "hospitalName": "Central Clinical Hospital Moscow",
+        "admissionDate": "2025-12-22",
+        "dischargeDate": "2025-12-25",
+        "totalBillAmount": 77254.41515261604,
+        "policyId": "MANU-LIFE-2026-185763",
+        "policyNumber": "MANU-LIFE-2026-185763-0050",
+        "carrierName": "UnitedHealth Group",
+        "claimStatus": "SETTLED",
+        "claimType": "Maternity",
+        "diagnosis": "Normal Vaginal Delivery",
+        "amount": 61803.53212209284,
+        "rejectionReason": null,
+        "reviewedBy": "admin@tpa.com",
+        "reviewedAt": "2026-05-29T15:39:57.5761424",
+        "reviewNotes": "All checks passed",
+        "createdDate": "2026-05-29T10:49:47.142005",
+        "processedDate": "2026-05-29T15:39:57.5761424",
+        "riskScore": 42.32016820908536,
+        "riskFlags": "ELEVATED_COST",
+        "healthScore": 43,
+        "riskLevel": "MEDIUM"
+    },
+    "httpStatus": 200
+}
+
+PATCH: localhost:8080/api/v1/admin/claims/2/reject?reason=Incomplete documentation
+
+response:
+{
+    "success": true,
+    "message": "Claim rejected successfully",
+    "data": {
+        "id": 2,
+        "userName": "Mary Johnson",
+        "userEmail": "mary.johnson1@demo.tpa",
+        "patientName": "Emma Wilson",
+        "hospitalName": "Cleveland Clinic",
+        "admissionDate": "2025-11-07",
+        "dischargeDate": "2025-11-11",
+        "totalBillAmount": 66259.52066371529,
+        "policyId": "AET-CRIT-2026-208741",
+        "policyNumber": "AET-CRIT-2026-208741-0002",
+        "carrierName": "UnitedHealth Group",
+        "claimStatus": "REJECTED",
+        "claimType": "Endocrine",
+        "diagnosis": "Type 2 Diabetes Mellitus",
+        "amount": 53007.616530972235,
+        "rejectionReason": "Incomplete documentation",
+        "reviewedBy": "admin@tpa.com",
+        "reviewedAt": "2026-05-29T15:38:57.5766333",
+        "reviewNotes": "Incomplete documentation",
+        "createdDate": "2026-05-29T10:49:47.106461",
+        "processedDate": "2026-05-29T15:38:57.5766333",
+        "riskScore": 66.55489517945736,
+        "riskFlags": "ELEVATED_COST",
+        "healthScore": 94,
+        "riskLevel": "MEDIUM"
+    },
+    "httpStatus": 200
+}
+
+Fetching the claims
+
+GET: http://localhost:8080/api/v1/admin/claims
+{
+    "success": true,
+    "message": "Claims fetched successfully",
+    "data": {
+        "content": [
+            {
+                "id": 501,
+                "userName": "vccao86374",
+                "userEmail": "vccao86374@minitts.net",
+                "patientName": "John Doe",
+                "hospitalName": "Mayo Clinic, 200 1st ST SW, Rochester, MN",
+                "admissionDate": "2026-05-20",
+                "dischargeDate": "2026-05-25",
+                "totalBillAmount": 26000.0,
+                "policyId": "QTI-USC-2026-101564",
+                "policyNumber": "HP-PLUS-2026-957418-2407",
+                "carrierName": "Carlen Chairez",
+                "claimStatus": "CARRIER_APPROVED",
+                "claimType": "REIMBURSEMENT",
+                "diagnosis": "Hepatitis A",
+                "amount": 25000.0,
+                "rejectionReason": null,
+                "reviewedBy": "Carlen Chairez",
+                "reviewedAt": "2026-05-29T13:35:11.194027",
+                "reviewNotes": null,
+                "createdDate": "2026-05-29T12:22:06.487257",
+                "processedDate": "2026-05-29T13:35:11.194027",
+                "riskScore": null,
+                "riskFlags": null,
+                "healthScore": null,
+                "riskLevel": null
+            },
+            {
+                "id": 500,
+                "userName": "David Smith",
+                "userEmail": "david.smith40@demo.tpa",
+                "patientName": "Abigail Hall",
+                "hospitalName": "Central Clinical Hospital Moscow",
+                "admissionDate": "2026-02-09",
+                "dischargeDate": "2026-02-14",
+                "totalBillAmount": 143244.05993318337,
+                "policyId": "MANU-LIFE-2026-185763",
+                "policyNumber": "MANU-LIFE-2026-185763-0500",
+                "carrierName": "UnitedHealth Group",
+                "claimStatus": "PAYMENT_PENDING",
+                "claimType": "Orthopedic",
+                "diagnosis": "Hip Replacement",
+                "amount": 114595.2479465467,
+                "rejectionReason": null,
+                "reviewedBy": "sarah.mitchell@tpa.com",
+                "reviewedAt": null,
+                "reviewNotes": null,
+                "createdDate": "2026-05-29T10:49:47.293619",
+                "processedDate": null,
+                "riskScore": 96.20221017304944,
+                "riskFlags": "INFLATED_BILLING, DUPLICATE_PATTERN",
+                "healthScore": 56,
+                "riskLevel": "HIGH"
+            },
+            {
+                "id": 499,
+                "userName": "Elizabeth Martin",
+                "userEmail": "elizabeth.martin39@demo.tpa",
+                "patientName": "Joseph Walker",
+                "hospitalName": "Burdenko Clinical Hospital",
+                "admissionDate": "2026-02-09",
+                "dischargeDate": "2026-02-13",
+                "totalBillAmount": 138752.59008492733,
+                "policyId": "SBER-MED-2026-974281",
+                "policyNumber": "SBER-MED-2026-974281-0499",
+                "carrierName": "HealthShield Insurance Group",
+                "claimStatus": "REJECTED",
+                "claimType": "Critical Care",
+                "diagnosis": "Sepsis",
+                "amount": 0.0,
+                "rejectionReason": "Duplicate claim - already settled",
+                "reviewedBy": "michael.turner@tpa.com",
+                "reviewedAt": "2026-02-18T16:49:47.283216",
+                "reviewNotes": "Claim rejected after thorough investigation. Duplicate claim - already settled",
+                "createdDate": "2026-05-29T10:49:47.293619",
+                "processedDate": null,
+                "riskScore": 33.97356585960569,
+                "riskFlags": "ELEVATED_COST",
+                "healthScore": 98,
+                "riskLevel": "MEDIUM"
+            },
+            {
+                "id": 498,
+                "userName": "William Jackson",
+                "userEmail": "william.jackson38@demo.tpa",
+                "patientName": "Harper Lee",
+                "hospitalName": "European Medical Center Moscow",
+                "admissionDate": "2026-02-09",
+                "dischargeDate": "2026-02-12",
+                "totalBillAmount": 59914.52630830239,
+                "policyId": "ZUR-HEALTH-2026-863520",
+                "policyNumber": "ZUR-HEALTH-2026-863520-0498",
+                "carrierName": "Humana Insurance",
+                "claimStatus": "APPROVED",
+                "claimType": "Oncology",
+                "diagnosis": "Malignant Neoplasm - Breast",
+                "amount": 47931.621046641914,
+                "rejectionReason": null,
+                "reviewedBy": "lucas.martin@tpa.com",
+                "reviewedAt": "2026-02-15T17:49:47.283216",
+                "reviewNotes": "Claim validated and approved. All documentation verified. Payment initiated.",
+                "createdDate": "2026-05-29T10:49:47.293619",
+                "processedDate": "2026-02-18T17:49:47.283216",
+                "riskScore": 50.37140898544257,
+                "riskFlags": "ELEVATED_COST",
+                "healthScore": 62,
+                "riskLevel": "MEDIUM"
+            },
+            {
+                "id": 497,
+                "userName": "Linda Moore",
+                "userEmail": "linda.moore37@demo.tpa",
+                "patientName": "David Lewis",
+                "hospitalName": "Botkin Hospital Moscow",
+                "admissionDate": "2026-02-09",
+                "dischargeDate": "2026-02-18",
+                "totalBillAmount": 91653.56381106896,
+                "policyId": "BUPA-PLUS-2026-752194",
+                "policyNumber": "BUPA-PLUS-2026-752194-0497",
+                "carrierName": "Cigna Healthcare",
+                "claimStatus": "CARRIER_APPROVED",
+                "claimType": "Emergency",
+                "diagnosis": "Road Traffic Accident - Polytrauma",
+                "amount": 73322.85104885517,
+                "rejectionReason": null,
+                "reviewedBy": "oliver.bennett@tpa.com",
+                "reviewedAt": "2026-02-14T18:49:47.283216",
+                "reviewNotes": "Claim validated and approved. All documentation verified. Payment initiated.",
+                "createdDate": "2026-05-29T10:49:47.29262",
+                "processedDate": "2026-02-16T18:49:47.283216",
+                "riskScore": 29.09996968266976,
+                "riskFlags": "",
+                "healthScore": 65,
+                "riskLevel": "LOW"
+            },
+            {
+                "id": 495,
+                "userName": "Jennifer Thomas",
+                "userEmail": "jennifer.thomas35@demo.tpa",
+                "patientName": "Joshua Clark",
+                "hospitalName": "University Hospital Heidelberg",
+                "admissionDate": "2026-02-04",
+                "dischargeDate": "2026-02-11",
+                "totalBillAmount": 47448.20941834929,
+                "policyId": "ALL-GLOB-2026-538290",
+                "policyNumber": "ALL-GLOB-2026-538290-0495",
+                "carrierName": "Blue Cross Blue Shield",
+                "claimStatus": "UNDER_REVIEW",
+                "claimType": "Cardiac",
+                "diagnosis": "Hypertensive Crisis",
+                "amount": 37958.56753467943,
+                "rejectionReason": null,
+                "reviewedBy": "david.anderson@tpa.com",
+                "reviewedAt": null,
+                "reviewNotes": null,
+                "createdDate": "2026-05-29T10:49:47.29262",
+                "processedDate": null,
+                "riskScore": 99.74653924722688,
+                "riskFlags": "INFLATED_BILLING, DUPLICATE_PATTERN",
+                "healthScore": 74,
+                "riskLevel": "HIGH"
+            },
+            {
+                "id": 493,
+                "userName": "Patricia Wilson",
+                "userEmail": "patricia.wilson33@demo.tpa",
+                "patientName": "Andrew Thompson",
+                "hospitalName": "Vienna General Hospital",
+                "admissionDate": "2026-02-04",
+                "dischargeDate": "2026-02-09",
+                "totalBillAmount": 87482.90677629122,
+                "policyId": "CIG-MED-2026-315904",
+                "policyNumber": "CIG-MED-2026-315904-0493",
+                "carrierName": "HealthShield Insurance Group",
+                "claimStatus": "UNDER_REVIEW",
+                "claimType": "Spine",
+                "diagnosis": "Intervertebral Disc Disease",
+                "amount": 69986.32542103298,
+                "rejectionReason": "Requires further investigation.",
+                "reviewedBy": "admin@tpa.com",
+                "reviewedAt": "2026-05-29T15:43:09.61031",
+                "reviewNotes": "Requires further investigation.",
+                "createdDate": "2026-05-29T10:49:47.29262",
+                "processedDate": "2026-05-29T15:43:09.61031",
+                "riskScore": 8.36935972087618,
+                "riskFlags": "",
+                "healthScore": 93,
+                "riskLevel": "LOW"
+            },
+            {
+                "id": 496,
+                "userName": "Michael Taylor",
+                "userEmail": "michael.taylor36@demo.tpa",
+                "patientName": "Evelyn Rodriguez",
+                "hospitalName": "Moscow City Clinical Hospital",
+                "admissionDate": "2026-02-09",
+                "dischargeDate": "2026-02-17",
+                "totalBillAmount": 121091.58248066317,
+                "policyId": "AXA-CARE-2026-641873",
+                "policyNumber": "AXA-CARE-2026-641873-0496",
+                "carrierName": "Aetna Insurance",
+                "claimStatus": "ADMIN_APPROVED",
+                "claimType": "Gastro",
+                "diagnosis": "Liver Cirrhosis",
+                "amount": 96873.26598453055,
+                "rejectionReason": null,
+                "reviewedBy": "emily.carter@tpa.com",
+                "reviewedAt": "2026-02-13T19:49:47.283216",
+                "reviewNotes": "Claim validated and approved. All documentation verified. Payment initiated.",
+                "createdDate": "2026-05-29T10:49:47.29262",
+                "processedDate": "2026-02-18T19:49:47.283216",
+                "riskScore": 12.257201388815918,
+                "riskFlags": "",
+                "healthScore": 57,
+                "riskLevel": "LOW"
+            },
+            {
+                "id": 494,
+                "userName": "Robert Anderson",
+                "userEmail": "robert.anderson34@demo.tpa",
+                "patientName": "Amelia Garcia",
+                "hospitalName": "Rigshospitalet",
+                "admissionDate": "2026-02-04",
+                "dischargeDate": "2026-02-10",
+                "totalBillAmount": 82199.54710852532,
+                "policyId": "BCBS-HOSP-2026-427615",
+                "policyNumber": "BCBS-HOSP-2026-427615-0494",
+                "carrierName": "UnitedHealth Group",
+                "claimStatus": "UNDER_REVIEW",
+                "claimType": "Renal",
+                "diagnosis": "Acute Kidney Injury",
+                "amount": 65759.63768682026,
+                "rejectionReason": null,
+                "reviewedBy": "sarah.mitchell@tpa.com",
+                "reviewedAt": null,
+                "reviewNotes": null,
+                "createdDate": "2026-05-29T10:49:47.29262",
+                "processedDate": null,
+                "riskScore": 68.85350792383886,
+                "riskFlags": "ELEVATED_COST",
+                "healthScore": 61,
+                "riskLevel": "MEDIUM"
+            },
+            {
+                "id": 491,
+                "userName": "Mary Lopez",
+                "userEmail": "mary.lopez31@demo.tpa",
+                "patientName": "Christopher Harris",
+                "hospitalName": "Pitié-Salpêtrière Hospital",
+                "admissionDate": "2026-02-05",
+                "dischargeDate": "2026-02-08",
+                "totalBillAmount": 17482.39730762423,
+                "policyId": "UHG-HLT-2026-104582",
+                "policyNumber": "UHG-HLT-2026-104582-0491",
+                "carrierName": "Cigna Healthcare",
+                "claimStatus": "SETTLED",
+                "claimType": "Cardiac Surgery",
+                "diagnosis": "Coronary Artery Bypass Graft",
+                "amount": 13985.917846099384,
+                "rejectionReason": null,
+                "reviewedBy": "oliver.bennett@tpa.com",
+                "reviewedAt": "2026-02-09T00:49:47.283216",
+                "reviewNotes": "Claim validated and approved. All documentation verified. Payment initiated.",
+                "createdDate": "2026-05-29T10:49:47.29162",
+                "processedDate": "2026-02-11T00:49:47.283216",
+                "riskScore": 4.360520067401463,
+                "riskFlags": "",
+                "healthScore": 67,
+                "riskLevel": "LOW"
+            }
+        ],
+        "pageable": {
+            "pageNumber": 0,
+            "pageSize": 10,
+            "sort": {
+                "empty": false,
+                "sorted": true,
+                "unsorted": false
+            },
+            "offset": 0,
+            "paged": true,
+            "unpaged": false
+        },
+        "last": false,
+        "totalPages": 50,
+        "totalElements": 500,
+        "size": 10,
+        "number": 0,
+        "sort": {
+            "empty": false,
+            "sorted": true,
+            "unsorted": false
+        },
+        "first": true,
+        "numberOfElements": 10,
+        "empty": false
+    },
+    "httpStatus": 200
+}
+
+Fetching (Pagination)
+
+GET: http://localhost:8080/api/v1/admin/claims?page=1&size=10&sortBy=createdDate&desc=true
+
+Query params:
+key = page, value = 1
+key = size, value = 10
+key = sortBy, value = createdDate
+key = desc, value = true
+
+response:
+{
+    "success": true,
+    "message": "Claims fetched successfully",
+    "data": {
+        "content": [
+            {
+                "id": 501,
+                "userName": "vccao86374",
+                "userEmail": "vccao86374@minitts.net",
+                "patientName": "John Doe",
+                "hospitalName": "Mayo Clinic, 200 1st ST SW, Rochester, MN",
+                "admissionDate": "2026-05-20",
+                "dischargeDate": "2026-05-25",
+                "totalBillAmount": 26000.0,
+                "policyId": "QTI-USC-2026-101564",
+                "policyNumber": "HP-PLUS-2026-957418-2407",
+                "carrierName": "Carlen Chairez",
+                "claimStatus": "CARRIER_APPROVED",
+                "claimType": "REIMBURSEMENT",
+                "diagnosis": "Hepatitis A",
+                "amount": 25000.0,
+                "rejectionReason": null,
+                "reviewedBy": "Carlen Chairez",
+                "reviewedAt": "2026-05-29T13:35:11.194027",
+                "reviewNotes": null,
+                "createdDate": "2026-05-29T12:22:06.487257",
+                "processedDate": "2026-05-29T13:35:11.194027",
+                "riskScore": null,
+                "riskFlags": null,
+                "healthScore": null,
+                "riskLevel": null
+            },
+            {
+                "id": 500,
+                "userName": "David Smith",
+                "userEmail": "david.smith40@demo.tpa",
+                "patientName": "Abigail Hall",
+                "hospitalName": "Central Clinical Hospital Moscow",
+                "admissionDate": "2026-02-09",
+                "dischargeDate": "2026-02-14",
+                "totalBillAmount": 143244.05993318337,
+                "policyId": "MANU-LIFE-2026-185763",
+                "policyNumber": "MANU-LIFE-2026-185763-0500",
+                "carrierName": "UnitedHealth Group",
+                "claimStatus": "PAYMENT_PENDING",
+                "claimType": "Orthopedic",
+                "diagnosis": "Hip Replacement",
+                "amount": 114595.2479465467,
+                "rejectionReason": null,
+                "reviewedBy": "sarah.mitchell@tpa.com",
+                "reviewedAt": null,
+                "reviewNotes": null,
+                "createdDate": "2026-05-29T10:49:47.293619",
+                "processedDate": null,
+                "riskScore": 96.20221017304944,
+                "riskFlags": "INFLATED_BILLING, DUPLICATE_PATTERN",
+                "healthScore": 56,
+                "riskLevel": "HIGH"
+            },
+            {
+                "id": 499,
+                "userName": "Elizabeth Martin",
+                "userEmail": "elizabeth.martin39@demo.tpa",
+                "patientName": "Joseph Walker",
+                "hospitalName": "Burdenko Clinical Hospital",
+                "admissionDate": "2026-02-09",
+                "dischargeDate": "2026-02-13",
+                "totalBillAmount": 138752.59008492733,
+                "policyId": "SBER-MED-2026-974281",
+                "policyNumber": "SBER-MED-2026-974281-0499",
+                "carrierName": "HealthShield Insurance Group",
+                "claimStatus": "REJECTED",
+                "claimType": "Critical Care",
+                "diagnosis": "Sepsis",
+                "amount": 0.0,
+                "rejectionReason": "Duplicate claim - already settled",
+                "reviewedBy": "michael.turner@tpa.com",
+                "reviewedAt": "2026-02-18T16:49:47.283216",
+                "reviewNotes": "Claim rejected after thorough investigation. Duplicate claim - already settled",
+                "createdDate": "2026-05-29T10:49:47.293619",
+                "processedDate": null,
+                "riskScore": 33.97356585960569,
+                "riskFlags": "ELEVATED_COST",
+                "healthScore": 98,
+                "riskLevel": "MEDIUM"
+            },
+            {
+                "id": 498,
+                "userName": "William Jackson",
+                "userEmail": "william.jackson38@demo.tpa",
+                "patientName": "Harper Lee",
+                "hospitalName": "European Medical Center Moscow",
+                "admissionDate": "2026-02-09",
+                "dischargeDate": "2026-02-12",
+                "totalBillAmount": 59914.52630830239,
+                "policyId": "ZUR-HEALTH-2026-863520",
+                "policyNumber": "ZUR-HEALTH-2026-863520-0498",
+                "carrierName": "Humana Insurance",
+                "claimStatus": "APPROVED",
+                "claimType": "Oncology",
+                "diagnosis": "Malignant Neoplasm - Breast",
+                "amount": 47931.621046641914,
+                "rejectionReason": null,
+                "reviewedBy": "lucas.martin@tpa.com",
+                "reviewedAt": "2026-02-15T17:49:47.283216",
+                "reviewNotes": "Claim validated and approved. All documentation verified. Payment initiated.",
+                "createdDate": "2026-05-29T10:49:47.293619",
+                "processedDate": "2026-02-18T17:49:47.283216",
+                "riskScore": 50.37140898544257,
+                "riskFlags": "ELEVATED_COST",
+                "healthScore": 62,
+                "riskLevel": "MEDIUM"
+            },
+            {
+                "id": 497,
+                "userName": "Linda Moore",
+                "userEmail": "linda.moore37@demo.tpa",
+                "patientName": "David Lewis",
+                "hospitalName": "Botkin Hospital Moscow",
+                "admissionDate": "2026-02-09",
+                "dischargeDate": "2026-02-18",
+                "totalBillAmount": 91653.56381106896,
+                "policyId": "BUPA-PLUS-2026-752194",
+                "policyNumber": "BUPA-PLUS-2026-752194-0497",
+                "carrierName": "Cigna Healthcare",
+                "claimStatus": "CARRIER_APPROVED",
+                "claimType": "Emergency",
+                "diagnosis": "Road Traffic Accident - Polytrauma",
+                "amount": 73322.85104885517,
+                "rejectionReason": null,
+                "reviewedBy": "oliver.bennett@tpa.com",
+                "reviewedAt": "2026-02-14T18:49:47.283216",
+                "reviewNotes": "Claim validated and approved. All documentation verified. Payment initiated.",
+                "createdDate": "2026-05-29T10:49:47.29262",
+                "processedDate": "2026-02-16T18:49:47.283216",
+                "riskScore": 29.09996968266976,
+                "riskFlags": "",
+                "healthScore": 65,
+                "riskLevel": "LOW"
+            },
+            {
+                "id": 495,
+                "userName": "Jennifer Thomas",
+                "userEmail": "jennifer.thomas35@demo.tpa",
+                "patientName": "Joshua Clark",
+                "hospitalName": "University Hospital Heidelberg",
+                "admissionDate": "2026-02-04",
+                "dischargeDate": "2026-02-11",
+                "totalBillAmount": 47448.20941834929,
+                "policyId": "ALL-GLOB-2026-538290",
+                "policyNumber": "ALL-GLOB-2026-538290-0495",
+                "carrierName": "Blue Cross Blue Shield",
+                "claimStatus": "UNDER_REVIEW",
+                "claimType": "Cardiac",
+                "diagnosis": "Hypertensive Crisis",
+                "amount": 37958.56753467943,
+                "rejectionReason": null,
+                "reviewedBy": "david.anderson@tpa.com",
+                "reviewedAt": null,
+                "reviewNotes": null,
+                "createdDate": "2026-05-29T10:49:47.29262",
+                "processedDate": null,
+                "riskScore": 99.74653924722688,
+                "riskFlags": "INFLATED_BILLING, DUPLICATE_PATTERN",
+                "healthScore": 74,
+                "riskLevel": "HIGH"
+            },
+            {
+                "id": 493,
+                "userName": "Patricia Wilson",
+                "userEmail": "patricia.wilson33@demo.tpa",
+                "patientName": "Andrew Thompson",
+                "hospitalName": "Vienna General Hospital",
+                "admissionDate": "2026-02-04",
+                "dischargeDate": "2026-02-09",
+                "totalBillAmount": 87482.90677629122,
+                "policyId": "CIG-MED-2026-315904",
+                "policyNumber": "CIG-MED-2026-315904-0493",
+                "carrierName": "HealthShield Insurance Group",
+                "claimStatus": "UNDER_REVIEW",
+                "claimType": "Spine",
+                "diagnosis": "Intervertebral Disc Disease",
+                "amount": 69986.32542103298,
+                "rejectionReason": "Requires further investigation.",
+                "reviewedBy": "admin@tpa.com",
+                "reviewedAt": "2026-05-29T15:43:09.61031",
+                "reviewNotes": "Requires further investigation.",
+                "createdDate": "2026-05-29T10:49:47.29262",
+                "processedDate": "2026-05-29T15:43:09.61031",
+                "riskScore": 8.36935972087618,
+                "riskFlags": "",
+                "healthScore": 93,
+                "riskLevel": "LOW"
+            },
+            {
+                "id": 496,
+                "userName": "Michael Taylor",
+                "userEmail": "michael.taylor36@demo.tpa",
+                "patientName": "Evelyn Rodriguez",
+                "hospitalName": "Moscow City Clinical Hospital",
+                "admissionDate": "2026-02-09",
+                "dischargeDate": "2026-02-17",
+                "totalBillAmount": 121091.58248066317,
+                "policyId": "AXA-CARE-2026-641873",
+                "policyNumber": "AXA-CARE-2026-641873-0496",
+                "carrierName": "Aetna Insurance",
+                "claimStatus": "ADMIN_APPROVED",
+                "claimType": "Gastro",
+                "diagnosis": "Liver Cirrhosis",
+                "amount": 96873.26598453055,
+                "rejectionReason": null,
+                "reviewedBy": "emily.carter@tpa.com",
+                "reviewedAt": "2026-02-13T19:49:47.283216",
+                "reviewNotes": "Claim validated and approved. All documentation verified. Payment initiated.",
+                "createdDate": "2026-05-29T10:49:47.29262",
+                "processedDate": "2026-02-18T19:49:47.283216",
+                "riskScore": 12.257201388815918,
+                "riskFlags": "",
+                "healthScore": 57,
+                "riskLevel": "LOW"
+            },
+            {
+                "id": 494,
+                "userName": "Robert Anderson",
+                "userEmail": "robert.anderson34@demo.tpa",
+                "patientName": "Amelia Garcia",
+                "hospitalName": "Rigshospitalet",
+                "admissionDate": "2026-02-04",
+                "dischargeDate": "2026-02-10",
+                "totalBillAmount": 82199.54710852532,
+                "policyId": "BCBS-HOSP-2026-427615",
+                "policyNumber": "BCBS-HOSP-2026-427615-0494",
+                "carrierName": "UnitedHealth Group",
+                "claimStatus": "UNDER_REVIEW",
+                "claimType": "Renal",
+                "diagnosis": "Acute Kidney Injury",
+                "amount": 65759.63768682026,
+                "rejectionReason": null,
+                "reviewedBy": "sarah.mitchell@tpa.com",
+                "reviewedAt": null,
+                "reviewNotes": null,
+                "createdDate": "2026-05-29T10:49:47.29262",
+                "processedDate": null,
+                "riskScore": 68.85350792383886,
+                "riskFlags": "ELEVATED_COST",
+                "healthScore": 61,
+                "riskLevel": "MEDIUM"
+            },
+            {
+                "id": 491,
+                "userName": "Mary Lopez",
+                "userEmail": "mary.lopez31@demo.tpa",
+                "patientName": "Christopher Harris",
+                "hospitalName": "Pitié-Salpêtrière Hospital",
+                "admissionDate": "2026-02-05",
+                "dischargeDate": "2026-02-08",
+                "totalBillAmount": 17482.39730762423,
+                "policyId": "UHG-HLT-2026-104582",
+                "policyNumber": "UHG-HLT-2026-104582-0491",
+                "carrierName": "Cigna Healthcare",
+                "claimStatus": "SETTLED",
+                "claimType": "Cardiac Surgery",
+                "diagnosis": "Coronary Artery Bypass Graft",
+                "amount": 13985.917846099384,
+                "rejectionReason": null,
+                "reviewedBy": "oliver.bennett@tpa.com",
+                "reviewedAt": "2026-02-09T00:49:47.283216",
+                "reviewNotes": "Claim validated and approved. All documentation verified. Payment initiated.",
+                "createdDate": "2026-05-29T10:49:47.29162",
+                "processedDate": "2026-02-11T00:49:47.283216",
+                "riskScore": 4.360520067401463,
+                "riskFlags": "",
+                "healthScore": 67,
+                "riskLevel": "LOW"
+            }
+        ],
+        "pageable": {
+            "pageNumber": 0,
+            "pageSize": 10,
+            "sort": {
+                "empty": false,
+                "sorted": true,
+                "unsorted": false
+            },
+            "offset": 0,
+            "paged": true,
+            "unpaged": false
+        },
+        "last": false,
+        "totalPages": 50,
+        "totalElements": 500,
+        "size": 10,
+        "number": 0,
+        "sort": {
+            "empty": false,
+            "sorted": true,
+            "unsorted": false
+        },
+        "first": true,
+        "numberOfElements": 10,
+        "empty": false
+    },
+    "httpStatus": 200
+}
+
+Add Admin Beared token for all these endpoints
+Bearer token: eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInN1YiI6ImFkbWluQHRwYS5jb20iLCJpYXQiOjE3ODAwNDg4NjYsImV4cCI6MTc4MDA1MjQ2Nn0.soJGKo6MO58T58ARPKWuILm7V1OLsfA1wSdm47r3IJafkQYjdj5RUGcPCGhn8NGn6X_KYeGPFZ_6cX6C61IP7A
+
+GET: http://localhost:8080/api/v1/admin/carriers?companyName=Carlen Chairez&userStatus=ACTIVE&size=10&page=1
+
+Query params:
+key = companyName, value = Carlen Chairez
+key = userStatus, value = ACTIVE
+key = page, value = 1
+key = size, value = 10
+
+response:
+{
+    "success": true,
+    "message": "Carriers fetched successfully",
+    "data": {
+        "content": [
+            {
+                "id": 7,
+                "companyName": "Carlen Chairez",
+                "email": "carlen.chairez@horizonspost.com",
+                "phoneNumber": "+1 (772) 681-6440",
+                "companyType": "Insurance",
+                "licenseNumber": "LIC-HS-5782-2319",
+                "registrationNumber": "UDLAI-JQS-2026-451921",
+                "taxId": "TAX-SHDD-BCBS-5713",
+                "contactPersonName": "Carlen Chairez",
+                "contactPersonPhone": "+1 (772) 681-6440",
+                "website": "https://carlen.chairez.com",
+                "userStatus": "ACTIVE"
+            }
+        ],
+        "pageable": {
+            "pageNumber": 0,
+            "pageSize": 10,
+            "sort": {
+                "empty": false,
+                "sorted": true,
+                "unsorted": false
+            },
+            "offset": 0,
+            "paged": true,
+            "unpaged": false
+        },
+        "last": true,
+        "totalPages": 1,
+        "totalElements": 1,
+        "size": 10,
+        "number": 0,
+        "sort": {
+            "empty": false,
+            "sorted": true,
+            "unsorted": false
+        },
+        "first": true,
+        "numberOfElements": 1,
+        "empty": false
+    },
+    "httpStatus": 200
+}
+
+GET: localhost:8080/api/v1/admin/users?search=John&page=1&size=10
+
+Query params:
+key = search, value = John
+key = page, value = 1
+key = size, value = 10
+
+response:
+{
+    "success": true,
+    "message": "Users fetched successfully",
+    "data": {
+        "content": [
+            {
+                "id": 24,
+                "name": "Nancy Johnson",
+                "email": "nancy.johnson21@demo.tpa",
+                "phoneNumber": "+1 (221) 121-1021",
+                "dateOfBirth": "1996-10-22",
+                "address": "Los Angeles",
+                "gender": "FEMALE",
+                "userRole": "PATIENT",
+                "userStatus": "ACTIVE",
+                "createdAt": "2026-02-28 10:49 AM"
+            },
+            {
+                "id": 35,
+                "name": "John Gonzalez",
+                "email": "john.gonzalez32@demo.tpa",
+                "phoneNumber": "+1 (232) 132-1032",
+                "dateOfBirth": "1977-09-05",
+                "address": "Chicago",
+                "gender": "MALE",
+                "userRole": "PATIENT",
+                "userStatus": "ACTIVE",
+                "createdAt": "2026-01-29 10:49 AM"
+            },
+            {
+                "id": 44,
+                "name": "Barbara Johnson",
+                "email": "barbara.johnson41@demo.tpa",
+                "phoneNumber": "+1 (241) 141-1041",
+                "dateOfBirth": "1986-06-14",
+                "address": "Los Angeles",
+                "gender": "FEMALE",
+                "userRole": "PATIENT",
+                "userStatus": "ACTIVE",
+                "createdAt": "2025-10-29 10:49 AM"
+            },
+            {
+                "id": 5,
+                "name": "John Williams",
+                "email": "john.williams2@demo.tpa",
+                "phoneNumber": "+1 (202) 102-1002",
+                "dateOfBirth": "1977-03-03",
+                "address": "Chicago",
+                "gender": "MALE",
+                "userRole": "PATIENT",
+                "userStatus": "ACTIVE",
+                "createdAt": "2025-07-29 10:49 AM"
+            },
+            {
+                "id": 4,
+                "name": "Mary Johnson",
+                "email": "mary.johnson1@demo.tpa",
+                "phoneNumber": "+1 (201) 101-1001",
+                "dateOfBirth": "1976-02-02",
+                "address": "Los Angeles",
+                "gender": "FEMALE",
+                "userRole": "PATIENT",
+                "userStatus": "ACTIVE",
+                "createdAt": "2025-06-29 10:49 AM"
+            }
+        ],
+        "pageable": {
+            "pageNumber": 0,
+            "pageSize": 10,
+            "sort": {
+                "empty": false,
+                "sorted": true,
+                "unsorted": false
+            },
+            "offset": 0,
+            "paged": true,
+            "unpaged": false
+        },
+        "last": true,
+        "totalPages": 1,
+        "totalElements": 5,
+        "size": 10,
+        "number": 0,
+        "sort": {
+            "empty": false,
+            "sorted": true,
+            "unsorted": false
+        },
+        "first": true,
+        "numberOfElements": 5,
+        "empty": false
+    },
+    "httpStatus": 200
+}
+
+GET: localhost:8080/api/v1/admin/patients?username=vccao86374&email=vccao86374@minitts.net&userStatus=ACTIVE&page=1&size=10
+
+Query params:
+key = username, value = vccao86374
+key = email, value = vccao86374@minitts.net
+key = userStatus, value = ACTIVE
+key = page, value = 1
+key = size, value = 10
+
+response:
+{
+    "success": true,
+    "message": "Patients fetched successfully",
+    "data": {
+        "content": [
+            {
+                "id": 61,
+                "name": "vccao86374",
+                "email": "vccao86374@minitts.net",
+                "phoneNumber": "+1 (593) 213-6265",
+                "dateOfBirth": "2006-05-26",
+                "address": "California",
+                "gender": "MALE",
+                "userRole": "PATIENT",
+                "userStatus": "ACTIVE",
+                "createdAt": "2026-05-29 11:47 AM"
+            }
+        ],
+        "pageable": {
+            "pageNumber": 0,
+            "pageSize": 10,
+            "sort": {
+                "empty": false,
+                "sorted": true,
+                "unsorted": false
+            },
+            "offset": 0,
+            "paged": true,
+            "unpaged": false
+        },
+        "last": true,
+        "totalPages": 1,
+        "totalElements": 1,
+        "size": 10,
+        "number": 0,
+        "sort": {
+            "empty": false,
+            "sorted": true,
+            "unsorted": false
+        },
+        "first": true,
+        "numberOfElements": 1,
+        "empty": false
+    },
+    "httpStatus": 200
+}
+
+GET: localhost:8080/api/v1/admin/monitoring
+
+response:
+{
+    "success": true,
+    "message": "system monitoring fetched successfully",
+    "data": {
+        "kafka": {
+            "brokers": "localhost:9092",
+            "status": "ONLINE",
+            "topics": [
+                "claim_events",
+                "notifications"
+            ]
+        },
+        "failedClaims": [
+            {
+                "id": 499,
+                "userName": "Elizabeth Martin",
+                "userEmail": "elizabeth.martin39@demo.tpa",
+                "patientName": "Joseph Walker",
+                "hospitalName": "Burdenko Clinical Hospital",
+                "admissionDate": "2026-02-09",
+                "dischargeDate": "2026-02-13",
+                "totalBillAmount": 138752.59008492733,
+                "policyId": "SBER-MED-2026-974281",
+                "policyNumber": "SBER-MED-2026-974281-0499",
+                "carrierName": "HealthShield Insurance Group",
+                "claimStatus": "REJECTED",
+                "claimType": "Critical Care",
+                "diagnosis": "Sepsis",
+                "amount": 0.0,
+                "rejectionReason": "Duplicate claim - already settled",
+                "reviewedBy": "michael.turner@tpa.com",
+                "reviewedAt": "2026-02-18T16:49:47.283216",
+                "reviewNotes": "Claim rejected after thorough investigation. Duplicate claim - already settled",
+                "createdDate": "2026-05-29T10:49:47.293619",
+                "processedDate": null,
+                "riskScore": 33.97356585960569,
+                "riskFlags": "ELEVATED_COST",
+                "healthScore": 98,
+                "riskLevel": "MEDIUM"
+            },
+            {
+                "id": 487,
+                "userName": "Margaret Davis",
+                "userEmail": "margaret.davis27@demo.tpa",
+                "patientName": "Daniel Thomas",
+                "hospitalName": "University Hospital Zurich",
+                "admissionDate": "2026-01-31",
+                "dischargeDate": "2026-02-06",
+                "totalBillAmount": 25343.04797873042,
+                "policyId": "BUPA-PLUS-2026-752194",
+                "policyNumber": "BUPA-PLUS-2026-752194-0487",
+                "carrierName": "HealthShield Insurance Group",
+                "claimStatus": "REJECTED",
+                "claimType": "Neurological",
+                "diagnosis": "Acute Cerebrovascular Accident",
+                "amount": 0.0,
+                "rejectionReason": "Fraud indicator detected by AI engine",
+                "reviewedBy": "michael.turner@tpa.com",
+                "reviewedAt": "2026-02-07T04:49:47.283216",
+                "reviewNotes": "Claim rejected after thorough investigation. Fraud indicator detected by AI engine",
+                "createdDate": "2026-05-29T10:49:47.290605",
+                "processedDate": null,
+                "riskScore": 67.52028712281036,
+                "riskFlags": "ELEVATED_COST",
+                "healthScore": 90,
+                "riskLevel": "MEDIUM"
+            },
+            {
+                "id": 475,
+                "userName": "Jessica Thomas",
+                "userEmail": "jessica.thomas15@demo.tpa",
+                "patientName": "Alexander Scott",
+                "hospitalName": "Central Clinical Hospital Moscow",
+                "admissionDate": "2026-01-15",
+                "dischargeDate": "2026-01-23",
+                "totalBillAmount": 136441.31906366168,
+                "policyId": "ALL-GLOB-2026-538290",
+                "policyNumber": "ALL-GLOB-2026-538290-0475",
+                "carrierName": "HealthShield Insurance Group",
+                "claimStatus": "REJECTED",
+                "claimType": "Cardiac",
+                "diagnosis": "Hypertensive Crisis",
+                "amount": 0.0,
+                "rejectionReason": "Duplicate claim - already settled",
+                "reviewedBy": "michael.turner@tpa.com",
+                "reviewedAt": "2026-01-25T16:49:47.283216",
+                "reviewNotes": "Claim rejected after thorough investigation. Duplicate claim - already settled",
+                "createdDate": "2026-05-29T10:49:47.287875",
+                "processedDate": null,
+                "riskScore": 73.45154157832644,
+                "riskFlags": "INFLATED_BILLING, DUPLICATE_PATTERN",
+                "healthScore": 40,
+                "riskLevel": "HIGH"
+            },
+            {
+                "id": 463,
+                "userName": "Patricia Brown",
+                "userEmail": "patricia.brown3@demo.tpa",
+                "patientName": "Andrew Thompson",
+                "hospitalName": "Karolinska University Hospital",
+                "admissionDate": "2026-01-06",
+                "dischargeDate": "2026-01-09",
+                "totalBillAmount": 168902.06913169994,
+                "policyId": "CIG-MED-2026-315904",
+                "policyNumber": "CIG-MED-2026-315904-0463",
+                "carrierName": "HealthShield Insurance Group",
+                "claimStatus": "REJECTED",
+                "claimType": "Respiratory",
+                "diagnosis": "Community Acquired Pneumonia",
+                "amount": 0.0,
+                "rejectionReason": "Fraud indicator detected by AI engine",
+                "reviewedBy": "michael.turner@tpa.com",
+                "reviewedAt": "2026-01-14T04:49:47.283216",
+                "reviewNotes": "Claim rejected after thorough investigation. Fraud indicator detected by AI engine",
+                "createdDate": "2026-05-29T10:49:47.285793",
+                "processedDate": null,
+                "riskScore": 16.508707918338118,
+                "riskFlags": "",
+                "healthScore": 41,
+                "riskLevel": "LOW"
+            },
+            {
+                "id": 451,
+                "userName": "Richard Williams",
+                "userEmail": "richard.williams42@demo.tpa",
+                "patientName": "James Anderson",
+                "hospitalName": "Mayo Clinic",
+                "admissionDate": "2025-12-26",
+                "dischargeDate": "2025-12-31",
+                "totalBillAmount": 23687.593952537227,
+                "policyId": "UHG-HLT-2026-104582",
+                "policyNumber": "UHG-HLT-2026-104582-0451",
+                "carrierName": "HealthShield Insurance Group",
+                "claimStatus": "REJECTED",
+                "claimType": "Cardiac Surgery",
+                "diagnosis": "Coronary Artery Bypass Graft",
+                "amount": 0.0,
+                "rejectionReason": "Duplicate claim - already settled",
+                "reviewedBy": "michael.turner@tpa.com",
+                "reviewedAt": "2026-01-01T16:49:47.282697",
+                "reviewNotes": "Claim rejected after thorough investigation. Duplicate claim - already settled",
+                "createdDate": "2026-05-29T10:49:47.283215",
+                "processedDate": null,
+                "riskScore": 52.489313506647825,
+                "riskFlags": "ELEVATED_COST",
+                "healthScore": 57,
+                "riskLevel": "MEDIUM"
+            }
+        ],
+        "errorLogs": [
+            {
+                "timestamp": "2026-05-28T16:06:53.2818716",
+                "message": "NullPointerException in RuleEngine",
+                "level": "ERROR"
+            }
+        ]
+    },
     "httpStatus": 200
 }

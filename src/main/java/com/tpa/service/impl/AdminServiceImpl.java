@@ -222,7 +222,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Transactional
     @Override
-    @CacheEvict(value = "claims", key = "#request.claimId")
+    @CacheEvict(value = "claims", key = "#claimReviewRequest.claimId")
     public ClaimResponse reviewClaim(ClaimReviewRequest claimReviewRequest, Principal principal) {
         Claim claim = claimRepository.findById(claimReviewRequest.getClaimId()).orElseThrow(() -> new NoResourceFoundException("claim not found"));
 
