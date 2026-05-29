@@ -4702,3 +4702,5132 @@ response:
     "data": null,
     "httpStatus": 200
 }
+
+Kafka Endpoints (Use admin endpoints)
+
+Health check
+
+GET: localhost:8080/api/v1/admin/kafka/health
+response:
+{
+    "success": true,
+    "message": "Kafka pipeline health fetched successfully",
+    "data": {
+        "totalEventsProcessed": 275,
+        "pendingEvents": 0,
+        "totalEvents": 275,
+        "successRate": 100.0,
+        "dlqMessageCount": 0,
+        "kafkaStatus": "CONNECTED",
+        "stageBreakdown": {
+            "claimUploaded": 0,
+            "ocrCompleted": 0,
+            "aiAnalysisDone": 0,
+            "ruleEvaluated": 275,
+            "adminApproved": 0,
+            "carrierApproved": 0,
+            "paymentInitiated": 0,
+            "paymentCompleted": 0,
+            "rejected": 0
+        },
+        "retrievedAt": "2026-05-29T17:39:02.6188716"
+    },
+    "httpStatus": 200
+}
+
+Topics
+
+GET: localhost:8080/api/v1/admin/kafka/topics
+response:
+{
+    "success": true,
+    "message": "Kafka topics fetched successfully",
+    "data": {
+        "topics": [
+            {
+                "name": "carrier-approved",
+                "partitions": 1,
+                "dlq": false
+            },
+            {
+                "name": "carrier-created",
+                "partitions": 1,
+                "dlq": false
+            },
+            {
+                "name": "claim-created",
+                "partitions": 3,
+                "dlq": false
+            },
+            {
+                "name": "claim-lifecycle.admin-approved",
+                "partitions": 3,
+                "dlq": false
+            },
+            {
+                "name": "claim-lifecycle.admin-approved-dlq",
+                "partitions": 3,
+                "dlq": true
+            },
+            {
+                "name": "claim-lifecycle.ai-done",
+                "partitions": 3,
+                "dlq": false
+            },
+            {
+                "name": "claim-lifecycle.ai-done-dlq",
+                "partitions": 3,
+                "dlq": true
+            },
+            {
+                "name": "claim-lifecycle.carrier-approved",
+                "partitions": 3,
+                "dlq": false
+            },
+            {
+                "name": "claim-lifecycle.carrier-approved-dlq",
+                "partitions": 3,
+                "dlq": true
+            },
+            {
+                "name": "claim-lifecycle.fraud-alert",
+                "partitions": 3,
+                "dlq": false
+            },
+            {
+                "name": "claim-lifecycle.ocr-completed",
+                "partitions": 3,
+                "dlq": false
+            },
+            {
+                "name": "claim-lifecycle.ocr-completed-dlq",
+                "partitions": 3,
+                "dlq": true
+            },
+            {
+                "name": "claim-lifecycle.payment-completed",
+                "partitions": 3,
+                "dlq": false
+            },
+            {
+                "name": "claim-lifecycle.payment-completed-dlq",
+                "partitions": 3,
+                "dlq": true
+            },
+            {
+                "name": "claim-lifecycle.payment-initiated",
+                "partitions": 3,
+                "dlq": false
+            },
+            {
+                "name": "claim-lifecycle.payment-initiated-dlq",
+                "partitions": 3,
+                "dlq": true
+            },
+            {
+                "name": "claim-lifecycle.rejected",
+                "partitions": 3,
+                "dlq": false
+            },
+            {
+                "name": "claim-lifecycle.rejected-dlq",
+                "partitions": 3,
+                "dlq": true
+            },
+            {
+                "name": "claim-lifecycle.rule-evaluated",
+                "partitions": 3,
+                "dlq": false
+            },
+            {
+                "name": "claim-lifecycle.rule-evaluated-dlq",
+                "partitions": 3,
+                "dlq": true
+            },
+            {
+                "name": "claim-lifecycle.sla-escalated",
+                "partitions": 3,
+                "dlq": false
+            },
+            {
+                "name": "claim-lifecycle.uploaded",
+                "partitions": 3,
+                "dlq": false
+            },
+            {
+                "name": "claim-lifecycle.uploaded-dlq",
+                "partitions": 3,
+                "dlq": true
+            },
+            {
+                "name": "claim-notifications",
+                "partitions": 3,
+                "dlq": false
+            },
+            {
+                "name": "payment-success",
+                "partitions": 1,
+                "dlq": false
+            }
+        ],
+        "totalTopics": 25,
+        "dlqTopics": 9,
+        "retrievedAt": "2026-05-29T17:39:19.0341563"
+    },
+    "httpStatus": 200
+}
+
+Pending events
+
+GET: localhost:8080/api/v1/admin/kafka/pending
+response:
+{
+    "success": true,
+    "message": "Pending Kafka events fetched successfully",
+    "data": {
+        "pendingEvents": [],
+        "count": 0,
+        "retrievedAt": "2026-05-29T17:39:28.9870381"
+    },
+    "httpStatus": 200
+}
+
+DLQ messages
+
+GET: localhost:8080/api/v1/admin/kafka/dlq?page=0&size=20
+response:
+{
+    "success": true,
+    "message": "DLQ messages fetched successfully",
+    "data": {
+        "dlqMessages": [],
+        "totalDlqMessages": 0,
+        "page": 0,
+        "size": 20,
+        "retrievedAt": "2026-05-29T17:39:49.8860773"
+    },
+    "httpStatus": 200
+}
+
+Because your Dead Letter Queue is currently completely empty, we cannot test this localhost:8080/api/v1/admin/kafka/dlq/{eventId}/retry endpoint right now!
+There is no valid eventId for you to enter.
+
+we can only use this retry endpoint when there is actually a failed message sitting in the queue.
+
+Fetching Dashboard Admin
+
+Bearer token: eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInN1YiI6ImFkbWluQHRwYS5jb20iLCJpYXQiOjE3ODAwNTY1MjEsImV4cCI6MTc4MDA2MDEyMX0.BN6loVHhkOoqG0Cb7IKgjZtLlBVDGGCVyW6gu00Dp7Zhti7xL1ePny6UqCQuLNhle12zNmMvtJvDyuck0Y7NPA
+
+GET: localhost:8080/api/v1/fraud/admin/dashboard
+response:
+{
+    "success": true,
+    "message": "Admin fraud dashboard fetched successfully",
+    "data": {
+        "dashboardStats": {
+            "totalClaims": 500,
+            "flagged": 339,
+            "highRisk": 147,
+            "mediumRisk": 192,
+            "lowRisk": 161
+        },
+        "claims": [
+            {
+                "claimId": 5,
+                "policyNumber": "ALL-GLOB-2026-538290-0005",
+                "amount": 149733.41484683598,
+                "riskScore": 79.82866194453608,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 7,
+                "policyNumber": "BUPA-PLUS-2026-752194-0007",
+                "amount": 0.0,
+                "riskScore": 64.362216846705,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 501,
+                "policyNumber": "HP-PLUS-2026-957418-2407",
+                "amount": 25000.0,
+                "riskScore": 100.0,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "Elevated claim amount (> $10,000)",
+                    "Claimed amount does not match total bill amount",
+                    "AI Document flag: SUSPICIOUS — flagged by Carlen Chairez at 2026-05-29T17:23:42.132282800",
+                    "Duplicate bill number detected across multiple claims"
+                ]
+            },
+            {
+                "claimId": 9,
+                "policyNumber": "SBER-MED-2026-974281-0009",
+                "amount": 41464.074150233675,
+                "riskScore": 1.1066323782317866,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 10,
+                "policyNumber": "MANU-LIFE-2026-185763-0010",
+                "amount": 117584.1261578379,
+                "riskScore": 48.05745165564343,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 11,
+                "policyNumber": "UHG-HLT-2026-104582-0011",
+                "amount": 100190.80885399567,
+                "riskScore": 18.874635751015767,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 17,
+                "policyNumber": "BUPA-PLUS-2026-752194-0017",
+                "amount": 115579.07946994147,
+                "riskScore": 31.532845005767296,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 19,
+                "policyNumber": "SBER-MED-2026-974281-0019",
+                "amount": 0.0,
+                "riskScore": 69.72487292697295,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 21,
+                "policyNumber": "UHG-HLT-2026-104582-0021",
+                "amount": 80583.09211219508,
+                "riskScore": 30.557915566744885,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 22,
+                "policyNumber": "AET-CRIT-2026-208741-0022",
+                "amount": 114720.25583216787,
+                "riskScore": 9.269287433217299,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 23,
+                "policyNumber": "CIG-MED-2026-315904-0023",
+                "amount": 17399.70847015695,
+                "riskScore": 48.384385495430514,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 27,
+                "policyNumber": "BUPA-PLUS-2026-752194-0027",
+                "amount": 53265.700769817624,
+                "riskScore": 89.92053297295577,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 29,
+                "policyNumber": "SBER-MED-2026-974281-0029",
+                "amount": 30555.6527715137,
+                "riskScore": 39.65216688089564,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 31,
+                "policyNumber": "UHG-HLT-2026-104582-0031",
+                "amount": 0.0,
+                "riskScore": 25.390804234442545,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 33,
+                "policyNumber": "CIG-MED-2026-315904-0033",
+                "amount": 13325.068590341963,
+                "riskScore": 1.7077513359402108,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 34,
+                "policyNumber": "BCBS-HOSP-2026-427615-0034",
+                "amount": 98352.32399148561,
+                "riskScore": 68.82460693475149,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 35,
+                "policyNumber": "ALL-GLOB-2026-538290-0035",
+                "amount": 57981.16646854994,
+                "riskScore": 7.616428874645054,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 39,
+                "policyNumber": "SBER-MED-2026-974281-0039",
+                "amount": 31111.80017721353,
+                "riskScore": 68.88435406714287,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 41,
+                "policyNumber": "UHG-HLT-2026-104582-0041",
+                "amount": 124188.41996597704,
+                "riskScore": 72.60782049409076,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 43,
+                "policyNumber": "CIG-MED-2026-315904-0043",
+                "amount": 0.0,
+                "riskScore": 80.0060876007507,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 45,
+                "policyNumber": "ALL-GLOB-2026-538290-0045",
+                "amount": 157776.92239128484,
+                "riskScore": 12.912668650457682,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 46,
+                "policyNumber": "AXA-CARE-2026-641873-0046",
+                "amount": 33969.502368589296,
+                "riskScore": 59.76350834157468,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 47,
+                "policyNumber": "BUPA-PLUS-2026-752194-0047",
+                "amount": 60626.87473793255,
+                "riskScore": 72.01246754012254,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 53,
+                "policyNumber": "CIG-MED-2026-315904-0053",
+                "amount": 20097.009211247598,
+                "riskScore": 26.64430407335152,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 55,
+                "policyNumber": "ALL-GLOB-2026-538290-0055",
+                "amount": 0.0,
+                "riskScore": 65.42062330623307,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 57,
+                "policyNumber": "BUPA-PLUS-2026-752194-0057",
+                "amount": 51021.38340795066,
+                "riskScore": 45.70038887568643,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 58,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0058",
+                "amount": 67178.1873045939,
+                "riskScore": 64.63525525118457,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 59,
+                "policyNumber": "SBER-MED-2026-974281-0059",
+                "amount": 50180.019306697635,
+                "riskScore": 20.22226991269366,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 63,
+                "policyNumber": "CIG-MED-2026-315904-0063",
+                "amount": 80831.13468614627,
+                "riskScore": 88.19087052174899,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 65,
+                "policyNumber": "ALL-GLOB-2026-538290-0065",
+                "amount": 117464.06995307014,
+                "riskScore": 54.720751672621994,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 67,
+                "policyNumber": "BUPA-PLUS-2026-752194-0067",
+                "amount": 0.0,
+                "riskScore": 63.945183842844855,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 69,
+                "policyNumber": "SBER-MED-2026-974281-0069",
+                "amount": 35480.91465756965,
+                "riskScore": 69.91707356898534,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 70,
+                "policyNumber": "MANU-LIFE-2026-185763-0070",
+                "amount": 30334.655041418926,
+                "riskScore": 76.01781261329515,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 71,
+                "policyNumber": "UHG-HLT-2026-104582-0071",
+                "amount": 99131.64380568762,
+                "riskScore": 16.081777232382255,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 75,
+                "policyNumber": "ALL-GLOB-2026-538290-0075",
+                "amount": 107264.81389965262,
+                "riskScore": 94.47181152292042,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 77,
+                "policyNumber": "BUPA-PLUS-2026-752194-0077",
+                "amount": 138845.86262009,
+                "riskScore": 1.0134027397146639,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 79,
+                "policyNumber": "SBER-MED-2026-974281-0079",
+                "amount": 0.0,
+                "riskScore": 73.18728385345729,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 81,
+                "policyNumber": "UHG-HLT-2026-104582-0081",
+                "amount": 57520.1541148226,
+                "riskScore": 55.500069005504535,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 82,
+                "policyNumber": "AET-CRIT-2026-208741-0082",
+                "amount": 141572.4314149873,
+                "riskScore": 34.47512714308593,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 83,
+                "policyNumber": "CIG-MED-2026-315904-0083",
+                "amount": 89798.5183734931,
+                "riskScore": 91.38495763074627,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 89,
+                "policyNumber": "SBER-MED-2026-974281-0089",
+                "amount": 148215.95447155563,
+                "riskScore": 3.370946135386954,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 91,
+                "policyNumber": "UHG-HLT-2026-104582-0091",
+                "amount": 0.0,
+                "riskScore": 72.76379438786886,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 93,
+                "policyNumber": "CIG-MED-2026-315904-0093",
+                "amount": 87689.45021134293,
+                "riskScore": 81.28869412181173,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 94,
+                "policyNumber": "BCBS-HOSP-2026-427615-0094",
+                "amount": 40440.11822054755,
+                "riskScore": 19.025412432871892,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 95,
+                "policyNumber": "ALL-GLOB-2026-538290-0095",
+                "amount": 111872.81383523985,
+                "riskScore": 68.9649109462087,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 99,
+                "policyNumber": "SBER-MED-2026-974281-0099",
+                "amount": 90659.74853017816,
+                "riskScore": 89.3395046645043,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 101,
+                "policyNumber": "UHG-HLT-2026-104582-0101",
+                "amount": 120132.95364868769,
+                "riskScore": 92.56983351817401,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 103,
+                "policyNumber": "CIG-MED-2026-315904-0103",
+                "amount": 0.0,
+                "riskScore": 86.36056817834755,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 105,
+                "policyNumber": "ALL-GLOB-2026-538290-0105",
+                "amount": 69701.97017017867,
+                "riskScore": 71.31250795256562,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 106,
+                "policyNumber": "AXA-CARE-2026-641873-0106",
+                "amount": 60773.85498002976,
+                "riskScore": 84.6208536041941,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 107,
+                "policyNumber": "BUPA-PLUS-2026-752194-0107",
+                "amount": 108073.48582818359,
+                "riskScore": 3.0443143763536518,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 113,
+                "policyNumber": "CIG-MED-2026-315904-0113",
+                "amount": 35026.200815161494,
+                "riskScore": 80.38671841542194,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 115,
+                "policyNumber": "ALL-GLOB-2026-538290-0115",
+                "amount": 0.0,
+                "riskScore": 47.715993755548695,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 117,
+                "policyNumber": "BUPA-PLUS-2026-752194-0117",
+                "amount": 12665.485606364768,
+                "riskScore": 4.460241183761893,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 118,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0118",
+                "amount": 149517.1136491911,
+                "riskScore": 37.5696734205253,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 119,
+                "policyNumber": "SBER-MED-2026-974281-0119",
+                "amount": 52859.402333556376,
+                "riskScore": 22.197071696876957,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 125,
+                "policyNumber": "ALL-GLOB-2026-538290-0125",
+                "amount": 142312.84921715237,
+                "riskScore": 16.68503111213958,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 127,
+                "policyNumber": "BUPA-PLUS-2026-752194-0127",
+                "amount": 0.0,
+                "riskScore": 69.89152865594504,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 129,
+                "policyNumber": "SBER-MED-2026-974281-0129",
+                "amount": 80921.7424155531,
+                "riskScore": 63.32685927327207,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 130,
+                "policyNumber": "MANU-LIFE-2026-185763-0130",
+                "amount": 90129.77267267207,
+                "riskScore": 85.65394149351032,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 131,
+                "policyNumber": "UHG-HLT-2026-104582-0131",
+                "amount": 51494.24680997612,
+                "riskScore": 46.128219552207604,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 135,
+                "policyNumber": "ALL-GLOB-2026-538290-0135",
+                "amount": 137781.25415164727,
+                "riskScore": 99.28983053604222,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 137,
+                "policyNumber": "BUPA-PLUS-2026-752194-0137",
+                "amount": 154606.05686337486,
+                "riskScore": 37.917548420970924,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 139,
+                "policyNumber": "SBER-MED-2026-974281-0139",
+                "amount": 0.0,
+                "riskScore": 72.16524774332927,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 141,
+                "policyNumber": "UHG-HLT-2026-104582-0141",
+                "amount": 102793.45965619043,
+                "riskScore": 47.91801544521657,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 142,
+                "policyNumber": "AET-CRIT-2026-208741-0142",
+                "amount": 142859.910454603,
+                "riskScore": 78.96152043431113,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 143,
+                "policyNumber": "CIG-MED-2026-315904-0143",
+                "amount": 58415.39479199893,
+                "riskScore": 11.041335972159615,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 149,
+                "policyNumber": "SBER-MED-2026-974281-0149",
+                "amount": 148040.5206330026,
+                "riskScore": 90.64250162187652,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 151,
+                "policyNumber": "UHG-HLT-2026-104582-0151",
+                "amount": 0.0,
+                "riskScore": 27.424015312110228,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 153,
+                "policyNumber": "CIG-MED-2026-315904-0153",
+                "amount": 80410.83502059653,
+                "riskScore": 50.784776590380176,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 154,
+                "policyNumber": "BCBS-HOSP-2026-427615-0154",
+                "amount": 30836.600469161054,
+                "riskScore": 90.27062915710678,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 155,
+                "policyNumber": "ALL-GLOB-2026-538290-0155",
+                "amount": 127649.60766768894,
+                "riskScore": 35.25892738017671,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 159,
+                "policyNumber": "SBER-MED-2026-974281-0159",
+                "amount": 155736.10250550244,
+                "riskScore": 79.04647885488511,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 161,
+                "policyNumber": "UHG-HLT-2026-104582-0161",
+                "amount": 120500.708131964,
+                "riskScore": 82.31234396249324,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 163,
+                "policyNumber": "CIG-MED-2026-315904-0163",
+                "amount": 0.0,
+                "riskScore": 61.21013331373106,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 165,
+                "policyNumber": "ALL-GLOB-2026-538290-0165",
+                "amount": 147950.56489023965,
+                "riskScore": 38.49604814460849,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 166,
+                "policyNumber": "AXA-CARE-2026-641873-0166",
+                "amount": 122694.89089600761,
+                "riskScore": 74.8513624991582,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 167,
+                "policyNumber": "BUPA-PLUS-2026-752194-0167",
+                "amount": 118332.54312435079,
+                "riskScore": 14.122939857963313,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 171,
+                "policyNumber": "UHG-HLT-2026-104582-0171",
+                "amount": 34156.50441282773,
+                "riskScore": 80.29027624492274,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 173,
+                "policyNumber": "CIG-MED-2026-315904-0173",
+                "amount": 131824.6188091058,
+                "riskScore": 72.6144020636351,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 175,
+                "policyNumber": "ALL-GLOB-2026-538290-0175",
+                "amount": 0.0,
+                "riskScore": 2.1731110359678008,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 177,
+                "policyNumber": "BUPA-PLUS-2026-752194-0177",
+                "amount": 56933.56898487685,
+                "riskScore": 52.719732231109454,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 178,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0178",
+                "amount": 138507.48282225596,
+                "riskScore": 82.00791146199019,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 179,
+                "policyNumber": "SBER-MED-2026-974281-0179",
+                "amount": 133453.97832943333,
+                "riskScore": 60.78233031357897,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 185,
+                "policyNumber": "ALL-GLOB-2026-538290-0185",
+                "amount": 145855.23249955496,
+                "riskScore": 17.628316072690666,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 187,
+                "policyNumber": "BUPA-PLUS-2026-752194-0187",
+                "amount": 0.0,
+                "riskScore": 21.30624805067661,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 189,
+                "policyNumber": "SBER-MED-2026-974281-0189",
+                "amount": 28793.663938394562,
+                "riskScore": 10.90062990427434,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 190,
+                "policyNumber": "MANU-LIFE-2026-185763-0190",
+                "amount": 118451.17949353969,
+                "riskScore": 43.079058710520734,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 191,
+                "policyNumber": "UHG-HLT-2026-104582-0191",
+                "amount": 134680.719232509,
+                "riskScore": 28.022557209624523,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 197,
+                "policyNumber": "BUPA-PLUS-2026-752194-0197",
+                "amount": 150999.34196508172,
+                "riskScore": 20.65718519169494,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 199,
+                "policyNumber": "SBER-MED-2026-974281-0199",
+                "amount": 0.0,
+                "riskScore": 83.53647488012405,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 200,
+                "policyNumber": "MANU-LIFE-2026-185763-0200",
+                "amount": 54715.42272964073,
+                "riskScore": 28.720855465269267,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 201,
+                "policyNumber": "UHG-HLT-2026-104582-0201",
+                "amount": 46356.19252627968,
+                "riskScore": 32.68034164505238,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 202,
+                "policyNumber": "AET-CRIT-2026-208741-0202",
+                "amount": 58730.15899405401,
+                "riskScore": 38.19135534837274,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 203,
+                "policyNumber": "CIG-MED-2026-315904-0203",
+                "amount": 158182.5004380336,
+                "riskScore": 96.678967275482,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 207,
+                "policyNumber": "BUPA-PLUS-2026-752194-0207",
+                "amount": 67826.92889034783,
+                "riskScore": 89.2974916902768,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 209,
+                "policyNumber": "SBER-MED-2026-974281-0209",
+                "amount": 80176.93753905085,
+                "riskScore": 95.53563898820997,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 211,
+                "policyNumber": "UHG-HLT-2026-104582-0211",
+                "amount": 0.0,
+                "riskScore": 93.72340508983513,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 213,
+                "policyNumber": "CIG-MED-2026-315904-0213",
+                "amount": 43228.86948891266,
+                "riskScore": 9.50268468032659,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 214,
+                "policyNumber": "BCBS-HOSP-2026-427615-0214",
+                "amount": 125217.22138210009,
+                "riskScore": 45.13527443104327,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 215,
+                "policyNumber": "ALL-GLOB-2026-538290-0215",
+                "amount": 43062.71342775322,
+                "riskScore": 4.533237640575038,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 221,
+                "policyNumber": "UHG-HLT-2026-104582-0221",
+                "amount": 32228.856411059773,
+                "riskScore": 63.12075201608447,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 223,
+                "policyNumber": "CIG-MED-2026-315904-0223",
+                "amount": 0.0,
+                "riskScore": 50.148149722980975,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 225,
+                "policyNumber": "ALL-GLOB-2026-538290-0225",
+                "amount": 113023.10768227911,
+                "riskScore": 94.25958673859597,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 226,
+                "policyNumber": "AXA-CARE-2026-641873-0226",
+                "amount": 123212.50771020363,
+                "riskScore": 20.80564055687576,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 227,
+                "policyNumber": "BUPA-PLUS-2026-752194-0227",
+                "amount": 81301.411374291,
+                "riskScore": 13.717671196675042,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 233,
+                "policyNumber": "CIG-MED-2026-315904-0233",
+                "amount": 68886.66072436958,
+                "riskScore": 4.22475877341153,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 235,
+                "policyNumber": "ALL-GLOB-2026-538290-0235",
+                "amount": 0.0,
+                "riskScore": 0.7057287708351234,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 237,
+                "policyNumber": "BUPA-PLUS-2026-752194-0237",
+                "amount": 159272.2752530457,
+                "riskScore": 48.6740219983679,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 238,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0238",
+                "amount": 158432.30397188338,
+                "riskScore": 89.19390102660924,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 239,
+                "policyNumber": "SBER-MED-2026-974281-0239",
+                "amount": 60476.1234083898,
+                "riskScore": 87.06434933119934,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 245,
+                "policyNumber": "ALL-GLOB-2026-538290-0245",
+                "amount": 18416.86825569916,
+                "riskScore": 44.26783086389104,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 247,
+                "policyNumber": "BUPA-PLUS-2026-752194-0247",
+                "amount": 0.0,
+                "riskScore": 3.1009387021596724,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 249,
+                "policyNumber": "SBER-MED-2026-974281-0249",
+                "amount": 115872.58439484215,
+                "riskScore": 47.41834740049925,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 250,
+                "policyNumber": "MANU-LIFE-2026-185763-0250",
+                "amount": 111257.43143486646,
+                "riskScore": 35.621401041464495,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 251,
+                "policyNumber": "UHG-HLT-2026-104582-0251",
+                "amount": 99056.14610828347,
+                "riskScore": 4.394115984903735,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 257,
+                "policyNumber": "BUPA-PLUS-2026-752194-0257",
+                "amount": 26183.79679512051,
+                "riskScore": 14.885979865205524,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 259,
+                "policyNumber": "SBER-MED-2026-974281-0259",
+                "amount": 0.0,
+                "riskScore": 60.248161997682324,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 261,
+                "policyNumber": "UHG-HLT-2026-104582-0261",
+                "amount": 120114.99532091174,
+                "riskScore": 21.89665473660939,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 262,
+                "policyNumber": "AET-CRIT-2026-208741-0262",
+                "amount": 147393.31912058414,
+                "riskScore": 30.269922506687543,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 263,
+                "policyNumber": "CIG-MED-2026-315904-0263",
+                "amount": 51131.53080030091,
+                "riskScore": 28.014922049564326,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 269,
+                "policyNumber": "SBER-MED-2026-974281-0269",
+                "amount": 31881.01398088581,
+                "riskScore": 45.90502037369135,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 271,
+                "policyNumber": "UHG-HLT-2026-104582-0271",
+                "amount": 0.0,
+                "riskScore": 13.813478183511696,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 273,
+                "policyNumber": "CIG-MED-2026-315904-0273",
+                "amount": 93177.10254717647,
+                "riskScore": 91.67833442482674,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 274,
+                "policyNumber": "BCBS-HOSP-2026-427615-0274",
+                "amount": 98042.12347456701,
+                "riskScore": 84.49511292968492,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 275,
+                "policyNumber": "ALL-GLOB-2026-538290-0275",
+                "amount": 89359.25345758472,
+                "riskScore": 51.60074481098853,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 281,
+                "policyNumber": "UHG-HLT-2026-104582-0281",
+                "amount": 56463.34738792498,
+                "riskScore": 89.09439503754625,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 283,
+                "policyNumber": "CIG-MED-2026-315904-0283",
+                "amount": 0.0,
+                "riskScore": 85.55576426451957,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 285,
+                "policyNumber": "ALL-GLOB-2026-538290-0285",
+                "amount": 90673.00579857513,
+                "riskScore": 14.377125770267064,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 286,
+                "policyNumber": "AXA-CARE-2026-641873-0286",
+                "amount": 31960.99299643204,
+                "riskScore": 4.1540671111577225,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 287,
+                "policyNumber": "BUPA-PLUS-2026-752194-0287",
+                "amount": 152888.1757250869,
+                "riskScore": 19.157429500609226,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 291,
+                "policyNumber": "UHG-HLT-2026-104582-0291",
+                "amount": 159781.84383956657,
+                "riskScore": 63.715455502320225,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 293,
+                "policyNumber": "CIG-MED-2026-315904-0293",
+                "amount": 34388.601056693646,
+                "riskScore": 55.629135459614254,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 295,
+                "policyNumber": "ALL-GLOB-2026-538290-0295",
+                "amount": 0.0,
+                "riskScore": 22.024785373339583,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 297,
+                "policyNumber": "BUPA-PLUS-2026-752194-0297",
+                "amount": 71088.58808611541,
+                "riskScore": 94.65425109193588,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 298,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0298",
+                "amount": 155012.47345729763,
+                "riskScore": 91.30230763517707,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 299,
+                "policyNumber": "SBER-MED-2026-974281-0299",
+                "amount": 24409.342876767143,
+                "riskScore": 43.2472061045137,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 303,
+                "policyNumber": "CIG-MED-2026-315904-0303",
+                "amount": 124096.51388336683,
+                "riskScore": 64.87816358956248,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 305,
+                "policyNumber": "ALL-GLOB-2026-538290-0305",
+                "amount": 96917.38317753377,
+                "riskScore": 34.204329072475836,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 307,
+                "policyNumber": "BUPA-PLUS-2026-752194-0307",
+                "amount": 0.0,
+                "riskScore": 17.853129114748977,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 309,
+                "policyNumber": "SBER-MED-2026-974281-0309",
+                "amount": 120558.05280372233,
+                "riskScore": 57.99778647583137,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 310,
+                "policyNumber": "MANU-LIFE-2026-185763-0310",
+                "amount": 96162.62049821194,
+                "riskScore": 68.30469433658659,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 311,
+                "policyNumber": "UHG-HLT-2026-104582-0311",
+                "amount": 58878.452725752664,
+                "riskScore": 81.52402406203615,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 317,
+                "policyNumber": "BUPA-PLUS-2026-752194-0317",
+                "amount": 119937.86322962632,
+                "riskScore": 93.97891909860412,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 319,
+                "policyNumber": "SBER-MED-2026-974281-0319",
+                "amount": 0.0,
+                "riskScore": 48.36485808093835,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 321,
+                "policyNumber": "UHG-HLT-2026-104582-0321",
+                "amount": 96763.21935893163,
+                "riskScore": 59.67629792598623,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 322,
+                "policyNumber": "AET-CRIT-2026-208741-0322",
+                "amount": 77062.28034894039,
+                "riskScore": 91.53042486223501,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 323,
+                "policyNumber": "CIG-MED-2026-315904-0323",
+                "amount": 52202.83785954458,
+                "riskScore": 47.6063120160342,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 329,
+                "policyNumber": "SBER-MED-2026-974281-0329",
+                "amount": 27418.574478538405,
+                "riskScore": 49.928838421891754,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 331,
+                "policyNumber": "UHG-HLT-2026-104582-0331",
+                "amount": 0.0,
+                "riskScore": 89.6994305092103,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 333,
+                "policyNumber": "CIG-MED-2026-315904-0333",
+                "amount": 155200.544787785,
+                "riskScore": 17.84699048801214,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 334,
+                "policyNumber": "BCBS-HOSP-2026-427615-0334",
+                "amount": 33110.14204787135,
+                "riskScore": 3.850185923109961,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 335,
+                "policyNumber": "ALL-GLOB-2026-538290-0335",
+                "amount": 39888.45481542047,
+                "riskScore": 8.517946471310145,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 341,
+                "policyNumber": "UHG-HLT-2026-104582-0341",
+                "amount": 78338.98454782488,
+                "riskScore": 10.726630877130017,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 343,
+                "policyNumber": "CIG-MED-2026-315904-0343",
+                "amount": 0.0,
+                "riskScore": 90.02666022037322,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 345,
+                "policyNumber": "ALL-GLOB-2026-538290-0345",
+                "amount": 76037.79662028549,
+                "riskScore": 28.361145464281357,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 346,
+                "policyNumber": "AXA-CARE-2026-641873-0346",
+                "amount": 51147.292877625405,
+                "riskScore": 74.05364592423001,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 347,
+                "policyNumber": "BUPA-PLUS-2026-752194-0347",
+                "amount": 116320.74504750613,
+                "riskScore": 50.83754638808392,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 353,
+                "policyNumber": "CIG-MED-2026-315904-0353",
+                "amount": 83702.54919046204,
+                "riskScore": 45.26655826924954,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 355,
+                "policyNumber": "ALL-GLOB-2026-538290-0355",
+                "amount": 0.0,
+                "riskScore": 70.66570874936156,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 357,
+                "policyNumber": "BUPA-PLUS-2026-752194-0357",
+                "amount": 54299.161187030564,
+                "riskScore": 72.34338373670052,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 358,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0358",
+                "amount": 43458.58158852703,
+                "riskScore": 79.43103256890288,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 359,
+                "policyNumber": "SBER-MED-2026-974281-0359",
+                "amount": 13391.21947333383,
+                "riskScore": 2.500180316679823,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 365,
+                "policyNumber": "ALL-GLOB-2026-538290-0365",
+                "amount": 157511.0602165603,
+                "riskScore": 28.12974159323285,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 367,
+                "policyNumber": "BUPA-PLUS-2026-752194-0367",
+                "amount": 0.0,
+                "riskScore": 36.27554343986058,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 369,
+                "policyNumber": "SBER-MED-2026-974281-0369",
+                "amount": 75261.71456430464,
+                "riskScore": 77.95519340139703,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 370,
+                "policyNumber": "MANU-LIFE-2026-185763-0370",
+                "amount": 37459.6789811392,
+                "riskScore": 29.887354918304922,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 371,
+                "policyNumber": "UHG-HLT-2026-104582-0371",
+                "amount": 48268.69444386617,
+                "riskScore": 62.86661897553384,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 377,
+                "policyNumber": "BUPA-PLUS-2026-752194-0377",
+                "amount": 149817.23865232448,
+                "riskScore": 25.332273722486974,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 379,
+                "policyNumber": "SBER-MED-2026-974281-0379",
+                "amount": 0.0,
+                "riskScore": 16.10685736265437,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 381,
+                "policyNumber": "UHG-HLT-2026-104582-0381",
+                "amount": 78633.54054410332,
+                "riskScore": 11.166152925805207,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 382,
+                "policyNumber": "AET-CRIT-2026-208741-0382",
+                "amount": 130401.46560284696,
+                "riskScore": 14.617564456730825,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 383,
+                "policyNumber": "CIG-MED-2026-315904-0383",
+                "amount": 142637.58659244174,
+                "riskScore": 68.94349929872352,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 389,
+                "policyNumber": "SBER-MED-2026-974281-0389",
+                "amount": 27904.774993835497,
+                "riskScore": 2.333774124102761,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 391,
+                "policyNumber": "UHG-HLT-2026-104582-0391",
+                "amount": 0.0,
+                "riskScore": 21.927728979675642,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 393,
+                "policyNumber": "CIG-MED-2026-315904-0393",
+                "amount": 116003.2824984712,
+                "riskScore": 49.843751827407544,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 394,
+                "policyNumber": "BCBS-HOSP-2026-427615-0394",
+                "amount": 23033.563526992322,
+                "riskScore": 28.604227668259053,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 395,
+                "policyNumber": "ALL-GLOB-2026-538290-0395",
+                "amount": 28014.58905478788,
+                "riskScore": 51.478080922244104,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 399,
+                "policyNumber": "SBER-MED-2026-974281-0399",
+                "amount": 106224.90100283193,
+                "riskScore": 91.23421937562539,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 400,
+                "policyNumber": "MANU-LIFE-2026-185763-0400",
+                "amount": 156387.73805340004,
+                "riskScore": 92.541056470738,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 401,
+                "policyNumber": "UHG-HLT-2026-104582-0401",
+                "amount": 59252.104073344315,
+                "riskScore": 33.70798734364705,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 403,
+                "policyNumber": "CIG-MED-2026-315904-0403",
+                "amount": 0.0,
+                "riskScore": 67.5054769877649,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 405,
+                "policyNumber": "ALL-GLOB-2026-538290-0405",
+                "amount": 60247.91017858675,
+                "riskScore": 65.68729954984174,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 406,
+                "policyNumber": "AXA-CARE-2026-641873-0406",
+                "amount": 96787.2842762135,
+                "riskScore": 20.244380064206936,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 407,
+                "policyNumber": "BUPA-PLUS-2026-752194-0407",
+                "amount": 51346.179016295806,
+                "riskScore": 39.72580441815633,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 411,
+                "policyNumber": "UHG-HLT-2026-104582-0411",
+                "amount": 88520.96397020126,
+                "riskScore": 83.65713360709144,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 413,
+                "policyNumber": "CIG-MED-2026-315904-0413",
+                "amount": 159412.33880447186,
+                "riskScore": 78.53569436370735,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 415,
+                "policyNumber": "ALL-GLOB-2026-538290-0415",
+                "amount": 0.0,
+                "riskScore": 8.928655666692487,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 417,
+                "policyNumber": "BUPA-PLUS-2026-752194-0417",
+                "amount": 66920.27368493499,
+                "riskScore": 34.96541762467349,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 418,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0418",
+                "amount": 81076.19449596477,
+                "riskScore": 10.396525563538706,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 419,
+                "policyNumber": "SBER-MED-2026-974281-0419",
+                "amount": 140209.82080411213,
+                "riskScore": 12.164240595505849,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 425,
+                "policyNumber": "ALL-GLOB-2026-538290-0425",
+                "amount": 66064.94147084693,
+                "riskScore": 68.29568320266955,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 427,
+                "policyNumber": "BUPA-PLUS-2026-752194-0427",
+                "amount": 0.0,
+                "riskScore": 33.11981148976001,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 429,
+                "policyNumber": "SBER-MED-2026-974281-0429",
+                "amount": 111420.7495917956,
+                "riskScore": 39.485878805596045,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 430,
+                "policyNumber": "MANU-LIFE-2026-185763-0430",
+                "amount": 158652.07491412282,
+                "riskScore": 44.1200196994881,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 431,
+                "policyNumber": "UHG-HLT-2026-104582-0431",
+                "amount": 126483.44306936808,
+                "riskScore": 30.843627380158832,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 437,
+                "policyNumber": "BUPA-PLUS-2026-752194-0437",
+                "amount": 50866.662957898836,
+                "riskScore": 93.78458029640913,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 439,
+                "policyNumber": "SBER-MED-2026-974281-0439",
+                "amount": 0.0,
+                "riskScore": 99.4071133846346,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 441,
+                "policyNumber": "UHG-HLT-2026-104582-0441",
+                "amount": 114632.03267931631,
+                "riskScore": 66.47114146948088,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 442,
+                "policyNumber": "AET-CRIT-2026-208741-0442",
+                "amount": 150260.26545351808,
+                "riskScore": 47.62583219517828,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 443,
+                "policyNumber": "CIG-MED-2026-315904-0443",
+                "amount": 24525.047829845076,
+                "riskScore": 63.60403553131856,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 447,
+                "policyNumber": "BUPA-PLUS-2026-752194-0447",
+                "amount": 16425.343686243974,
+                "riskScore": 61.58652528439681,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 449,
+                "policyNumber": "SBER-MED-2026-974281-0449",
+                "amount": 129045.87548861769,
+                "riskScore": 72.44353900019374,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 451,
+                "policyNumber": "UHG-HLT-2026-104582-0451",
+                "amount": 0.0,
+                "riskScore": 52.489313506647825,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 453,
+                "policyNumber": "CIG-MED-2026-315904-0453",
+                "amount": 125346.62210539063,
+                "riskScore": 50.14762619614167,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 454,
+                "policyNumber": "BCBS-HOSP-2026-427615-0454",
+                "amount": 132043.10423495295,
+                "riskScore": 18.451331344539735,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 455,
+                "policyNumber": "ALL-GLOB-2026-538290-0455",
+                "amount": 25386.800018501588,
+                "riskScore": 0.01936563882911635,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 461,
+                "policyNumber": "UHG-HLT-2026-104582-0461",
+                "amount": 50222.31289843866,
+                "riskScore": 45.55954580178256,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 463,
+                "policyNumber": "CIG-MED-2026-315904-0463",
+                "amount": 0.0,
+                "riskScore": 16.508707918338118,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 465,
+                "policyNumber": "ALL-GLOB-2026-538290-0465",
+                "amount": 82820.33055916388,
+                "riskScore": 23.61408981779953,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 466,
+                "policyNumber": "AXA-CARE-2026-641873-0466",
+                "amount": 124120.74608952965,
+                "riskScore": 55.038532409269536,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 467,
+                "policyNumber": "BUPA-PLUS-2026-752194-0467",
+                "amount": 96680.31519014941,
+                "riskScore": 21.339484222266837,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 471,
+                "policyNumber": "UHG-HLT-2026-104582-0471",
+                "amount": 148976.82813702623,
+                "riskScore": 76.9709890596814,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 473,
+                "policyNumber": "CIG-MED-2026-315904-0473",
+                "amount": 54598.83618489769,
+                "riskScore": 14.673592424180914,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 475,
+                "policyNumber": "ALL-GLOB-2026-538290-0475",
+                "amount": 0.0,
+                "riskScore": 73.45154157832644,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 477,
+                "policyNumber": "BUPA-PLUS-2026-752194-0477",
+                "amount": 143615.15531405373,
+                "riskScore": 72.26884124147772,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 478,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0478",
+                "amount": 48247.921337124426,
+                "riskScore": 17.65912994074439,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 479,
+                "policyNumber": "SBER-MED-2026-974281-0479",
+                "amount": 120610.62776674016,
+                "riskScore": 30.729551205273786,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 485,
+                "policyNumber": "ALL-GLOB-2026-538290-0485",
+                "amount": 45489.37769987526,
+                "riskScore": 9.417348573808015,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 487,
+                "policyNumber": "BUPA-PLUS-2026-752194-0487",
+                "amount": 0.0,
+                "riskScore": 67.52028712281036,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 489,
+                "policyNumber": "SBER-MED-2026-974281-0489",
+                "amount": 70847.68327591316,
+                "riskScore": 72.61000073671036,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 490,
+                "policyNumber": "MANU-LIFE-2026-185763-0490",
+                "amount": 64411.10564814767,
+                "riskScore": 43.07798748029096,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 491,
+                "policyNumber": "UHG-HLT-2026-104582-0491",
+                "amount": 13985.917846099384,
+                "riskScore": 4.360520067401463,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 2,
+                "policyNumber": "AET-CRIT-2026-208741-0002",
+                "amount": 53007.616530972235,
+                "riskScore": 66.55489517945736,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 495,
+                "policyNumber": "ALL-GLOB-2026-538290-0495",
+                "amount": 37958.56753467943,
+                "riskScore": 99.74653924722688,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 497,
+                "policyNumber": "BUPA-PLUS-2026-752194-0497",
+                "amount": 73322.85104885517,
+                "riskScore": 29.09996968266976,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 499,
+                "policyNumber": "SBER-MED-2026-974281-0499",
+                "amount": 0.0,
+                "riskScore": 33.97356585960569,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 1,
+                "policyNumber": "UHG-HLT-2026-104582-0001",
+                "amount": 119679.42464486447,
+                "riskScore": 68.32234717598455,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 4,
+                "policyNumber": "BCBS-HOSP-2026-427615-0004",
+                "amount": 127869.46326092529,
+                "riskScore": 91.93277828687168,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 6,
+                "policyNumber": "AXA-CARE-2026-641873-0006",
+                "amount": 43045.60019221715,
+                "riskScore": 82.5965871887821,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 8,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0008",
+                "amount": 25418.34633605885,
+                "riskScore": 79.86169909152126,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 12,
+                "policyNumber": "AET-CRIT-2026-208741-0012",
+                "amount": 65317.721554188,
+                "riskScore": 43.466108514061034,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 13,
+                "policyNumber": "CIG-MED-2026-315904-0013",
+                "amount": 152738.01585160694,
+                "riskScore": 54.89273939627771,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 16,
+                "policyNumber": "AXA-CARE-2026-641873-0016",
+                "amount": 83236.54222511376,
+                "riskScore": 54.81640461232023,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 18,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0018",
+                "amount": 55025.98644835591,
+                "riskScore": 15.381931969122498,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 20,
+                "policyNumber": "MANU-LIFE-2026-185763-0020",
+                "amount": 41029.76663851403,
+                "riskScore": 80.91248167277394,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 24,
+                "policyNumber": "BCBS-HOSP-2026-427615-0024",
+                "amount": 81826.07339539418,
+                "riskScore": 13.62249014468615,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 14,
+                "policyNumber": "BCBS-HOSP-2026-427615-0014",
+                "amount": 19781.696132007277,
+                "riskScore": 78.86145034478062,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 15,
+                "policyNumber": "ALL-GLOB-2026-538290-0015",
+                "amount": 105444.20392815325,
+                "riskScore": 34.482836990465856,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 25,
+                "policyNumber": "ALL-GLOB-2026-538290-0025",
+                "amount": 126028.91439054327,
+                "riskScore": 89.40427958184088,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 28,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0028",
+                "amount": 75833.81416004825,
+                "riskScore": 33.232427838474855,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 30,
+                "policyNumber": "MANU-LIFE-2026-185763-0030",
+                "amount": 131197.8265483646,
+                "riskScore": 13.978959528686087,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 32,
+                "policyNumber": "AET-CRIT-2026-208741-0032",
+                "amount": 157825.1965920055,
+                "riskScore": 89.85690674773177,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 26,
+                "policyNumber": "AXA-CARE-2026-641873-0026",
+                "amount": 156453.10179952445,
+                "riskScore": 7.7085112935252,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 36,
+                "policyNumber": "AXA-CARE-2026-641873-0036",
+                "amount": 68621.9866948895,
+                "riskScore": 90.36250947502425,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 37,
+                "policyNumber": "BUPA-PLUS-2026-752194-0037",
+                "amount": 13123.94783513189,
+                "riskScore": 64.06126975646042,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 52,
+                "policyNumber": "AET-CRIT-2026-208741-0052",
+                "amount": 96767.25896638262,
+                "riskScore": 51.73002710390959,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 40,
+                "policyNumber": "MANU-LIFE-2026-185763-0040",
+                "amount": 41685.55285366296,
+                "riskScore": 99.59742703342658,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 42,
+                "policyNumber": "AET-CRIT-2026-208741-0042",
+                "amount": 126118.77154798683,
+                "riskScore": 65.81034341875339,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 38,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0038",
+                "amount": 76371.64917898801,
+                "riskScore": 94.42972663305036,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 44,
+                "policyNumber": "BCBS-HOSP-2026-427615-0044",
+                "amount": 129641.45918479192,
+                "riskScore": 82.3240915575137,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 48,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0048",
+                "amount": 77965.453434422,
+                "riskScore": 51.913780128742594,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 49,
+                "policyNumber": "SBER-MED-2026-974281-0049",
+                "amount": 144849.80588258023,
+                "riskScore": 41.88584191466656,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 51,
+                "policyNumber": "UHG-HLT-2026-104582-0051",
+                "amount": 101228.38150029175,
+                "riskScore": 16.616716052142333,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 54,
+                "policyNumber": "BCBS-HOSP-2026-427615-0054",
+                "amount": 66683.98429309558,
+                "riskScore": 50.53441079707084,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 50,
+                "policyNumber": "MANU-LIFE-2026-185763-0050",
+                "amount": 61803.53212209284,
+                "riskScore": 42.32016820908536,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 56,
+                "policyNumber": "AXA-CARE-2026-641873-0056",
+                "amount": 83556.91452737195,
+                "riskScore": 21.76176246514232,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 60,
+                "policyNumber": "MANU-LIFE-2026-185763-0060",
+                "amount": 35837.07487066321,
+                "riskScore": 99.96953460696848,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 61,
+                "policyNumber": "UHG-HLT-2026-104582-0061",
+                "amount": 76077.27671544197,
+                "riskScore": 61.13688211845457,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 64,
+                "policyNumber": "BCBS-HOSP-2026-427615-0064",
+                "amount": 155425.16728541264,
+                "riskScore": 10.711471029717579,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 66,
+                "policyNumber": "AXA-CARE-2026-641873-0066",
+                "amount": 155318.60432129307,
+                "riskScore": 29.77604835862795,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 62,
+                "policyNumber": "AET-CRIT-2026-208741-0062",
+                "amount": 44310.768932517676,
+                "riskScore": 70.43956443269963,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 68,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0068",
+                "amount": 88460.38353343452,
+                "riskScore": 53.52792237599756,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 72,
+                "policyNumber": "AET-CRIT-2026-208741-0072",
+                "amount": 80150.27374993853,
+                "riskScore": 51.62254666149316,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 73,
+                "policyNumber": "CIG-MED-2026-315904-0073",
+                "amount": 109036.5547596066,
+                "riskScore": 81.34709073783777,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 76,
+                "policyNumber": "AXA-CARE-2026-641873-0076",
+                "amount": 122338.28563652374,
+                "riskScore": 13.20078629852559,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 128,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0128",
+                "amount": 98724.23935808711,
+                "riskScore": 14.451892232077569,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 74,
+                "policyNumber": "BCBS-HOSP-2026-427615-0074",
+                "amount": 87269.60097785764,
+                "riskScore": 94.87981214932968,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 78,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0078",
+                "amount": 111977.55370093446,
+                "riskScore": 83.98659092547523,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 80,
+                "policyNumber": "MANU-LIFE-2026-185763-0080",
+                "amount": 147293.35203819047,
+                "riskScore": 46.03503409332087,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 84,
+                "policyNumber": "BCBS-HOSP-2026-427615-0084",
+                "amount": 104182.45418412123,
+                "riskScore": 17.269455933310795,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 85,
+                "policyNumber": "ALL-GLOB-2026-538290-0085",
+                "amount": 97612.62676341944,
+                "riskScore": 65.43903063235616,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 87,
+                "policyNumber": "BUPA-PLUS-2026-752194-0087",
+                "amount": 78971.46789925902,
+                "riskScore": 23.72449052375879,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 86,
+                "policyNumber": "AXA-CARE-2026-641873-0086",
+                "amount": 118522.00990336359,
+                "riskScore": 34.17683571902289,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 88,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0088",
+                "amount": 26371.156974156296,
+                "riskScore": 93.97072210947326,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 90,
+                "policyNumber": "MANU-LIFE-2026-185763-0090",
+                "amount": 33736.495103621055,
+                "riskScore": 24.35564706204105,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 92,
+                "policyNumber": "AET-CRIT-2026-208741-0092",
+                "amount": 132258.60096864117,
+                "riskScore": 38.46110537995004,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 96,
+                "policyNumber": "AXA-CARE-2026-641873-0096",
+                "amount": 27024.02714948743,
+                "riskScore": 31.191986699310313,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 97,
+                "policyNumber": "BUPA-PLUS-2026-752194-0097",
+                "amount": 79096.12147089816,
+                "riskScore": 14.789870945392947,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 98,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0098",
+                "amount": 51744.64462524283,
+                "riskScore": 3.452107621001388,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 100,
+                "policyNumber": "MANU-LIFE-2026-185763-0100",
+                "amount": 79655.2529485778,
+                "riskScore": 30.938839866563463,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 102,
+                "policyNumber": "AET-CRIT-2026-208741-0102",
+                "amount": 103051.65277094886,
+                "riskScore": 70.8217434266601,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 181,
+                "policyNumber": "UHG-HLT-2026-104582-0181",
+                "amount": 154258.1015170807,
+                "riskScore": 16.10779408022284,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 104,
+                "policyNumber": "BCBS-HOSP-2026-427615-0104",
+                "amount": 133232.53195337273,
+                "riskScore": 84.85890272638846,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 108,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0108",
+                "amount": 59246.05723253071,
+                "riskScore": 17.23665217838387,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 109,
+                "policyNumber": "SBER-MED-2026-974281-0109",
+                "amount": 34453.25183157301,
+                "riskScore": 93.46510410849996,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 111,
+                "policyNumber": "UHG-HLT-2026-104582-0111",
+                "amount": 51636.347844188575,
+                "riskScore": 14.586635215960086,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 112,
+                "policyNumber": "AET-CRIT-2026-208741-0112",
+                "amount": 100698.09375261902,
+                "riskScore": 22.819990757903387,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 114,
+                "policyNumber": "BCBS-HOSP-2026-427615-0114",
+                "amount": 107787.08533424359,
+                "riskScore": 33.29509332053946,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 180,
+                "policyNumber": "MANU-LIFE-2026-185763-0180",
+                "amount": 139255.3094025581,
+                "riskScore": 68.24522748824042,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 116,
+                "policyNumber": "AXA-CARE-2026-641873-0116",
+                "amount": 83783.15442562534,
+                "riskScore": 33.308824174835785,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 110,
+                "policyNumber": "MANU-LIFE-2026-185763-0110",
+                "amount": 28077.19997620181,
+                "riskScore": 18.642344559002623,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 120,
+                "policyNumber": "MANU-LIFE-2026-185763-0120",
+                "amount": 105758.39633752895,
+                "riskScore": 96.37101387643129,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 121,
+                "policyNumber": "UHG-HLT-2026-104582-0121",
+                "amount": 157429.88482674115,
+                "riskScore": 83.11333930485324,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 123,
+                "policyNumber": "CIG-MED-2026-315904-0123",
+                "amount": 88696.15047504174,
+                "riskScore": 34.464588030163355,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 124,
+                "policyNumber": "BCBS-HOSP-2026-427615-0124",
+                "amount": 111671.42542445572,
+                "riskScore": 24.187409125346193,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 126,
+                "policyNumber": "AXA-CARE-2026-641873-0126",
+                "amount": 96874.59737592743,
+                "riskScore": 95.56806476295898,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 122,
+                "policyNumber": "AET-CRIT-2026-208741-0122",
+                "amount": 99118.83001062491,
+                "riskScore": 73.90909536447646,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 132,
+                "policyNumber": "AET-CRIT-2026-208741-0132",
+                "amount": 59274.835565454865,
+                "riskScore": 67.58508485827457,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 133,
+                "policyNumber": "CIG-MED-2026-315904-0133",
+                "amount": 55005.29099630969,
+                "riskScore": 26.401064987902846,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 136,
+                "policyNumber": "AXA-CARE-2026-641873-0136",
+                "amount": 76971.19158014988,
+                "riskScore": 33.117379983717534,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 138,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0138",
+                "amount": 133407.3151315299,
+                "riskScore": 29.311060498622744,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 140,
+                "policyNumber": "MANU-LIFE-2026-185763-0140",
+                "amount": 68229.17849297213,
+                "riskScore": 19.109407573087445,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 134,
+                "policyNumber": "BCBS-HOSP-2026-427615-0134",
+                "amount": 75906.08199072891,
+                "riskScore": 8.808981939053107,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 144,
+                "policyNumber": "BCBS-HOSP-2026-427615-0144",
+                "amount": 135806.86606479116,
+                "riskScore": 4.883711362508891,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 145,
+                "policyNumber": "ALL-GLOB-2026-538290-0145",
+                "amount": 63233.13632746643,
+                "riskScore": 39.383518247144224,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 147,
+                "policyNumber": "BUPA-PLUS-2026-752194-0147",
+                "amount": 66036.5022642911,
+                "riskScore": 53.87186886615621,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 148,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0148",
+                "amount": 131080.0712049161,
+                "riskScore": 2.675922858941504,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 150,
+                "policyNumber": "MANU-LIFE-2026-185763-0150",
+                "amount": 108029.00630975893,
+                "riskScore": 23.10304737418374,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 146,
+                "policyNumber": "AXA-CARE-2026-641873-0146",
+                "amount": 35623.14778668582,
+                "riskScore": 89.13317072975741,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 152,
+                "policyNumber": "AET-CRIT-2026-208741-0152",
+                "amount": 79838.78983454895,
+                "riskScore": 24.749083171421372,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 156,
+                "policyNumber": "AXA-CARE-2026-641873-0156",
+                "amount": 50590.749456299716,
+                "riskScore": 76.01753590295445,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 157,
+                "policyNumber": "BUPA-PLUS-2026-752194-0157",
+                "amount": 72076.95987698666,
+                "riskScore": 23.4151731380855,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 160,
+                "policyNumber": "MANU-LIFE-2026-185763-0160",
+                "amount": 33051.96038276422,
+                "riskScore": 17.656486903937697,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 162,
+                "policyNumber": "AET-CRIT-2026-208741-0162",
+                "amount": 83535.97336779175,
+                "riskScore": 90.08934423291025,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 158,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0158",
+                "amount": 129574.83225631138,
+                "riskScore": 32.041234848006376,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 164,
+                "policyNumber": "BCBS-HOSP-2026-427615-0164",
+                "amount": 114811.3521630176,
+                "riskScore": 81.51350690649308,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 168,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0168",
+                "amount": 56667.2390417709,
+                "riskScore": 19.67713375790553,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 169,
+                "policyNumber": "SBER-MED-2026-974281-0169",
+                "amount": 113828.37536690128,
+                "riskScore": 53.27700708364619,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 172,
+                "policyNumber": "AET-CRIT-2026-208741-0172",
+                "amount": 74348.7644718156,
+                "riskScore": 66.29903985443468,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 174,
+                "policyNumber": "BCBS-HOSP-2026-427615-0174",
+                "amount": 36078.50339884788,
+                "riskScore": 39.4175269237666,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 170,
+                "policyNumber": "MANU-LIFE-2026-185763-0170",
+                "amount": 150152.81801054263,
+                "riskScore": 17.688682913913357,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 176,
+                "policyNumber": "AXA-CARE-2026-641873-0176",
+                "amount": 24622.792107313202,
+                "riskScore": 98.37493566404484,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 183,
+                "policyNumber": "CIG-MED-2026-315904-0183",
+                "amount": 88946.64025183965,
+                "riskScore": 36.29920705094624,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 184,
+                "policyNumber": "BCBS-HOSP-2026-427615-0184",
+                "amount": 124623.36432600486,
+                "riskScore": 89.34015469176472,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 186,
+                "policyNumber": "AXA-CARE-2026-641873-0186",
+                "amount": 21190.415590088116,
+                "riskScore": 50.24089784069492,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 188,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0188",
+                "amount": 27695.292757605308,
+                "riskScore": 84.42221419460387,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 182,
+                "policyNumber": "AET-CRIT-2026-208741-0182",
+                "amount": 150324.9406274242,
+                "riskScore": 65.07752596346539,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 192,
+                "policyNumber": "AET-CRIT-2026-208741-0192",
+                "amount": 102335.36958296761,
+                "riskScore": 54.297286571076434,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 193,
+                "policyNumber": "CIG-MED-2026-315904-0193",
+                "amount": 78665.28744008718,
+                "riskScore": 39.26087276054566,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 195,
+                "policyNumber": "ALL-GLOB-2026-538290-0195",
+                "amount": 69691.73651454855,
+                "riskScore": 41.26713134667105,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 196,
+                "policyNumber": "AXA-CARE-2026-641873-0196",
+                "amount": 67752.43743462807,
+                "riskScore": 91.34315824436055,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 198,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0198",
+                "amount": 60695.753062329175,
+                "riskScore": 8.633429565006645,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 194,
+                "policyNumber": "BCBS-HOSP-2026-427615-0194",
+                "amount": 75530.50686990065,
+                "riskScore": 62.90131566875504,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 204,
+                "policyNumber": "BCBS-HOSP-2026-427615-0204",
+                "amount": 104584.20222954995,
+                "riskScore": 32.08742941221053,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 205,
+                "policyNumber": "ALL-GLOB-2026-538290-0205",
+                "amount": 26763.129704683088,
+                "riskScore": 13.173464552618796,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 208,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0208",
+                "amount": 136945.54416160847,
+                "riskScore": 24.64447291324524,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 210,
+                "policyNumber": "MANU-LIFE-2026-185763-0210",
+                "amount": 50939.28841635739,
+                "riskScore": 54.26636731369035,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 212,
+                "policyNumber": "AET-CRIT-2026-208741-0212",
+                "amount": 49170.15970816028,
+                "riskScore": 46.8211462276854,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 206,
+                "policyNumber": "AXA-CARE-2026-641873-0206",
+                "amount": 13040.665519262237,
+                "riskScore": 93.80123330313745,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 216,
+                "policyNumber": "AXA-CARE-2026-641873-0216",
+                "amount": 46417.54853499617,
+                "riskScore": 90.76943913618317,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 217,
+                "policyNumber": "BUPA-PLUS-2026-752194-0217",
+                "amount": 25657.485974456406,
+                "riskScore": 73.59713556262162,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 219,
+                "policyNumber": "SBER-MED-2026-974281-0219",
+                "amount": 38620.2409169375,
+                "riskScore": 38.42979199158441,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 220,
+                "policyNumber": "MANU-LIFE-2026-185763-0220",
+                "amount": 145960.66845673547,
+                "riskScore": 1.1362156140020563,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 222,
+                "policyNumber": "AET-CRIT-2026-208741-0222",
+                "amount": 84411.45758549744,
+                "riskScore": 59.45464682863578,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 218,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0218",
+                "amount": 59438.84023921232,
+                "riskScore": 89.43847704881239,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 224,
+                "policyNumber": "BCBS-HOSP-2026-427615-0224",
+                "amount": 129289.7972040219,
+                "riskScore": 99.01169670702626,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 228,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0228",
+                "amount": 130465.10985722156,
+                "riskScore": 33.8504689222523,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 229,
+                "policyNumber": "SBER-MED-2026-974281-0229",
+                "amount": 133374.6665505701,
+                "riskScore": 71.94449346355324,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 231,
+                "policyNumber": "UHG-HLT-2026-104582-0231",
+                "amount": 60428.320606930276,
+                "riskScore": 29.316778078135997,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 232,
+                "policyNumber": "AET-CRIT-2026-208741-0232",
+                "amount": 141878.13508914402,
+                "riskScore": 65.72028989146969,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 230,
+                "policyNumber": "MANU-LIFE-2026-185763-0230",
+                "amount": 144638.54038052142,
+                "riskScore": 70.0559284362575,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 234,
+                "policyNumber": "BCBS-HOSP-2026-427615-0234",
+                "amount": 152243.79088553778,
+                "riskScore": 17.552589999588474,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 236,
+                "policyNumber": "AXA-CARE-2026-641873-0236",
+                "amount": 146478.69258480673,
+                "riskScore": 75.9573688764582,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 240,
+                "policyNumber": "MANU-LIFE-2026-185763-0240",
+                "amount": 53358.72160222847,
+                "riskScore": 7.882799077500991,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 241,
+                "policyNumber": "UHG-HLT-2026-104582-0241",
+                "amount": 41767.059401585924,
+                "riskScore": 43.00431892510714,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 243,
+                "policyNumber": "CIG-MED-2026-315904-0243",
+                "amount": 91548.86301415756,
+                "riskScore": 0.28847936433353816,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 242,
+                "policyNumber": "AET-CRIT-2026-208741-0242",
+                "amount": 58115.67126303857,
+                "riskScore": 28.152038587151086,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 244,
+                "policyNumber": "BCBS-HOSP-2026-427615-0244",
+                "amount": 136314.45492484418,
+                "riskScore": 29.393580931378082,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 246,
+                "policyNumber": "AXA-CARE-2026-641873-0246",
+                "amount": 24170.369426332392,
+                "riskScore": 12.80141663428801,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 248,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0248",
+                "amount": 52655.86103147883,
+                "riskScore": 72.1220814722559,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 252,
+                "policyNumber": "AET-CRIT-2026-208741-0252",
+                "amount": 34952.394088460824,
+                "riskScore": 44.28199356681435,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 253,
+                "policyNumber": "CIG-MED-2026-315904-0253",
+                "amount": 88735.31959175167,
+                "riskScore": 75.40617504423983,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 254,
+                "policyNumber": "BCBS-HOSP-2026-427615-0254",
+                "amount": 147594.70561762553,
+                "riskScore": 60.170331393530695,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 255,
+                "policyNumber": "ALL-GLOB-2026-538290-0255",
+                "amount": 74875.12312564634,
+                "riskScore": 48.50831174773843,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 256,
+                "policyNumber": "AXA-CARE-2026-641873-0256",
+                "amount": 71138.41317040383,
+                "riskScore": 61.15943933969389,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 258,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0258",
+                "amount": 76447.12987616747,
+                "riskScore": 83.04161496863168,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 260,
+                "policyNumber": "MANU-LIFE-2026-185763-0260",
+                "amount": 103971.98079776306,
+                "riskScore": 85.50927169431637,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 264,
+                "policyNumber": "BCBS-HOSP-2026-427615-0264",
+                "amount": 63769.47590146648,
+                "riskScore": 87.41497837765131,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 265,
+                "policyNumber": "ALL-GLOB-2026-538290-0265",
+                "amount": 26049.45513028004,
+                "riskScore": 86.25131730823982,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 267,
+                "policyNumber": "BUPA-PLUS-2026-752194-0267",
+                "amount": 146467.72446831645,
+                "riskScore": 47.19451171506025,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 268,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0268",
+                "amount": 80991.44356611813,
+                "riskScore": 70.5352280446244,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 270,
+                "policyNumber": "MANU-LIFE-2026-185763-0270",
+                "amount": 15368.423227149511,
+                "riskScore": 50.43217388163562,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 272,
+                "policyNumber": "AET-CRIT-2026-208741-0272",
+                "amount": 92758.35065584301,
+                "riskScore": 22.218369905592773,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 276,
+                "policyNumber": "AXA-CARE-2026-641873-0276",
+                "amount": 29405.64283160288,
+                "riskScore": 84.55077750596489,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 266,
+                "policyNumber": "AXA-CARE-2026-641873-0266",
+                "amount": 76575.84639148036,
+                "riskScore": 63.11143085952031,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 277,
+                "policyNumber": "BUPA-PLUS-2026-752194-0277",
+                "amount": 42342.91091818162,
+                "riskScore": 93.1679212967638,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 279,
+                "policyNumber": "SBER-MED-2026-974281-0279",
+                "amount": 54530.27037525468,
+                "riskScore": 40.86730063619384,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 280,
+                "policyNumber": "MANU-LIFE-2026-185763-0280",
+                "amount": 27514.337302316562,
+                "riskScore": 56.93873102419631,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 282,
+                "policyNumber": "AET-CRIT-2026-208741-0282",
+                "amount": 49742.36996590885,
+                "riskScore": 27.658305045726916,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 284,
+                "policyNumber": "BCBS-HOSP-2026-427615-0284",
+                "amount": 94392.09477716,
+                "riskScore": 86.98941993126626,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 278,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0278",
+                "amount": 37679.21376854868,
+                "riskScore": 79.9966046768234,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 288,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0288",
+                "amount": 60640.745938451706,
+                "riskScore": 74.67710171555771,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 289,
+                "policyNumber": "SBER-MED-2026-974281-0289",
+                "amount": 103556.27065411676,
+                "riskScore": 68.35941498074315,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 292,
+                "policyNumber": "AET-CRIT-2026-208741-0292",
+                "amount": 22200.789363119507,
+                "riskScore": 21.5206217033179,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 294,
+                "policyNumber": "BCBS-HOSP-2026-427615-0294",
+                "amount": 19281.775208201027,
+                "riskScore": 23.50802362121144,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 296,
+                "policyNumber": "AXA-CARE-2026-641873-0296",
+                "amount": 157616.9123951676,
+                "riskScore": 82.84016683952726,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 290,
+                "policyNumber": "MANU-LIFE-2026-185763-0290",
+                "amount": 83532.87921150745,
+                "riskScore": 8.896119669192682,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 300,
+                "policyNumber": "MANU-LIFE-2026-185763-0300",
+                "amount": 31987.32389190975,
+                "riskScore": 15.37493501110394,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 301,
+                "policyNumber": "UHG-HLT-2026-104582-0301",
+                "amount": 121611.0020855882,
+                "riskScore": 42.460484700903876,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 304,
+                "policyNumber": "BCBS-HOSP-2026-427615-0304",
+                "amount": 29193.070688936943,
+                "riskScore": 28.1662327675254,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 306,
+                "policyNumber": "AXA-CARE-2026-641873-0306",
+                "amount": 46604.518277817384,
+                "riskScore": 62.682502751543886,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 308,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0308",
+                "amount": 32498.862863830047,
+                "riskScore": 94.38470227447033,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 302,
+                "policyNumber": "AET-CRIT-2026-208741-0302",
+                "amount": 38872.93000369674,
+                "riskScore": 20.799159694239357,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 312,
+                "policyNumber": "AET-CRIT-2026-208741-0312",
+                "amount": 93394.6397348621,
+                "riskScore": 34.34162820951763,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 313,
+                "policyNumber": "CIG-MED-2026-315904-0313",
+                "amount": 122730.11882960783,
+                "riskScore": 53.12818494815984,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 315,
+                "policyNumber": "ALL-GLOB-2026-538290-0315",
+                "amount": 51095.1727351081,
+                "riskScore": 48.99313486495727,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 316,
+                "policyNumber": "AXA-CARE-2026-641873-0316",
+                "amount": 32013.218936815352,
+                "riskScore": 29.278062216438016,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 318,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0318",
+                "amount": 142962.23910135307,
+                "riskScore": 32.665530046016364,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 314,
+                "policyNumber": "BCBS-HOSP-2026-427615-0314",
+                "amount": 27550.376826458403,
+                "riskScore": 47.28721133952671,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 320,
+                "policyNumber": "MANU-LIFE-2026-185763-0320",
+                "amount": 136291.82383425997,
+                "riskScore": 71.50964777720044,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 324,
+                "policyNumber": "BCBS-HOSP-2026-427615-0324",
+                "amount": 46690.064722980605,
+                "riskScore": 48.4589908606913,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 325,
+                "policyNumber": "ALL-GLOB-2026-538290-0325",
+                "amount": 121741.42806235829,
+                "riskScore": 34.853580300939946,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 327,
+                "policyNumber": "BUPA-PLUS-2026-752194-0327",
+                "amount": 94546.53137918822,
+                "riskScore": 8.656903122132897,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 328,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0328",
+                "amount": 114023.28895288681,
+                "riskScore": 55.92047560150728,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 326,
+                "policyNumber": "AXA-CARE-2026-641873-0326",
+                "amount": 36707.18728309231,
+                "riskScore": 3.717410499133589,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 330,
+                "policyNumber": "MANU-LIFE-2026-185763-0330",
+                "amount": 139980.52081011335,
+                "riskScore": 76.95682511793663,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 332,
+                "policyNumber": "AET-CRIT-2026-208741-0332",
+                "amount": 42133.874926683166,
+                "riskScore": 41.318427913094915,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 336,
+                "policyNumber": "AXA-CARE-2026-641873-0336",
+                "amount": 145857.58661149832,
+                "riskScore": 54.273814039940845,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 337,
+                "policyNumber": "BUPA-PLUS-2026-752194-0337",
+                "amount": 144519.29973726958,
+                "riskScore": 70.3698127283236,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 339,
+                "policyNumber": "SBER-MED-2026-974281-0339",
+                "amount": 39080.40104653369,
+                "riskScore": 22.794654394344626,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 338,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0338",
+                "amount": 95189.6362793106,
+                "riskScore": 17.23624225709317,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 340,
+                "policyNumber": "MANU-LIFE-2026-185763-0340",
+                "amount": 84071.95635773825,
+                "riskScore": 51.85309582652921,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 342,
+                "policyNumber": "AET-CRIT-2026-208741-0342",
+                "amount": 86982.29327353911,
+                "riskScore": 45.75855139941072,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 344,
+                "policyNumber": "BCBS-HOSP-2026-427615-0344",
+                "amount": 67679.77452988627,
+                "riskScore": 81.62731528153986,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 348,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0348",
+                "amount": 114493.4889205657,
+                "riskScore": 60.74173009758398,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 349,
+                "policyNumber": "SBER-MED-2026-974281-0349",
+                "amount": 89634.29681195784,
+                "riskScore": 0.7392814788900193,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 350,
+                "policyNumber": "MANU-LIFE-2026-185763-0350",
+                "amount": 123481.75746914216,
+                "riskScore": 9.513960892039652,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 351,
+                "policyNumber": "UHG-HLT-2026-104582-0351",
+                "amount": 139548.64425689462,
+                "riskScore": 42.626013707590005,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 352,
+                "policyNumber": "AET-CRIT-2026-208741-0352",
+                "amount": 41399.788659873346,
+                "riskScore": 25.292273691955934,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 354,
+                "policyNumber": "BCBS-HOSP-2026-427615-0354",
+                "amount": 117159.62129148017,
+                "riskScore": 58.57624592791236,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 356,
+                "policyNumber": "AXA-CARE-2026-641873-0356",
+                "amount": 88503.36411366591,
+                "riskScore": 42.384430404083574,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 360,
+                "policyNumber": "MANU-LIFE-2026-185763-0360",
+                "amount": 59197.52658415096,
+                "riskScore": 26.447862164133884,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 361,
+                "policyNumber": "UHG-HLT-2026-104582-0361",
+                "amount": 87841.49947597928,
+                "riskScore": 27.096778782207476,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 363,
+                "policyNumber": "CIG-MED-2026-315904-0363",
+                "amount": 112327.10501694499,
+                "riskScore": 7.1142843267271605,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 364,
+                "policyNumber": "BCBS-HOSP-2026-427615-0364",
+                "amount": 154313.32006283887,
+                "riskScore": 98.7999856038869,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 366,
+                "policyNumber": "AXA-CARE-2026-641873-0366",
+                "amount": 13538.671815405123,
+                "riskScore": 25.244625739533944,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 368,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0368",
+                "amount": 70371.19644844733,
+                "riskScore": 80.62399303847982,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 372,
+                "policyNumber": "AET-CRIT-2026-208741-0372",
+                "amount": 50032.90303925765,
+                "riskScore": 12.906134194100138,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 362,
+                "policyNumber": "AET-CRIT-2026-208741-0362",
+                "amount": 17134.933311857963,
+                "riskScore": 21.556266145066736,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 373,
+                "policyNumber": "CIG-MED-2026-315904-0373",
+                "amount": 94012.97547471098,
+                "riskScore": 2.791398430778347,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 375,
+                "policyNumber": "ALL-GLOB-2026-538290-0375",
+                "amount": 18948.54934776033,
+                "riskScore": 34.57550063307444,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 376,
+                "policyNumber": "AXA-CARE-2026-641873-0376",
+                "amount": 103712.69551784277,
+                "riskScore": 86.3014629216329,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 378,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0378",
+                "amount": 97447.49675394187,
+                "riskScore": 85.91274277349564,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 380,
+                "policyNumber": "MANU-LIFE-2026-185763-0380",
+                "amount": 122585.37650208439,
+                "riskScore": 88.81354552479426,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 374,
+                "policyNumber": "BCBS-HOSP-2026-427615-0374",
+                "amount": 65867.36001590562,
+                "riskScore": 9.059194331849962,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 384,
+                "policyNumber": "BCBS-HOSP-2026-427615-0384",
+                "amount": 49318.54562807454,
+                "riskScore": 65.74086081033057,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 385,
+                "policyNumber": "ALL-GLOB-2026-538290-0385",
+                "amount": 105137.23101223687,
+                "riskScore": 0.25906260250561086,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 387,
+                "policyNumber": "BUPA-PLUS-2026-752194-0387",
+                "amount": 50263.926136859765,
+                "riskScore": 21.433573680861407,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 388,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0388",
+                "amount": 99673.90297387185,
+                "riskScore": 36.312968439979386,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 390,
+                "policyNumber": "MANU-LIFE-2026-185763-0390",
+                "amount": 56954.63757653004,
+                "riskScore": 51.36516942626478,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 386,
+                "policyNumber": "AXA-CARE-2026-641873-0386",
+                "amount": 57105.74219677917,
+                "riskScore": 0.12287061000860744,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 392,
+                "policyNumber": "AET-CRIT-2026-208741-0392",
+                "amount": 115342.33976864546,
+                "riskScore": 75.93167770175255,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 396,
+                "policyNumber": "AXA-CARE-2026-641873-0396",
+                "amount": 68119.68817048271,
+                "riskScore": 83.68776624536167,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 397,
+                "policyNumber": "BUPA-PLUS-2026-752194-0397",
+                "amount": 151999.57140369885,
+                "riskScore": 85.55073923230961,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 440,
+                "policyNumber": "MANU-LIFE-2026-185763-0440",
+                "amount": 20102.659013805256,
+                "riskScore": 42.49901534125334,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 402,
+                "policyNumber": "AET-CRIT-2026-208741-0402",
+                "amount": 26244.163676049102,
+                "riskScore": 49.478048659040574,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 398,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0398",
+                "amount": 80830.81966969772,
+                "riskScore": 22.212966065001883,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 404,
+                "policyNumber": "BCBS-HOSP-2026-427615-0404",
+                "amount": 89715.2221124153,
+                "riskScore": 22.651970750198313,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 408,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0408",
+                "amount": 17643.49351399573,
+                "riskScore": 54.74145119860266,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 409,
+                "policyNumber": "SBER-MED-2026-974281-0409",
+                "amount": 95478.62821874174,
+                "riskScore": 23.453001874573832,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 412,
+                "policyNumber": "AET-CRIT-2026-208741-0412",
+                "amount": 13116.999541240335,
+                "riskScore": 43.58432687084134,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 414,
+                "policyNumber": "BCBS-HOSP-2026-427615-0414",
+                "amount": 133517.93064931012,
+                "riskScore": 47.57538321448996,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 410,
+                "policyNumber": "MANU-LIFE-2026-185763-0410",
+                "amount": 36612.160498024314,
+                "riskScore": 54.07720549333042,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 416,
+                "policyNumber": "AXA-CARE-2026-641873-0416",
+                "amount": 113609.15239295094,
+                "riskScore": 82.76030847867688,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 420,
+                "policyNumber": "MANU-LIFE-2026-185763-0420",
+                "amount": 24667.347213136927,
+                "riskScore": 42.321656759765524,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 421,
+                "policyNumber": "UHG-HLT-2026-104582-0421",
+                "amount": 102445.27579471859,
+                "riskScore": 81.68426301088789,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 423,
+                "policyNumber": "CIG-MED-2026-315904-0423",
+                "amount": 76183.84459635409,
+                "riskScore": 11.843839841448355,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 424,
+                "policyNumber": "BCBS-HOSP-2026-427615-0424",
+                "amount": 151566.36494493825,
+                "riskScore": 67.6907970442508,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 422,
+                "policyNumber": "AET-CRIT-2026-208741-0422",
+                "amount": 46216.22450850387,
+                "riskScore": 62.290937426471004,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 426,
+                "policyNumber": "AXA-CARE-2026-641873-0426",
+                "amount": 49083.83287101738,
+                "riskScore": 27.554579995020877,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 428,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0428",
+                "amount": 33102.748415108006,
+                "riskScore": 45.83635272913643,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 432,
+                "policyNumber": "AET-CRIT-2026-208741-0432",
+                "amount": 71026.92762481165,
+                "riskScore": 60.00781185896372,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 433,
+                "policyNumber": "CIG-MED-2026-315904-0433",
+                "amount": 153571.6325359139,
+                "riskScore": 75.9969259637243,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 435,
+                "policyNumber": "ALL-GLOB-2026-538290-0435",
+                "amount": 133121.87872966044,
+                "riskScore": 55.43690619194053,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 434,
+                "policyNumber": "BCBS-HOSP-2026-427615-0434",
+                "amount": 13358.15187861854,
+                "riskScore": 20.300571183837967,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 436,
+                "policyNumber": "AXA-CARE-2026-641873-0436",
+                "amount": 51571.24607393946,
+                "riskScore": 35.296797209547314,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 438,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0438",
+                "amount": 123472.55696737273,
+                "riskScore": 65.06105927090215,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 444,
+                "policyNumber": "BCBS-HOSP-2026-427615-0444",
+                "amount": 86617.00514306383,
+                "riskScore": 27.20104762251929,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 445,
+                "policyNumber": "ALL-GLOB-2026-538290-0445",
+                "amount": 150661.58614524978,
+                "riskScore": 13.779420816910303,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 448,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0448",
+                "amount": 56145.49311668761,
+                "riskScore": 52.8842666572229,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 446,
+                "policyNumber": "AXA-CARE-2026-641873-0446",
+                "amount": 137189.52198667085,
+                "riskScore": 56.26991630605035,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 450,
+                "policyNumber": "MANU-LIFE-2026-185763-0450",
+                "amount": 142709.93665986598,
+                "riskScore": 87.11382334857547,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 452,
+                "policyNumber": "AET-CRIT-2026-208741-0452",
+                "amount": 132574.93420995734,
+                "riskScore": 13.148814782817663,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 456,
+                "policyNumber": "AXA-CARE-2026-641873-0456",
+                "amount": 69359.6767816707,
+                "riskScore": 4.9769980218930865,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 457,
+                "policyNumber": "BUPA-PLUS-2026-752194-0457",
+                "amount": 78581.63374131806,
+                "riskScore": 24.943245536330917,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 459,
+                "policyNumber": "SBER-MED-2026-974281-0459",
+                "amount": 159584.58809766406,
+                "riskScore": 17.853144855722668,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 458,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0458",
+                "amount": 16351.029910460336,
+                "riskScore": 37.7467552034228,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 460,
+                "policyNumber": "MANU-LIFE-2026-185763-0460",
+                "amount": 73530.83212721719,
+                "riskScore": 86.314196010447,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 462,
+                "policyNumber": "AET-CRIT-2026-208741-0462",
+                "amount": 47938.47630924662,
+                "riskScore": 58.7222927544775,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 464,
+                "policyNumber": "BCBS-HOSP-2026-427615-0464",
+                "amount": 76631.4722839515,
+                "riskScore": 37.999657635046326,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 468,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0468",
+                "amount": 159327.70985303324,
+                "riskScore": 19.776910233744893,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 469,
+                "policyNumber": "SBER-MED-2026-974281-0469",
+                "amount": 39603.446124177666,
+                "riskScore": 84.94750891632135,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 470,
+                "policyNumber": "MANU-LIFE-2026-185763-0470",
+                "amount": 104864.33606437553,
+                "riskScore": 49.51434332733788,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 472,
+                "policyNumber": "AET-CRIT-2026-208741-0472",
+                "amount": 86660.4572876236,
+                "riskScore": 96.8626110027047,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 474,
+                "policyNumber": "BCBS-HOSP-2026-427615-0474",
+                "amount": 158476.5408316174,
+                "riskScore": 48.08873617149325,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 476,
+                "policyNumber": "AXA-CARE-2026-641873-0476",
+                "amount": 107409.14993349579,
+                "riskScore": 18.58008033271672,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 480,
+                "policyNumber": "MANU-LIFE-2026-185763-0480",
+                "amount": 69243.93720139092,
+                "riskScore": 89.66793535072814,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 481,
+                "policyNumber": "UHG-HLT-2026-104582-0481",
+                "amount": 52398.55601819775,
+                "riskScore": 82.81610532269688,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 483,
+                "policyNumber": "CIG-MED-2026-315904-0483",
+                "amount": 69985.35148475207,
+                "riskScore": 6.48189742485571,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 484,
+                "policyNumber": "BCBS-HOSP-2026-427615-0484",
+                "amount": 78844.58874340373,
+                "riskScore": 97.46654097927338,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 486,
+                "policyNumber": "AXA-CARE-2026-641873-0486",
+                "amount": 123045.67432048463,
+                "riskScore": 69.37590748017473,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 488,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0488",
+                "amount": 44995.57720048772,
+                "riskScore": 96.80748341092664,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 492,
+                "policyNumber": "AET-CRIT-2026-208741-0492",
+                "amount": 144781.24413411863,
+                "riskScore": 85.12846898204023,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 482,
+                "policyNumber": "AET-CRIT-2026-208741-0482",
+                "amount": 130608.48330973554,
+                "riskScore": 83.96440674971548,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 496,
+                "policyNumber": "AXA-CARE-2026-641873-0496",
+                "amount": 96873.26598453055,
+                "riskScore": 12.257201388815918,
+                "riskLevel": "LOW",
+                "reasons": []
+            },
+            {
+                "claimId": 498,
+                "policyNumber": "ZUR-HEALTH-2026-863520-0498",
+                "amount": 47931.621046641914,
+                "riskScore": 50.37140898544257,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 500,
+                "policyNumber": "MANU-LIFE-2026-185763-0500",
+                "amount": 114595.2479465467,
+                "riskScore": 96.20221017304944,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "INFLATED_BILLING",
+                    "DUPLICATE_PATTERN"
+                ]
+            },
+            {
+                "claimId": 494,
+                "policyNumber": "BCBS-HOSP-2026-427615-0494",
+                "amount": 65759.63768682026,
+                "riskScore": 68.85350792383886,
+                "riskLevel": "MEDIUM",
+                "reasons": [
+                    "ELEVATED_COST"
+                ]
+            },
+            {
+                "claimId": 493,
+                "policyNumber": "CIG-MED-2026-315904-0493",
+                "amount": 69986.32542103298,
+                "riskScore": 8.36935972087618,
+                "riskLevel": "LOW",
+                "reasons": []
+            }
+        ]
+    },
+    "httpStatus": 200
+}
+
+Fetching Carrier Dashboard // use carrier bearer token
+Bearer token: eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9DQVJSSUVSIiwic3ViIjoiY2FybGVuLmNoYWlyZXpAaG9yaXpvbnNwb3N0LmNvbSIsImlhdCI6MTc4MDA1NTQzMSwiZXhwIjoxNzgwMDU5MDMxfQ.oj9k5-n8J8M3V2znEB54a6u1RipvAX4dhxlz2bvzgZgnvV4okZkIZjdGwOUBstKxZJtk1ila5xVtHFAvj_W9og
+
+GET: localhost:8080/api/v1/fraud/carrier/dashboard
+response:
+{
+    "success": true,
+    "message": "Carrier fraud dashboard fetched successfully",
+    "data": {
+        "dashboardStats": {
+            "totalClaims": 1,
+            "flagged": 1,
+            "highRisk": 1,
+            "mediumRisk": 0,
+            "lowRisk": 0
+        },
+        "claims": [
+            {
+                "claimId": 501,
+                "policyNumber": "HP-PLUS-2026-957418-2407",
+                "amount": 25000.0,
+                "riskScore": 100.0,
+                "riskLevel": "HIGH",
+                "reasons": [
+                    "Elevated claim amount (> $10,000)",
+                    "Claimed amount does not match total bill amount",
+                    "AI Document flag: SUSPICIOUS — flagged by Carlen Chairez at 2026-05-29T17:23:42.132282800",
+                    "Duplicate bill number detected across multiple claims"
+                ]
+            }
+        ]
+    },
+    "httpStatus": 200
+}
+
+Mark Claim as Safe
+
+PATCH: localhost:8080/api/v1/fraud/admin/claims/501/safe
+response:
+{
+    "success": true,
+    "message": "Claim marked as safe successfully",
+    "data": null,
+    "httpStatus": 200
+}
+
+User profile (logged user)
+
+GET: localhost:8080/api/v1/users/profile
+response:
+{
+    "success": true,
+    "message": "Profile fetched successfully",
+    "data": {
+        "id": 58,
+        "name": "Admin",
+        "email": "admin@tpa.com",
+        "phoneNumber": "+1 (415) 859-2671",
+        "dateOfBirth": "2005-06-14",
+        "address": "Minnesota",
+        "gender": "MALE",
+        "userRole": "ADMIN",
+        "userStatus": "ACTIVE",
+        "createdAt": "2026-05-29 10:49 AM"
+    },
+    "httpStatus": 200
+}
