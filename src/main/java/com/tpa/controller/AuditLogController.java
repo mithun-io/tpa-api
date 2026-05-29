@@ -33,6 +33,39 @@ import java.util.List;
 public class AuditLogController {
 
     private final AuditLogService auditLogService;
+    private final com.tpa.repository.EventAuditLogRepository eventAuditLogRepository;
+
+    @PostMapping("/events/mock/{claimId}")
+    public ResponseEntity<ApiResponse<String>> generateMockEvent(@PathVariable Long claimId) {
+        com.tpa.entity.EventAuditLog auditLog = com.tpa.entity.EventAuditLog.builder()
+                .eventId("MOCK-" + java.util.UUID.randomUUID().toString())
+                .claimId(claimId)
+                .stage("CLAIM_UPLOADED")
+                .claimStatus(com.tpa.enums.ClaimStatus.SUBMITTED)
+                .message("Mock event generated for testing")
+                .metadata("{}")
+                .topic("claim-lifecycle.uploaded")
+                .processed(true)
+                .processedAt(LocalDateTime.now())
+                .retryCount(0)
+                .build();
+        eventAuditLogRepository.save(auditLog);
+
+        com.tpa.entity.EventAuditLog unprocessedLog = com.tpa.entity.EventAuditLog.builder()
+                .eventId("MOCK-" + java.util.UUID.randomUUID().toString())
+                .claimId(claimId)
+                .stage("AI_ANALYSIS_DONE")
+                .claimStatus(com.tpa.enums.ClaimStatus.UNDER_REVIEW)
+                .message("Mock unprocessed event")
+                .metadata("{}")
+                .topic("claim-lifecycle.ai-done")
+                .processed(false)
+                .retryCount(0)
+                .build();
+        eventAuditLogRepository.save(unprocessedLog);
+
+        return ResponseEntity.ok(new ApiResponse<>(true, "Mock events generated successfully", "Added 2 mock events", 200));
+    }
 
     @GetMapping("/claims/{claimId}")
     public ResponseEntity<ApiResponse<List<AuditLog>>> getClaimAuditTrail(@PathVariable Long claimId) {
@@ -53,21 +86,6 @@ public class AuditLogController {
     @GetMapping("/claims/{claimId}/verify")
     public ResponseEntity<ApiResponse<VerifyAuditResponse>> verifyIntegrity(@PathVariable Long claimId) {
         return ResponseEntity.ok(new ApiResponse<>(true, "Audit integrity verified successfully", auditLogService.verifyIntegrity(claimId), 200));
-    }
-
-    @GetMapping("/events/claim/{claimId}")
-    public ResponseEntity<ApiResponse<List<EventAuditLog>>> getEventsByClaimId(@PathVariable Long claimId) {
-        return ResponseEntity.ok(new ApiResponse<>(true, "Event audit logs fetched successfully", auditLogService.getEventsByClaimId(claimId), 200));
-    }
-
-    @GetMapping("/events/stage/{stage}")
-    public ResponseEntity<ApiResponse<List<EventAuditLog>>> getEventsByStage(@PathVariable String stage) {
-        return ResponseEntity.ok(new ApiResponse<>(true, "Event audit logs fetched successfully", auditLogService.getEventsByStage(stage), 200));
-    }
-
-    @GetMapping("/events/unprocessed")
-    public ResponseEntity<ApiResponse<List<EventAuditLog>>> getUnprocessedEvents() {
-        return ResponseEntity.ok(new ApiResponse<>(true, "Unprocessed events fetched successfully", auditLogService.getUnprocessedEvents(), 200));
     }
 
     @GetMapping("/payments/claim/{claimId}")

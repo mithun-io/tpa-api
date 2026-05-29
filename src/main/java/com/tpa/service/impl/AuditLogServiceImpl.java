@@ -193,21 +193,6 @@ public class AuditLogServiceImpl implements AuditLogService {
     }
 
     @Override
-    public List<EventAuditLog> getEventsByClaimId(Long claimId) {
-        return eventAuditLogRepository.findByClaimIdOrderByReceivedAtDesc(claimId);
-    }
-
-    @Override
-    public List<EventAuditLog> getEventsByStage(String stage) {
-        return eventAuditLogRepository.findByStageOrderByReceivedAtDesc(stage);
-    }
-
-    @Override
-    public List<EventAuditLog> getUnprocessedEvents() {
-        return eventAuditLogRepository.findByProcessedFalseOrderByReceivedAtAsc();
-    }
-
-    @Override
     public List<PaymentLedger> getPaymentLedger(Long claimId) {
         return paymentLedgerRepository.findByClaimIdOrderByCreatedAtAsc(claimId);
     }

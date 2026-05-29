@@ -57,6 +57,7 @@ public class ClaimServiceImpl implements ClaimService {
     private final ClaimStateMachine claimStateMachine;
 
     private final ProducerService producerService;
+    private final com.tpa.kafka.producer.ClaimEventPipelineProducer claimEventPipelineProducer;
     private final AuditLogService auditLogService;
     private final PdfExportService pdfExportService;
     private final CarrierService carrierService;
@@ -141,6 +142,17 @@ public class ClaimServiceImpl implements ClaimService {
 
         claim = claimRepository.save(claim);
         auditLogService.logAction(claim.getId(), "CLAIM_CREATED", null, ClaimStatus.SUBMITTED);
+
+        // Publish to the Kafka Event Pipeline
+        com.tpa.kafka.event.ClaimLifecycleEvent lifecycleEvent = com.tpa.kafka.event.ClaimLifecycleEvent.builder()
+                .claimId(claim.getId())
+                .policyNumber(claim.getPolicyNumber())
+                .customerEmail(user.getEmail())
+                .stage(com.tpa.kafka.event.ClaimLifecycleEvent.Stage.CLAIM_UPLOADED)
+                .claimStatus(ClaimStatus.SUBMITTED)
+                .message("Claim manually created and uploaded to the pipeline")
+                .build();
+        claimEventPipelineProducer.publishClaimUploaded(lifecycleEvent);
 
         return claimMapper.toClaimResponse(claim);
     }

@@ -25,12 +25,6 @@ public interface AuditLogService {
 
     VerifyAuditResponse verifyIntegrity(Long claimId);
 
-    List<EventAuditLog> getEventsByClaimId(Long claimId);
-
-    List<EventAuditLog> getEventsByStage(String stage);
-
-    List<EventAuditLog> getUnprocessedEvents();
-
     List<PaymentLedger> getPaymentLedger(Long claimId);
 
     List<PaymentLedger> getPaymentsByPaymentId(Long paymentId);

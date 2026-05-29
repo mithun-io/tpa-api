@@ -10049,3 +10049,403 @@ Downloading
 GET: localhost:8080/api/v1/files/download/3
 response:
 save responses
+
+Audit Logs for admin (use Admin Bearer token)
+
+Get Claim Audit Trail
+
+GET: localhost:8080/api/v1/audit/claims/501
+response:
+{
+    "success": true,
+    "message": "Claim audit trail fetched successfully",
+    "data": [
+        {
+            "id": 2007,
+            "claimId": 501,
+            "action": "CLAIM_CREATED",
+            "previousStatus": null,
+            "newStatus": "SUBMITTED",
+            "timestamp": "2026-05-29T12:22:06.525663",
+            "performedBy": "SYSTEM",
+            "details": null,
+            "integrityHash": "e3b84cd7b3f0146ab13dd7bb28272f1362c276b49d0d7ca9a029ce7ca2d7cfca",
+            "previousHash": "GENESIS",
+            "blockchainHash": "e3b84cd7b3f0146ab13dd7bb28272f1362c276b49d0d7ca9a029ce7ca2d7cfca",
+            "ipAddress": "UNKNOWN"
+        },
+        {
+            "id": 2008,
+            "claimId": 501,
+            "action": "CARRIER_APPROVAL",
+            "previousStatus": "SUBMITTED",
+            "newStatus": "CARRIER_APPROVED",
+            "timestamp": "2026-05-29T13:02:45.925467",
+            "performedBy": "SYSTEM",
+            "details": null,
+            "integrityHash": "b848853572cab05ea827706db8aa84df9b1096a155efcf1683acd84d9f10d08a",
+            "previousHash": "e3b84cd7b3f0146ab13dd7bb28272f1362c276b49d0d7ca9a029ce7ca2d7cfca",
+            "blockchainHash": "b848853572cab05ea827706db8aa84df9b1096a155efcf1683acd84d9f10d08a",
+            "ipAddress": "UNKNOWN"
+        },
+        {
+            "id": 2009,
+            "claimId": 501,
+            "action": "CARRIER_APPROVAL",
+            "previousStatus": "SUBMITTED",
+            "newStatus": "CARRIER_APPROVED",
+            "timestamp": "2026-05-29T13:35:11.234283",
+            "performedBy": "SYSTEM",
+            "details": null,
+            "integrityHash": "f619f61f978fe472830c49745f4e98c03b20450d100f42bd3b9719c606b712de",
+            "previousHash": "b848853572cab05ea827706db8aa84df9b1096a155efcf1683acd84d9f10d08a",
+            "blockchainHash": "f619f61f978fe472830c49745f4e98c03b20450d100f42bd3b9719c606b712de",
+            "ipAddress": "UNKNOWN"
+        }
+    ],
+    "httpStatus": 200
+}
+
+Verify Claim Audit Chain
+
+GET: localhost:8080/api/v1/audit/claims/501/verify
+response:
+{
+    "success": true,
+    "message": "Audit integrity verified successfully",
+    "data": {
+        "claimId": 501,
+        "chainIntact": true,
+        "totalRecords": 3,
+        "verifiedAt": "2026-05-29T18:44:48.031746500",
+        "message": "Audit chain is intact"
+    },
+    "httpStatus": 200
+}
+
+Get Claim Audits by Action
+
+GET: localhost:8080/api/v1/audit/claims/501/action/CLAIM_CREATED
+response:
+{
+    "success": true,
+    "message": "Audit logs fetched successfully",
+    "data": [
+        {
+            "id": 2007,
+            "claimId": 501,
+            "action": "CLAIM_CREATED",
+            "previousStatus": null,
+            "newStatus": "SUBMITTED",
+            "timestamp": "2026-05-29T12:22:06.525663",
+            "performedBy": "SYSTEM",
+            "details": null,
+            "integrityHash": "e3b84cd7b3f0146ab13dd7bb28272f1362c276b49d0d7ca9a029ce7ca2d7cfca",
+            "previousHash": "GENESIS",
+            "blockchainHash": "e3b84cd7b3f0146ab13dd7bb28272f1362c276b49d0d7ca9a029ce7ca2d7cfca",
+            "ipAddress": "UNKNOWN"
+        }
+    ],
+    "httpStatus": 200
+}
+
+Payment Ledger - Admin Bearer token needed
+
+Get Ledger by Claim ID
+
+GET: localhost:8080/api/v1/audit/payments/claim/501
+response:
+{
+    "success": true,
+    "message": "Payment ledger fetched successfully",
+    "data": [
+        {
+            "id": 8,
+            "claimId": 501,
+            "paymentId": 214,
+            "amount": 20000.0,
+            "currency": "INR",
+            "paymentEventType": "PAYMENT_CREATED",
+            "paymentStatus": "CREATED",
+            "razorpayOrderId": "order_SvB8JSo0oo8pku",
+            "razorpayPaymentId": null,
+            "notes": "Razorpay order created",
+            "initiatedBy": "USER-58",
+            "integrityHash": null,
+            "createdAt": "2026-05-29T17:53:39.607617"
+        }
+    ],
+    "httpStatus": 200
+}
+
+Get Ledger by Event Type
+
+GET: localhost:8080/api/v1/audit/payments/event/PAYMENT_CREATED
+response:
+{
+    "success": true,
+    "message": "Payments fetched successfully",
+    "data": [
+        {
+            "id": 9,
+            "claimId": 4,
+            "paymentId": 215,
+            "amount": 2000.0,
+            "currency": "USD",
+            "paymentEventType": "PAYMENT_CREATED",
+            "paymentStatus": "CREATED",
+            "razorpayOrderId": "order_SvBERM11xB8wM3",
+            "razorpayPaymentId": null,
+            "notes": "Razorpay order created",
+            "initiatedBy": "USER-58",
+            "integrityHash": null,
+            "createdAt": "2026-05-29T17:59:27.655911"
+        },
+        {
+            "id": 8,
+            "claimId": 501,
+            "paymentId": 214,
+            "amount": 20000.0,
+            "currency": "INR",
+            "paymentEventType": "PAYMENT_CREATED",
+            "paymentStatus": "CREATED",
+            "razorpayOrderId": "order_SvB8JSo0oo8pku",
+            "razorpayPaymentId": null,
+            "notes": "Razorpay order created",
+            "initiatedBy": "USER-58",
+            "integrityHash": null,
+            "createdAt": "2026-05-29T17:53:39.607617"
+        }
+    ],
+    "httpStatus": 200
+}
+
+Reconcile All Payments
+
+GET: localhost:8080/api/v1/audit/payments/reconcile
+response:
+{
+    "success": true,
+    "message": "Payments reconciled successfully",
+    "data": {
+        "totalVerifiedPayments": 7,
+        "totalAmountSettled": 504231.68410779693,
+        "currency": "INR",
+        "reconciledAt": "2026-05-29T18:45:03.838192600"
+    },
+    "httpStatus": 200
+}
+
+Analytics Controller (Admin Bearer token required)
+
+SLA performance
+
+GET: localhost:8080/api/v1/analytics/sla/performance
+response:
+{
+    "success": true,
+    "message": "Sla performance fetched successfully",
+    "data": {
+        "totalClaims": 500,
+        "withinSla": 177,
+        "slaBreached": 323,
+        "escalated": 290,
+        "slaComplianceRate": 35.4,
+        "avgProcessingHours": -2484.6,
+        "generatedAt": "2026-05-29T19:00:05.029341800"
+    },
+    "httpStatus": 200
+}
+
+Payment summary
+
+GET: localhost:8080/api/v1/analytics/payments/summary
+response:
+{
+    "success": true,
+    "message": "Payment summary fetched successfully",
+    "data": {
+        "totalSettledAmount": 504231.68410779693,
+        "totalSuccessfulSettlements": 7,
+        "totalFailedPayments": 0,
+        "successRate": 100.0,
+        "generatedAt": "2026-05-29T19:00:27.548870400"
+    },
+    "httpStatus": 200
+}
+
+Loss ratio
+
+GET: localhost:8080/api/v1/analytics/loss-ratio
+response:
+{
+    "success": true,
+    "message": "Loss ratio fetched successfully",
+    "data": {
+        "totalClaimsPaid": 504231.68410779693,
+        "estimatedPremiumPool": 1.168610936E7,
+        "lossRatioPercent": 4.31,
+        "lossRatioStatus": "HEALTHY",
+        "settledClaims": 131,
+        "rejectedClaims": 43,
+        "totalClaims": 500,
+        "generatedAt": "2026-05-29T19:00:55.843876500"
+    },
+    "httpStatus": 200
+}
+
+Leakage
+
+GET: localhost:8080/api/v1/analytics/leakage
+response:
+{
+    "success": true,
+    "message": "Claim leakage analytics fetched successfully",
+    "data": {
+        "totalClaimedAmount": 3.895369786115574E7,
+        "totalApprovedPayout": 1.8583982520754684E7,
+        "leakageAmount": 2.0369715340401057E7,
+        "leakageRate": 52.29,
+        "amountMismatchCount": 500,
+        "generatedAt": "2026-05-29T19:01:14.156701400"
+    },
+    "httpStatus": 200
+}
+
+Fetching Hospitals
+
+GET: localhost:8080/api/v1/analytics/hospitals
+response:
+{
+    "success": true,
+    "message": "Hospital analytics fetched successfully",
+    "data": {
+        "topHospitalsByVolume": {
+            "Pitié-Salpêtrière Hospital": 20,
+            "St Thomas' Hospital": 20,
+            "Mayo Clinic": 20,
+            "Karolinska University Hospital": 20,
+            "NewYork-Presbyterian Hospital": 20,
+            "Charité – Universitätsmedizin Berlin": 20,
+            "Central Clinical Hospital Moscow": 20,
+            "Houston Methodist Hospital": 20,
+            "Cedars-Sinai Medical Center": 20,
+            "European Medical Center Moscow": 20
+        },
+        "topHospitalsByAmount": {
+            "Burdenko Clinical Hospital": 90775.7465005682,
+            "NewYork-Presbyterian Hospital": 90088.3193330995,
+            "Hospital Clínic de Barcelona": 89174.80132791593,
+            "Central Clinical Hospital Moscow": 88468.32535469896,
+            "Johns Hopkins Hospital": 83559.93842154572,
+            "Mayo Clinic": 82834.2320955389,
+            "Massachusetts General Hospital": 82451.59045089506,
+            "Pitié-Salpêtrière Hospital": 81073.84065991433,
+            "Karolinska University Hospital": 80183.77258334053,
+            "Charité – Universitätsmedizin Berlin": 79765.44522446526
+        },
+        "totalUniqueHospitals": 26,
+        "generatedAt": "2026-05-29T19:01:29.201397"
+    },
+    "httpStatus": 200
+}
+
+Fraud Trends
+
+GET: localhost:8080/api/v1/analytics/fraud/trends
+response:
+{
+    "success": true,
+    "message": "Fraud trends fetched successfully",
+    "data": {
+        "riskDistribution": {
+            "HIGH": 146,
+            "LOW": 162,
+            "MEDIUM": 192
+        },
+        "fraudRate": 67.6,
+        "topRiskHospitals": {
+            "Karolinska University Hospital": 9,
+            "Moscow City Clinical Hospital": 9,
+            "St Thomas' Hospital": 8,
+            "NewYork-Presbyterian Hospital": 8,
+            "Burdenko Clinical Hospital": 8
+        },
+        "averageFraudScore": 49.1,
+        "generatedAt": "2026-05-29T19:01:44.356817100"
+    },
+    "httpStatus": 200
+}
+
+Forecast
+
+GET: localhost:8080/api/v1/analytics/forecast
+response:
+{
+    "success": true,
+    "message": "Forecast analytics fetched successfully",
+    "data": {
+        "dailyAverageLast30Days": 16.7,
+        "forecastNext7Days": 117,
+        "forecastNext30Days": 500,
+        "historicalData": [
+            {
+                "date": "2026-05-29",
+                "count": 500
+            }
+        ],
+        "generatedAt": "2026-05-29T19:02:09.447071800"
+    },
+    "httpStatus": 200
+}
+
+Dashboard
+
+GET: localhost:8080/api/v1/analytics/dashboard
+response:
+{
+    "success": true,
+    "message": "Dashboard analytics fetched successfully",
+    "data": {
+        "totalClaims": 500,
+        "totalApprovedPayout": 1.8583982520754684E7,
+        "totalClaimAmount": 1.8583982520754684E7,
+        "statusDistribution": {
+            "SETTLED": 131,
+            "ADMIN_APPROVED": 41,
+            "CARRIER_APPROVED": 42,
+            "SUBMITTED": 40,
+            "APPROVED": 83,
+            "PAYMENT_PENDING": 43,
+            "UNDER_REVIEW": 77,
+            "REJECTED": 43
+        },
+        "claimsPerDay": [
+            {
+                "date": "2026-05-29",
+                "count": 500
+            }
+        ]
+    },
+    "httpStatus": 200
+}
+
+Summary
+
+GET: localhost:8080/api/v1/analytics/carrier/Carlen Chairez/summary
+response:
+{
+    "success": true,
+    "message": "Carrier analytics fetched successfully",
+    "data": {
+        "carrier": "Carlen Chairez",
+        "totalClaims": 1,
+        "totalClaimedAmount": 25000.0,
+        "approvedClaims": 0,
+        "rejectedClaims": 0,
+        "approvalRate": 0.0,
+        "highRiskClaims": 0,
+        "generatedAt": "2026-05-29T19:04:16.457836600"
+    },
+    "httpStatus": 200
+}
