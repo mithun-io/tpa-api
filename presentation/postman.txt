@@ -1,0 +1,324 @@
+Patient Registration:
+
+POST: localhost:8080/api/v1/auth/patient/register
+request:
+{
+  "name": "aiugp72254",
+  "email": "aiugp72254@minitts.net",
+  "phoneNumber": "+1 (593) 233-6265",
+  "dateOfBirth": "2006-05-26",
+  "address": "California",
+  "password": "9k!?OdeNP4YhR1WpwD1z",
+  "gender": "MALE"
+}
+
+response:
+{
+    "success": true,
+    "message": "OTP sent successfully",
+    "data": null,
+    "httpStatus": 201
+}
+
+PATCH: localhost:8080/api/v1/auth/patient/verify
+request:
+{
+    "email": "aiugp72254@minitts.net",
+    "otp" : "540185"
+}
+
+response:
+{
+    "success": true,
+    "message": "Registration successful",
+    "data": null,
+    "httpStatus": 200
+}
+
+POST: localhost:8080/api/v1/auth/login
+request:
+{
+    "email" : "aiugp72254@minitts.net",
+    "password" : "9k!?OdeNP4YhR1WpwD1z"
+}
+
+response:
+{
+    "success": true,
+    "message": "Login successful",
+    "data": {
+        "token": "eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9QQVRJRU5UIiwic3ViIjoiYWl1Z3A3MjI1NEBtaW5pdHRzLm5ldCIsImlhdCI6MTc4MDAzMjgyNiwiZXhwIjoxNzgwMDM2NDI2fQ.mKfzUNhIeWy39UD1-4pei2jOYSHqf0Hg9pHPe8oqSNWSMeFj8j2AVrfZ6f9yeK9WTl1IgGxGQm7pm4QqT_ALdQ",
+        "refreshToken": "2c8fe9c0-80f4-435a-ab6d-757f1a8077ca",
+        "userResponse": {
+            "id": 59,
+            "name": "aiugp72254",
+            "email": "aiugp72254@minitts.net",
+            "phoneNumber": "+1 (593) 233-6265",
+            "dateOfBirth": "2006-05-26",
+            "address": "California",
+            "gender": "MALE",
+            "userRole": "PATIENT",
+            "userStatus": "ACTIVE",
+            "createdAt": "2026-05-29 11:02 AM"
+        }
+    },
+    "httpStatus": 200
+}
+
+Carrier Registration:
+
+POST: localhost:8080/api/v1/auth/carrier/register
+request:
+{
+  "name": "carlen.chairez",
+  "email": "carlen.chairez@horizonspost.com",
+  "phoneNumber": "+1 (772) 681-6440",
+  "address": "El Dorado",
+  "password": "9k!?OdeNP4YhR1WpwD1z",
+  "companyName": "Carlen Chairez",
+  "companyType": "Insurance",
+  "registrationNumber": "UDLAI-JQS-2026-451921",
+  "licenseNumber": "LIC-HS-5782-2319",
+  "taxId": "TAX-SHDD-BCBS-5713",
+  "website": "https://carlen.chairez.com"
+}
+
+response:
+{
+    "success": true,
+    "message": "OTP sent to carrier email. Please verify.",
+    "data": null,
+    "httpStatus": 201
+}
+
+PATCH: localhost:8080/api/v1/auth/carrier/verify
+request:
+{
+    "email": "carlen.chairez@horizonspost.com",
+    "otp" : "216660"
+}
+
+response:
+{
+    "success": true,
+    "message": "Carrier registered successfully",
+    "data": null,
+    "httpStatus": 200
+}
+
+POST: localhost:8080/api/v1/auth/login
+request:
+{
+    "email" : "admin@tpa.com",
+    "password" : "Admin@123"
+}
+
+response:
+{
+    "success": true,
+    "message": "Login successful",
+    "data": {
+        "token": "eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInN1YiI6ImFkbWluQHRwYS5jb20iLCJpYXQiOjE3ODAwMzMxNjMsImV4cCI6MTc4MDAzNjc2M30.M5gBJxqxLZULZ-gVr0lBdeMYwdUMz5-CEClONQf1qb6ZUhsko2Tx4hCyWTOD1bz6yL3ZpVzX3f8EFbALS7Xwlg",
+        "refreshToken": "8f8130cb-05cc-4e04-a9cf-9558e7023f97",
+        "userResponse": {
+            "id": 58,
+            "name": "Admin",
+            "email": "admin@tpa.com",
+            "phoneNumber": "+1 (415) 859-2671",
+            "dateOfBirth": "2005-06-14",
+            "address": "Minnesota",
+            "gender": "MALE",
+            "userRole": "ADMIN",
+            "userStatus": "ACTIVE",
+            "createdAt": "2026-05-29 10:49 AM"
+        }
+    },
+    "httpStatus": 200
+}
+
+GET: localhost:8080/api/v1/admin/carriers
+response:
+{
+    "success": true,
+    "message": "Carriers fetched successfully",
+    "data": {
+        "content": [
+            {
+                "id": 7,
+                "companyName": "Carlen Chairez",
+                "email": "carlen.chairez@horizonspost.com",
+                "phoneNumber": "+1 (772) 681-6440",
+                "companyType": "Insurance",
+                "licenseNumber": "LIC-HS-5782-2319",
+                "registrationNumber": "UDLAI-JQS-2026-451921",
+                "taxId": "TAX-SHDD-BCBS-5713",
+                "contactPersonName": "Carlen Chairez",
+                "contactPersonPhone": "+1 (772) 681-6440",
+                "website": "https://carlen.chairez.com",
+                "userStatus": "PENDING"
+            },
+            {
+                "id": 1,
+                "companyName": "HealthShield Insurance Group",
+                "email": "michael.turner@healthshield.com",
+                "phoneNumber": "+1 (646) 555-9134",
+                "companyType": "Health Insurance",
+                "licenseNumber": "LIC-HS-784512-2024",
+                "registrationNumber": "IRDAI-HIG-2024-458921",
+                "taxId": "27AABCH4589K1Z2",
+                "contactPersonName": "Michael Turner",
+                "contactPersonPhone": "+1 (646) 555-9134",
+                "website": "https://www.healthshieldinsurance.com",
+                "userStatus": "ACTIVE"
+            },
+            {
+                "id": 6,
+                "companyName": "Humana Insurance",
+                "email": "info@humana.com",
+                "phoneNumber": "+1 (305) 555-1005",
+                "companyType": "Health Insurance",
+                "licenseNumber": "LIC-NAIC-HUM-005",
+                "registrationNumber": "NAIC-HUM-005",
+                "taxId": "TAX-NAIC-HUM-005",
+                "contactPersonName": "Humana Care Group",
+                "contactPersonPhone": "+1 (305) 555-1005",
+                "website": "https://humanainsurance.com",
+                "userStatus": "ACTIVE"
+            },
+            {
+                "id": 5,
+                "companyName": "Cigna Healthcare",
+                "email": "help@cigna.com",
+                "phoneNumber": "+1 (646) 555-1004",
+                "companyType": "Health Insurance",
+                "licenseNumber": "LIC-NAIC-CIG-004",
+                "registrationNumber": "NAIC-CIG-004",
+                "taxId": "TAX-NAIC-CIG-004",
+                "contactPersonName": "Cigna Benefits Group",
+                "contactPersonPhone": "+1 (646) 555-1004",
+                "website": "https://cignahealthcare.com",
+                "userStatus": "ACTIVE"
+            },
+            {
+                "id": 4,
+                "companyName": "Aetna Insurance",
+                "email": "service@aetna.com",
+                "phoneNumber": "+1 (415) 555-1003",
+                "companyType": "Health Insurance",
+                "licenseNumber": "LIC-NAIC-AET-003",
+                "registrationNumber": "NAIC-AET-003",
+                "taxId": "TAX-NAIC-AET-003",
+                "contactPersonName": "Aetna Health Group",
+                "contactPersonPhone": "+1 (415) 555-1003",
+                "website": "https://aetnainsurance.com",
+                "userStatus": "ACTIVE"
+            },
+            {
+                "id": 3,
+                "companyName": "Blue Cross Blue Shield",
+                "email": "contact@bcbs.com",
+                "phoneNumber": "+1 (312) 555-1002",
+                "companyType": "Health Insurance",
+                "licenseNumber": "LIC-NAIC-BCBS-002",
+                "registrationNumber": "NAIC-BCBS-002",
+                "taxId": "TAX-NAIC-BCBS-002",
+                "contactPersonName": "BCBS Group",
+                "contactPersonPhone": "+1 (312) 555-1002",
+                "website": "https://bluecrossblueshield.com",
+                "userStatus": "ACTIVE"
+            },
+            {
+                "id": 2,
+                "companyName": "UnitedHealth Group",
+                "email": "support@uhg.com",
+                "phoneNumber": "+1 (212) 555-1001",
+                "companyType": "Health Insurance",
+                "licenseNumber": "LIC-NAIC-UHG-001",
+                "registrationNumber": "NAIC-UHG-001",
+                "taxId": "TAX-NAIC-UHG-001",
+                "contactPersonName": "UHG Corporate",
+                "contactPersonPhone": "+1 (212) 555-1001",
+                "website": "https://unitedhealthgroup.com",
+                "userStatus": "ACTIVE"
+            }
+        ],
+        "pageable": {
+            "pageNumber": 0,
+            "pageSize": 10,
+            "sort": {
+                "empty": false,
+                "sorted": true,
+                "unsorted": false
+            },
+            "offset": 0,
+            "paged": true,
+            "unpaged": false
+        },
+        "last": true,
+        "totalPages": 1,
+        "totalElements": 7,
+        "size": 10,
+        "number": 0,
+        "sort": {
+            "empty": false,
+            "sorted": true,
+            "unsorted": false
+        },
+        "first": true,
+        "numberOfElements": 7,
+        "empty": false
+    },
+    "httpStatus": 200
+}
+
+PATCH: localhost:8080/api/v1/admin/carriers/7/approve
+response:
+{
+    "success": true,
+    "message": "Carrier approved successfully",
+    "data": {
+        "id": 7,
+        "companyName": "Carlen Chairez",
+        "email": "carlen.chairez@horizonspost.com",
+        "phoneNumber": "+1 (772) 681-6440",
+        "companyType": "Insurance",
+        "licenseNumber": "LIC-HS-5782-2319",
+        "registrationNumber": "UDLAI-JQS-2026-451921",
+        "taxId": "TAX-SHDD-BCBS-5713",
+        "contactPersonName": "Carlen Chairez",
+        "contactPersonPhone": "+1 (772) 681-6440",
+        "website": "https://carlen.chairez.com",
+        "userStatus": "ACTIVE"
+    },
+    "httpStatus": 200
+}
+
+POST: localhost:8080/api/v1/auth/login
+request:
+{
+  "email": "carlen.chairez@horizonspost.com",
+  "password": "9k!?OdeNP4YhR1WpwD1z"
+}
+
+response:
+{
+    "success": true,
+    "message": "Login successful",
+    "data": {
+        "token": "eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9DQVJSSUVSIiwic3ViIjoiY2FybGVuLmNoYWlyZXpAaG9yaXpvbnNwb3N0LmNvbSIsImlhdCI6MTc4MDAzMzc4NiwiZXhwIjoxNzgwMDM3Mzg2fQ.ss2u9r1_PoB6NLemunPm28IkwT80tVe0RB85u2zg6Cbyj4jFdgXgakXA4qtZZAtODV0B0rSYzPOn0CjaPy0cIQ",
+        "refreshToken": "32467833-63f4-4341-afb6-798c1c96f490",
+        "userResponse": {
+            "id": 60,
+            "name": "Carlen Chairez",
+            "email": "carlen.chairez@horizonspost.com",
+            "phoneNumber": "+1 (772) 681-6440",
+            "dateOfBirth": "2026-05-29",
+            "address": "El Dorado",
+            "gender": null,
+            "userRole": "CARRIER",
+            "userStatus": "ACTIVE",
+            "createdAt": "2026-05-29 11:15 AM"
+        }
+    },
+    "httpStatus": 200
+}

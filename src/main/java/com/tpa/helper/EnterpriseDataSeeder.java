@@ -146,8 +146,8 @@ public class EnterpriseDataSeeder implements ApplicationRunner {
     private final Random random = new Random(42);
 
     private void ensureDemoAccountsExist() {
-        createDemoUserIfAbsent("emma.wilson@outlook.com", "Emma Wilson", "+1 917-555-4821", DEMO_PASSWORD, UserRole.PATIENT, Gender.FEMALE, "2458 Maplewood Drive, Austin, Texas 78701, USA");
-        createDemoUserIfAbsent("michael.turner@healthshield.com", "Michael Turner", "+1 646-555-9134", DEMO_PASSWORD, UserRole.CARRIER, Gender.MALE, "890 Park Avenue, New York, NY 10021, USA");
+        createDemoUserIfAbsent("emma.wilson@outlook.com", "Emma Wilson", "+1 (917) 555-4821", DEMO_PASSWORD, UserRole.PATIENT, Gender.FEMALE, "2458 Maplewood Drive, Austin, Texas 78701, USA");
+        createDemoUserIfAbsent("michael.turner@healthshield.com", "Michael Turner", "+1 (646) 555-9134", DEMO_PASSWORD, UserRole.CARRIER, Gender.MALE, "890 Park Avenue, New York, NY 10021, USA");
 
         // Ensure the carrier entity exists for the carrier demo user
         userRepository.findByEmail("michael.turner@healthshield.com").ifPresent(carrierUser -> {
@@ -223,7 +223,7 @@ public class EnterpriseDataSeeder implements ApplicationRunner {
             User u = User.builder()
                     .username(fn + " " + ln)
                     .email(email)
-                    .phoneNumber(String.format("+1-%03d-%03d-%04d", 200 + (i % 700), 100 + (i % 900), 1000 + i))
+                    .phoneNumber(String.format("+1 (%03d) %03d-%04d", 200 + (i % 700), 100 + (i % 900), 1000 + i))
                     .password(passwordEncoder.encode(DEMO_PASSWORD))
                     .userRole(UserRole.PATIENT)
                     .userStatus(UserStatus.ACTIVE)
@@ -248,11 +248,11 @@ public class EnterpriseDataSeeder implements ApplicationRunner {
     private List<User> seedCarrierUsers() {
         List<User> seeded = new ArrayList<>();
         String[][] carrierData = {
-                {"UnitedHealth Group", "NAIC-UHG-001", "support@uhg.com", "+1-212-555-1001", "UHG Corporate"},
-                {"Blue Cross Blue Shield", "NAIC-BCBS-002", "contact@bcbs.com", "+1-312-555-1002", "BCBS Group"},
-                {"Aetna Insurance", "NAIC-AET-003", "service@aetna.com", "+1-415-555-1003", "Aetna Health Group"},
-                {"Cigna Healthcare", "NAIC-CIG-004", "help@cigna.com", "+1-646-555-1004", "Cigna Benefits Group"},
-                {"Humana Insurance", "NAIC-HUM-005", "info@humana.com", "+1-305-555-1005", "Humana Care Group"}
+                {"UnitedHealth Group", "NAIC-UHG-001", "support@uhg.com", "+1 (212) 555-1001", "UHG Corporate"},
+                {"Blue Cross Blue Shield", "NAIC-BCBS-002", "contact@bcbs.com", "+1 (312) 555-1002", "BCBS Group"},
+                {"Aetna Insurance", "NAIC-AET-003", "service@aetna.com", "+1 (415) 555-1003", "Aetna Health Group"},
+                {"Cigna Healthcare", "NAIC-CIG-004", "help@cigna.com", "+1 (646) 555-1004", "Cigna Benefits Group"},
+                {"Humana Insurance", "NAIC-HUM-005", "info@humana.com", "+1 (305) 555-1005", "Humana Care Group"}
         };
 
         for (String[] cd : carrierData) {
