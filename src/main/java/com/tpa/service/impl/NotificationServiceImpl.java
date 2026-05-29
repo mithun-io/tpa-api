@@ -65,7 +65,7 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    @Async("executor")
+    @Async("taskExecutor")
     @Transactional
     public void notifyAllAdmins(String title, String message, String targetUrl) {
 

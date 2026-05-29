@@ -95,8 +95,6 @@ public class Claim {
     @Enumerated(EnumType.STRING)
     private RiskLevel riskLevel;
     
-    @Column(length = 2000)
-    private String aiSummary;
 
     // Tenant
     @Column
@@ -125,6 +123,7 @@ public class Claim {
     @PrePersist
     protected void onCreate() {
         if (tenantId == null) tenantId = "default";
+        if (createdDate == null) createdDate = LocalDateTime.now();
         // Default SLA: 48 hours from creation
         if (slaDeadline == null) slaDeadline = createdDate.plusHours(48);
     }

@@ -52,7 +52,7 @@ public class AuditLogServiceImpl implements AuditLogService {
     }
 
     @Override
-    @Async("executor")
+    @Async("taskExecutor")
     public void logAction(Long claimId, String action, ClaimStatus previousStatus, ClaimStatus newStatus) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 

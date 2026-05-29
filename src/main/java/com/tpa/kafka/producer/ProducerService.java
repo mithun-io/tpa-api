@@ -17,7 +17,7 @@ public class ProducerService {
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final ObjectMapper objectMapper;
 
-    @Async("executor")
+    @Async("taskExecutor")
     public void sendPaymentEvent(PaymentEvent paymentEvent) {
         try {
             String message = objectMapper.writeValueAsString(paymentEvent);

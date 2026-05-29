@@ -6,11 +6,68 @@
   <component name="ChangeListManager">
     <list default="true" id="b816a75b-6920-4401-836e-1b55556aa93c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/presentation/postman_endpoints.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/helper/EnterpriseDataSeeder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/helper/EnterpriseDataSeeder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/.env" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/.env" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/tpa/helper/EnterpriseDataSeeder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tpa/helper/EnterpriseDataSeeder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/presentation/endpoints.txt" beforeDir="false" afterPath="$PROJECT_DIR$/presentation/endpoints.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/presentation/postman.txt" beforeDir="false" afterPath="$PROJECT_DIR$/presentation/postman.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/config/AsyncConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/config/AsyncConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/entity/Claim.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/entity/Claim.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/helper/ClaimAssignment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/helper/ClaimAssignment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/helper/ClaimStateMachine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/helper/ClaimStateMachine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/kafka/producer/ProducerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/kafka/producer/ProducerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/AdminServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/AdminServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/AuditLogServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/AuditLogServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/CarrierServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/CarrierServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/NotificationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tpa/service/impl/NotificationServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/tpa/helper/ClaimStateMachineTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/tpa/helper/ClaimStateMachineTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/tpa/service/AdminServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/tpa/service/AdminServiceImplTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/tpa/service/CarrierServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/tpa/service/CarrierServiceImplTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/tpa/config/AsyncConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tpa/config/AsyncConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/tpa/entity/Claim.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tpa/entity/Claim.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/tpa/helper/ClaimStateMachine$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tpa/helper/ClaimStateMachine$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/tpa/helper/ClaimStateMachine.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tpa/helper/ClaimStateMachine.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/tpa/service/impl/AdminServiceImpl$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tpa/service/impl/AdminServiceImpl$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/tpa/service/impl/AdminServiceImpl$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tpa/service/impl/AdminServiceImpl$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/tpa/service/impl/AdminServiceImpl$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tpa/service/impl/AdminServiceImpl$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/tpa/service/impl/AdminServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tpa/service/impl/AdminServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/tpa/service/impl/CarrierServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/tpa/service/impl/CarrierServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/generated-sources/annotations/com/tpa/mapper/CarrierClaimMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/annotations/com/tpa/mapper/CarrierClaimMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/generated-sources/annotations/com/tpa/mapper/CarrierMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/annotations/com/tpa/mapper/CarrierMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/generated-sources/annotations/com/tpa/mapper/ClaimDocumentMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/annotations/com/tpa/mapper/ClaimDocumentMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/generated-sources/annotations/com/tpa/mapper/ClaimMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/annotations/com/tpa/mapper/ClaimMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/generated-sources/annotations/com/tpa/mapper/FraudClaimMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/annotations/com/tpa/mapper/FraudClaimMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/generated-sources/annotations/com/tpa/mapper/InsuranceProductMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/annotations/com/tpa/mapper/InsuranceProductMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/generated-sources/annotations/com/tpa/mapper/NotificationMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/annotations/com/tpa/mapper/NotificationMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/generated-sources/annotations/com/tpa/mapper/PatientMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/annotations/com/tpa/mapper/PatientMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/generated-sources/annotations/com/tpa/mapper/PaymentMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/annotations/com/tpa/mapper/PaymentMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/generated-sources/annotations/com/tpa/mapper/UserMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/annotations/com/tpa/mapper/UserMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.tpa.TpaApplicationTests.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.tpa.TpaApplicationTests.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.tpa.controller.AdminAndIntegrationTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.tpa.controller.AdminAndIntegrationTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.tpa.controller.AuthControllerTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.tpa.controller.AuthControllerTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.tpa.controller.ClaimControllerTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.tpa.controller.ClaimControllerTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.tpa.helper.ClaimStateMachineTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.tpa.helper.ClaimStateMachineTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.tpa.repository.ClaimRepositoryTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.tpa.repository.ClaimRepositoryTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.tpa.repository.UserRepositoryTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.tpa.repository.UserRepositoryTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.tpa.security.JwtUtilTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.tpa.security.JwtUtilTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.tpa.service.AdminServiceImplTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.tpa.service.AdminServiceImplTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.tpa.service.AuditLogServiceTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.tpa.service.AuditLogServiceTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.tpa.service.CarrierServiceImplTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.tpa.service.CarrierServiceImplTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.tpa.service.ClaimServiceImplTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.tpa.service.ClaimServiceImplTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.tpa.service.PaymentServiceImplTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.tpa.service.PaymentServiceImplTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.tpa.service.RuleEngineServiceTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.tpa.service.RuleEngineServiceTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.tpa.TpaApplicationTests.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.tpa.TpaApplicationTests.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.tpa.controller.AdminAndIntegrationTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.tpa.controller.AdminAndIntegrationTest.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.tpa.controller.AuthControllerTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.tpa.controller.AuthControllerTest.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.tpa.controller.ClaimControllerTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.tpa.controller.ClaimControllerTest.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.tpa.helper.ClaimStateMachineTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.tpa.helper.ClaimStateMachineTest.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.tpa.repository.ClaimRepositoryTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.tpa.repository.ClaimRepositoryTest.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.tpa.repository.UserRepositoryTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.tpa.repository.UserRepositoryTest.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.tpa.security.JwtUtilTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.tpa.security.JwtUtilTest.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.tpa.service.AdminServiceImplTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.tpa.service.AdminServiceImplTest.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.tpa.service.AuditLogServiceTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.tpa.service.AuditLogServiceTest.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.tpa.service.CarrierServiceImplTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.tpa.service.CarrierServiceImplTest.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.tpa.service.ClaimServiceImplTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.tpa.service.ClaimServiceImplTest.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.tpa.service.PaymentServiceImplTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.tpa.service.PaymentServiceImplTest.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.tpa.service.RuleEngineServiceTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.tpa.service.RuleEngineServiceTest.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/tpa/service/AdminServiceImplTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/com/tpa/service/AdminServiceImplTest.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -166,7 +223,7 @@
       <workItem from="1779944545346" duration="1091000" />
       <workItem from="1779957149981" duration="2703000" />
       <workItem from="1779964773434" duration="1756000" />
-      <workItem from="1780030572162" duration="3083000" />
+      <workItem from="1780030572162" duration="9664000" />
     </task>
     <servers />
   </component>

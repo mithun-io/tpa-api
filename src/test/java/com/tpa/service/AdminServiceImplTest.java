@@ -57,6 +57,7 @@ class AdminServiceImplTest {
     @Mock private ClaimEventProducer claimEventProducer;
     @Mock private com.tpa.helper.EmailService emailService;
     @Mock private RefreshTokenService refreshTokenService;
+    @Mock private PaymentService paymentService;
 
     @InjectMocks
     private com.tpa.service.impl.AdminServiceImpl adminService;
@@ -119,6 +120,7 @@ class AdminServiceImplTest {
 
         verify(claimRepository).save(argThat(c -> c.getClaimStatus() == ClaimStatus.ADMIN_APPROVED));
         verify(auditLogService).logAction(eq(100L), eq("ADMIN_APPROVED"), any(), eq(ClaimStatus.ADMIN_APPROVED));
+        verify(paymentService).initiateInstantPayout(any());
         verify(producerService).sendClaimNotificationEvent(any());
     }
 

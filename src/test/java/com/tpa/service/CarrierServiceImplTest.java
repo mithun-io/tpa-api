@@ -64,15 +64,16 @@ class CarrierServiceImplTest {
         patientUser = TestDataFactory.buildPatientUser();
         patientUser.setId(1L);
 
-        adminApprovedClaim = TestDataFactory.buildAdminApprovedClaim(patientUser, carrier);
+        adminApprovedClaim = TestDataFactory.buildSubmittedClaim(patientUser);
+        adminApprovedClaim.setCarrier(carrier);
         adminApprovedClaim.setId(100L);
     }
 
     // ── TC-045 ────────────────────────────────────────────────────────────────
 
     @Test
-    @DisplayName("TC-045: approveClaim transitions ADMIN_APPROVED → CARRIER_APPROVED successfully")
-    void approveClaim_fromAdminApproved_shouldTransitionToCarrierApproved() {
+    @DisplayName("TC-045: approveClaim transitions SUBMITTED → CARRIER_APPROVED successfully")
+    void approveClaim_fromSubmitted_shouldTransitionToCarrierApproved() {
         when(carrierRepository.findByUser_Email("carrier@test.com")).thenReturn(Optional.of(carrier));
         when(claimRepository.findById(100L)).thenReturn(Optional.of(adminApprovedClaim));
         when(claimRepository.save(any())).thenReturn(adminApprovedClaim);
@@ -87,15 +88,15 @@ class CarrierServiceImplTest {
     // ── TC-046 ────────────────────────────────────────────────────────────────
 
     @Test
-    @DisplayName("TC-046: approveClaim throws IllegalStateException when claim is not ADMIN_APPROVED")
-    void approveClaim_notInAdminApprovedState_shouldThrowIllegalState() {
-        adminApprovedClaim.setClaimStatus(ClaimStatus.SUBMITTED);
+    @DisplayName("TC-046: approveClaim throws IllegalStateException when claim is already ADMIN_APPROVED")
+    void approveClaim_inAdminApprovedState_shouldThrowIllegalState() {
+        adminApprovedClaim.setClaimStatus(ClaimStatus.ADMIN_APPROVED);
         when(carrierRepository.findByUser_Email("carrier@test.com")).thenReturn(Optional.of(carrier));
         when(claimRepository.findById(100L)).thenReturn(Optional.of(adminApprovedClaim));
 
         assertThatThrownBy(() -> carrierService.approveClaim(100L, "carrier@test.com"))
                 .isInstanceOf(IllegalStateException.class)
-                .hasMessageContaining("ADMIN_APPROVED");
+                .hasMessageContaining("Carrier can only approve claims before Admin approval");
     }
 
     // ── TC-047 ────────────────────────────────────────────────────────────────

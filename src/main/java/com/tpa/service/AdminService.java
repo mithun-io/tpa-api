@@ -1,7 +1,6 @@
 package com.tpa.service;
 
 import com.tpa.dto.request.claim.ClaimReviewRequest;
-import com.tpa.dto.response.analytics.AiAnalysisResponse;
 import com.tpa.dto.response.analytics.MonitoringResponse;
 import com.tpa.dto.response.claim.ClaimResponse;
 import com.tpa.dto.response.user.CarrierResponse;
@@ -39,9 +38,5 @@ public interface AdminService {
 
     ClaimResponse assignClaimToCarrier(Long claimId, Long carrierId);
 
-    AiAnalysisResponse getClaimAiSummary(Long claimId);
-
-    AiAnalysisResponse askAiAboutClaim(Long claimId, String prompt);
-
     MonitoringResponse getSystemMonitoring();
-}
+}

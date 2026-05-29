@@ -53,7 +53,6 @@ public interface CarrierClaimMapper {
                 .riskLevel(riskLevel)
                 .healthScore(healthScore != null ? healthScore.intValue() : null)
                 .riskFlags(claim.getRiskFlags())
-                .aiSummary(claim.getAiSummary())
                 .build();
     }
 }

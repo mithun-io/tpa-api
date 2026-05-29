@@ -1,6 +1,5 @@
 package com.tpa.service.impl;
 
-import com.tpa.dto.response.analytics.AiAnalysisResponse;
 import com.tpa.dto.response.analytics.MonitoringResponse;
 import com.tpa.dto.response.claim.ClaimResponse;
 import com.tpa.dto.response.user.CarrierResponse;
@@ -8,7 +7,6 @@ import com.tpa.dto.response.user.UserResponse;
 import com.tpa.entity.Carrier;
 import com.tpa.service.NotificationService;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Caching;
 import com.tpa.entity.User;
 import com.tpa.enums.UserRole;
 import com.tpa.enums.UserStatus;
@@ -27,9 +25,9 @@ import com.tpa.mapper.CarrierMapper;
 import com.tpa.repository.CarrierRepository;
 import com.tpa.repository.ClaimRepository;
 import com.tpa.kafka.producer.ClaimEventProducer;
-import com.tpa.service.AiClaimAssistantService;
 import com.tpa.service.AuditLogService;
 import com.tpa.service.RefreshTokenService;
+import com.tpa.service.PaymentService;
 import com.tpa.helper.ClaimStateMachine;
 import com.tpa.helper.EmailService;
 import lombok.RequiredArgsConstructor;
@@ -63,7 +61,6 @@ public class AdminServiceImpl implements AdminService {
     private final CarrierRepository carrierRepository;
     private final ClaimRepository claimRepository;
     
-    private final AiClaimAssistantService aiClaimAssistantService;
     private final AuditLogService auditLogService;
     private final RefreshTokenService refreshTokenService;
     
@@ -71,6 +68,7 @@ public class AdminServiceImpl implements AdminService {
     private final ClaimStateMachine claimStateMachine;
     private final NotificationService notificationService;
     private final EmailService emailService;
+    private final PaymentService paymentService;
 
     private final ClaimEventProducer claimEventProducer;
     
@@ -224,7 +222,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Transactional
     @Override
-    @Caching(evict = {@CacheEvict(value = "claims", key = "#request.claimId"), @CacheEvict(value = "aiSummaries", key = "#request.claimId")})
+    @CacheEvict(value = "claims", key = "#request.claimId")
     public ClaimResponse reviewClaim(ClaimReviewRequest claimReviewRequest, Principal principal) {
         Claim claim = claimRepository.findById(claimReviewRequest.getClaimId()).orElseThrow(() -> new NoResourceFoundException("claim not found"));
 
@@ -259,7 +257,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Transactional
     @Override
-    @Caching(evict = {@CacheEvict(value = "claims", key = "#claimId"), @CacheEvict(value = "aiSummaries", key = "#claimId")})
+    @CacheEvict(value = "claims", key = "#claimId")
     public ClaimResponse approveClaim(Long claimId, String reason, Principal principal) {
         Claim claim = claimRepository.findById(claimId).orElseThrow(() -> new NoResourceFoundException("claim not found"));
 
@@ -276,13 +274,16 @@ public class AdminServiceImpl implements AdminService {
         log.info("Admin {} APPROVED claim {}", principal.getName(), claim.getId());
 
         auditLogService.logAction(claim.getId(), "ADMIN_APPROVED", previousStatus, ClaimStatus.ADMIN_APPROVED);
+        
+        // Finalize approval and release payment immediately
+        paymentService.initiateInstantPayout(claim);
 
         ClaimNotificationEvent claimNotificationEvent = ClaimNotificationEvent.builder()
                 .claimId(claim.getId())
                 .policyNumber(claim.getPolicyNumber())
                 .customerEmail(claim.getUser().getEmail())
                 .status(ClaimStatus.ADMIN_APPROVED)
-                .message("Your claim has been APPROVED. Notes: " + reason)
+                .message("Your claim has been APPROVED and payment has been released. Notes: " + reason)
                 .build();
         producerService.sendClaimNotificationEvent(claimNotificationEvent);
         notificationService.createNotification(claim.getUser(), "Claim Approved", claimNotificationEvent.getMessage(), "/claims/" + claim.getId());
@@ -292,7 +293,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Transactional
     @Override
-    @Caching(evict = {@CacheEvict(value = "claims", key = "#claimId"), @CacheEvict(value = "aiSummaries", key = "#claimId")})
+    @CacheEvict(value = "claims", key = "#claimId")
     public ClaimResponse rejectClaim(Long claimId, String reason, Principal principal) {
         Claim claim = claimRepository.findById(claimId).orElseThrow(() -> new NoResourceFoundException("claim not found"));
 
@@ -407,30 +408,6 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     @Transactional(readOnly = true)
-    public AiAnalysisResponse getClaimAiSummary(Long claimId) {
-        if (!claimRepository.existsById(claimId)) {
-            throw new NoResourceFoundException("Claim not found");
-        }
-
-        log.info("Requesting AI summary for claim {}", claimId);
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        return aiClaimAssistantService.analyzeClaim(claimId, "Please summarize this claim for an admin reviewer. Highlight any discrepancies or high-risk factors.", username);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public AiAnalysisResponse askAiAboutClaim(Long claimId, String prompt) {
-        if (!claimRepository.existsById(claimId)) {
-            throw new NoResourceFoundException("Claim not found");
-        }
-
-        log.info("Requesting custom AI analysis for claim {} with prompt: {}", claimId, prompt);
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        return aiClaimAssistantService.analyzeClaim(claimId, prompt, username);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
     public MonitoringResponse getSystemMonitoring() {
         Pageable pageable = PageRequest.of(0, 5, Sort.by("createdDate").descending());
         Page<Claim> failedClaims = claimRepository.findByClaimStatus(ClaimStatus.REJECTED, pageable);
@@ -442,16 +419,6 @@ public class AdminServiceImpl implements AdminService {
         );
 
         List<Map<String, Object>> errorLogs = List.of(
-                Map.of(
-                        "timestamp", LocalDateTime.now().minusHours(1),
-                        "level", "ERROR",
-                        "message", "Failed to connect to AI provider"
-                ),
-                Map.of(
-                        "timestamp", LocalDateTime.now().minusHours(3),
-                        "level", "WARN",
-                        "message", "Rate limit exceeded on AI provider API"
-                ),
                 Map.of(
                         "timestamp", LocalDateTime.now().minusDays(1),
                         "level", "ERROR",

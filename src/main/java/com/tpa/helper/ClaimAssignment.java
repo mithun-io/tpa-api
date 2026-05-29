@@ -158,7 +158,7 @@ public class ClaimAssignment {
     }
 
     // Auto-Assign Claim
-    @Async("executor")
+    @Async("taskExecutor")
     @Transactional
     public void autoAssignClaim(Claim claim) {
         log.info("[ASSIGN] Auto-assigning claim #{} (amount={}, icd={})", claim.getId(), claim.getAmount(), claim.getIcdCode());

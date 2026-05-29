@@ -65,5 +65,4 @@ public class ClaimResponse {
 
     private String riskLevel;
 
-    private String aiSummary;
 }

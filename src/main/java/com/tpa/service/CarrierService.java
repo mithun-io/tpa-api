@@ -1,11 +1,9 @@
 package com.tpa.service;
 
-import com.tpa.dto.response.analytics.AiAnalysisResponse;
 import com.tpa.dto.response.claim.CarrierClaimDetailResponse;
 import com.tpa.dto.response.claim.PolicyStatusResponse;
 
 import java.util.List;
-import java.util.Map;
 
 public interface CarrierService {
 
@@ -24,6 +22,4 @@ public interface CarrierService {
     void flagSuspicious(Long claimId, String username);
 
     PolicyStatusResponse getPolicyStatus(Long claimId, String username);
-
-    AiAnalysisResponse aiAnalyzeClaim(Long claimId, Map<String, String> body, String username);
 }

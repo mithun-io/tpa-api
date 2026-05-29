@@ -1,6 +1,5 @@
 package com.tpa.service.impl;
 
-import com.tpa.dto.response.analytics.AiAnalysisResponse;
 import com.tpa.dto.response.claim.CarrierClaimDetailResponse;
 import com.tpa.dto.response.claim.PolicyStatusResponse;
 import com.tpa.entity.Carrier;
@@ -11,7 +10,6 @@ import com.tpa.exception.NoResourceFoundException;
 import com.tpa.helper.ClaimStateMachine;
 import com.tpa.helper.PolicyValidationHelper;
 import com.tpa.mapper.CarrierClaimMapper;
-import com.tpa.service.AiClaimAssistantService;
 import com.tpa.service.AuditLogService;
 import com.tpa.service.NotificationService;
 import com.tpa.kafka.event.ClaimNotificationEvent;
@@ -39,8 +37,6 @@ public class CarrierServiceImpl implements CarrierService {
     private final ProducerService producerService;
     private final NotificationService notificationService;
     private final AuditLogService auditLogService;
-    private final AiClaimAssistantService aiClaimAssistantService;
-
     private final ClaimStateMachine claimStateMachine;
     private final PolicyValidationHelper policyValidationHelper;
 
@@ -112,8 +108,8 @@ public class CarrierServiceImpl implements CarrierService {
 
         log.info("Attempting transition: {} → {}", previousStatus, ClaimStatus.CARRIER_APPROVED);
 
-        if (previousStatus != ClaimStatus.ADMIN_APPROVED) {
-            throw new IllegalStateException("Carrier can only approve claims after ADMIN_APPROVED");
+        if (previousStatus != ClaimStatus.SUBMITTED && previousStatus != ClaimStatus.AI_VALIDATED && previousStatus != ClaimStatus.UNDER_REVIEW) {
+            throw new IllegalStateException("Carrier can only approve claims before Admin approval");
         }
 
         claimStateMachine.validateTransition(previousStatus, ClaimStatus.CARRIER_APPROVED);
@@ -130,10 +126,10 @@ public class CarrierServiceImpl implements CarrierService {
         producerService.sendClaimNotificationEvent(ClaimNotificationEvent.builder()
                 .claimId(claim.getId()).policyNumber(claim.getPolicyNumber())
                 .customerEmail(claim.getUser().getEmail()).status(ClaimStatus.CARRIER_APPROVED)
-                .message("Your claim has been APPROVED by the carrier.").build());
+                .message("Your claim has been APPROVED by the carrier and is awaiting final admin approval.").build());
         notificationService.notifyAllAdmins(
                 "\uD83D\uDCCB Claim #" + claimId + " Approved by Carrier",
-                "Claim #" + claimId + " (Policy: " + claim.getPolicyNumber() + ") has been approved by carrier " + carrier.getCompanyName() + ". Payment can now be released.",
+                "Claim #" + claimId + " (Policy: " + claim.getPolicyNumber() + ") has been approved by carrier " + carrier.getCompanyName() + ". It is now awaiting your final approval to release payment.",
                 "/claims/" + claimId
         );
     }
@@ -202,16 +198,4 @@ public class CarrierServiceImpl implements CarrierService {
         return policyValidationHelper.buildPolicyStatus(claim);
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public AiAnalysisResponse aiAnalyzeClaim(Long claimId, Map<String, String> body, String username) {
-        Carrier carrier = getCarrierByUsername(username);
-        Claim claim = getClaimForCarrier(claimId, carrier);
-
-        String prompt = (body != null && body.containsKey("prompt"))
-                ? body.get("prompt")
-                : "Analyze this insurance claim for fraud risk, billing mismatch, and policy coverage issues.";
-
-        return aiClaimAssistantService.analyzeClaim(claim.getId(), prompt, username);
-    }
 }

@@ -1,10 +1,8 @@
 package com.tpa.controller;
 
-import com.tpa.dto.response.analytics.AiAnalysisResponse;
 import com.tpa.dto.response.auth.ApiResponse;
 import com.tpa.dto.response.claim.CarrierClaimDetailResponse;
 import com.tpa.dto.response.claim.PolicyStatusResponse;
-import com.tpa.service.AiClaimAssistantService;
 import com.tpa.service.CarrierService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +22,6 @@ import java.util.Map;
 public class CarrierController {
 
     private final CarrierService carrierService;
-    private final AiClaimAssistantService aiClaimAssistantService;
 
     private String currentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -78,10 +75,5 @@ public class CarrierController {
     @GetMapping("/claims/{id}/policy-status")
     public ResponseEntity<ApiResponse<PolicyStatusResponse>> getPolicyStatus(@PathVariable Long id) {
         return ResponseEntity.ok(new ApiResponse<>(true, "policy status fetched successfully", carrierService.getPolicyStatus(id, currentUser()), 200));
-    }
-
-    @PostMapping("/claims/{id}/ai-analyze")
-    public ResponseEntity<ApiResponse<AiAnalysisResponse>> aiAnalyze(@PathVariable Long id, @RequestBody(required = false) Map<String, String> body) {
-        return ResponseEntity.ok(new ApiResponse<>(true, "ai analysis completed successfully", carrierService.aiAnalyzeClaim(id, body, currentUser()), 200));
     }
 }

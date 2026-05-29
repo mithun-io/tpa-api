@@ -17,7 +17,6 @@
 
     <properties>
         <java.version>17</java.version>
-        <spring-ai.version>1.0.0</spring-ai.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <lombok.version>1.18.38</lombok.version>
         <okhttp3.version>4.12.0</okhttp3.version>
@@ -65,12 +64,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.ai</groupId>
-            <artifactId>spring-ai-starter-model-google-genai</artifactId>
-            <version>1.1.0</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
@@ -100,7 +93,7 @@
             <version>1.4.8</version>
         </dependency>
 
-        <!-- Force OkHttp 4.12.0 to avoid conflicts with Razorpay pulling 3.10.0 and breaking Google Gen AI -->
+        <!-- Force OkHttp 4.12.0 to avoid version conflicts with Razorpay -->
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>

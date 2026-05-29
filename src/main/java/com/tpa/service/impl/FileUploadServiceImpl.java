@@ -2,11 +2,9 @@ package com.tpa.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tpa.dto.request.claim.ClaimRequest;
-import com.tpa.dto.response.auth.DocumentValidationResponse;
 import com.tpa.dto.response.claim.ClaimDocumentResponse;
 import com.tpa.entity.Claim;
 import com.tpa.entity.ClaimDocument;
-import com.tpa.enums.ClaimStatus;
 import com.tpa.enums.DocumentStatus;
 import com.tpa.enums.DocumentType;
 import com.tpa.enums.PolicyStatus;
@@ -20,7 +18,6 @@ import com.tpa.mapper.ClaimDocumentMapper;
 import com.tpa.repository.ClaimDocumentRepository;
 import com.tpa.repository.ClaimRepository;
 import com.tpa.repository.UserRepository;
-import com.tpa.service.AiClaimAssistantService;
 import com.tpa.service.ClaimService;
 import com.tpa.service.FileUploadService;
 import com.tpa.service.RuleEngineService;
@@ -52,11 +49,7 @@ public class FileUploadServiceImpl implements FileUploadService {
     private final RuleEngineService ruleEngineService;
     private final ClaimService claimService;
     private final ClaimEventProducer claimEventProducer;
-
-    private final AiClaimAssistantService aiClaimAssistantService;
-
     private final ClaimDocumentMapper claimDocumentMapper;
-
     private final ObjectMapper objectMapper;
 
     private void verifyOwnership(Claim claim, String username) {
@@ -88,7 +81,7 @@ public class FileUploadServiceImpl implements FileUploadService {
                 .fileType(resolveFileType(multipartFile))
                 .build();
 
-        runAiValidation(claimDocument, claim, multipartFile, documentType);
+        applyDocumentDefaults(claimDocument);
 
         ClaimDocument savedDocument = claimDocumentRepository.save(claimDocument);
         claimRepository.save(claim);
@@ -134,7 +127,7 @@ public class FileUploadServiceImpl implements FileUploadService {
                     .fileType(resolveFileType(multipartFile))
                     .build();
 
-            runAiValidation(claimDocument, claim, multipartFile, documentType.name());
+            applyDocumentDefaults(claimDocument);
 
             savedDocuments.add(claimDocumentRepository.save(claimDocument));
         }
@@ -204,27 +197,9 @@ public class FileUploadServiceImpl implements FileUploadService {
         return "PDF".equalsIgnoreCase(document.getFileType()) ? MediaType.APPLICATION_PDF : MediaType.IMAGE_JPEG;
     }
 
-    private void runAiValidation(ClaimDocument claimDocument, Claim claim, MultipartFile multipartFile, String documentType) {
-
-        try {
-            DocumentValidationResponse validationResponse = aiClaimAssistantService.validateDocument(multipartFile, documentType);
-
-            claimDocument.setValidationStatus(DocumentStatus.valueOf(validationResponse.getStatus().name()));
-            claimDocument.setConfidenceScore(validationResponse.getConfidenceScore());
-            claimDocument.setValidationIssues(objectMapper.writeValueAsString(validationResponse.getIssues()));
-
-            if (validationResponse.getIcdCode() != null && !validationResponse.getIcdCode().isBlank()) {
-                claim.setIcdCode(validationResponse.getIcdCode());
-            }
-
-            if ("INVALID".equalsIgnoreCase(String.valueOf(validationResponse.getStatus()))) {
-                claim.setClaimStatus(ClaimStatus.UNDER_REVIEW);
-            }
-
-        } catch (Exception e) {
-            log.error("AI validation failed", e);
-            claimDocument.setValidationStatus(DocumentStatus.valueOf("UNKNOWN"));
-        }
+    private void applyDocumentDefaults(ClaimDocument claimDocument) {
+        claimDocument.setValidationStatus(DocumentStatus.VALID);
+        claimDocument.setConfidenceScore(1.0);
     }
 
     private void triggerRuleEngineIfEligible(Claim claim) {

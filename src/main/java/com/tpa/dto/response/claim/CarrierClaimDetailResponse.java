@@ -81,8 +81,6 @@ public class CarrierClaimDetailResponse {
         private Integer healthScore;
 
         private String riskFlags;
-
-        private String aiSummary;
     }
 
     @Data

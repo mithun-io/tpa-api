@@ -322,3 +322,492 @@ response:
     },
     "httpStatus": 200
 }
+
+Carrier Logout: // same for Patient & Admin
+
+POST: localhost:8080/api/v1/auth/logout
+Carrier:
+Bearer Token: eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9DQVJSSUVSIiwic3ViIjoiY2FybGVuLmNoYWlyZXpAaG9yaXpvbnNwb3N0LmNvbSIsImlhdCI6MTc4MDAzNDI1NCwiZXhwIjoxNzgwMDM3ODU0fQ.vKZh0lmuai5PgLl990SrM1OrgvVXpgrOEUn_v4KojAu-cFAlPah-8ooccbrDwA9SMoq2E_w6uWWa6KWuz41-NA
+
+response:
+{
+    "success": true,
+    "message": "Logged out successfully",
+    "data": null,
+    "httpStatus": 200
+}
+
+Patient Re-Send Otp: // same for Carrier
+
+POST: localhost:8080/api/v1/auth/patient/register
+request:
+{
+  "name": "oeizl04450",
+  "email": "oeizl04450@minitts.net",
+  "phoneNumber": "+1 (593) 234-6225",
+  "dateOfBirth": "2006-05-26",
+  "address": "California",
+  "password": "9k!?OdeNP4YhR1WpwD1z",
+  "gender": "FEMALE"
+}
+
+response:
+{
+    "success": true,
+    "message": "OTP sent successfully",
+    "data": null,
+    "httpStatus": 201
+}
+
+PATCH: localhost:8080/api/v1/auth/patient/resend-otp/oeizl04450@minitts.net
+response:
+{
+    "success": true,
+    "message": "Patient otp resent successfully",
+    "data": null,
+    "httpStatus": 200
+}
+
+Carrier Password Change (For Loggedin User) // same for Patient
+
+PATCH: localhost:8080/api/v1/auth/password-change
+
+Bearer token: eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9DQVJSSUVSIiwic3ViIjoiY2FybGVuLmNoYWlyZXpAaG9yaXpvbnNwb3N0LmNvbSIsImlhdCI6MTc4MDAzMzc4NiwiZXhwIjoxNzgwMDM3Mzg2fQ.ss2u9r1_PoB6NLemunPm28IkwT80tVe0RB85u2zg6Cbyj4jFdgXgakXA4qtZZAtODV0B0rSYzPOn0CjaPy0cIQ
+
+request:
+{
+  "previousPassword": "9k!?OdeNP4YhR1WpwD1z",
+  "newPassword": "V'4mKhf1l<'CxG%wtLk3"
+}
+
+response:
+{
+    "success": true,
+    "message": "Password changed successfully",
+    "data": {
+        "id": 60,
+        "name": "Carlen Chairez",
+        "email": "carlen.chairez@horizonspost.com",
+        "phoneNumber": "+1 (772) 681-6440",
+        "dateOfBirth": "2026-05-29",
+        "address": "El Dorado",
+        "gender": null,
+        "userRole": "CARRIER",
+        "userStatus": "ACTIVE",
+        "createdAt": "2026-05-29 11:15 AM"
+    },
+    "httpStatus": 200
+}
+
+Patient Password Reset (For Loggedout User) // same for Carrier
+
+PATCH: localhost:8080/api/v1/auth/forget-password/vccao86374@minitts.net
+response:
+{
+    "success": true,
+    "message": "OTP sent successfully, verify to reset password",
+    "data": null,
+    "httpStatus": 200
+}
+
+PATCH: localhost:8080/api/v1/auth/password-reset
+request:
+{
+  "email": "vccao86374@minitts.net",
+  "otp": "229158",
+  "newPassword": "}{v6,qhT;{MxG42es+i["
+}
+
+response:
+{
+    "success": true,
+    "message": "Password reset successful",
+    "data": null,
+    "httpStatus": 200
+}
+
+Patient Refresh Token // same for Carrier
+
+POST: localhost:8080/api/v1/auth/login
+
+request:
+{
+  "email": "vccao86374@minitts.net",
+  "password": "}{v6,qhT;{MxG42es+i["
+}
+
+response:
+{
+    "success": true,
+    "message": "Login successful",
+    "data": {
+        "token": "eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9QQVRJRU5UIiwic3ViIjoidmNjYW84NjM3NEBtaW5pdHRzLm5ldCIsImlhdCI6MTc4MDAzNTczNSwiZXhwIjoxNzgwMDM5MzM1fQ.YcHEzHs1fiMPRiipeVKuYbpiWx4jYFE7MEE9Tn0sPT4QyGq3PE7pFJBFMxaaXhlp8yz1K9a8fmIG9N1LTnE87A",
+        "refreshToken": "8e71a079-a7e1-4424-a2e5-266ea01171f1",
+        "userResponse": {
+            "id": 61,
+            "name": "vccao86374",
+            "email": "vccao86374@minitts.net",
+            "phoneNumber": "+1 (593) 213-6265",
+            "dateOfBirth": "2006-05-26",
+            "address": "California",
+            "gender": "MALE",
+            "userRole": "PATIENT",
+            "userStatus": "ACTIVE",
+            "createdAt": "2026-05-29 11:47 AM"
+        }
+    },
+    "httpStatus": 200
+}
+
+POST: localhost:8080/api/v1/auth/refresh
+request:
+{
+    "refreshToken": "8e71a079-a7e1-4424-a2e5-266ea01171f1"
+}
+
+response:
+{
+    "success": true,
+    "message": "Token refreshed",
+    "data": {
+        "token": "eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9QQVRJRU5UIiwic3ViIjoidmNjYW84NjM3NEBtaW5pdHRzLm5ldCIsImlhdCI6MTc4MDAzNTc3OCwiZXhwIjoxNzgwMDM5Mzc4fQ.oi2bxTF_gVBfKKNU6wqbfIzrkTvlkE5fcfWTj1b6PF7FaB-B7FT-X0pUFfQl-i_b5b70SGsnnZ_4nTJ6t9fpug",
+        "refreshToken": "8e71a079-a7e1-4424-a2e5-266ea01171f1",
+        "userResponse": {
+            "id": 61,
+            "name": "vccao86374",
+            "email": "vccao86374@minitts.net",
+            "phoneNumber": "+1 (593) 213-6265",
+            "dateOfBirth": "2006-05-26",
+            "address": "California",
+            "gender": "MALE",
+            "userRole": "PATIENT",
+            "userStatus": "ACTIVE",
+            "createdAt": "2026-05-29 11:47 AM"
+        }
+    },
+    "httpStatus": 200
+}
+
+Patient Claim Creation:
+
+POST: localhost:8080/api/v1/claims
+
+Bearer token: eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9QQVRJRU5UIiwic3ViIjoidmNjYW84NjM3NEBtaW5pdHRzLm5ldCIsImlhdCI6MTc4MDAzNTc3OCwiZXhwIjoxNzgwMDM5Mzc4fQ.oi2bxTF_gVBfKKNU6wqbfIzrkTvlkE5fcfWTj1b6PF7FaB-B7FT-X0pUFfQl-i_b5b70SGsnnZ_4nTJ6t9fpug
+
+request:
+{
+  "policyId": "QTI-USC-2026-101564",
+  "policyName": "Health Premium",
+  "policyNumber": "HP-PLUS-2026-957418-2407",
+  "policyStatus": "ACTIVE",
+  "claimFormPresent": true,
+  "claimFormPatientName": "John Doe",
+  "claimFormHospitalName": "Mayo Clinic, 200 1st ST SW, Rochester, MN",
+  "claimFormAdmissionDate": "2026-05-20",
+  "claimFormDischargeDate": "2026-05-25",
+  "combinedDocumentPresent": true,
+  "combinedDocPatientName": "John Doe",
+  "combinedDocHospitalName": "Mayo Clinic, 200 1st ST SW, Rochester, MN",
+  "combinedDocAdmissionDate": "2026-05-20",
+  "combinedDocDischargeDate": "2026-05-25",
+  "claimedAmount": 25000.0,
+  "totalBillAmount": 26000.0,
+  "carrierName": "Carlen Chairez",
+  "claimType": "REIMBURSEMENT",
+  "diagnosis": "Hepatitis A",
+  "billNumber": "BILL-000381",
+  "billDate": "2026-05-25",
+  "isDuplicate": false
+}
+
+response:
+{
+    "success": true,
+    "message": "Claim created successfully",
+    "data": {
+        "id": 501,
+        "userName": "vccao86374",
+        "userEmail": "vccao86374@minitts.net",
+        "patientName": "John Doe",
+        "hospitalName": "Mayo Clinic, 200 1st ST SW, Rochester, MN",
+        "admissionDate": "2026-05-20",
+        "dischargeDate": "2026-05-25",
+        "totalBillAmount": 26000.0,
+        "policyId": "QTI-USC-2026-101564",
+        "policyNumber": "HP-PLUS-2026-957418-2407",
+        "carrierName": "Carlen Chairez",
+        "claimStatus": "SUBMITTED",
+        "claimType": "REIMBURSEMENT",
+        "diagnosis": "Hepatitis A",
+        "amount": 25000.0,
+        "rejectionReason": null,
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "reviewNotes": null,
+        "createdDate": "2026-05-29T12:22:06.487257",
+        "processedDate": null,
+        "riskScore": null,
+        "riskFlags": null,
+        "healthScore": null,
+        "riskLevel": null,
+        "aiSummary": null
+    },
+    "httpStatus": 200
+}
+
+GET: localhost:8080/api/v1/claims/501 // Any Role
+
+Bearer token: eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9QQVRJRU5UIiwic3ViIjoidmNjYW84NjM3NEBtaW5pdHRzLm5ldCIsImlhdCI6MTc4MDAzNTc3OCwiZXhwIjoxNzgwMDM5Mzc4fQ.oi2bxTF_gVBfKKNU6wqbfIzrkTvlkE5fcfWTj1b6PF7FaB-B7FT-X0pUFfQl-i_b5b70SGsnnZ_4nTJ6t9fpug
+
+{
+    "success": true,
+    "message": "Claim fetched successfully",
+    "data": {
+        "id": 501,
+        "userName": "vccao86374",
+        "userEmail": "vccao86374@minitts.net",
+        "patientName": "John Doe",
+        "hospitalName": "Mayo Clinic, 200 1st ST SW, Rochester, MN",
+        "admissionDate": "2026-05-20",
+        "dischargeDate": "2026-05-25",
+        "totalBillAmount": 26000.0,
+        "policyId": "QTI-USC-2026-101564",
+        "policyNumber": "HP-PLUS-2026-957418-2407",
+        "carrierName": "Carlen Chairez",
+        "claimStatus": "SUBMITTED",
+        "claimType": "REIMBURSEMENT",
+        "diagnosis": "Hepatitis A",
+        "amount": 25000.0,
+        "rejectionReason": null,
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "reviewNotes": null,
+        "createdDate": "2026-05-29T12:22:06.487257",
+        "processedDate": null,
+        "riskScore": null,
+        "riskFlags": null,
+        "healthScore": null,
+        "riskLevel": null,
+        "aiSummary": null
+    },
+    "httpStatus": 200
+}
+
+Pagination Any Role
+GET: localhost:8080/api/v1/claims?page=0&size=10&sort=id
+
+Query Params -
+key = page, value = 0
+key = size, value = 10
+key = sort, value = id
+
+response:
+{
+    "success": true,
+    "message": "Claims fetched successfully",
+    "data": {
+        "content": [
+            {
+                "id": 501,
+                "userName": "vccao86374",
+                "userEmail": "vccao86374@minitts.net",
+                "patientName": "John Doe",
+                "hospitalName": "Mayo Clinic, 200 1st ST SW, Rochester, MN",
+                "admissionDate": "2026-05-20",
+                "dischargeDate": "2026-05-25",
+                "totalBillAmount": 26000.0,
+                "policyId": "QTI-USC-2026-101564",
+                "policyNumber": "HP-PLUS-2026-957418-2407",
+                "carrierName": "Carlen Chairez",
+                "claimStatus": "SUBMITTED",
+                "claimType": "REIMBURSEMENT",
+                "diagnosis": "Hepatitis A",
+                "amount": 25000.0,
+                "rejectionReason": null,
+                "reviewedBy": null,
+                "reviewedAt": null,
+                "reviewNotes": null,
+                "createdDate": "2026-05-29T12:22:06.487257",
+                "processedDate": null,
+                "riskScore": null,
+                "riskFlags": null,
+                "healthScore": null,
+                "riskLevel": null,
+                "aiSummary": null
+            }
+        ],
+        "pageable": {
+            "pageNumber": 0,
+            "pageSize": 10,
+            "sort": {
+                "empty": false,
+                "sorted": true,
+                "unsorted": false
+            },
+            "offset": 0,
+            "paged": true,
+            "unpaged": false
+        },
+        "last": true,
+        "totalElements": 1,
+        "totalPages": 1,
+        "size": 10,
+        "number": 0,
+        "sort": {
+            "empty": false,
+            "sorted": true,
+            "unsorted": false
+        },
+        "first": true,
+        "numberOfElements": 1,
+        "empty": false
+    },
+    "httpStatus": 200
+}
+
+Searching Claims: Any Role
+
+GET: localhost:8080/api/v1/claims/search?claimStatus=SUBMITTED&minAmount=1000&page=0
+
+Query params -
+key = claimStatus, value = SUBMITTED
+key = minAmount, value = 1000
+key = page, value = 0
+
+response
+{
+    "success": true,
+    "message": "Claims search completed",
+    "data": {
+        "content": [
+            {
+                "id": 501,
+                "userName": "vccao86374",
+                "userEmail": "vccao86374@minitts.net",
+                "patientName": "John Doe",
+                "hospitalName": "Mayo Clinic, 200 1st ST SW, Rochester, MN",
+                "admissionDate": "2026-05-20",
+                "dischargeDate": "2026-05-25",
+                "totalBillAmount": 26000.0,
+                "policyId": "QTI-USC-2026-101564",
+                "policyNumber": "HP-PLUS-2026-957418-2407",
+                "carrierName": "Carlen Chairez",
+                "claimStatus": "SUBMITTED",
+                "claimType": "REIMBURSEMENT",
+                "diagnosis": "Hepatitis A",
+                "amount": 25000.0,
+                "rejectionReason": null,
+                "reviewedBy": null,
+                "reviewedAt": null,
+                "reviewNotes": null,
+                "createdDate": "2026-05-29T12:22:06.487257",
+                "processedDate": null,
+                "riskScore": null,
+                "riskFlags": null,
+                "healthScore": null,
+                "riskLevel": null,
+                "aiSummary": null
+            }
+        ],
+        "pageable": {
+            "pageNumber": 0,
+            "pageSize": 20,
+            "sort": {
+                "empty": false,
+                "sorted": true,
+                "unsorted": false
+            },
+            "offset": 0,
+            "paged": true,
+            "unpaged": false
+        },
+        "last": true,
+        "totalElements": 1,
+        "totalPages": 1,
+        "size": 20,
+        "number": 0,
+        "sort": {
+            "empty": false,
+            "sorted": true,
+            "unsorted": false
+        },
+        "first": true,
+        "numberOfElements": 1,
+        "empty": false
+    },
+    "httpStatus": 200
+}
+
+Query: Any Role
+POST: localhost:8080/api/v1/claims/501/queries
+
+request:
+{
+  "message": "Can you provide the updated invoice?"
+}
+
+response:
+{
+    "success": true,
+    "message": "Claim query created successfully",
+    "data": {
+        "id": 1,
+        "claimId": 501,
+        "username": "vccao86374@minitts.net",
+        "message": "Can you provide the updated invoice?",
+        "carrier": false,
+        "timestamp": "2026-05-29T12:35:14.605669"
+    },
+    "httpStatus": 200
+}
+
+Carrier Approval
+
+Admin Assigns the Claim to Carrier, Admin bearer token,
+Bearer Token: eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInN1YiI6ImFkbWluQHRwYS5jb20iLCJpYXQiOjE3ODAwMzg0NjcsImV4cCI6MTc4MDA0MjA2N30.fPthWhkRT5i2ZcBmc-jW_hzNULBhfi12AcYhRZyTG71kMwJeZ0REOoJOGfKwdXQ6vZb7_qmMadGLfeG_dRc17g
+
+PATCH: localhost:8080/api/v1/admin/claims/501/assign-carrier
+request:
+{
+  "carrierId": 7
+}
+
+response:
+{
+    "success": true,
+    "message": "Carrier assigned successfully",
+    "data": {
+        "id": 501,
+        "userName": "vccao86374",
+        "userEmail": "vccao86374@minitts.net",
+        "patientName": "John Doe",
+        "hospitalName": "Mayo Clinic, 200 1st ST SW, Rochester, MN",
+        "admissionDate": "2026-05-20",
+        "dischargeDate": "2026-05-25",
+        "totalBillAmount": 26000.0,
+        "policyId": "QTI-USC-2026-101564",
+        "policyNumber": "HP-PLUS-2026-957418-2407",
+        "carrierName": "Carlen Chairez",
+        "claimStatus": "SUBMITTED",
+        "claimType": "REIMBURSEMENT",
+        "diagnosis": "Hepatitis A",
+        "amount": 25000.0,
+        "rejectionReason": null,
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "reviewNotes": null,
+        "createdDate": "2026-05-29T12:22:06.487257",
+        "processedDate": null,
+        "riskScore": null,
+        "riskFlags": null,
+        "healthScore": null,
+        "riskLevel": null,
+        "aiSummary": null
+    },
+    "httpStatus": 200
+}
+
+Login as Carrier
+Bearer Token: eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9DQVJSSUVSIiwic3ViIjoiY2FybGVuLmNoYWlyZXpAaG9yaXpvbnNwb3N0LmNvbSIsImlhdCI6MTc4MDAzMzc4NiwiZXhwIjoxNzgwMDM3Mzg2fQ.ss2u9r1_PoB6NLemunPm28IkwT80tVe0RB85u2zg6Cbyj4jFdgXgakXA4qtZZAtODV0B0rSYzPOn0CjaPy0cIQ
+
+PUT: localhost:8080/api/v1/claims/501/carrier-approve
