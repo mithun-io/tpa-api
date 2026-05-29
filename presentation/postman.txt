@@ -9831,3 +9831,69 @@ response:
     },
     "httpStatus": 200
 }
+
+Payment Module (Use admin bearer token)
+
+POST: localhost:8080/api/v1/payments/create-order
+request:
+{
+  "claimId": 4,
+  "amount": 2000
+}
+
+response:
+{
+    "success": true,
+    "message": "Payment order created successfully",
+    "data": {
+        "orderId": "order_SvBERM11xB8wM3",
+        "amount": 200000,
+        "currency": "USD",
+        "key": "rzp_test_SBtja63fMZx3Fu",
+        "claimId": 4
+    },
+    "httpStatus": 200
+}
+
+POST: localhost:8080/api/v1/payments/verify
+request:
+{
+  "razorpay_order_id": "order_SvBERM11xB8wM3",
+  "razorpay_payment_id": "pay_DummyPaymentID123",
+  "razorpay_signature": "8ae259670a8c6bc4bedae308f22419148f0f259c8269b7f4465ab6da1d0d53a1"
+}
+
+response:
+{
+    "success": true,
+    "message": "Payment verified successfully",
+    "data": {
+        "id": 215,
+        "claimId": 4,
+        "amount": 2000.0,
+        "currency": "USD",
+        "status": "SUCCESS",
+        "razorpayOrderId": "order_SvBERM11xB8wM3",
+        "razorpayPaymentId": "pay_DummyPaymentID123",
+        "createdAt": "2026-05-29T17:59:27.619076"
+    },
+    "httpStatus": 200
+}
+
+GET: localhost:8080/api/v1/payments/claim/501
+response:
+{
+    "success": true,
+    "message": "Payment details fetched successfully",
+    "data": {
+        "id": 214,
+        "claimId": 501,
+        "amount": 20000.0,
+        "currency": "INR",
+        "status": "CREATED",
+        "razorpayOrderId": "order_SvB8JSo0oo8pku",
+        "razorpayPaymentId": null,
+        "createdAt": "2026-05-29T17:53:39.601026"
+    },
+    "httpStatus": 200
+}
