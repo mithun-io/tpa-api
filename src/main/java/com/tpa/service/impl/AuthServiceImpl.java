@@ -64,7 +64,6 @@ public class AuthServiceImpl implements AuthService {
     private final RefreshTokenService refreshTokenService;
     private final RefreshTokenRepository refreshTokenRepository;
     private final ClaimEventProducer claimEventProducer;
-    private final CarrierAiValidationService carrierAiValidationService;
 
     private Integer generateOtp() {
         return secureRandom.nextInt(100000, 1000000);
@@ -241,12 +240,7 @@ public class AuthServiceImpl implements AuthService {
                 } catch (Exception e) {
                     log.error("Failed to send carrier registration confirmation email to {}: {}", email, e.getMessage());
                 }
-                log.info("[POST-COMMIT] Running AI validation + Kafka for carrier {}", carrierId);
-                try {
-                    carrierAiValidationService.validateAndScore(carrierRef);
-                } catch (Exception ex) {
-                    log.error("Post-commit AI validation failed for carrier {}: {}", carrierId, ex.getMessage());
-                }
+                log.info("[POST-COMMIT] Running Kafka publishing for carrier {}", carrierId);
                 try {
                     claimEventProducer.publishCarrierCreatedEvent(carrierId, companyName, email);
                 } catch (Exception ex) {
@@ -255,7 +249,7 @@ public class AuthServiceImpl implements AuthService {
             }
         });
 
-        log.info("VerifyCarrierOtp completed synchronously. Email, AI+Kafka deferred to post-commit.");
+        log.info("VerifyCarrierOtp completed synchronously. Email and Kafka deferred to post-commit.");
     }
 
 

@@ -122,19 +122,8 @@ public class EnterpriseDataSeeder implements ApplicationRunner {
             "Hospital not in Preferred Provider Network",
             "Claim submitted after policy lapse",
             "Insufficient supporting documentation",
-            "Fraud indicator detected by AI engine",
+            "Fraud indicator detected by rules engine",
             "Claim amount exceeds policy coverage limit"
-    };
-
-    private static final String[] AI_SUMMARIES = {
-            "AI analysis indicates low fraud risk (score: 0.12). Medical necessity validated against ICD-10 benchmarks. Recommended for approval.",
-            "Moderate risk detected (score: 0.47). Billing inconsistency identified in procedure codes. Manual review recommended.",
-            "High-risk claim flagged (score: 0.82). Provider flagged for inflated billing. Escalated to fraud investigation team.",
-            "AI assessment: Clean claim (score: 0.08). Hospital accreditation verified. All documents authentic.",
-            "Risk score 0.61: Duplicate billing pattern detected. Similar claim submitted within 30 days. Hold pending investigation.",
-            "Low risk (score: 0.19). Emergency admission validated. Treatment aligns with diagnosis ICD-10 coding.",
-            "AI flagged potential upcoding (score: 0.55). Procedure charges 42% above regional benchmark. Expert review required.",
-            "Clean claim (score: 0.05). Pre-authorization verified. All documents match. Fast-track settlement recommended."
     };
 
     private static final String[] ASSIGNED_REVIEWERS = {
@@ -302,7 +291,7 @@ public class EnterpriseDataSeeder implements ApplicationRunner {
 
         ClaimStatus[] statusPool = {
                 ClaimStatus.SUBMITTED,
-                ClaimStatus.AI_VALIDATED,
+                ClaimStatus.UNDER_REVIEW,
                 ClaimStatus.UNDER_REVIEW,
                 ClaimStatus.ADMIN_APPROVED,
                 ClaimStatus.CARRIER_APPROVED,
@@ -371,7 +360,6 @@ public class EnterpriseDataSeeder implements ApplicationRunner {
                     .riskLevel(riskLevel)
                     .fraudScore(fraudScore)
                     .fraudFlags(fraudScore > 0.7 ? "HIGH_FRAUD_PROBABILITY, PROVIDER_WATCHLIST" : "")
-                    .aiSummary(AI_SUMMARIES[i % AI_SUMMARIES.length])
                     .healthScore(40 + random.nextDouble(60))
                     .tenantId("default")
                     .escalated(isEscalated)
@@ -418,7 +406,7 @@ public class EnterpriseDataSeeder implements ApplicationRunner {
                 {"SLA Breach Alert", "Claim %s has exceeded the 48-hour SLA. Escalated to senior reviewer for urgent action."},
                 {"Payment Initiated", "Payment of ₹%s for claim %s has been initiated and will reflect in 2-3 business days."},
                 {"Document Required", "Additional documents required for claim %s. Please upload your discharge summary."},
-                {"AI Validation Complete", "AI pre-validation complete for claim %s. Risk score: LOW. Forwarded for human review."},
+                {"Rules Validation Complete", "Rules engine pre-validation complete for claim %s. Risk score: LOW. Forwarded for human review."},
                 {"Premium Reminder", "Your insurance premium of ₹12,000 is due on %s. Please ensure timely payment to avoid lapse."},
                 {"Policy Renewal", "Your %s policy is due for renewal on %s. Renew now to avoid coverage gap."},
                 {"Fraud Alert", "Unusual activity detected on claim %s. Our fraud team is investigating. No action needed from you."}
@@ -486,8 +474,7 @@ public class EnterpriseDataSeeder implements ApplicationRunner {
     private void seedAuditLogs(List<Claim> claims, List<User> carriers) {
         String[][] transitions = {
                 {"CLAIM_SUBMITTED", null, "SUBMITTED"},
-                {"AI_VALIDATION_COMPLETE", "SUBMITTED", "AI_VALIDATED"},
-                {"ASSIGNED_TO_REVIEWER", "AI_VALIDATED", "UNDER_REVIEW"},
+                {"ASSIGNED_TO_REVIEWER", "SUBMITTED", "UNDER_REVIEW"},
                 {"ADMIN_APPROVED", "UNDER_REVIEW", "ADMIN_APPROVED"},
                 {"CARRIER_APPROVED", "ADMIN_APPROVED", "CARRIER_APPROVED"},
                 {"PAYMENT_INITIATED", "CARRIER_APPROVED", "PAYMENT_PENDING"},

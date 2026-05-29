@@ -40,7 +40,6 @@ class CarrierServiceImplTest {
     @Mock private ProducerService producerService;
     @Mock private NotificationService notificationService;
     @Mock private AuditLogService auditLogService;
-    @Mock private AiClaimAssistantService aiClaimAssistantService;
     @Mock private ClaimStateMachine claimStateMachine;
     @Mock private PolicyValidationHelper policyValidationHelper;
     @Mock private CarrierClaimMapper carrierClaimMapper;

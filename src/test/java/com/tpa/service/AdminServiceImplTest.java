@@ -49,7 +49,6 @@ class AdminServiceImplTest {
     @Mock private CarrierMapper carrierMapper;
     @Mock private ProducerService producerService;
     @Mock private ClaimRepository claimRepository;
-    @Mock private AiClaimAssistantService aiClaimAssistantService;
     @Mock private AuditLogService auditLogService;
     @Mock private ClaimStateMachine claimStateMachine;
     @Mock private NotificationService notificationService;

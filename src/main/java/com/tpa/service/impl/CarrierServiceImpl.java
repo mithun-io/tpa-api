@@ -108,7 +108,7 @@ public class CarrierServiceImpl implements CarrierService {
 
         log.info("Attempting transition: {} → {}", previousStatus, ClaimStatus.CARRIER_APPROVED);
 
-        if (previousStatus != ClaimStatus.SUBMITTED && previousStatus != ClaimStatus.AI_VALIDATED && previousStatus != ClaimStatus.UNDER_REVIEW) {
+        if (previousStatus != ClaimStatus.SUBMITTED && previousStatus != ClaimStatus.UNDER_REVIEW) {
             throw new IllegalStateException("Carrier can only approve claims before Admin approval");
         }
 

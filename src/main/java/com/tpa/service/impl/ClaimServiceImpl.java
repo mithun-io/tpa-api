@@ -187,23 +187,7 @@ public class ClaimServiceImpl implements ClaimService {
             return;
         }
 
-        claimStateMachine.validateTransition(previousStatus, ClaimStatus.AI_VALIDATED);
-        claim.setClaimStatus(ClaimStatus.AI_VALIDATED);
-
-        claimRepository.save(claim);
-
-        auditLogService.logAction(
-                claimId,
-                "AI_VALIDATION_PASSED",
-                previousStatus,
-                ClaimStatus.AI_VALIDATED
-        );
-
-        claimStateMachine.validateTransition(
-                ClaimStatus.AI_VALIDATED,
-                claimDecisionResponse.getClaimStatus()
-        );
-
+        claimStateMachine.validateTransition(previousStatus, claimDecisionResponse.getClaimStatus());
         claim.setClaimStatus(claimDecisionResponse.getClaimStatus());
         claim.setProcessedDate(LocalDateTime.now());
 
@@ -216,7 +200,7 @@ public class ClaimServiceImpl implements ClaimService {
         auditLogService.logAction(
                 claimId,
                 "RULE_ENGINE_DECISION",
-                ClaimStatus.AI_VALIDATED,
+                previousStatus,
                 claim.getClaimStatus()
         );
 

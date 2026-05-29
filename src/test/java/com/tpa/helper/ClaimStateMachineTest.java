@@ -31,10 +31,10 @@ class ClaimStateMachineTest {
     // ── TC-008 ────────────────────────────────────────────────────────────────
 
     @Test
-    @DisplayName("TC-008: SUBMITTED → AI_VALIDATED is a valid transition")
-    void validateTransition_submittedToAiValidated_shouldSucceed() {
+    @DisplayName("TC-008: SUBMITTED → UNDER_REVIEW is a valid transition")
+    void validateTransition_submittedToUnderReview_shouldSucceed() {
         assertThatNoException()
-                .isThrownBy(() -> claimStateMachine.validateTransition(ClaimStatus.SUBMITTED, ClaimStatus.AI_VALIDATED));
+                .isThrownBy(() -> claimStateMachine.validateTransition(ClaimStatus.SUBMITTED, ClaimStatus.UNDER_REVIEW));
     }
 
     // ── TC-009 ────────────────────────────────────────────────────────────────
@@ -100,7 +100,7 @@ class ClaimStateMachineTest {
     @CsvSource({
             "SUBMITTED, SETTLED",
             "SUBMITTED, PAYMENT_PENDING",
-            "AI_VALIDATED, SUBMITTED",
+            "UNDER_REVIEW, SUBMITTED",
             "CARRIER_APPROVED, SUBMITTED"
     })
     @DisplayName("TC-015: Backward or illegal transitions throw ConflictException")

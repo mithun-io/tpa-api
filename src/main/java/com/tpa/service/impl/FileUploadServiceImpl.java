@@ -199,7 +199,7 @@ public class FileUploadServiceImpl implements FileUploadService {
 
     private void applyDocumentDefaults(ClaimDocument claimDocument) {
         claimDocument.setValidationStatus(DocumentStatus.VALID);
-        claimDocument.setConfidenceScore(1.0);
+        claimDocument.setConfidenceScore(100);
     }
 
     private void triggerRuleEngineIfEligible(Claim claim) {

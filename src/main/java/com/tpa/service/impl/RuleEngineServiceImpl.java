@@ -125,7 +125,7 @@ public class RuleEngineServiceImpl implements RuleEngineService {
         if (claimRequest.getClaimedAmount() != null && claimRequest.getClaimedAmount() <= threshold) {
 
             if (!simulationMode) {
-                claimDecisionResponse.setClaimStatus(ClaimStatus.AI_VALIDATED);
+                claimDecisionResponse.setClaimStatus(ClaimStatus.UNDER_REVIEW);
             }
             claimDecisionResponse.getReasons().add("Claim auto approved by amount threshold");
             return true;

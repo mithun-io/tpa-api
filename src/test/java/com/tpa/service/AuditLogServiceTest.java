@@ -117,7 +117,7 @@ class AuditLogServiceTest {
     void getClaimAuditTrail_shouldReturnAllRecordsInOrder() throws InterruptedException {
         auditLogService.logAction(savedClaim.getId(), "CLAIM_CREATED", null, ClaimStatus.SUBMITTED);
         Thread.sleep(200);
-        auditLogService.logAction(savedClaim.getId(), "ADMIN_REVIEW", ClaimStatus.SUBMITTED, ClaimStatus.AI_VALIDATED);
+        auditLogService.logAction(savedClaim.getId(), "ADMIN_REVIEW", ClaimStatus.SUBMITTED, ClaimStatus.UNDER_REVIEW);
         Thread.sleep(500);
 
         List<AuditLog> trail = auditLogService.getClaimAuditTrail(savedClaim.getId());
@@ -223,7 +223,7 @@ class AuditLogServiceTest {
     void getByClaimAndAction_shouldFilterByActionCorrectly() throws InterruptedException {
         auditLogService.logAction(savedClaim.getId(), "CLAIM_CREATED", null, ClaimStatus.SUBMITTED);
         Thread.sleep(200);
-        auditLogService.logAction(savedClaim.getId(), "ADMIN_REVIEW", ClaimStatus.SUBMITTED, ClaimStatus.AI_VALIDATED);
+        auditLogService.logAction(savedClaim.getId(), "ADMIN_REVIEW", ClaimStatus.SUBMITTED, ClaimStatus.UNDER_REVIEW);
         Thread.sleep(500);
 
         List<AuditLog> filtered = auditLogService.getByClaimAndAction(savedClaim.getId(), "CLAIM_CREATED");

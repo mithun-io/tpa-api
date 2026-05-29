@@ -1,7 +1,6 @@
 package com.tpa.controller;
 
 import com.tpa.dto.request.claim.ClaimReviewRequest;
-import com.tpa.dto.response.analytics.AiAnalysisResponse;
 import com.tpa.dto.response.analytics.MonitoringResponse;
 import com.tpa.dto.response.auth.ApiResponse;
 import com.tpa.dto.response.claim.ClaimResponse;
@@ -111,15 +110,7 @@ public class AdminController {
         return ResponseEntity.ok(new ApiResponse<>(true, "Carrier assigned successfully", adminService.assignClaimToCarrier(id, body.get("carrierId")), 200));
     }
 
-    @GetMapping("/claims/{id}/ai-summary")
-    public ResponseEntity<ApiResponse<AiAnalysisResponse>> getClaimAiSummary(@PathVariable Long id) {
-        return ResponseEntity.ok(new ApiResponse<>(true, "Ai summary fetched successfully", adminService.getClaimAiSummary(id), 200));
-    }
 
-    @PostMapping("/claims/{id}/ai-chat")
-    public ResponseEntity<ApiResponse<AiAnalysisResponse>> askAiAboutClaim(@PathVariable Long id, @RequestBody Map<String, String> request) {
-        return ResponseEntity.ok(new ApiResponse<>(true, "Ai analysis fetched successfully", adminService.askAiAboutClaim(id, request.getOrDefault("prompt", "Analyze this claim")), 200));
-    }
 
     @GetMapping("/monitoring")
     public ResponseEntity<ApiResponse<MonitoringResponse>> getSystemMonitoring() {

@@ -76,7 +76,7 @@ class RuleEngineServiceTest {
         ClaimDecisionResponse decision = ruleEngineService.evaluateClaim(request, 100L, false);
 
         assertThat(decision).isNotNull();
-        assertThat(decision.getClaimStatus()).isEqualTo(ClaimStatus.AI_VALIDATED);
+        assertThat(decision.getClaimStatus()).isEqualTo(ClaimStatus.UNDER_REVIEW);
         assertThat(decision.getReasons()).anyMatch(r -> r.contains("auto approved"));
     }
 

@@ -10,7 +10,6 @@ C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\config\TenantContext
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\config\WebConfig.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\config\WebSocketConfig.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\controller\AdminController.java
-C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\controller\AiClaimAssistantController.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\controller\AnalyticsController.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\controller\AuditLogController.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\controller\AuthController.java
@@ -24,7 +23,6 @@ C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\controller\Notificat
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\controller\PaymentController.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\controller\RuleEngineController.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\controller\UserController.java
-C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\dto\request\ai\AiValidationRequest.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\dto\request\auth\LoginRequest.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\dto\request\auth\OtpRequest.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\dto\request\auth\PasswordChangeRequest.java
@@ -40,7 +38,6 @@ C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\dto\request\payment\
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\dto\request\user\CarrierRequest.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\dto\request\user\PatientRequest.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\dto\request\user\UserRequest.java
-C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\dto\response\analytics\AiAnalysisResponse.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\dto\response\analytics\AnalyticsResponse.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\dto\response\analytics\CarrierAnalyticsResponse.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\dto\response\analytics\ForecastAnalyticsResponse.java
@@ -84,12 +81,10 @@ C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\dto\response\payment
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\dto\response\payment\PaymentResponse.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\dto\response\payment\PaymentSummaryResponse.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\dto\response\user\CarrierResponse.java
-C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\dto\response\user\CarrierRiskAssessmentResponse.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\dto\response\user\PatientResponse.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\dto\response\user\UserResponse.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\entity\AuditLog.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\entity\Carrier.java
-C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\entity\CarrierRiskAssessment.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\entity\Claim.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\entity\ClaimAudit.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\entity\ClaimDocument.java
@@ -106,8 +101,6 @@ C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\entity\RuleConfig.ja
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\entity\RuleExecutionAudit.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\entity\Tenant.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\entity\User.java
-C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\enums\AiRecommendation.java
-C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\enums\AiRiskStatus.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\enums\ClaimStatus.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\enums\DocumentStatus.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\enums\DocumentType.java
@@ -180,7 +173,6 @@ C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\security\JwtUtil.jav
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\security\RateLimitingInterceptor.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\security\TenantFilter.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\service\AdminService.java
-C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\service\AiClaimAssistantService.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\service\AnalyticsService.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\service\AuditLogService.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\service\AuthService.java
@@ -189,11 +181,9 @@ C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\service\ClaimService
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\service\FileUploadService.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\service\FraudDetectionService.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\service\impl\AdminServiceImpl.java
-C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\service\impl\AiClaimAssistantServiceImpl.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\service\impl\AnalyticsServiceImpl.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\service\impl\AuditLogServiceImpl.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\service\impl\AuthServiceImpl.java
-C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\service\impl\CarrierAiValidationService.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\service\impl\CarrierServiceImpl.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\service\impl\ClaimServiceImpl.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\service\impl\FileUploadServiceImpl.java

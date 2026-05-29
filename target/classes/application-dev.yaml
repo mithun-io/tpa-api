@@ -54,15 +54,6 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
-  ai:
-    google:
-      genai:
-        api-key: ${GEMINI_API_KEY}
-        base-url: https://generativelanguage.googleapis.com/v1beta
-        chat:
-          options:
-            model: gemini-1.5-flash
-
 server:
   port: ${PORT}
 
