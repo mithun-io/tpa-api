@@ -76,12 +76,7 @@ public class ClaimController {
         return ResponseEntity.ok(new ApiResponse<>(true, "Claim audits fetched successfully", claimAudits, 200));
     }
 
-    @GetMapping("/{claimId}/timeline")
-    @PreAuthorize("hasAnyRole('ADMIN','SPECIALIST','CARRIER','PATIENT')")
-    public ResponseEntity<ApiResponse<List<ClaimTimelineResponse>>> getClaimTimeline(@PathVariable Long claimId) {
-        List<ClaimTimelineResponse> claimTimelineResponses = claimService.getClaimTimeline(claimId, currentUsername());
-        return ResponseEntity.ok(new ApiResponse<>(true, "Claim timeline fetched successfully", claimTimelineResponses, 200));
-    }
+
 
     @GetMapping("/{claimId}/export")
     @PreAuthorize("hasAnyRole('ADMIN','SPECIALIST','CARRIER','PATIENT')")

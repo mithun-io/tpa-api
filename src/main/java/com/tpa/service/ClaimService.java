@@ -5,7 +5,6 @@ import com.tpa.dto.request.claim.ClaimRequest;
 import com.tpa.dto.response.claim.*;
 import com.tpa.entity.ClaimAudit;
 import com.tpa.entity.ClaimQuery;
-import com.tpa.entity.ClaimStatusTimeline;
 import com.tpa.enums.ClaimStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -41,7 +40,6 @@ public interface ClaimService {
 
     ClaimQueryResponse createClaimQuery(Long claimId, ClaimQueryRequest claimQueryRequest, String username);
 
-    List<ClaimTimelineResponse> getClaimTimeline(Long claimId, String username);
 
     void broadcastStatusUpdate(Long claimId, String status, String message);
 

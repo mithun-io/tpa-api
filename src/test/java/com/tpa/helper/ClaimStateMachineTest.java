@@ -40,28 +40,28 @@ class ClaimStateMachineTest {
     // ── TC-009 ────────────────────────────────────────────────────────────────
 
     @Test
-    @DisplayName("TC-009: SUBMITTED → CARRIER_APPROVED is a valid transition")
-    void validateTransition_submittedToCarrierApproved_shouldSucceed() {
+    @DisplayName("TC-009: SUBMITTED → ADMIN_APPROVED is a valid transition")
+    void validateTransition_submittedToAdminApproved_shouldSucceed() {
         assertThatNoException()
-                .isThrownBy(() -> claimStateMachine.validateTransition(ClaimStatus.SUBMITTED, ClaimStatus.CARRIER_APPROVED));
+                .isThrownBy(() -> claimStateMachine.validateTransition(ClaimStatus.SUBMITTED, ClaimStatus.ADMIN_APPROVED));
     }
 
     // ── TC-010 ────────────────────────────────────────────────────────────────
 
     @Test
-    @DisplayName("TC-010: CARRIER_APPROVED → ADMIN_APPROVED is a valid transition")
-    void validateTransition_carrierApprovedToAdminApproved_shouldSucceed() {
+    @DisplayName("TC-010: ADMIN_APPROVED → CARRIER_APPROVED is a valid transition")
+    void validateTransition_adminApprovedToCarrierApproved_shouldSucceed() {
         assertThatNoException()
-                .isThrownBy(() -> claimStateMachine.validateTransition(ClaimStatus.CARRIER_APPROVED, ClaimStatus.ADMIN_APPROVED));
+                .isThrownBy(() -> claimStateMachine.validateTransition(ClaimStatus.ADMIN_APPROVED, ClaimStatus.CARRIER_APPROVED));
     }
 
     // ── TC-011 ────────────────────────────────────────────────────────────────
 
     @Test
-    @DisplayName("TC-011: ADMIN_APPROVED → SETTLED is a valid transition")
-    void validateTransition_adminApprovedToSettled_shouldSucceed() {
+    @DisplayName("TC-011: CARRIER_APPROVED → SETTLED is a valid transition")
+    void validateTransition_carrierApprovedToSettled_shouldSucceed() {
         assertThatNoException()
-                .isThrownBy(() -> claimStateMachine.validateTransition(ClaimStatus.ADMIN_APPROVED, ClaimStatus.SETTLED));
+                .isThrownBy(() -> claimStateMachine.validateTransition(ClaimStatus.CARRIER_APPROVED, ClaimStatus.SETTLED));
     }
 
     // ── TC-012 ────────────────────────────────────────────────────────────────

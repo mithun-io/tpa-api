@@ -35,7 +35,6 @@ public class AuditLogServiceImpl implements AuditLogService {
     private final AuditLogRepository auditLogRepository;
     private final ClaimAuditRepository claimAuditRepository;
     private final ClaimRepository claimRepository;
-    private final ClaimStatusTimelineRepository timelineRepository;
     private final EventAuditLogRepository eventAuditLogRepository;
     private final PaymentLedgerRepository paymentLedgerRepository;
 
@@ -101,17 +100,6 @@ public class AuditLogServiceImpl implements AuditLogService {
 
         auditLogRepository.save(auditLog);
 
-        // Record status timeline for real-time tracking
-        if (previousStatus != null || newStatus != null) {
-            ClaimStatusTimeline claimStatusTimeline = ClaimStatusTimeline.builder()
-                    .claimId(claimId)
-                    .fromStatus(prevStatusStr)
-                    .toStatus(newStatusStr)
-                    .notes(action.replace("_", " "))
-                    .changedBy(performedBy)
-                    .build();
-            timelineRepository.save(claimStatusTimeline);
-        }
 
         // Record ClaimAudit (existing behavior)
         if (newStatus != null) {

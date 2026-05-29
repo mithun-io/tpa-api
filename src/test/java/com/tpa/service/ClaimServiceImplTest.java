@@ -54,7 +54,6 @@ class ClaimServiceImplTest {
     @Mock private CarrierRepository carrierRepository;
     @Mock private ClaimAuditRepository claimAuditRepository;
     @Mock private ClaimQueryRepository claimQueryRepository;
-    @Mock private ClaimStatusTimelineRepository timelineRepository;
     @Mock private ClaimMapper claimMapper;
     @Mock private ClaimStateMachine claimStateMachine;
     @Mock private ProducerService producerService;

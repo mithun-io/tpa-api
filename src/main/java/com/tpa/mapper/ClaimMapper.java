@@ -3,10 +3,8 @@ package com.tpa.mapper;
 import com.tpa.dto.request.claim.ClaimRequest;
 import com.tpa.dto.response.claim.ClaimQueryResponse;
 import com.tpa.dto.response.claim.ClaimResponse;
-import com.tpa.dto.response.claim.ClaimTimelineResponse;
 import com.tpa.entity.Claim;
 import com.tpa.entity.ClaimQuery;
-import com.tpa.entity.ClaimStatusTimeline;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -53,8 +51,4 @@ public interface ClaimMapper {
     ClaimQueryResponse toClaimQueryResponse(ClaimQuery claimQuery);
 
     List<ClaimQueryResponse> toClaimQueryResponses(List<ClaimQuery> claimQueries);
-
-    ClaimTimelineResponse toClaimTimelineResponse(ClaimStatusTimeline timeline);
-
-    List<ClaimTimelineResponse> toClaimTimelineResponses(List<ClaimStatusTimeline> timelines);
 }

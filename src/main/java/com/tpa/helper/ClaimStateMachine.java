@@ -20,10 +20,10 @@ public class ClaimStateMachine {
         }
 
         boolean isValid = switch (currentStatus) {
-            case SUBMITTED -> targetStatus == ClaimStatus.UNDER_REVIEW || targetStatus == ClaimStatus.CARRIER_APPROVED || targetStatus == ClaimStatus.REJECTED;
-            case UNDER_REVIEW -> targetStatus == ClaimStatus.CARRIER_APPROVED || targetStatus == ClaimStatus.REJECTED;
-            case CARRIER_APPROVED -> targetStatus == ClaimStatus.ADMIN_APPROVED || targetStatus == ClaimStatus.REJECTED;
-            case ADMIN_APPROVED -> targetStatus == ClaimStatus.PAYMENT_PENDING || targetStatus == ClaimStatus.SETTLED;
+            case SUBMITTED -> targetStatus == ClaimStatus.UNDER_REVIEW || targetStatus == ClaimStatus.ADMIN_APPROVED || targetStatus == ClaimStatus.REJECTED;
+            case UNDER_REVIEW -> targetStatus == ClaimStatus.ADMIN_APPROVED || targetStatus == ClaimStatus.REJECTED;
+            case ADMIN_APPROVED -> targetStatus == ClaimStatus.CARRIER_APPROVED || targetStatus == ClaimStatus.REJECTED;
+            case CARRIER_APPROVED -> targetStatus == ClaimStatus.PAYMENT_PENDING || targetStatus == ClaimStatus.SETTLED;
             case PAYMENT_PENDING -> targetStatus == ClaimStatus.SETTLED;
             case REJECTED, SETTLED -> false; // Terminal states
             default -> false;

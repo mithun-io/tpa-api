@@ -60,7 +60,6 @@ C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\dto\response\claim\C
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\dto\response\claim\ClaimLeakageResponse.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\dto\response\claim\ClaimQueryResponse.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\dto\response\claim\ClaimResponse.java
-C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\dto\response\claim\ClaimTimelineResponse.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\dto\response\claim\FraudClaimResponse.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\dto\response\claim\InsuranceProductResponse.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\dto\response\claim\PolicyStatusResponse.java
@@ -89,7 +88,6 @@ C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\entity\Claim.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\entity\ClaimAudit.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\entity\ClaimDocument.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\entity\ClaimQuery.java
-C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\entity\ClaimStatusTimeline.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\entity\EventAuditLog.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\entity\InsuranceProduct.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\entity\Notification.java
@@ -154,7 +152,6 @@ C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\repository\ClaimAudi
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\repository\ClaimDocumentRepository.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\repository\ClaimQueryRepository.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\repository\ClaimRepository.java
-C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\repository\ClaimStatusTimelineRepository.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\repository\EventAuditLogRepository.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\repository\InsuranceProductRepository.java
 C:\Users\MithunM\IdeaProjects\tpa-api\src\main\java\com\tpa\repository\NotificationRepository.java

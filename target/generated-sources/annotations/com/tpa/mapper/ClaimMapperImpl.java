@@ -3,10 +3,8 @@ package com.tpa.mapper;
 import com.tpa.dto.request.claim.ClaimRequest;
 import com.tpa.dto.response.claim.ClaimQueryResponse;
 import com.tpa.dto.response.claim.ClaimResponse;
-import com.tpa.dto.response.claim.ClaimTimelineResponse;
 import com.tpa.entity.Claim;
 import com.tpa.entity.ClaimQuery;
-import com.tpa.entity.ClaimStatusTimeline;
 import com.tpa.entity.User;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-05-29T13:25:08+0530",
+    date = "2026-05-29T14:00:41+0530",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.12 (Oracle Corporation)"
 )
 @Component
@@ -147,39 +145,6 @@ public class ClaimMapperImpl implements ClaimMapper {
         List<ClaimQueryResponse> list = new ArrayList<ClaimQueryResponse>( claimQueries.size() );
         for ( ClaimQuery claimQuery : claimQueries ) {
             list.add( toClaimQueryResponse( claimQuery ) );
-        }
-
-        return list;
-    }
-
-    @Override
-    public ClaimTimelineResponse toClaimTimelineResponse(ClaimStatusTimeline timeline) {
-        if ( timeline == null ) {
-            return null;
-        }
-
-        ClaimTimelineResponse.ClaimTimelineResponseBuilder claimTimelineResponse = ClaimTimelineResponse.builder();
-
-        claimTimelineResponse.id( timeline.getId() );
-        claimTimelineResponse.claimId( timeline.getClaimId() );
-        claimTimelineResponse.fromStatus( timeline.getFromStatus() );
-        claimTimelineResponse.toStatus( timeline.getToStatus() );
-        claimTimelineResponse.notes( timeline.getNotes() );
-        claimTimelineResponse.changedBy( timeline.getChangedBy() );
-        claimTimelineResponse.occurredAt( timeline.getOccurredAt() );
-
-        return claimTimelineResponse.build();
-    }
-
-    @Override
-    public List<ClaimTimelineResponse> toClaimTimelineResponses(List<ClaimStatusTimeline> timelines) {
-        if ( timelines == null ) {
-            return null;
-        }
-
-        List<ClaimTimelineResponse> list = new ArrayList<ClaimTimelineResponse>( timelines.size() );
-        for ( ClaimStatusTimeline claimStatusTimeline : timelines ) {
-            list.add( toClaimTimelineResponse( claimStatusTimeline ) );
         }
 
         return list;

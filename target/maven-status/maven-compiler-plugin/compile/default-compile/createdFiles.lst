@@ -85,7 +85,6 @@ com\tpa\config\OpenApiConfig.class
 com\tpa\entity\Payment$PaymentBuilder.class
 com\tpa\entity\ClaimAudit.class
 com\tpa\service\NotificationService.class
-com\tpa\dto\response\claim\ClaimTimelineResponse.class
 com\tpa\kafka\event\ClaimLifecycleEvent$ClaimLifecycleEventBuilder.class
 com\tpa\dto\response\medical\MedicalCodeLookupResponse$MedicalCodeLookupResponseBuilder.class
 com\tpa\service\impl\MedicalValidationServiceImpl$1.class
@@ -103,7 +102,6 @@ com\tpa\config\RestClientConfig.class
 com\tpa\dto\response\kafka\KafkaDlqResponse.class
 com\tpa\dto\response\claim\BulkClaimProcessResponse$BulkClaimProcessResponseBuilder.class
 com\tpa\dto\response\medical\HighRiskCodeResponse$HighRiskCode$HighRiskCodeBuilder.class
-com\tpa\entity\ClaimStatusTimeline.class
 com\tpa\service\impl\CarrierServiceImpl.class
 com\tpa\kafka\consumer\ConsumerService.class
 com\tpa\enums\PaymentEventType.class
@@ -127,7 +125,6 @@ com\tpa\mapper\ClaimDocumentMapper.class
 com\tpa\dto\response\auth\FraudDashboardResponse.class
 com\tpa\helper\AuditForensicService.class
 com\tpa\helper\EmailService.class
-com\tpa\repository\ClaimStatusTimelineRepository.class
 com\tpa\TpaApplication.class
 com\tpa\controller\AuditLogController.class
 com\tpa\dto\response\analytics\HospitalAnalyticsResponse$HospitalAnalyticsResponseBuilder.class
@@ -136,7 +133,6 @@ com\tpa\controller\KafkaMonitorController.class
 com\tpa\dto\response\claim\InsuranceProductResponse$InsuranceProductResponseBuilder.class
 com\tpa\repository\RefreshTokenRepository.class
 com\tpa\kafka\event\ClaimNotificationEvent.class
-com\tpa\dto\response\claim\ClaimTimelineResponse$ClaimTimelineResponseBuilder.class
 com\tpa\dto\response\claim\CarrierClaimDetailResponse$PatientInfo$PatientInfoBuilder.class
 com\tpa\dto\response\auth\NotificationResponse.class
 com\tpa\dto\response\claim\ClaimQueryResponse.class
@@ -217,7 +213,6 @@ com\tpa\service\impl\AdminServiceImpl.class
 com\tpa\controller\CarrierController.class
 com\tpa\helper\AdminInitializer.class
 com\tpa\mapper\PaymentMapperImpl.class
-com\tpa\entity\ClaimStatusTimeline$ClaimStatusTimelineBuilder.class
 com\tpa\entity\EventAuditLog$EventAuditLogBuilder.class
 com\tpa\entity\ClaimQuery.class
 com\tpa\enums\ClaimStatus.class

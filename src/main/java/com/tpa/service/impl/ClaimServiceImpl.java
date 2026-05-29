@@ -51,7 +51,6 @@ public class ClaimServiceImpl implements ClaimService {
     private final CarrierRepository carrierRepository;
     private final ClaimAuditRepository claimAuditRepository;
     private final ClaimQueryRepository claimQueryRepository;
-    private final ClaimStatusTimelineRepository timelineRepository;
 
     private final ClaimMapper claimMapper;
 
@@ -354,24 +353,7 @@ public class ClaimServiceImpl implements ClaimService {
                 .build();
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public List<ClaimTimelineResponse> getClaimTimeline(Long claimId, String username) {
 
-        getClaim(claimId, username);
-
-        List<ClaimStatusTimeline> claimStatusTimelines = timelineRepository.findByClaimIdOrderByOccurredAtAsc(claimId);
-
-        return claimStatusTimelines.stream().map(timeline -> ClaimTimelineResponse.builder()
-                        .id(timeline.getId())
-                        .claimId(timeline.getClaimId())
-                        .fromStatus(timeline.getFromStatus())
-                        .toStatus(timeline.getToStatus())
-                        .notes(timeline.getNotes())
-                        .changedBy(timeline.getChangedBy())
-                        .occurredAt(timeline.getOccurredAt())
-                        .build()).toList();
-    }
 
     @Override
     public void broadcastStatusUpdate(Long claimId, String status, String message) {

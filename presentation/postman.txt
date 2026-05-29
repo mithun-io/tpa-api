@@ -811,3 +811,91 @@ Login as Carrier
 Bearer Token: eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9DQVJSSUVSIiwic3ViIjoiY2FybGVuLmNoYWlyZXpAaG9yaXpvbnNwb3N0LmNvbSIsImlhdCI6MTc4MDAzMzc4NiwiZXhwIjoxNzgwMDM3Mzg2fQ.ss2u9r1_PoB6NLemunPm28IkwT80tVe0RB85u2zg6Cbyj4jFdgXgakXA4qtZZAtODV0B0rSYzPOn0CjaPy0cIQ
 
 PUT: localhost:8080/api/v1/claims/501/carrier-approve
+response:
+{
+    "success": true,
+    "message": "Claim approved successfully",
+    "data": null,
+    "httpStatus": 200
+}
+
+Carrier Viewing the comments / queries related claims // Any role
+
+GET: localhost:8080/api/v1/claims/501/queries
+response:
+{
+    "success": true,
+    "message": "Claim queries fetched successfully",
+    "data": [
+        {
+            "id": 1,
+            "claimId": 501,
+            "username": "vccao86374@minitts.net",
+            "message": "Can you provide the updated invoice?",
+            "carrier": false,
+            "timestamp": "2026-05-29T12:35:14.605669"
+        }
+    ],
+    "httpStatus": 200
+}
+
+Bulk Claim Approval: Admin
+
+POST: localhost:8080/api/v1/claims/bulk-approve
+
+Bearer token: eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInN1YiI6ImFkbWluQHRwYS5jb20iLCJpYXQiOjE3ODAwNDIyMTMsImV4cCI6MTc4MDA0NTgxM30.LK0FS1RY_YOflDmHH8qNlbIKxKRhaDKPy_hFUF3Z-RI9fJm-3BiCU5QlMHw-nOpIfqpTjvZcvpa9erHo_LnQsw
+
+request:
+[14, 15, 26, 27, 38, 39]
+
+response:
+{
+    "success": true,
+    "message": "Bulk approval processed successfully",
+    "data": {
+        "totalProcessed": 6,
+        "success": 6,
+        "failed": 0
+    },
+    "httpStatus": 200
+}
+
+Fetching Claim audits and timeline // Any role
+
+GET: localhost:8080/api/v1/claims/501/audits
+
+Carrier
+Bearer token: eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9DQVJSSUVSIiwic3ViIjoiY2FybGVuLmNoYWlyZXpAaG9yaXpvbnNwb3N0LmNvbSIsImlhdCI6MTc4MDA0Mjg2MiwiZXhwIjoxNzgwMDQ2NDYyfQ.t2jWXfQzCyGGEsL5qiO9zGdC2WYpJqug4iJdIOgjpg0OVq1TfpdPBnkbm4LczImIwbtgaNmrQUI9HMZSXJQ7eQ
+
+response:
+{
+    "success": true,
+    "message": "Claim audits fetched successfully",
+    "data": [
+        {
+            "id": 3,
+            "previousStatus": "SUBMITTED",
+            "newStatus": "CARRIER_APPROVED",
+            "changedBy": "SYSTEM",
+            "notes": "CARRIER APPROVAL",
+            "changedAt": "2026-05-29T13:35:11.27506"
+        },
+        {
+            "id": 2,
+            "previousStatus": "SUBMITTED",
+            "newStatus": "CARRIER_APPROVED",
+            "changedBy": "SYSTEM",
+            "notes": "CARRIER APPROVAL",
+            "changedAt": "2026-05-29T13:02:45.983628"
+        },
+        {
+            "id": 1,
+            "previousStatus": null,
+            "newStatus": "SUBMITTED",
+            "changedBy": "SYSTEM",
+            "notes": "CLAIM CREATED",
+            "changedAt": "2026-05-29T12:22:06.549927"
+        }
+    ],
+    "httpStatus": 200
+}

@@ -25,8 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * TC-025 to TC-032: AuditLogService Integration Tests
- * Tests blockchain-style hash chaining, integrity verification,
- * timeline recording, payment ledger queries, and tamper detection.
+ * integrity verification, payment ledger queries, and tamper detection.
  */
 @SpringBootTest
 @ActiveProfiles("test")

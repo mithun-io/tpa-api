@@ -281,28 +281,6 @@ response
   "httpStatus": 0
 }
 
-GET: /{claimId}/timeline
-parameters
-claimId:
-
-response
-{
-  "success": true,
-  "message": "string",
-  "data": [
-    {
-      "id": 0,
-      "claimId": 0,
-      "fromStatus": "string",
-      "toStatus": "string",
-      "notes": "string",
-      "changedBy": "string",
-      "occurredAt": "2026-05-26T05:58:57.047Z"
-    }
-  ],
-  "httpStatus": 0
-}
-
 GET: /{claimId}/export
 parameters
 claimId:

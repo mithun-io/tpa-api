@@ -17,7 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * TC-097 to TC-100: AdminController, GlobalExceptionHandler, and Integration Tests
  * Tests admin-only endpoints, global error handling for unknown resources,
- * claim timeline retrieval, and the complete claim lifecycle end-to-end.
+ * and the complete claim lifecycle end-to-end.
  */
 @DisplayName("AdminController & Integration - Final 4 Test Cases")
 class AdminAndIntegrationTest extends BaseControllerTest {
@@ -49,17 +49,6 @@ class AdminAndIntegrationTest extends BaseControllerTest {
                 .andExpect(status().isForbidden());
     }
 
-    // ── TC-098 ────────────────────────────────────────────────────────────────
-
-    @Test
-    @DisplayName("TC-098: GET /api/v1/claims/{id}/timeline returns 200 with timeline for ADMIN")
-    void getClaimTimeline_asAdmin_shouldReturn200() throws Exception {
-        mockMvc.perform(get("/api/v1/claims/" + savedClaim.getId() + "/timeline")
-                        .header("Authorization", adminToken))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data").isArray());
-    }
 
     // ── TC-099 ────────────────────────────────────────────────────────────────
 
