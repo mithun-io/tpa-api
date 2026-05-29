@@ -243,7 +243,7 @@ public class RuleEngineServiceImpl implements RuleEngineService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public ClaimDecisionResponse simulateClaim(ClaimRequest claimRequest) {
         return evaluateClaim(claimRequest, null, true);
     }

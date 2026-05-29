@@ -41,7 +41,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(new ApiResponse<>(false, "Conflict", e.getMessage(), 409));
     }
 
-    @ExceptionHandler(NoResourceFoundException.class)
+    @ExceptionHandler({NoResourceFoundException.class, org.springframework.web.servlet.resource.NoResourceFoundException.class})
     public ResponseEntity<ApiResponse<String>> handle(NoResourceFoundException e) {
         log.warn("Not found: {}", e.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse<>(false, "No resource found", e.getMessage(), 404));
@@ -57,6 +57,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse<String>> handle(IllegalArgumentException e) {
         log.warn("Illegal argument: {}", e.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>(false, "Illegal argument", e.getMessage(), 400));
+    }
+
+    @ExceptionHandler(org.springframework.web.method.annotation.MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ApiResponse<String>> handle(org.springframework.web.method.annotation.MethodArgumentTypeMismatchException e) {
+        log.warn("Type mismatch: {}", e.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>(false, "Invalid URL parameter or bad request format.", e.getMessage(), 400));
     }
 
     @ExceptionHandler(IllegalStateException.class)
