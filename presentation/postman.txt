@@ -4308,4 +4308,229 @@ response:
     "httpStatus": 200
 }
 
-GET: localhost:8080/api/v1/rules/audits/claims/0
+Notifications for Admin // no role specified (we can implement this for carrier and patient also)
+
+Admin
+Bearer token: eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInN1YiI6ImFkbWluQHRwYS5jb20iLCJpYXQiOjE3ODAwNTE1NDYsImV4cCI6MTc4MDA1NTE0Nn0.QtSIGvUrcgf-SGHR4Mq85HMHONtf01mytfGCTeIXMQJtD6wRftz6PwbKnQ_fdF8g6vDPZPMbarKZlFwchEOoiA
+
+Fetching notifications:
+
+GET: localhost:8080/api/v1/notifications
+response:
+{
+    "success": true,
+    "message": "Notifications fetched successfully",
+    "data": [
+        {
+            "id": 1001,
+            "title": "📋 Claim #501 Approved by Carrier",
+            "message": "Claim #501 (Policy: HP-PLUS-2026-957418-2407) has been approved by carrier Carlen Chairez. It is now awaiting your final approval to release payment.",
+            "read": false,
+            "createdAt": "2026-05-29T13:35:11.240069",
+            "targetUrl": "/claims/501"
+        }
+    ],
+    "httpStatus": 200
+}
+
+Fetching unread notifications count
+
+GET: localhost:8080/api/v1/notifications/unread-count
+response:
+{
+    "success": true,
+    "message": "Unread count fetched successfully",
+    "data": {
+        "count": 1
+    },
+    "httpStatus": 200
+}
+
+Marking all read
+
+POST: localhost:8080/api/v1/notifications/mark-read
+response:
+{
+    "success": true,
+    "message": "All notifications marked as read",
+    "data": null,
+    "httpStatus": 200
+}
+
+Marking specific message as read with id
+
+POST: localhost:8080/api/v1/notifications/1001/read
+response:
+{
+    "success": true,
+    "message": "Notification marked as read",
+    "data": null,
+    "httpStatus": 200
+}
+
+Medical validations (use Admin Bearer token)
+
+POST: localhost:8080/api/v1/medical/validate
+request:
+{
+  "icdCode": "E11.9",
+  "diagnosis": "Type 2 diabetes mellitus without complications",
+  "claimedAmount": 450.50
+}
+
+response:
+{
+    "success": true,
+    "message": "Medical validation completed",
+    "data": {
+        "icdCode": "E11.9",
+        "diagnosis": "Type 2 diabetes mellitus without complications",
+        "validationIssues": [],
+        "upcodingWarnings": [],
+        "highRisk": false,
+        "medicalRiskScore": 20,
+        "overallStatus": "CLEAN",
+        "validatedAt": "2026-05-29T17:05:02.280254"
+    },
+    "httpStatus": 200
+}
+
+Complete batch validation
+
+POST: localhost:8080/api/v1/medical/validate/batch
+request:
+[
+  {
+    "icdCode": "E11.9",
+    "diagnosis": "Type 2 diabetes mellitus without complications",
+    "claimedAmount": 450.50
+  },
+  {
+    "icdCode": "J01.90",
+    "diagnosis": "Acute sinusitis, unspecified",
+    "claimedAmount": 1200.00
+  }
+]
+
+response:
+{
+    "success": true,
+    "message": "Batch validation completed",
+    "data": {
+        "totalValidated": 2,
+        "flaggedCount": 1,
+        "cleanCount": 1,
+        "results": [
+            {
+                "icdCode": "E11.9",
+                "diagnosis": "Type 2 diabetes mellitus without complications",
+                "validationIssues": [],
+                "upcodingWarnings": [],
+                "highRisk": false,
+                "medicalRiskScore": 20,
+                "overallStatus": "CLEAN",
+                "validatedAt": "2026-05-29T17:05:36.7313543"
+            },
+            {
+                "icdCode": "J01.90",
+                "diagnosis": "Acute sinusitis, unspecified",
+                "validationIssues": [
+                    "Unknown ICD-10 code"
+                ],
+                "upcodingWarnings": [],
+                "highRisk": false,
+                "medicalRiskScore": 60,
+                "overallStatus": "FLAGGED",
+                "validatedAt": "2026-05-29T17:05:36.7313543"
+            }
+        ],
+        "validatedAt": "2026-05-29T17:05:36.7313543"
+    },
+    "httpStatus": 200
+}
+
+Check Upcoding Risk
+
+GET: localhost:8080/api/v1/medical/upcoding/risk?icdCode=E11.9&claimedAmount=5000
+
+Query params:
+key = icdCode, value = E11.9
+key = claimedAmount, value = 5000
+
+response:
+{
+    "success": true,
+    "message": "Upcoding risk analyzed",
+    "data": {
+        "icdCode": "E11.9",
+        "icdDescription": "Type 2 diabetes mellitus",
+        "claimedAmount": 5000.0,
+        "upcodingRisk": false,
+        "warnings": [],
+        "riskLevel": "LOW",
+        "analyzedAt": "2026-05-29T17:06:14.3309957"
+    },
+    "httpStatus": 200
+}
+
+Get All High-Risk Codes
+
+GET: localhost:8080/api/v1/medical/high-risk/codes
+response:
+{
+    "success": true,
+    "message": "High-risk ICD codes retrieved successfully",
+    "data": {
+        "totalCodes": 6,
+        "codes": [
+            {
+                "code": "A41.9",
+                "description": "Sepsis"
+            },
+            {
+                "code": "G00.9",
+                "description": "Bacterial meningitis"
+            },
+            {
+                "code": "Z51.11",
+                "description": "Chemotherapy encounter"
+            },
+            {
+                "code": "C34.90",
+                "description": "Malignant neoplasm of lung"
+            },
+            {
+                "code": "I21.9",
+                "description": "Acute myocardial infarction"
+            },
+            {
+                "code": "J96.01",
+                "description": "Acute respiratory failure"
+            }
+        ],
+        "retrievedAt": "2026-05-29T17:06:34.2311338"
+    },
+    "httpStatus": 200
+}
+
+Lookup a Specific ICD Code
+
+GET: localhost:8080/api/v1/medical/codes/lookup?code=E11.9
+
+Query params:
+key = code, value = E11.9
+
+response:
+{
+    "success": true,
+    "message": "ICD code retrieved successfully",
+    "data": {
+        "code": "E11.9",
+        "found": true,
+        "description": "Type 2 diabetes mellitus",
+        "highRisk": false,
+        "medicalRiskScore": 20,
+        "retrievedAt": "2026-05-29T17:06:54.0137111"
+    },
+    "httpStatus": 200
+}
