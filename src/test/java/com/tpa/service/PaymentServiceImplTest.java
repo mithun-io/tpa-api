@@ -106,7 +106,7 @@ class PaymentServiceImplTest {
         Payment payment = TestDataFactory.buildSuccessPayment(100L, 1L);
         payment.setStatus(PaymentStatus.CREATED);
         payment.setRazorpayOrderId("order_123");
-        when(paymentRepository.findByRazorpayOrderId("order_123")).thenReturn(Optional.of(payment));
+        when(paymentRepository.findByRazorpayOrderIdWithLock("order_123")).thenReturn(Optional.of(payment));
         when(paymentRepository.save(any())).thenReturn(payment);
 
         com.tpa.dto.request.payment.VerifyPaymentRequest req =

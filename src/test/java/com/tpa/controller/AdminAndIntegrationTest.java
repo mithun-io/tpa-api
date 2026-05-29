@@ -64,11 +64,11 @@ class AdminAndIntegrationTest extends BaseControllerTest {
     // ── TC-099 ────────────────────────────────────────────────────────────────
 
     @Test
-    @DisplayName("TC-099: GET /api/v1/claims/9999 returns 500 for non-existent claim (RuntimeException)")
-    void getClaim_nonExistent_shouldReturn500() throws Exception {
+    @DisplayName("TC-099: GET /api/v1/claims/9999 returns 404 for non-existent claim")
+    void getClaim_nonExistent_shouldReturn404() throws Exception {
         mockMvc.perform(get("/api/v1/claims/9999999")
                         .header("Authorization", adminToken))
-                .andExpect(status().is5xxServerError());
+                .andExpect(status().isNotFound());
     }
 
     // ── TC-100 ────────────────────────────────────────────────────────────────

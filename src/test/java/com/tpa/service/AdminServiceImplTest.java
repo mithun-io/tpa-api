@@ -56,6 +56,7 @@ class AdminServiceImplTest {
     @Mock private CarrierRepository carrierRepository;
     @Mock private ClaimEventProducer claimEventProducer;
     @Mock private com.tpa.helper.EmailService emailService;
+    @Mock private RefreshTokenService refreshTokenService;
 
     @InjectMocks
     private com.tpa.service.impl.AdminServiceImpl adminService;

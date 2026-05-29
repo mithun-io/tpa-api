@@ -70,7 +70,7 @@ class AuditLogServiceTest {
     @BeforeEach
     void setUp() {
         paymentLedgerRepository.deleteAll();
-        auditLogRepository.deleteAll();
+        auditLogRepository.deleteAllInBatch();
         claimDocumentRepository.deleteAll();
         claimRepository.deleteAll();
         refreshTokenRepository.deleteAll();
