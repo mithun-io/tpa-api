@@ -925,10 +925,31 @@ Delete Claim: Admin and Patient
 
 DELETE: localhost:8080/api/v1/claims/3
 
+Bearer token: eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInN1YiI6ImFkbWluQHRwYS5jb20iLCJpYXQiOjE3ODAwNDM1MDgsImV4cCI6MTc4MDA0NzEwOH0.ivl4C0RpxJ6zZ8__eXRbuPd0SO-m7JOzvSlBN16JOPjAP7hw29OEZaf0LNF9RQzl8yX2I9nZOg4KG56Wtfl5EA
+
 response:
 {
     "success": true,
     "message": "Claim deleted successfully",
+    "data": null,
+    "httpStatus": 200
+}
+
+Admin notifying the patient regarding claim update
+
+POST: localhost:8080/api/v1/claims/notify?userEmail=vccao86374@minitts.net&title=Claim Update&message=Your claim has been successfully processed.
+
+Bearer token: eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInN1YiI6ImFkbWluQHRwYS5jb20iLCJpYXQiOjE3ODAwNDM1MDgsImV4cCI6MTc4MDA0NzEwOH0.ivl4C0RpxJ6zZ8__eXRbuPd0SO-m7JOzvSlBN16JOPjAP7hw29OEZaf0LNF9RQzl8yX2I9nZOg4KG56Wtfl5EA
+
+Query params:
+key = userEmail, value = vccao86374@minitts.net
+key = title, value = Claim Update
+key = message, value = Your claim has been successfully processed.
+
+response:
+{
+    "success": true,
+    "message": "Notification sent successfully",
     "data": null,
     "httpStatus": 200
 }
