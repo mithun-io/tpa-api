@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-05-29T16:27:11+0530",
+    date = "2026-05-29T18:21:22+0530",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.12 (Oracle Corporation)"
 )
 @Component
@@ -23,19 +23,19 @@ public class ClaimDocumentMapperImpl implements ClaimDocumentMapper {
 
         ClaimDocumentResponse.ClaimDocumentResponseBuilder claimDocumentResponse = ClaimDocumentResponse.builder();
 
+        claimDocumentResponse.fileUrl( buildFileUrl( document.getFilePath() ) );
         claimDocumentResponse.id( document.getId() );
-        claimDocumentResponse.fileName( buildFileUrl( document.getFileName() ) );
-        claimDocumentResponse.fileType( buildFileUrl( document.getFileType() ) );
+        claimDocumentResponse.fileName( document.getFileName() );
+        claimDocumentResponse.fileType( document.getFileType() );
         if ( document.getValidationStatus() != null ) {
             claimDocumentResponse.validationStatus( document.getValidationStatus().name() );
         }
-        claimDocumentResponse.validationIssues( buildFileUrl( document.getValidationIssues() ) );
+        claimDocumentResponse.validationIssues( document.getValidationIssues() );
         if ( document.getConfidenceScore() != null ) {
             claimDocumentResponse.confidenceScore( document.getConfidenceScore().doubleValue() );
         }
 
         claimDocumentResponse.documentType( document.getType().name() );
-        claimDocumentResponse.fileUrl( buildFileUrl(document.getFilePath()) );
 
         return claimDocumentResponse.build();
     }

@@ -9897,3 +9897,155 @@ response:
     },
     "httpStatus": 200
 }
+
+Patient file uploading for the claim
+
+Login
+{
+  "email": "vccao86374@minitts.net",
+  "password": "}{v6,qhT;{MxG42es+i["
+}
+
+use this for file upload operation
+Bearer token: eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9QQVRJRU5UIiwic3ViIjoidmNjYW84NjM3NEBtaW5pdHRzLm5ldCIsImlhdCI6MTc4MDA1ODg3OSwiZXhwIjoxNzgwMDYyNDc5fQ.gzoPrkmYC91gvPl2D2N8tQwiH-JuIpYyWm4xEqyoxFX3y425fY0Bok3WliUjkL9I1fc26-Py2hC2btFPN9uVLA
+
+File upload
+
+POST: localhost:8080/api/v1/files/upload
+
+form data
+key = claimId, value = 501, type - text
+key = documentType, value = SUPPORTING_DOCUMENT, type - text
+key = file, value = medical_bill.pdf, type - file
+
+response:
+{
+    "success": true,
+    "message": "File uploaded successfully",
+    "data": {
+        "id": 2,
+        "fileName": "medical_bill.pdf",
+        "fileType": "PDF",
+        "documentType": "SUPPORTING_DOCUMENT",
+        "validationStatus": "VALID",
+        "validationIssues": null,
+        "confidenceScore": 100.0,
+        "fileUrl": "/uploads/b25826fc-b0f8-4aab-8d57-0878d9e23355_medical_bill.pdf"
+    },
+    "httpStatus": 200
+}
+
+Multiple file upload
+
+POST: localhost:8080/api/v1/files/upload/multiple
+
+form data
+key = claimId, value = 501, type - text
+key = file, value = medical_bill.pdf & medical_bill.png, type - file
+
+response:
+{
+    "success": true,
+    "message": "Files uploaded successfully",
+    "data": [
+        {
+            "id": 3,
+            "fileName": "medical_bill.pdf",
+            "fileType": "PDF",
+            "documentType": "CLAIM_FORM",
+            "validationStatus": "VALID",
+            "validationIssues": null,
+            "confidenceScore": 100.0,
+            "fileUrl": "/uploads/ef05c3dd-1514-4842-ac08-48ad7846cc34_medical_bill.pdf"
+        },
+        {
+            "id": 4,
+            "fileName": "medical_bill.png",
+            "fileType": "IMAGE",
+            "documentType": "COMBINED_DOCUMENT",
+            "validationStatus": "VALID",
+            "validationIssues": null,
+            "confidenceScore": 100.0,
+            "fileUrl": "/uploads/00bfdfc0-5fb1-41f4-8b14-722bdaa71b9e_medical_bill.png"
+        }
+    ],
+    "httpStatus": 200
+}
+
+Fetch by document id,
+
+GET: localhost:8080/api/v1/files/3
+response:
+{
+    "success": true,
+    "message": "Document fetched successfully",
+    "data": {
+        "id": 3,
+        "fileName": "medical_bill.pdf",
+        "fileType": "PDF",
+        "documentType": "CLAIM_FORM",
+        "validationStatus": "VALID",
+        "validationIssues": null,
+        "confidenceScore": 100.0,
+        "fileUrl": "/uploads/ef05c3dd-1514-4842-ac08-48ad7846cc34_medical_bill.pdf"
+    },
+    "httpStatus": 200
+}
+
+Fetch by claim Id
+
+GET: localhost:8080/api/v1/files/claim/501
+response:
+{
+    "success": true,
+    "message": "Documents fetched successfully",
+    "data": [
+        {
+            "id": 1,
+            "fileName": "medical_bill.pdf",
+            "fileType": "PDF",
+            "documentType": "SUPPORTING_DOCUMENT",
+            "validationStatus": "VALID",
+            "validationIssues": null,
+            "confidenceScore": 100.0,
+            "fileUrl": "/uploads/a62ffc68-efaa-4480-851f-63fb49f2566d_medical_bill.pdf"
+        },
+        {
+            "id": 2,
+            "fileName": "medical_bill.pdf",
+            "fileType": "PDF",
+            "documentType": "SUPPORTING_DOCUMENT",
+            "validationStatus": "VALID",
+            "validationIssues": null,
+            "confidenceScore": 100.0,
+            "fileUrl": "/uploads/b25826fc-b0f8-4aab-8d57-0878d9e23355_medical_bill.pdf"
+        },
+        {
+            "id": 3,
+            "fileName": "medical_bill.pdf",
+            "fileType": "PDF",
+            "documentType": "CLAIM_FORM",
+            "validationStatus": "VALID",
+            "validationIssues": null,
+            "confidenceScore": 100.0,
+            "fileUrl": "/uploads/ef05c3dd-1514-4842-ac08-48ad7846cc34_medical_bill.pdf"
+        },
+        {
+            "id": 4,
+            "fileName": "medical_bill.png",
+            "fileType": "IMAGE",
+            "documentType": "COMBINED_DOCUMENT",
+            "validationStatus": "VALID",
+            "validationIssues": null,
+            "confidenceScore": 100.0,
+            "fileUrl": "/uploads/00bfdfc0-5fb1-41f4-8b14-722bdaa71b9e_medical_bill.png"
+        }
+    ],
+    "httpStatus": 200
+}
+
+Downloading
+
+GET: localhost:8080/api/v1/files/download/3
+response:
+save responses
