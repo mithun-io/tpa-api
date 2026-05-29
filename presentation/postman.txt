@@ -4534,3 +4534,171 @@ response:
     },
     "httpStatus": 200
 }
+
+Carrier fetching all the claims and use this bearer token
+Bearer token: eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9DQVJSSUVSIiwic3ViIjoiY2FybGVuLmNoYWlyZXpAaG9yaXpvbnNwb3N0LmNvbSIsImlhdCI6MTc4MDA1NTQzMSwiZXhwIjoxNzgwMDU5MDMxfQ.oj9k5-n8J8M3V2znEB54a6u1RipvAX4dhxlz2bvzgZgnvV4okZkIZjdGwOUBstKxZJtk1ila5xVtHFAvj_W9og
+
+Get All Assigned Claims
+response:
+{
+    "success": true,
+    "message": "claims fetched successfully",
+    "data": [
+        {
+            "policyNumber": "HP-PLUS-2026-957418-2407",
+            "claimId": 501,
+            "claimType": "REIMBURSEMENT",
+            "claimStatus": "CARRIER_APPROVED",
+            "amount": 25000.0,
+            "totalBillAmount": 26000.0,
+            "diagnosis": "Hepatitis A",
+            "hospitalName": "Mayo Clinic, 200 1st ST SW, Rochester, MN",
+            "admissionDate": "2026-05-20",
+            "dischargeDate": "2026-05-25",
+            "createdDate": "2026-05-29T12:22:06.487257",
+            "processedDate": "2026-05-29T13:35:11.194027",
+            "rejectionReason": null,
+            "reviewNotes": null,
+            "reviewedBy": "Carlen Chairez",
+            "reviewedAt": "2026-05-29 13:35 PM",
+            "patientInfo": {
+                "name": "vccao86374",
+                "email": "vccao86374@minitts.net",
+                "mobile": "+1 (593) 213-6265",
+                "dateOfBirth": "2006-05-26",
+                "gender": "MALE",
+                "address": "California"
+            },
+            "fraudInfo": {
+                "riskScore": null,
+                "riskLevel": "LOW",
+                "healthScore": null,
+                "riskFlags": null
+            },
+            "policyInfo": {
+                "policyNumber": "HP-PLUS-2026-957418-2407",
+                "policyStatus": "VALID",
+                "reason": "Policy is active and claim details are complete."
+            }
+        }
+    ],
+    "httpStatus": 200
+}
+
+Get Specific Claim Detail
+
+GET: localhost:8080/api/v1/carrier/claims/501
+response:
+{
+    "success": true,
+    "message": "claim detail fetched successfully",
+    "data": {
+        "policyNumber": "HP-PLUS-2026-957418-2407",
+        "claimId": 501,
+        "claimType": "REIMBURSEMENT",
+        "claimStatus": "CARRIER_APPROVED",
+        "amount": 25000.0,
+        "totalBillAmount": 26000.0,
+        "diagnosis": "Hepatitis A",
+        "hospitalName": "Mayo Clinic, 200 1st ST SW, Rochester, MN",
+        "admissionDate": "2026-05-20",
+        "dischargeDate": "2026-05-25",
+        "createdDate": "2026-05-29T12:22:06.487257",
+        "processedDate": "2026-05-29T13:35:11.194027",
+        "rejectionReason": null,
+        "reviewNotes": null,
+        "reviewedBy": "Carlen Chairez",
+        "reviewedAt": "2026-05-29 13:35 PM",
+        "patientInfo": {
+            "name": "vccao86374",
+            "email": "vccao86374@minitts.net",
+            "mobile": "+1 (593) 213-6265",
+            "dateOfBirth": "2006-05-26",
+            "gender": "MALE",
+            "address": "California"
+        },
+        "fraudInfo": {
+            "riskScore": null,
+            "riskLevel": "LOW",
+            "healthScore": null,
+            "riskFlags": null
+        },
+        "policyInfo": {
+            "policyNumber": "HP-PLUS-2026-957418-2407",
+            "policyStatus": "VALID",
+            "reason": "Policy is active and claim details are complete."
+        }
+    },
+    "httpStatus": 200
+}
+
+Get Claim Policy Status
+
+GET: localhost:8080/api/v1/carrier/claims/501/policy-status
+response:
+{
+    "success": true,
+    "message": "policy status fetched successfully",
+    "data": {
+        "claimId": 501,
+        "policyNumber": "HP-PLUS-2026-957418-2407",
+        "policyStatus": "VALID",
+        "reason": "Policy is active and claim details are complete."
+    },
+    "httpStatus": 200
+}
+
+Validate Policy
+PATCH: localhost:8080/api/v1/carrier/claims/501/validate
+
+response:
+{
+    "success": true,
+    "message": "policy validated successfully",
+    "data": null,
+    "httpStatus": 200
+}
+
+Approve Claim
+
+PATCH: localhost:8080/api/v1/carrier/claims/4/approve
+response:
+{
+  "success": true,
+  "message": "claim approved successfully",
+  "data": null,
+  "httpStatus": 200
+}
+
+Reject Claim
+
+PATCH: localhost:8080/api/v1/carrier/claims/54/reject
+response:
+{
+  "success": true,
+  "message": "claim rejected successfully",
+  "data": null,
+  "httpStatus": 200
+}
+
+Flag as Suspicious
+PATCH: localhost:8080/api/v1/carrier/claims/501/flag
+
+response:
+{
+    "success": true,
+    "message": "claim flagged successfully",
+    "data": null,
+    "httpStatus": 200
+}
+
+Add a Remark (Requires JSON Body)
+PATCH: localhost:8080/api/v1/carrier/claims/501/remark
+
+response:
+{
+    "success": true,
+    "message": "remark added successfully",
+    "data": null,
+    "httpStatus": 200
+}
