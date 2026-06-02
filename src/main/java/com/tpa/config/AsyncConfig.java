@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import java.util.concurrent.ThreadPoolExecutor.CallerRunsPolicy;
 
 import java.util.concurrent.Executor;
 
@@ -18,7 +19,7 @@ public class AsyncConfig {
         threadPoolTaskExecutor.setMaxPoolSize(10);
         threadPoolTaskExecutor.setQueueCapacity(100);
         threadPoolTaskExecutor.setThreadNamePrefix("AsyncThread-");
-        threadPoolTaskExecutor.setRejectedExecutionHandler(new java.util.concurrent.ThreadPoolExecutor.CallerRunsPolicy());
+        threadPoolTaskExecutor.setRejectedExecutionHandler(new CallerRunsPolicy());
         threadPoolTaskExecutor.initialize();
 
         return threadPoolTaskExecutor;
