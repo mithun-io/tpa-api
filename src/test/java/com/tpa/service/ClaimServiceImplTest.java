@@ -57,6 +57,7 @@ class ClaimServiceImplTest {
     @Mock private ClaimMapper claimMapper;
     @Mock private ClaimStateMachine claimStateMachine;
     @Mock private ProducerService producerService;
+    @Mock private com.tpa.kafka.producer.ClaimEventPipelineProducer claimEventPipelineProducer;
     @Mock private AuditLogService auditLogService;
     @Mock private PdfExportService pdfExportService;
     @Mock private CarrierService carrierService;
